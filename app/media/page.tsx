@@ -6,6 +6,14 @@ import VideoEmbed from "@/components/VideoEmbed";
 import EmptyState from "@/components/ui/EmptyState";
 import Badge from "@/components/ui/Badge";
 
+const draftRoundOne = [
+  { pick: 1, name: "Edgar Dean", position: "DB", number: "008", team: "Tigers" },
+  { pick: 2, name: "Ethan Lloyd", position: "WR", number: "062", team: "Saints" },
+  { pick: 3, name: "Francisco Aparicio", position: "WR", number: "059", team: "Wolfpack" },
+  { pick: 4, name: "Oscar Jiménez", position: "DB", number: "009", team: "Raptors" },
+  { pick: 5, name: "Dereck Brown", position: "OL", number: "036", team: "Águilas Doradas" },
+];
+
 export default function MediaPage() {
   const categories = useMemo(() => {
     const set = new Set<string>(["Todos"]);
@@ -30,7 +38,7 @@ export default function MediaPage() {
           Media
         </h1>
         <p className="mt-2 text-white/70 max-w-2xl">
-          Los mejores momentos, jugadas destacadas y contenido exclusivo de la PMFL.
+          Los mejores momentos, noticias, jugadas destacadas y contenido exclusivo de la PMFL.
         </p>
       </header>
 
@@ -61,6 +69,57 @@ export default function MediaPage() {
             <p className="mt-4 text-xs uppercase tracking-wider text-brand-gold-300">
               {media.playOfTheWeek.team}
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* DRAFT NEWS */}
+      <section className="mb-12">
+        <div className="mb-4 flex items-end justify-between">
+          <div>
+            <h2 className="h-display text-2xl text-white">
+              PMFL Draft 2026
+            </h2>
+            <p className="mt-1 text-sm text-white/60">
+              First Round oficial del Draft PMFL 2026.
+            </p>
+          </div>
+
+          <Badge variant="gold">Draft</Badge>
+        </div>
+
+        <div className="card p-6">
+          <div className="grid gap-3">
+            {draftRoundOne.map((player) => (
+              <div
+                key={player.pick}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-red text-lg font-black text-white">
+                    {player.pick}
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-bold text-white">
+                      {player.name}
+                    </h3>
+                    <p className="text-sm text-white/60">
+                      {player.position} · #{player.number}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-left sm:text-right">
+                  <p className="text-xs uppercase tracking-widest text-white/50">
+                    Equipo
+                  </p>
+                  <p className="font-semibold text-brand-gold-300">
+                    {player.team}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -103,7 +162,6 @@ export default function MediaPage() {
                   className="card card-hover overflow-hidden p-0 group"
                 >
                   {isLocalVideo ? (
-                    // 🔥 VIDEO LOCAL (MP4)
                     <div className="block">
                       <div className="relative aspect-video overflow-hidden">
                         <video
@@ -127,7 +185,6 @@ export default function MediaPage() {
                       </div>
                     </div>
                   ) : (
-                    // 🔥 YOUTUBE o NOTICIA
                     <a
                       href={
                         h.link

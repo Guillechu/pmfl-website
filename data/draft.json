@@ -1,0 +1,42 @@
+[
+  {
+    "round": 1,
+    "pick": 1,
+    "name": "Edgar Dean",
+    "position": "DB",
+    "number": "008",
+    "team": "Tigers"
+  },
+  {
+    "round": 1,
+    "pick": 2,
+    "name": "Ethan Lloyd",
+    "position": "WR",
+    "number": "062",
+    "team": "Saints"
+  },
+  {
+    "round": 1,
+    "pick": 3,
+    "name": "Francisco Aparicio",
+    "position": "WR",
+    "number": "059",
+    "team": "Wolfpack"
+  },
+  {
+    "round": 1,
+    "pick": 4,
+    "name": "Oscar Jiménez",
+    "position": "DB",
+    "number": "009",
+    "team": "Raptors"
+  },
+  {
+    "round": 1,
+    "pick": 5,
+    "name": "Dereck Brown",
+    "position": "OL",
+    "number": "036",
+    "team": "Águilas Doradas"
+  }
+]
