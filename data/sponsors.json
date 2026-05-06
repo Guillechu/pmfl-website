@@ -1,0 +1,50 @@
+[
+  {
+    "id": "starbay-casino",
+    "name": "Starbay Casino",
+    "logo": "/sponsors/starbay.jpg",
+    "url": "#"
+  },
+  {
+    "id": "touchdown-panama",
+    "name": "Touchdown Panamá",
+    "logo": "/sponsors/touchdownpanama.jpg",
+    "url": "#"
+  },
+  {
+    "id": "hgm-video-sport",
+    "name": "HGM Video Sport",
+    "logo": "/sponsors/hgmvideosport.jpg",
+    "url": "#"
+  },
+  {
+    "id": "clinica-ortodoncia-estetica-dental",
+    "name": "Clínica Ortodoncia Estética Dental",
+    "logo": "/sponsors/clinicaortodoncia.jpg",
+    "url": "#"
+  },
+  {
+    "id": "vielka-r-eternal-flowers",
+    "name": "Vielka R Eternal Flowers",
+    "logo": "/sponsors/vielkaflores.jpg",
+    "url": "#"
+  },
+  {
+    "id": "telconet-latam",
+    "name": "Telconet Latam",
+    "logo": "/sponsors/telconetlatam.jpg",
+    "url": "#"
+  },
+  {
+    "id": "skechers",
+    "name": "Skechers",
+    "logo": "/sponsors/skechers.jpg",
+    "url": "#"
+  },
+  {
+    "id": "valor",
+    "name": "Valor",
+    "logo": "/sponsors/valor.jpg",
+    "url": "#"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "season": "2026",
+  "leaders": {
+    "passingYards":  ["p1", "p6", "p18", "p23"],
+    "rushingYards":  ["p7", "p2", "p12", "p19"],
+    "receivingYards":["p3", "p24", "p8", "p13"],
+    "tackles":       ["p14", "p4", "p17", "p10"],
+    "interceptions": ["p5", "p10", "p20", "p23"]
+  },
+  "notes": "Leader IDs reference players.json. Update when new weekly stats land."
+}

@@ -1,0 +1,34 @@
+{
+  "playOfTheWeek": {
+    "id": "final-2025",
+    "title": "PMFL RAPTORS VS WOLFPACK FINAL 2025",
+    "team": "PMFL",
+    "youtubeId": "2MX6NX5FBHQ",
+    "thumbnail": "https://i.ytimg.com/vi/2MX6NX5FBHQ/hqdefault.jpg",
+    "description": "Revive la final 2025 entre Raptors y Wolfpack en el canal oficial de la PMFL."
+  },
+  "highlights": [
+    {
+      "id": "combine-2026",
+      "title": "PMFL Combine 2026",
+      "video": "/videos/combine-2026.mp4",
+      "thumbnail": "/media/draft-2026.jpg",
+      "category": "Combine"
+    },
+    {
+      "id": "draft-2026",
+      "title": "La PMFL define su Draft rumbo a la temporada 2026",
+      "youtubeId": "2MX6NX5FBHQ",
+      "thumbnail": "/media/draft-2026.jpg",
+      "category": "Noticia",
+      "link": "https://www.tvn-2.com/tvmax/mas-deportes/football-americano-panama-major-football-league-deportes-draft_1_2239084.html"
+    },
+    {
+      "id": "live-playoff",
+      "title": "PMFL LIVE PLAYOFF",
+      "youtubeId": "OMG0OpJNpxs",
+      "thumbnail": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg",
+      "category": "Live"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "wolfpack",
+    "name": "Wolfpack",
+    "abbreviation": "WLF",
+    "city": "Panamá",
+    "logo": "/teams/wolfpack.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Equipo competitivo con gran intensidad y juego físico."
+  },
+  {
+    "id": "saints",
+    "name": "Saints",
+    "abbreviation": "SNT",
+    "city": "Panamá",
+    "logo": "/teams/saints.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Disciplina y estrategia definen su estilo de juego."
+  },
+  {
+    "id": "hunters",
+    "name": "Hunters",
+    "abbreviation": "HNT",
+    "city": "Colombia",
+    "logo": "/teams/hunters.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Velocidad y agresividad en cada jugada."
+  },
+  {
+    "id": "raptors",
+    "name": "Raptors",
+    "abbreviation": "RPT",
+    "city": "Panamá",
+    "logo": "/teams/raptors.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Equipo dinámico con enfoque ofensivo."
+  },
+  {
+    "id": "tigers",
+    "name": "Tigers",
+    "abbreviation": "TGR",
+    "city": "Panamá",
+    "logo": "/teams/tigers.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Fuerza, poder y dominio en el campo."
+  },
+  {
+    "id": "aguilas-doradas",
+    "name": "Águilas Doradas",
+    "abbreviation": "AGD",
+    "city": "Panamá",
+    "logo": "/teams/aguilas-doradas.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Precisión y visión aérea en su juego."
+  },
+  {
+    "id": "eagles",
+    "name": "Eagles",
+    "abbreviation": "EGL",
+    "city": "Colón",
+    "logo": "/teams/eagles.png",
+    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "stats": {
+      "pointsFor": 0,
+      "pointsAgainst": 0
+    },
+    "description": "Explosividad y velocidad en cada ofensiva."
+  }
+]
