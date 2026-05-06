@@ -14,7 +14,7 @@ export default function GalleryPage() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const filtered: GalleryImage[] = useMemo(() => {
-    return gallery.filter((g) => g.category === cat);
+    return gallery.filter((g) => String(g.category) === String(cat));
   }, [cat]);
 
   function go(delta: number) {
