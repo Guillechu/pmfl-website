@@ -107,7 +107,7 @@ export default function MediaPage() {
                     <div className="block">
                       <div className="relative aspect-video overflow-hidden">
                         <video
-                          src={h.video}
+                          src={(h as any).video}
                           className="h-full w-full object-cover"
                           autoPlay
                           muted
