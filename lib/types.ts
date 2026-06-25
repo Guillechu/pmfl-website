@@ -59,6 +59,7 @@ export interface Player {
   height: string;
   weight: number;
   age: number;
+  photo?: string;
   stats: PlayerStats;
 }
 
