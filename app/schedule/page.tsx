@@ -34,10 +34,10 @@ export default function SchedulePage() {
   return (
     <div className="container-page py-12">
       <header className="mb-8">
-        <p className="text-xs uppercase tracking-widest text-brand-gold-300">2026 Season</p>
-        <h1 className="h-display text-4xl md:text-5xl text-white">Schedule</h1>
+        <p className="text-xs uppercase tracking-widest text-brand-gold-300">Temporada 2026</p>
+        <h1 className="h-display text-4xl md:text-5xl text-white">Calendario</h1>
         <p className="mt-2 text-white/70 max-w-2xl">
-          Full season calendar — filter by week or team to find what you&apos;re looking for.
+          Calendario completo de la temporada — filtra por semana o equipo para encontrar lo que buscas.
         </p>
       </header>
 
@@ -47,28 +47,30 @@ export default function SchedulePage() {
           onChange={(e) => setWeekFilter(e.target.value)}
           className="rounded-md bg-white/5 border border-white/10 px-3 py-2 text-sm text-white outline-none focus:border-brand-gold/50"
         >
-          <option value="all">All weeks</option>
-          {weeks.map((w) => <option key={w} value={w}>Week {w}</option>)}
+          <option value="all">Todas las semanas</option>
+          {weeks.map((w) => <option key={w} value={w}>Semana {w}</option>)}
         </select>
         <select
           value={teamFilter}
           onChange={(e) => setTeamFilter(e.target.value)}
           className="rounded-md bg-white/5 border border-white/10 px-3 py-2 text-sm text-white outline-none focus:border-brand-gold/50"
         >
-          <option value="all">All teams</option>
+          <option value="all">Todos los equipos</option>
           {teams.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
         </select>
       </div>
 
       {grouped.length === 0 ? (
-        <EmptyState title="No games match" description="Try a different week or team." />
+        <EmptyState title="No hay partidos que coincidan" description="Prueba con otra semana o equipo." />
       ) : (
         <div className="space-y-10">
           {grouped.map(([week, games]) => (
             <section key={week}>
               <div className="mb-3 flex items-baseline gap-3">
-                <h2 className="h-display text-2xl text-white">Week {week}</h2>
-                <span className="text-xs text-white/50">{games.length} games</span>
+                <h2 className="h-display text-2xl text-white">Semana {week}</h2>
+                <span className="text-xs text-white/50">
+                  {games.length} {games.length === 1 ? "partido" : "partidos"}
+                </span>
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {games.map((g) => <GameCard key={g.id} game={g} />)}
