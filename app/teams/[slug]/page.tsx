@@ -85,6 +85,7 @@ export default function TeamDetailPage({
       sortable: true,
       sortValue: (p) => p.position,
       align: "center",
+      render: (p) => p.position === "TBD" ? "Por definir" : p.position,
     },
     {
       key: "height",
