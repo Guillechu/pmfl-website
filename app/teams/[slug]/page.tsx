@@ -3,8 +3,7 @@ import Link from "next/link";
 import { teams, getTeam, getTeamRoster, schedule } from "@/lib/data";
 import TeamMark from "@/components/TeamMark";
 import GameCard from "@/components/GameCard";
-import StatsTable, { type ColumnDef } from "@/components/StatsTable";
-import type { Player } from "@/lib/types";
+import TeamRosterTable from "@/components/TeamRosterTable";
 
 export function generateStaticParams() {
   return teams.map((t) => ({ slug: t.id }));
@@ -38,67 +37,6 @@ export default function TeamDetailPage({
         new Date(a.date).getTime() -
         new Date(b.date).getTime()
     );
-
-  const rosterCols: ColumnDef<Player>[] = [
-    {
-      key: "photo",
-      label: "Foto",
-      align: "center",
-      className: "w-20",
-      render: (p) =>
-        p.photo ? (
-          <img
-            src={p.photo}
-            alt={p.name}
-            className="mx-auto h-12 w-12 rounded-full border border-white/10 object-cover"
-          />
-        ) : (
-          <div
-            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-xs font-bold text-white/50"
-            aria-label={`Foto de ${p.name} no disponible`}
-          >
-            {p.name
-              .split(" ")
-              .slice(0, 2)
-              .map((part) => part[0])
-              .join("")}
-          </div>
-        ),
-    },
-    {
-      key: "number",
-      label: "N.º",
-      align: "center",
-      sortable: true,
-      sortValue: (p) => p.number,
-      className: "w-16",
-    },
-    {
-      key: "name",
-      label: "Jugador",
-      sortable: true,
-      sortValue: (p) => p.name,
-    },
-    {
-      key: "position",
-      label: "Posición",
-      sortable: true,
-      sortValue: (p) => p.position,
-      align: "center",
-      render: (p) => p.position === "TBD" ? "Por definir" : p.position,
-    },
-    {
-      key: "height",
-      label: "Estatura",
-      align: "center",
-    },
-    {
-      key: "weight",
-      label: "Peso",
-      align: "center",
-      render: (p) => `${p.weight} lb`,
-    },
-  ];
 
   return (
     <div className="container-page py-10">
@@ -178,12 +116,7 @@ export default function TeamDetailPage({
             </p>
           </div>
 
-          <StatsTable
-            columns={rosterCols}
-            rows={roster}
-            initialSort={{ key: "number", dir: "asc" }}
-            emptyText="El roster oficial de este equipo se publicará próximamente."
-          />
+          <TeamRosterTable roster={roster} />
         </div>
       </section>
 
