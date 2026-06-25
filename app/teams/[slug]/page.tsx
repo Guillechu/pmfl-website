@@ -81,12 +81,12 @@ export default function TeamDetailPage({
           />
 
           <Stat
-            label="Points For"
+            label="Puntos a favor"
             value={team.stats.pointsFor}
           />
 
           <Stat
-            label="Points Against"
+            label="Puntos en contra"
             value={team.stats.pointsAgainst}
           />
         </div>
