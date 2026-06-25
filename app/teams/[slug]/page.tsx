@@ -116,9 +116,6 @@ export default function TeamDetailPage({
             <h2 className="h-display text-xl text-white">
               Roster
             </h2>
-            <p className="mt-1 text-sm text-white/55">
-              Jugadores ordenados por número de jersey.
-            </p>
           </div>
 
           <TeamRosterTable roster={roster} />
