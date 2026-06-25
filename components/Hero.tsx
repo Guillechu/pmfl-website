@@ -21,12 +21,7 @@ export default function Hero() {
         <LeagueMark className="h-32 w-32 md:h-40 md:w-40 animate-fade-in shadow-glow rounded-2xl" />
 
         <div className="animate-fade-up">
-          <span className="pill bg-brand-red/20 text-brand-red-100 ring-1 ring-brand-red/40">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand-red animate-pulse" />
-            Temporada 2026
-          </span>
-
-          <h1 className="mt-4 h-display text-5xl sm:text-6xl lg:text-7xl text-white leading-[0.95]">
+          <h1 className="h-display text-5xl sm:text-6xl lg:text-7xl text-white leading-[0.95]">
             La liga más explosiva
             <br />
             <span className="text-brand-gold-300">de Panamá</span>
