@@ -33,7 +33,7 @@ export interface Team {
   description: string;
 }
 
-export type Position = "QB" | "RB" | "WR" | "TE" | "OL" | "DL" | "DE" | "LB" | "CB" | "S" | "K" | "P";
+export type Position = "QB" | "RB" | "WR" | "TE" | "OL" | "DL" | "DE" | "LB" | "CB" | "S" | "K" | "P" | "TBD";
 
 export interface PlayerStats {
   passingYards?: number;
@@ -58,7 +58,7 @@ export interface Player {
   position: Position;
   height: string;
   weight: number;
-  age: number;
+  age?: number;
   photo?: string;
   stats: PlayerStats;
 }
