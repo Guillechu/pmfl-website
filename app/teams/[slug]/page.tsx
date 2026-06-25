@@ -103,6 +103,11 @@ export default function TeamDetailPage({
             value={team.headCoach || "Próximamente"}
           />
 
+          <Row
+            label="Offensive Coordinator"
+            value={team.offensiveCoordinator || "Próximamente"}
+          />
+
           <Row label="City" value={team.city} />
         </aside>
 
