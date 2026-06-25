@@ -41,43 +41,61 @@ export default function TeamDetailPage({
 
   const rosterCols: ColumnDef<Player>[] = [
     {
+      key: "photo",
+      label: "Foto",
+      align: "center",
+      className: "w-20",
+      render: (p) =>
+        p.photo ? (
+          <img
+            src={p.photo}
+            alt={p.name}
+            className="mx-auto h-12 w-12 rounded-full border border-white/10 object-cover"
+          />
+        ) : (
+          <div
+            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-xs font-bold text-white/50"
+            aria-label={`Foto de ${p.name} no disponible`}
+          >
+            {p.name
+              .split(" ")
+              .slice(0, 2)
+              .map((part) => part[0])
+              .join("")}
+          </div>
+        ),
+    },
+    {
       key: "number",
-      label: "#",
+      label: "N.º",
       align: "center",
       sortable: true,
       sortValue: (p) => p.number,
-      className: "w-12",
+      className: "w-16",
     },
     {
       key: "name",
-      label: "Player",
+      label: "Jugador",
       sortable: true,
       sortValue: (p) => p.name,
     },
     {
       key: "position",
-      label: "Pos",
+      label: "Posición",
       sortable: true,
       sortValue: (p) => p.position,
       align: "center",
     },
     {
       key: "height",
-      label: "HT",
+      label: "Estatura",
       align: "center",
     },
     {
       key: "weight",
-      label: "WT",
+      label: "Peso",
       align: "center",
-      render: (p) => `${p.weight} lbs`,
-    },
-    {
-      key: "age",
-      label: "Age",
-      align: "center",
-      sortable: true,
-      sortValue: (p) => p.age,
+      render: (p) => `${p.weight} lb`,
     },
   ];
 
@@ -150,29 +168,21 @@ export default function TeamDetailPage({
         </aside>
 
         <div>
-          <h2 className="h-display text-xl text-white mb-3">
-            Roster
-          </h2>
+          <div className="mb-3">
+            <h2 className="h-display text-xl text-white">
+              Roster
+            </h2>
+            <p className="mt-1 text-sm text-white/55">
+              Jugadores ordenados por número de jersey.
+            </p>
+          </div>
 
-          {roster.length > 0 ? (
-            <StatsTable
-              columns={rosterCols}
-              rows={roster}
-              initialSort={{ key: "number", dir: "asc" }}
-              emptyText="No roster on file."
-            />
-          ) : (
-            <div className="card p-10 text-center">
-              <h3 className="text-2xl font-black text-white">
-                Roster próximamente
-              </h3>
-
-              <p className="mt-3 text-white/60">
-                El roster oficial será anunciado antes del
-                inicio de la temporada 2026.
-              </p>
-            </div>
-          )}
+          <StatsTable
+            columns={rosterCols}
+            rows={roster}
+            initialSort={{ key: "number", dir: "asc" }}
+            emptyText="El roster oficial de este equipo se publicará próximamente."
+          />
         </div>
       </section>
 
