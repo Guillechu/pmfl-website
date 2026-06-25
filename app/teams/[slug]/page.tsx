@@ -47,29 +47,34 @@ export default function TeamDetailPage({
         ← All teams
       </Link>
 
-      <header className="mt-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-black/10 md:p-10">
-        <div className="flex flex-col items-center gap-10 md:flex-row">
+      <header
+        className="mt-4 rounded-2xl border border-white/10 p-6 md:p-10 relative overflow-hidden"
+        style={{
+          background: `linear-gradient(135deg, ${team.primaryColor} 0%, #03080F 80%)`,
+        }}
+      >
+        <div className="flex flex-col md:flex-row items-center gap-10">
           <TeamMark
             team={team}
-            className="h-20 w-20 shrink-0 scale-[1.4] object-contain md:h-20 md:w-20"
+            className="h-20 w-20 md:h-20 md:w-20 shrink-0 scale-[1.4] object-contain"
           />
 
           <div className="min-w-0 text-center md:text-left">
-            <h1 className="h-display text-4xl leading-tight text-slate-950 md:text-6xl">
+            <h1 className="h-display text-4xl md:text-6xl text-white leading-tight">
               {team.name}
             </h1>
 
-            <p className="mt-2 text-lg text-slate-600">
+            <p className="text-white/75 mt-2 text-lg">
               {team.city}
             </p>
           </div>
         </div>
 
-        <p className="mt-6 max-w-3xl text-slate-700">
+        <p className="mt-6 max-w-3xl text-white/85">
           {team.description}
         </p>
 
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <Stat
             label="Record"
             value={`${team.record.wins}-${team.record.losses}`}
@@ -87,9 +92,9 @@ export default function TeamDetailPage({
         </div>
       </header>
 
-      <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
-        <aside className="card space-y-3 p-6 text-sm">
-          <h2 className="h-display mb-2 text-xl text-white">
+      <section className="grid lg:grid-cols-[1fr_2fr] gap-6 mt-8">
+        <aside className="card p-6 space-y-3 text-sm">
+          <h2 className="h-display text-xl text-white mb-2">
             Club Info
           </h2>
 
@@ -118,11 +123,11 @@ export default function TeamDetailPage({
       </section>
 
       <section className="mt-10">
-        <h2 className="h-display mb-3 text-xl text-white">
+        <h2 className="h-display text-xl text-white mb-3">
           Schedule
         </h2>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {teamGames.map((g) => (
             <GameCard key={g.id} game={g} />
           ))}
@@ -140,12 +145,12 @@ function Stat({
   value: number | string;
 }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
-      <div className="text-[10px] uppercase tracking-widest text-slate-500">
+    <div className="rounded-lg bg-black/30 border border-white/10 px-4 py-3 backdrop-blur-sm">
+      <div className="text-[10px] uppercase tracking-widest text-white/60">
         {label}
       </div>
 
-      <div className="font-display text-2xl tabular-nums text-slate-950">
+      <div className="font-display text-2xl text-white tabular-nums">
         {value}
       </div>
     </div>
@@ -163,7 +168,7 @@ function Row({
     <div className="flex justify-between gap-4 border-b border-white/5 pb-2 last:border-0">
       <span className="text-white/60">{label}</span>
 
-      <span className="text-right font-medium text-white">
+      <span className="text-white font-medium text-right">
         {value}
       </span>
     </div>
