@@ -24,6 +24,7 @@ export interface Team {
   conference: "Pacific" | "Atlantic";
   founded: number;
   headCoach: string;
+  offensiveCoordinator?: string;
   stadium: string;
   primaryColor: string;
   secondaryColor: string;
