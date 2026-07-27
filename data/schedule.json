@@ -1,31 +1,31 @@
 [
-  { "id": "g101", "week": 1, "date": "2026-03-07T19:00:00-05:00", "homeTeamId": "panama-city-jaguars",  "awayTeamId": "boquete-thunder",      "venue": "Estadio Maracaná de Panamá",   "homeScore": 34, "awayScore": 10, "status": "final" },
-  { "id": "g102", "week": 1, "date": "2026-03-08T17:00:00-05:00", "homeTeamId": "colon-corsairs",       "awayTeamId": "santiago-vaqueros",    "venue": "Estadio Armando Dely Valdés",  "homeScore": 27, "awayScore": 17, "status": "final" },
-  { "id": "g103", "week": 1, "date": "2026-03-08T20:00:00-05:00", "homeTeamId": "david-broncos",        "awayTeamId": "la-chorrera-halcones", "venue": "Estadio Kenny Serracín",       "homeScore": 24, "awayScore": 21, "status": "final" },
-  { "id": "g104", "week": 1, "date": "2026-03-09T19:00:00-05:00", "homeTeamId": "chitre-toros",         "awayTeamId": "penonome-aguilas",     "venue": "Estadio Rico Cedeño",          "homeScore": 13, "awayScore": 16, "status": "final" },
+  { "id": "g1",  "week": 1, "date": "2026-08-15T17:00:00-05:00", "homeTeamId": "aguilas-doradas", "awayTeamId": "eagles",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g2",  "week": 1, "date": "2026-08-15T20:00:00-05:00", "homeTeamId": "hunters",         "awayTeamId": "raptors",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
 
-  { "id": "g201", "week": 2, "date": "2026-03-14T19:00:00-05:00", "homeTeamId": "boquete-thunder",      "awayTeamId": "colon-corsairs",       "venue": "Boquete Sports Park",          "homeScore": 7,  "awayScore": 31, "status": "final" },
-  { "id": "g202", "week": 2, "date": "2026-03-15T17:00:00-05:00", "homeTeamId": "santiago-vaqueros",    "awayTeamId": "panama-city-jaguars",  "venue": "Estadio Rod Carew Veraguas",   "homeScore": 14, "awayScore": 28, "status": "final" },
-  { "id": "g203", "week": 2, "date": "2026-03-15T20:00:00-05:00", "homeTeamId": "la-chorrera-halcones", "awayTeamId": "chitre-toros",         "venue": "Estadio Agustín Muquita",      "homeScore": 17, "awayScore": 20, "status": "final" },
-  { "id": "g204", "week": 2, "date": "2026-03-16T19:00:00-05:00", "homeTeamId": "penonome-aguilas",     "awayTeamId": "david-broncos",        "venue": "Estadio Cocle",                "homeScore": 21, "awayScore": 24, "status": "final" },
+  { "id": "g3",  "week": 2, "date": "2026-08-23T10:00:00-05:00", "homeTeamId": "saints",          "awayTeamId": "aguilas-doradas", "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g4",  "week": 2, "date": "2026-08-23T13:00:00-05:00", "homeTeamId": "tigers",          "awayTeamId": "wolfpack",        "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g5",  "week": 2, "date": "2026-08-23T16:00:00-05:00", "homeTeamId": "eagles",          "awayTeamId": "raptors",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
 
-  { "id": "g301", "week": 3, "date": "2026-03-21T19:00:00-05:00", "homeTeamId": "panama-city-jaguars",  "awayTeamId": "colon-corsairs",       "venue": "Estadio Maracaná de Panamá",   "homeScore": 30, "awayScore": 27, "status": "final" },
-  { "id": "g302", "week": 3, "date": "2026-03-22T17:00:00-05:00", "homeTeamId": "david-broncos",        "awayTeamId": "santiago-vaqueros",    "venue": "Estadio Kenny Serracín",       "homeScore": 35, "awayScore": 28, "status": "final" },
-  { "id": "g303", "week": 3, "date": "2026-03-22T20:00:00-05:00", "homeTeamId": "chitre-toros",         "awayTeamId": "boquete-thunder",      "venue": "Estadio Rico Cedeño",          "homeScore": 24, "awayScore": 13, "status": "final" },
-  { "id": "g304", "week": 3, "date": "2026-03-23T19:00:00-05:00", "homeTeamId": "la-chorrera-halcones", "awayTeamId": "penonome-aguilas",     "venue": "Estadio Agustín Muquita",      "homeScore": 14, "awayScore": 27, "status": "final" },
+  { "id": "g6",  "week": 3, "date": "2026-09-05T17:00:00-05:00", "homeTeamId": "raptors",         "awayTeamId": "tigers",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g7",  "week": 3, "date": "2026-09-05T20:00:00-05:00", "homeTeamId": "eagles",          "awayTeamId": "wolfpack",        "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
 
-  { "id": "g401", "week": 4, "date": "2026-05-09T19:00:00-05:00", "homeTeamId": "colon-corsairs",       "awayTeamId": "panama-city-jaguars",  "venue": "Estadio Armando Dely Valdés",  "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g402", "week": 4, "date": "2026-05-10T17:00:00-05:00", "homeTeamId": "boquete-thunder",      "awayTeamId": "david-broncos",        "venue": "Boquete Sports Park",          "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g403", "week": 4, "date": "2026-05-10T20:00:00-05:00", "homeTeamId": "santiago-vaqueros",    "awayTeamId": "chitre-toros",         "venue": "Estadio Rod Carew Veraguas",   "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g404", "week": 4, "date": "2026-05-11T19:00:00-05:00", "homeTeamId": "penonome-aguilas",     "awayTeamId": "la-chorrera-halcones", "venue": "Estadio Cocle",                "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g8",  "week": 4, "date": "2026-09-12T15:00:00-05:00", "homeTeamId": "wolfpack",        "awayTeamId": "hunters",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g9",  "week": 4, "date": "2026-09-13T10:00:00-05:00", "homeTeamId": "hunters",         "awayTeamId": "aguilas-doradas", "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g10", "week": 4, "date": "2026-09-13T13:00:00-05:00", "homeTeamId": "eagles",          "awayTeamId": "saints",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
 
-  { "id": "g501", "week": 5, "date": "2026-05-16T19:00:00-05:00", "homeTeamId": "panama-city-jaguars",  "awayTeamId": "chitre-toros",         "venue": "Estadio Maracaná de Panamá",   "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g502", "week": 5, "date": "2026-05-17T17:00:00-05:00", "homeTeamId": "colon-corsairs",       "awayTeamId": "david-broncos",        "venue": "Estadio Armando Dely Valdés",  "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g503", "week": 5, "date": "2026-05-17T20:00:00-05:00", "homeTeamId": "santiago-vaqueros",    "awayTeamId": "la-chorrera-halcones", "venue": "Estadio Rod Carew Veraguas",   "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g504", "week": 5, "date": "2026-05-18T19:00:00-05:00", "homeTeamId": "penonome-aguilas",     "awayTeamId": "boquete-thunder",      "venue": "Estadio Cocle",                "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g11", "week": 5, "date": "2026-09-19T17:00:00-05:00", "homeTeamId": "tigers",          "awayTeamId": "saints",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g12", "week": 5, "date": "2026-09-19T20:00:00-05:00", "homeTeamId": "wolfpack",        "awayTeamId": "raptors",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
 
-  { "id": "g601", "week": 6, "date": "2026-05-23T19:00:00-05:00", "homeTeamId": "panama-city-jaguars",  "awayTeamId": "david-broncos",        "venue": "Estadio Maracaná de Panamá",   "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g602", "week": 6, "date": "2026-05-24T17:00:00-05:00", "homeTeamId": "chitre-toros",         "awayTeamId": "colon-corsairs",       "venue": "Estadio Rico Cedeño",          "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g603", "week": 6, "date": "2026-05-24T20:00:00-05:00", "homeTeamId": "boquete-thunder",      "awayTeamId": "santiago-vaqueros",    "venue": "Boquete Sports Park",          "homeScore": null, "awayScore": null, "status": "scheduled" },
-  { "id": "g604", "week": 6, "date": "2026-05-25T19:00:00-05:00", "homeTeamId": "la-chorrera-halcones", "awayTeamId": "penonome-aguilas",     "venue": "Estadio Agustín Muquita",      "homeScore": null, "awayScore": null, "status": "scheduled" }
+  { "id": "g13", "week": 6, "date": "2026-09-26T17:00:00-05:00", "homeTeamId": "wolfpack",        "awayTeamId": "aguilas-doradas", "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g14", "week": 6, "date": "2026-09-26T20:00:00-05:00", "homeTeamId": "raptors",         "awayTeamId": "saints",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+
+  { "id": "g15", "week": 7, "date": "2026-10-03T17:00:00-05:00", "homeTeamId": "tigers",          "awayTeamId": "hunters",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g16", "week": 7, "date": "2026-10-03T20:00:00-05:00", "homeTeamId": "aguilas-doradas", "awayTeamId": "raptors",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g17", "week": 7, "date": "2026-10-04T10:00:00-05:00", "homeTeamId": "hunters",         "awayTeamId": "eagles",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+
+  { "id": "g18", "week": 8, "date": "2026-10-10T17:00:00-05:00", "homeTeamId": "tigers",          "awayTeamId": "eagles",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g19", "week": 8, "date": "2026-10-10T20:00:00-05:00", "homeTeamId": "saints",          "awayTeamId": "hunters",         "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+
+  { "id": "g20", "week": 9, "date": "2026-10-17T17:00:00-05:00", "homeTeamId": "saints",          "awayTeamId": "wolfpack",        "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" },
+  { "id": "g21", "week": 9, "date": "2026-10-17T20:00:00-05:00", "homeTeamId": "aguilas-doradas", "awayTeamId": "tigers",          "venue": "Estadio Emilio Royo", "homeScore": null, "awayScore": null, "status": "scheduled" }
 ]

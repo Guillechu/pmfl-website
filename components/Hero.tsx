@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LeagueMark from "./LeagueMark";
+import Image from "next/image";
 import PanamaFlag from "./PanamaFlag";
 import { InstagramIcon } from "./SocialIcons";
 
@@ -66,9 +66,16 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Logo grande */}
+        {/* Logo grande, sin recuadro */}
         <div className="order-1 flex justify-center lg:order-2">
-          <LeagueMark className="h-48 w-48 animate-fade-in md:h-64 md:w-64 lg:h-72 lg:w-72" />
+          <Image
+            src="/pmfl-logo.png"
+            alt="Panama Major Football League"
+            width={971}
+            height={698}
+            priority
+            className="h-auto w-[280px] animate-fade-in object-contain drop-shadow-[0_0_40px_rgba(212,175,55,0.22)] sm:w-[340px] md:w-[400px] lg:w-[460px]"
+          />
         </div>
       </div>
 

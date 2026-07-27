@@ -8,8 +8,13 @@ import {
   YouTubeIcon,
 } from "@/components/SocialIcons";
 
+const PRESIDENTE = {
+  role: "Presidente",
+  name: "Gino Gómez",
+  photo: "/junta/gino-gomez.jpg",
+};
+
 const JUNTA = [
-  { role: "Presidente", name: "Gino Gómez" },
   { role: "Vicepresidente", name: "Roberto Carrillo" },
   { role: "Secretario", name: "Raúl Esquivel" },
   { role: "Fiscal", name: "Alonzo Smith" },
@@ -199,9 +204,31 @@ export default function ContactPage() {
           <span className="text-sm text-brand-gold-300">2026 – 2030</span>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Presidente destacado con foto */}
+        <div className="mb-6 flex justify-center">
+          <div className="card w-full max-w-sm p-6 text-center">
+            <div className="mx-auto h-48 w-48 overflow-hidden rounded-2xl border border-white/10">
+              <Image
+                src={PRESIDENTE.photo}
+                alt={PRESIDENTE.name}
+                width={400}
+                height={400}
+                className="h-full w-full object-cover object-top"
+              />
+            </div>
+            <p className="mt-4 text-xs uppercase tracking-widest text-brand-gold-300">
+              {PRESIDENTE.role}
+            </p>
+            <p className="mt-1 h-display text-2xl text-white">
+              {PRESIDENTE.name}
+            </p>
+          </div>
+        </div>
+
+        {/* Resto de la junta */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {JUNTA.map((m) => (
-            <div key={m.role} className="card p-5">
+            <div key={m.role} className="card p-5 text-center">
               <p className="text-xs uppercase tracking-widest text-brand-gold-300">
                 {m.role}
               </p>
