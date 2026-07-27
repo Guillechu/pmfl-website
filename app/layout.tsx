@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "PMFL · Panama Major Football League",
   description:
     "Official home of the Panama Major Football League (PMFL). Teams, stats, schedule, highlights and more — sanctioned by the AFFP.",
-  metadataBase: new URL("https://pmfl.example.com"),
+  metadataBase: new URL("https://pmflpanama.com"),
   openGraph: {
     title: "PMFL · Panama Major Football League",
     description: "Panama's premier American football league.",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="es" className="dark">
       <body>
         <Navbar />
         <main className="min-h-[calc(100vh-200px)]">{children}</main>

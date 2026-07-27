@@ -6,6 +6,9 @@
     "city": "Panamá",
     "headCoach": "Henis Ortega",
     "offensiveCoordinator": "Alonso Smith",
+    "directivo": "Alonso \"Tony\" Smith",
+    "gm": "Alonso Smith",
+    "instagram": "https://www.instagram.com/panamawolfpack/",
     "logo": "/teams/wolfpack.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {
@@ -19,6 +22,9 @@
     "name": "Saints",
     "abbreviation": "SNT",
     "city": "Panamá",
+    "directivo": "Horacio \"Cachorro\" Pérez",
+    "gm": "Horacio \"Cachorro\" Pérez",
+    "instagram": "https://www.instagram.com/panamasaints/",
     "logo": "/teams/saints.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {
@@ -32,6 +38,9 @@
     "name": "Hunters",
     "abbreviation": "HNT",
     "city": "Colombia",
+    "directivo": "José López",
+    "gm": "José López",
+    "instagram": "https://www.instagram.com/huntersmedellin/",
     "logo": "/teams/hunters.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {
@@ -45,6 +54,9 @@
     "name": "Raptors",
     "abbreviation": "RPT",
     "city": "Panamá",
+    "directivo": "Raúl \"Gator\" Esquivel",
+    "gm": "Jonathan \"Campanita\" Jaramillo",
+    "instagram": "https://www.instagram.com/panamaraptorsfc/",
     "logo": "/teams/raptors.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {
@@ -58,6 +70,9 @@
     "name": "Tigers",
     "abbreviation": "TGR",
     "city": "Panamá",
+    "directivo": "Roberto Carrillo",
+    "gm": "Jill Carrillo",
+    "instagram": "https://www.instagram.com/tigers_pty/",
     "logo": "/teams/tigers.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {
@@ -71,6 +86,9 @@
     "name": "Águilas Doradas",
     "abbreviation": "AGD",
     "city": "Panamá",
+    "directivo": "Carlos \"Poty\" Flores",
+    "gm": "Vielka Rizos",
+    "instagram": "https://www.instagram.com/aguilas_doradasarenapanama/",
     "logo": "/teams/aguilas-doradas.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {
@@ -84,6 +102,9 @@
     "name": "Eagles",
     "abbreviation": "EGL",
     "city": "Colón",
+    "directivo": "Raúl Rodríguez",
+    "gm": "Luis Alarcón",
+    "instagram": "https://www.instagram.com/coloneagles/",
     "logo": "/teams/eagles.png",
     "record": { "wins": 0, "losses": 0, "ties": 0 },
     "stats": {

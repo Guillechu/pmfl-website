@@ -10,6 +10,7 @@ import scheduleJson from "@/data/schedule.json";
 import mediaJson from "@/data/media.json";
 import galleryJson from "@/data/gallery.json";
 import sponsorsJson from "@/data/sponsors.json";
+import weeklyJson from "@/data/weekly.json";
 
 import type {
   Team,
@@ -19,6 +20,7 @@ import type {
   GalleryImage,
   Sponsor,
   StatsLeaders,
+  WeeklyLinks,
 } from "./types";
 
 export const teams: Team[] = teamsJson as Team[];
@@ -28,6 +30,7 @@ export const media: Media = mediaJson as Media;
 export const gallery: GalleryImage[] = galleryJson as GalleryImage[];
 export const sponsors: Sponsor[] = sponsorsJson as Sponsor[];
 export const statsLeaders: StatsLeaders = statsJson as StatsLeaders;
+export const weekly: WeeklyLinks = weeklyJson as WeeklyLinks;
 
 // -------- helpers ----------------------------------------------------
 

@@ -4,6 +4,7 @@ import { teams, getTeam, getTeamRoster, schedule } from "@/lib/data";
 import TeamMark from "@/components/TeamMark";
 import GameCard from "@/components/GameCard";
 import TeamRosterTable from "@/components/TeamRosterTable";
+import { InstagramIcon } from "@/components/SocialIcons";
 
 export function generateStaticParams() {
   return teams.map((t) => ({ slug: t.id }));
@@ -44,7 +45,7 @@ export default function TeamDetailPage({
         href="/teams"
         className="text-sm text-brand-gold-300 hover:text-brand-gold-500"
       >
-        ← All teams
+        ← Todos los equipos
       </Link>
 
       <header
@@ -67,6 +68,19 @@ export default function TeamDetailPage({
             <p className="text-white/75 mt-2 text-lg">
               {team.city}
             </p>
+
+            {team.instagram && (
+              <a
+                href={team.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-3 py-1.5 text-sm text-white/85 transition-colors hover:border-white/50 hover:text-white"
+                aria-label={`Instagram de ${team.name}`}
+              >
+                <InstagramIcon className="h-4 w-4" />
+                Instagram
+              </a>
+            )}
           </div>
         </div>
 
@@ -93,22 +107,34 @@ export default function TeamDetailPage({
       </header>
 
       <section className="grid lg:grid-cols-[1fr_2fr] gap-6 mt-8">
-        <aside className="card p-6 space-y-3 text-sm">
-          <h2 className="h-display text-xl text-white mb-2">
-            Club Info
-          </h2>
+        <aside className="card p-6 text-sm">
+          <h2 className="h-display text-xl text-white">Club Info</h2>
 
-          <Row
-            label="Head Coach"
-            value={team.headCoach || "Próximamente"}
-          />
+          <h3 className="mt-4 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+            Directivos
+          </h3>
+          <div className="mt-2 space-y-2">
+            <Row label="Directivo" value={team.directivo || "Por confirmar"} />
+            <Row label="GM" value={team.gm || "Por confirmar"} />
+          </div>
 
-          <Row
-            label="Offensive Coordinator"
-            value={team.offensiveCoordinator || "Próximamente"}
-          />
+          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+            Cuerpo Técnico
+          </h3>
+          <div className="mt-2 space-y-2">
+            <Row label="Head Coach" value={team.headCoach || "Por confirmar"} />
+            <Row
+              label="Offensive Coordinator"
+              value={team.offensiveCoordinator || "Por confirmar"}
+            />
+          </div>
 
-          <Row label="City" value={team.city} />
+          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+            Club
+          </h3>
+          <div className="mt-2 space-y-2">
+            <Row label="Ciudad" value={team.city} />
+          </div>
         </aside>
 
         <div>
@@ -124,14 +150,20 @@ export default function TeamDetailPage({
 
       <section className="mt-10">
         <h2 className="h-display text-xl text-white mb-3">
-          Schedule
+          Calendario del equipo
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {teamGames.map((g) => (
-            <GameCard key={g.id} game={g} />
-          ))}
-        </div>
+        {teamGames.length === 0 ? (
+          <div className="card p-8 text-center text-white/60">
+            El calendario de {team.name} estará disponible pronto.
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {teamGames.map((g) => (
+              <GameCard key={g.id} game={g} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

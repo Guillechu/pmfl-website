@@ -1,50 +1,100 @@
 [
   {
-    "id": "starbay-casino",
-    "name": "Starbay Casino",
-    "logo": "/sponsors/starbay.jpg",
-    "url": "#"
+    "id": "ticketpluss",
+    "name": "Ticketpluss",
+    "category": "Patrocinadores",
+    "url": "https://ticketpluspty.com/",
+    "logo": ""
+  },
+  {
+    "id": "showpro",
+    "name": "Showpro",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": ""
+  },
+  {
+    "id": "agua-cristalina",
+    "name": "Agua Cristalina",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": ""
+  },
+  {
+    "id": "telcomet",
+    "name": "TELCOMET",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": ""
+  },
+  {
+    "id": "panderportes",
+    "name": "Panderportes",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": ""
   },
   {
     "id": "touchdown-panama",
     "name": "Touchdown Panamá",
-    "logo": "/sponsors/touchdownpanama.jpg",
-    "url": "#"
-  },
-  {
-    "id": "hgm-video-sport",
-    "name": "HGM Video Sport",
-    "logo": "/sponsors/hgmvideosport.jpg",
-    "url": "#"
-  },
-  {
-    "id": "clinica-ortodoncia-estetica-dental",
-    "name": "Clínica Ortodoncia Estética Dental",
-    "logo": "/sponsors/clinicaortodoncia.jpg",
-    "url": "#"
-  },
-  {
-    "id": "vielka-r-eternal-flowers",
-    "name": "Vielka R Eternal Flowers",
-    "logo": "/sponsors/vielkaflores.jpg",
-    "url": "#"
-  },
-  {
-    "id": "telconet-latam",
-    "name": "Telconet Latam",
-    "logo": "/sponsors/telconetlatam.jpg",
-    "url": "#"
-  },
-  {
-    "id": "skechers",
-    "name": "Skechers",
-    "logo": "/sponsors/skechers.jpg",
-    "url": "#"
+    "category": "Alianzas",
+    "url": "#",
+    "logo": "/sponsors/touchdownpanama.jpg"
   },
   {
     "id": "valor",
     "name": "Valor",
-    "logo": "/sponsors/valor.jpg",
-    "url": "#"
+    "category": "Alianzas",
+    "url": "#",
+    "logo": "/sponsors/valor.jpg"
+  },
+  {
+    "id": "starbay-casino",
+    "name": "StarBay Casino",
+    "category": "Alianzas",
+    "url": "#",
+    "logo": "/sponsors/starbay.jpg"
+  },
+  {
+    "id": "clinica-dental",
+    "name": "Clínica Dental",
+    "category": "Alianzas",
+    "url": "#",
+    "logo": "/sponsors/clinicaortodoncia.jpg"
+  },
+  {
+    "id": "deportes-jimmy",
+    "name": "Deportes Jimmy",
+    "category": "Alianzas",
+    "url": "#",
+    "logo": ""
+  },
+  {
+    "id": "smartfit",
+    "name": "Smartfit",
+    "category": "Alianzas",
+    "url": "#",
+    "logo": ""
+  },
+  {
+    "id": "skechers",
+    "name": "Skechers",
+    "category": "Alianzas",
+    "url": "#",
+    "logo": "/sponsors/skechers.jpg"
+  },
+  {
+    "id": "gatorade",
+    "name": "Gatorade",
+    "category": "Alianzas",
+    "url": "#",
+    "logo": ""
+  },
+  {
+    "id": "vielka",
+    "name": "Vielka",
+    "category": "Team Partners",
+    "url": "#",
+    "logo": "/sponsors/vielkaflores.jpg"
   }
 ]

@@ -1,0 +1,14 @@
+{
+  "youtubeLive": {
+    "url": "https://www.youtube.com/@PMFL507",
+    "label": "En vivo esta semana",
+    "note": "Sigue los partidos en directo por YouTube.",
+    "image": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg"
+  },
+  "tickets": {
+    "url": "https://ticketpluspty.com/",
+    "label": "Compra tus boletos",
+    "note": "Asegura tu entrada para los juegos de la semana.",
+    "image": "/media/draft-2026.jpg"
+  }
+}

@@ -21,14 +21,20 @@ export interface Team {
   name: string;
   abbreviation: string;
   city: string;
-  conference: "Pacific" | "Atlantic";
-  founded: number;
-  headCoach: string;
+  conference?: "Pacific" | "Atlantic";
+  founded?: number;
+  headCoach?: string;
   offensiveCoordinator?: string;
-  stadium: string;
-  primaryColor: string;
-  secondaryColor: string;
+  stadium?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
   logo: string;
+  /** Instagram profile URL */
+  instagram?: string;
+  /** Directivo principal del club */
+  directivo?: string;
+  /** Gerente general (GM) */
+  gm?: string;
   record: TeamRecord;
   stats: TeamStatsBlock;
   description: string;
@@ -86,6 +92,10 @@ export interface MediaItem {
   category: string;
   team?: string;
   description?: string;
+  /** External article/news link (used instead of the YouTube URL) */
+  link?: string;
+  /** Local video file path (e.g. /videos/foo.mp4) */
+  video?: string;
 }
 
 export interface Media {
@@ -100,13 +110,14 @@ export interface GalleryImage {
   category: "Games" | "Training" | "Fans";
 }
 
-export type SponsorTier = "Platinum" | "Gold" | "Silver" | "Bronze";
+export type SponsorCategory = "Patrocinadores" | "Alianzas" | "Team Partners";
 
 export interface Sponsor {
   id: string;
   name: string;
-  tier: SponsorTier;
+  category: SponsorCategory;
   url: string;
+  /** "" when we don't have the logo yet */
   logo: string;
 }
 
@@ -114,4 +125,18 @@ export interface StatsLeaders {
   season: string;
   leaders: Record<string, string[]>;
   notes?: string;
+}
+
+// Links que se actualizan cada semana (live de YouTube + boletos Ticketpluss).
+// Editar /data/weekly.json para cambiarlos.
+export interface WeeklyPanel {
+  url: string;
+  label: string;
+  note: string;
+  image: string;
+}
+
+export interface WeeklyLinks {
+  youtubeLive: WeeklyPanel;
+  tickets: WeeklyPanel;
 }

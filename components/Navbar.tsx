@@ -13,10 +13,14 @@ const NAV = [
   { href: "/stats", label: "Rankings" },
   { href: "/schedule", label: "Calendario" },
   { href: "/media", label: "Media" },
-  { href: "/gallery", label: "Galeria" },
+  { href: "/gallery", label: "Galería" },
+  { href: "/rules", label: "Reglas IFAF" },
+  { href: "/about", label: "Nosotros" },
   { href: "/sponsors", label: "Patrocinadores" },
   { href: "/contact", label: "Contacto" },
 ];
+
+const TICKETS_URL = "https://ticketpluspty.com/";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -54,7 +58,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="ml-auto hidden lg:flex items-center gap-1">
+        <nav className="ml-auto hidden lg:flex items-center gap-0.5">
           {NAV.map((item) => {
             const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
@@ -62,7 +66,7 @@ export default function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors whitespace-nowrap",
                   active
                     ? "bg-white/10 text-brand-gold-300"
                     : "text-white/80 hover:text-white hover:bg-white/5"
@@ -72,9 +76,19 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {/* Tickets (Ticketpluss) — CTA destacado */}
+          <a
+            href={TICKETS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 rounded-md bg-emerald-500 px-3 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-emerald-400 whitespace-nowrap"
+          >
+            Tickets
+          </a>
         </nav>
 
-        <div className="ml-auto lg:ml-2 hidden md:block w-56">
+        <div className="ml-auto hidden xl:block xl:ml-3 w-52">
           <SearchBar />
         </div>
 
@@ -118,6 +132,15 @@ export default function Navbar() {
                   </Link>
                 );
               })}
+
+              <a
+                href={TICKETS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 rounded-md bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-emerald-400"
+              >
+                Tickets · Ticketpluss
+              </a>
             </nav>
           </div>
         </div>

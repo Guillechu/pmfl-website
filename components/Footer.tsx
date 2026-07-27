@@ -1,5 +1,22 @@
 import Link from "next/link";
 import LeagueMark from "./LeagueMark";
+import {
+  InstagramIcon,
+  FacebookIcon,
+  TikTokIcon,
+  YouTubeIcon,
+} from "./SocialIcons";
+
+const FOOTER_SOCIAL = [
+  { label: "Instagram", href: "https://www.instagram.com/pmfl507/", Icon: InstagramIcon },
+  { label: "YouTube", href: "https://www.youtube.com/@PMFL507", Icon: YouTubeIcon },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/p/Panama-Major-Football-League-100063496664850/",
+    Icon: FacebookIcon,
+  },
+  { label: "TikTok", href: "https://www.tiktok.com/@pmfl507?lang=es", Icon: TikTokIcon },
+];
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -15,7 +32,7 @@ export default function Footer() {
             <div>
               <div className="h-display text-xl text-white">PMFL</div>
               <div className="text-xs uppercase tracking-widest text-brand-gold-300">
-                Panama mayor football league
+                Panama Major Football League
               </div>
             </div>
           </div>
@@ -26,17 +43,18 @@ export default function Footer() {
           </p>
 
           <div className="mt-4 flex items-center gap-3 text-white/70">
-            <a
-              href="https://www.instagram.com/pmfl507/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brand-gold-300 transition-colors"
-              aria-label="PMFL en Instagram"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2c2.7 0 3 .01 4.1.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.16a4.9 4.9 0 0 1 1.16 1.77c.25.64.42 1.37.47 2.43C21.99 9 22 9.3 22 12s-.01 3-.06 4.1c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.16 1.77a4.9 4.9 0 0 1-1.77 1.16c-.64.25-1.37.42-2.43.47C15 21.99 14.7 22 12 22s-3-.01-4.1-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.16 4.9 4.9 0 0 1-1.16-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15 2 14.7 2 12s.01-3 .06-4.1c.05-1.06.22-1.79.47-2.43A4.9 4.9 0 0 1 3.69 3.7 4.9 4.9 0 0 1 5.46 2.54c.64-.25 1.37-.42 2.43-.47C9 2.01 9.3 2 12 2zm0 5.4a4.6 4.6 0 1 0 0 9.2 4.6 4.6 0 0 0 0-9.2zm0 7.6a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm5.85-7.78a1.08 1.08 0 1 1-2.15 0 1.08 1.08 0 0 1 2.15 0z"/>
-              </svg>
-            </a>
+            {FOOTER_SOCIAL.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-brand-gold-300 transition-colors"
+                aria-label={`PMFL en ${label}`}
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            ))}
           </div>
         </div>
 
