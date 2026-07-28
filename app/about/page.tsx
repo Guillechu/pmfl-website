@@ -7,12 +7,31 @@ export const metadata: Metadata = {
     "Historia y campeones de la Panama Major Football League (PMFL), la liga mayor de fútbol americano de Panamá.",
 };
 
-// Palmarés — a completar con la información oficial de la liga.
-const CHAMPIONS = [
-  { year: "2025", note: "Final: Raptors vs Wolfpack", champion: "Por confirmar" },
-  { year: "2024", note: "", champion: "Por confirmar" },
-  { year: "2023", note: "", champion: "Por confirmar" },
+// Palmarés oficial de la PMFL (campeones por año).
+const CHAMPIONS: { year: string; champion: string; pandemic?: boolean }[] = [
+  { year: "2025", champion: "Raptors" },
+  { year: "2024", champion: "Frailes" },
+  { year: "2023", champion: "Frailes" },
+  { year: "2022", champion: "Frailes" },
+  { year: "2020 – 2021", champion: "Tiempo de pandemia", pandemic: true },
+  { year: "2019", champion: "Frailes" },
+  { year: "2018", champion: "Raptors" },
+  { year: "2017", champion: "Raptors" },
+  { year: "2016", champion: "Saints" },
+  { year: "2015", champion: "Raptors" },
+  { year: "2014", champion: "Saints" },
+  { year: "2013", champion: "Saints" },
+  { year: "2012", champion: "Colón Eagles" },
+  { year: "2011", champion: "Frailes" },
 ];
+
+// Títulos por equipo (derivado del palmarés).
+const TITLES = Object.entries(
+  CHAMPIONS.filter((c) => !c.pandemic).reduce<Record<string, number>>((acc, c) => {
+    acc[c.champion] = (acc[c.champion] ?? 0) + 1;
+    return acc;
+  }, {}),
+).sort((a, b) => b[1] - a[1]);
 
 export default function AboutPage() {
   return (
@@ -99,22 +118,51 @@ export default function AboutPage() {
           </a>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Palmarés por año */}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {CHAMPIONS.map((c) => (
-            <div key={c.year} className="card p-5">
-              <p className="font-display text-3xl text-brand-gold-300">{c.year}</p>
-              <p className="mt-2 text-lg font-semibold text-white">
-                {c.champion}
-              </p>
-              {c.note && <p className="mt-1 text-sm text-white/60">{c.note}</p>}
+            <div
+              key={c.year}
+              className={
+                "card flex items-center justify-between gap-4 p-4 " +
+                (c.pandemic ? "opacity-70" : "")
+              }
+            >
+              <span className="font-display text-2xl tabular-nums text-brand-gold-300">
+                {c.year}
+              </span>
+              {c.pandemic ? (
+                <span className="text-right text-sm italic text-white/60">
+                  {c.champion}
+                </span>
+              ) : (
+                <span className="h-display text-lg text-white">
+                  🏆 {c.champion}
+                </span>
+              )}
             </div>
           ))}
         </div>
 
-        <p className="mt-4 text-sm text-white/50">
-          Estamos recopilando el palmarés histórico completo de la liga. Envíanos
-          la lista de campeones por año y la publicamos aquí.
-        </p>
+        {/* Títulos por equipo */}
+        <div className="mt-8">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+            Títulos por equipo
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {TITLES.map(([team, count]) => (
+              <div
+                key={team}
+                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2"
+              >
+                <span className="h-display text-white">{team}</span>
+                <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-brand-gold/20 px-2 text-sm font-semibold text-brand-gold-300">
+                  {count}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );
