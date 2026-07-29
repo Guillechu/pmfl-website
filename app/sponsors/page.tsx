@@ -36,14 +36,14 @@ function SponsorCard({ s }: { s: Sponsor }) {
       {s.logo ? (
         <div
           className={`relative z-10 flex w-full items-center justify-center rounded-xl bg-white ${
-            big ? "h-28 px-5 py-4" : "h-20 px-4 py-3"
+            big ? "h-44 px-10 py-8" : "h-20 px-4 py-3"
           }`}
         >
           <img
             src={s.logo}
             alt={s.name}
             className={`object-contain transition duration-300 group-hover:scale-105 ${
-              big ? "max-h-20 max-w-[210px]" : "max-h-14 max-w-[170px]"
+              big ? "max-h-28 max-w-[440px]" : "max-h-14 max-w-[170px]"
             }`}
           />
         </div>
@@ -54,14 +54,19 @@ function SponsorCard({ s }: { s: Sponsor }) {
           </span>
         </div>
       )}
-      <h3 className="relative z-10 mt-4 font-display text-base tracking-wide text-white">
+      <h3
+        className={`relative z-10 mt-4 font-display tracking-wide text-white ${
+          big ? "text-xl" : "text-base"
+        }`}
+      >
         {s.name}
       </h3>
     </>
   );
 
-  const className =
-    "group relative flex min-h-[160px] flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center transition duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:bg-white/[0.07]";
+  const className = `group relative flex ${
+    big ? "min-h-[240px]" : "min-h-[160px]"
+  } flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center transition duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:bg-white/[0.07]`;
 
   if (hasLink) {
     return (
@@ -111,7 +116,13 @@ export default function SponsorsPage() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+              <div
+                className={
+                  group.key === "Patrocinadores"
+                    ? "grid grid-cols-1 gap-6 sm:grid-cols-2"
+                    : "grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4"
+                }
+              >
                 {items.map((s) => (
                   <SponsorCard key={s.id} s={s} />
                 ))}
