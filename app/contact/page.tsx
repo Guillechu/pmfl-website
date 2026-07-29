@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTeam } from "@/lib/data";
+import ContactForm from "@/components/ContactForm";
 import {
   WhatsAppIcon,
   InstagramIcon,
@@ -76,38 +77,7 @@ export default function ContactPage() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* FORMULARIO */}
         <div className="lg:col-span-2 card p-6">
-          <form className="space-y-4">
-            <div>
-              <label className="text-xs text-white/60">Nombre</label>
-              <input
-                type="text"
-                placeholder="Tu nombre completo"
-                className="mt-1 w-full rounded-md bg-white/5 border border-white/10 px-4 py-2 text-white"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs text-white/60">Correo</label>
-              <input
-                type="email"
-                placeholder="tu@email.com"
-                className="mt-1 w-full rounded-md bg-white/5 border border-white/10 px-4 py-2 text-white"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs text-white/60">Mensaje</label>
-              <textarea
-                rows={5}
-                placeholder="¿En qué podemos ayudarte?"
-                className="mt-1 w-full rounded-md bg-white/5 border border-white/10 px-4 py-2 text-white"
-              />
-            </div>
-
-            <button type="submit" className="btn-primary">
-              Enviar mensaje
-            </button>
-          </form>
+          <ContactForm />
         </div>
 
         {/* INFO LATERAL */}
