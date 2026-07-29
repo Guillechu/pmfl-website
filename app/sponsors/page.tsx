@@ -31,19 +31,21 @@ function SponsorCard({ s }: { s: Sponsor }) {
   const hasLink = s.url && s.url !== "#";
   const inner = (
     <>
-      <div className="relative z-10 flex h-16 w-full items-center justify-center">
-        {s.logo ? (
+      {s.logo ? (
+        <div className="relative z-10 flex h-20 w-full items-center justify-center rounded-xl bg-white px-4 py-3">
           <img
             src={s.logo}
             alt={s.name}
-            className="max-h-14 max-w-[150px] object-contain transition duration-300 group-hover:scale-105"
+            className="max-h-14 max-w-[170px] object-contain transition duration-300 group-hover:scale-105"
           />
-        ) : (
+        </div>
+      ) : (
+        <div className="relative z-10 flex h-16 w-full items-center justify-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-gold/30 bg-brand-gold/10 font-display text-lg text-brand-gold-300">
             {initials(s.name)}
           </span>
-        )}
-      </div>
+        </div>
+      )}
       <h3 className="relative z-10 mt-4 font-display text-base tracking-wide text-white">
         {s.name}
       </h3>

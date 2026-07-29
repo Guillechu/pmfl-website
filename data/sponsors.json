@@ -4,35 +4,35 @@
     "name": "Ticketpluss",
     "category": "Patrocinadores",
     "url": "https://ticketpluspty.com/",
-    "logo": ""
+    "logo": "/sponsors/ticketpluss.png"
   },
   {
     "id": "showpro",
     "name": "Showpro",
     "category": "Patrocinadores",
     "url": "#",
-    "logo": ""
+    "logo": "/sponsors/showpro.webp"
   },
   {
     "id": "agua-cristalina",
     "name": "Agua Cristalina",
     "category": "Patrocinadores",
     "url": "#",
-    "logo": ""
+    "logo": "/sponsors/agua-cristalina.webp"
   },
   {
-    "id": "telcomet",
-    "name": "TELCOMET",
+    "id": "telconet",
+    "name": "Telconet Latam",
     "category": "Patrocinadores",
     "url": "#",
-    "logo": ""
+    "logo": "/sponsors/telconet.png"
   },
   {
-    "id": "panderportes",
-    "name": "Panderportes",
+    "id": "pandeportes",
+    "name": "Pandeportes",
     "category": "Patrocinadores",
-    "url": "#",
-    "logo": ""
+    "url": "https://pandeportes.gob.pa/",
+    "logo": "/sponsors/pandeportes.png"
   },
   {
     "id": "touchdown-panama",
@@ -67,14 +67,14 @@
     "name": "Deportes Jimmy",
     "category": "Alianzas",
     "url": "#",
-    "logo": ""
+    "logo": "/sponsors/deportes-jimmy.png"
   },
   {
     "id": "smartfit",
-    "name": "Smartfit",
+    "name": "Smart Fit",
     "category": "Alianzas",
     "url": "#",
-    "logo": ""
+    "logo": "/sponsors/smartfit.png"
   },
   {
     "id": "skechers",
@@ -88,7 +88,7 @@
     "name": "Gatorade",
     "category": "Alianzas",
     "url": "#",
-    "logo": ""
+    "logo": "/sponsors/gatorade.png"
   },
   {
     "id": "vielka",

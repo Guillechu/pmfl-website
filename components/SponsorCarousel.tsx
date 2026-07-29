@@ -23,14 +23,16 @@ export default function SponsorCarousel({ className }: { className?: string }) {
             className="flex items-center gap-3 min-w-[220px] h-16 rounded-md border border-white/10 bg-white/[0.04] px-5 hover:bg-white/[0.08] transition"
             title={s.name}
           >
-            {/* Logo (solo si lo tenemos) */}
+            {/* Logo (solo si lo tenemos), sobre fondo blanco para que se vea */}
             {s.logo && (
-              <img
-                src={s.logo}
-                alt={s.name}
-                className="max-h-8 w-auto object-contain"
-                loading="lazy"
-              />
+              <span className="flex h-10 items-center justify-center rounded bg-white px-2">
+                <img
+                  src={s.logo}
+                  alt={s.name}
+                  className="max-h-7 w-auto max-w-[110px] object-contain"
+                  loading="lazy"
+                />
+              </span>
             )}
 
             {/* Nombre */}
