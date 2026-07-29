@@ -29,14 +29,22 @@ function initials(name: string): string {
 
 function SponsorCard({ s }: { s: Sponsor }) {
   const hasLink = s.url && s.url !== "#";
+  // Los "Patrocinadores" llevan el logo más grande que Alianzas / Team Partners.
+  const big = s.category === "Patrocinadores";
   const inner = (
     <>
       {s.logo ? (
-        <div className="relative z-10 flex h-20 w-full items-center justify-center rounded-xl bg-white px-4 py-3">
+        <div
+          className={`relative z-10 flex w-full items-center justify-center rounded-xl bg-white ${
+            big ? "h-28 px-5 py-4" : "h-20 px-4 py-3"
+          }`}
+        >
           <img
             src={s.logo}
             alt={s.name}
-            className="max-h-14 max-w-[170px] object-contain transition duration-300 group-hover:scale-105"
+            className={`object-contain transition duration-300 group-hover:scale-105 ${
+              big ? "max-h-20 max-w-[210px]" : "max-h-14 max-w-[170px]"
+            }`}
           />
         </div>
       ) : (
