@@ -2,9 +2,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { teams, getTeam, getTeamRoster, schedule } from "@/lib/data";
 import TeamMark from "@/components/TeamMark";
-import GameCard from "@/components/GameCard";
-import TeamRosterTable from "@/components/TeamRosterTable";
+import MatchCard from "@/components/MatchCard";
+import TeamRosterTable, { type RosterRow } from "@/components/TeamRosterTable";
 import { InstagramIcon } from "@/components/SocialIcons";
+import { getClubRosterByName, getMatches } from "@/lib/cloob";
+import { fromCloob, fromLocal } from "@/lib/match";
+import { slugify } from "@/lib/utils";
+import type { Player } from "@/lib/types";
+
+// El roster y el calendario vienen de Cloob; se revalidan solos.
+export const revalidate = 60;
 
 export function generateStaticParams() {
   return teams.map((t) => ({ slug: t.id }));
@@ -18,7 +25,48 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-export default function TeamDetailPage({
+/**
+ * Roster oficial: manda Cloob (es donde los clubes inscriben). Posición,
+ * estatura y peso salen de su formulario de inscripción; si un jugador
+ * no los tiene rellenos ahí, se completan desde /data emparejando por
+ * nombre. Si Cloob no tiene a nadie inscrito, se muestra el local.
+ */
+function buildRoster(
+  cloob: Awaited<ReturnType<typeof getClubRosterByName>>,
+  local: Player[],
+): RosterRow[] {
+  const localRow = (p: Player): RosterRow => ({
+    id: p.id,
+    name: p.name,
+    number: p.number,
+    position: p.position && p.position !== "TBD" ? p.position : "",
+    height: p.height ?? "",
+    weight: p.weight ? `${p.weight} lb` : "",
+    photo: p.photo,
+  });
+
+  if (cloob.length === 0) return local.map(localRow);
+
+  const localByName = new Map(local.map((p) => [slugify(p.name), p]));
+
+  return cloob.map((c) => {
+    const match = localByName.get(slugify(c.name));
+    return {
+      id: c.id,
+      name: c.name,
+      number: Number(c.number) || match?.number || 0,
+      position:
+        c.position ||
+        (match?.position && match.position !== "TBD" ? match.position : ""),
+      height: c.height || match?.height || "",
+      weight: c.weight || (match?.weight ? `${match.weight} lb` : ""),
+      // La foto oficial de Cloob gana; si no tiene, la local.
+      photo: c.avatar ?? match?.photo,
+    };
+  });
+}
+
+export default async function TeamDetailPage({
   params,
 }: {
   params: { slug: string };
@@ -27,9 +75,20 @@ export default function TeamDetailPage({
 
   if (!team) notFound();
 
-  const roster = getTeamRoster(team.id);
+  const [cloobRoster, cloobMatches] = await Promise.all([
+    getClubRosterByName(team.name).catch(() => []),
+    getMatches().catch(() => []),
+  ]);
 
-  const teamGames = schedule
+  const roster = buildRoster(cloobRoster, getTeamRoster(team.id));
+
+  // Calendario del equipo: también desde Cloob, con respaldo al estático.
+  const key = slugify(team.name);
+  const cloobTeamGames = cloobMatches
+    .filter((m) => slugify(m.homeTeam) === key || slugify(m.awayTeam) === key)
+    .map(fromCloob);
+
+  const localTeamGames = schedule
     .filter(
       (g) => g.homeTeamId === team.id || g.awayTeamId === team.id
     )
@@ -37,7 +96,11 @@ export default function TeamDetailPage({
       (a, b) =>
         new Date(a.date).getTime() -
         new Date(b.date).getTime()
-    );
+    )
+    .map(fromLocal);
+
+  const teamGames =
+    cloobTeamGames.length > 0 ? cloobTeamGames : localTeamGames;
 
   return (
     <div className="container-page py-10">
@@ -160,7 +223,7 @@ export default function TeamDetailPage({
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {teamGames.map((g) => (
-              <GameCard key={g.id} game={g} />
+              <MatchCard key={g.id} game={g} />
             ))}
           </div>
         )}

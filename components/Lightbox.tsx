@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { cldFull } from "@/lib/cloudinary";
 import type { GalleryImage } from "@/lib/types";
 
 export default function Lightbox({
@@ -65,7 +66,7 @@ export default function Lightbox({
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={image.src}
+          src={image.publicId ? cldFull(image.publicId, 1600) : image.src}
           alt={image.alt}
           className="w-full max-h-[80vh] object-contain rounded-lg"
         />

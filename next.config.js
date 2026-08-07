@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // Genera un build autocontenido en .next/standalone, ideal para Docker
+  // (imagen pequeña, arranca con `node server.js`, sin node_modules extra).
+  output: "standalone",
+
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -10,6 +14,10 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "i.ytimg.com" },
+      // Galería servida desde Cloudinary.
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      // Fotos oficiales de jugadores del roster de Cloob.
+      { protocol: "https", hostname: "dxzcf2hri9k06.cloudfront.net" },
     ],
   },
 

@@ -1,0 +1,18 @@
+node_modules
+.next
+.git
+.gitignore
+npm-debug.log
+Dockerfile
+.dockerignore
+docker-compose.yml
+*.md
+.env
+.env*.local
+.DS_Store
+
+# Medios pesados que se sirven desde fuera (NO se incluyen en la imagen):
+#  - gallery: migrada a Cloudinary (375 MB)
+#  - videos: alojar en YouTube/Cloudinary (28 MB)
+public/gallery
+public/videos

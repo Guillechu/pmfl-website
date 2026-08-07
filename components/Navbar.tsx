@@ -10,7 +10,7 @@ import SearchBar from "./SearchBar";
 const NAV = [
   { href: "/", label: "Inicio" },
   { href: "/teams", label: "Equipos" },
-  { href: "/stats", label: "Rankings" },
+  { href: "/stats", label: "Rankings y Stats" },
   { href: "/schedule", label: "Calendario" },
   { href: "/media", label: "Media" },
   { href: "/gallery", label: "Galería" },

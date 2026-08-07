@@ -63,7 +63,7 @@ export default function Footer() {
           <h4 className="h-display text-sm text-white mb-3">Explorar</h4>
           <ul className="space-y-2 text-sm text-white/70">
             <li><Link href="/teams" className="hover:text-white">Equipos</Link></li>
-            <li><Link href="/stats" className="hover:text-white">Estadísticas y Rankings</Link></li>
+            <li><Link href="/stats" className="hover:text-white">Rankings y Stats</Link></li>
             <li><Link href="/schedule" className="hover:text-white">Calendario</Link></li>
             <li><Link href="/media" className="hover:text-white">Media</Link></li>
             <li><Link href="/gallery" className="hover:text-white">Galería</Link></li>
@@ -76,6 +76,8 @@ export default function Footer() {
           <ul className="space-y-2 text-sm text-white/70">
             <li><Link href="/sponsors" className="hover:text-white">Patrocinadores</Link></li>
             <li><Link href="/contact" className="hover:text-white">Contacto</Link></li>
+            {/* Acceso discreto para el equipo de fotografía (pide contraseña). */}
+            <li><Link href="/adminfoto" className="text-white/50 hover:text-white">Área de fotógrafos</Link></li>
             <li><span className="text-white/50">Avalado por la AFFP</span></li>
           </ul>
         </div>

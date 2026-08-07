@@ -1,6 +1,7 @@
 import type { Player } from "@/lib/types";
 import { getTeam } from "@/lib/data";
-import TeamMark from "./TeamMark";
+import PlayerAvatar from "./PlayerAvatar";
+import TeamLogo from "./TeamLogo";
 
 export default function PlayerCard({
   player,
@@ -15,7 +16,20 @@ export default function PlayerCard({
 
   return (
     <div className="card card-hover p-5 flex items-center gap-4 animate-fade-up">
-      {team && <TeamMark team={team} className="h-14 w-14 shrink-0" />}
+      {/* Misma regla que el pódium: foto del jugador si la hay, si no el
+          escudo de su equipo. */}
+      <PlayerAvatar
+        src={player.photo}
+        alt={player.name}
+        className="h-14 w-14 shrink-0 rounded-full object-cover ring-1 ring-white/15"
+        fallback={
+          <TeamLogo
+            name={team?.name ?? player.teamId}
+            team={team}
+            className="h-14 w-14"
+          />
+        }
+      />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-display text-2xl text-brand-gold-300">#{player.number}</span>

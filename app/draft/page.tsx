@@ -1,4 +1,5 @@
 import draft from "@/data/draft.json";
+import TeamLogo from "@/components/TeamLogo";
 
 export default function DraftPage() {
   const roundOne = draft.filter((p) => p.round === 1);
@@ -33,6 +34,9 @@ export default function DraftPage() {
               <div className="text-4xl font-black text-brand-gold-300 w-12 text-center">
                 {player.pick}
               </div>
+
+              {/* Escudo del equipo que lo seleccionó */}
+              <TeamLogo name={player.team} className="h-14 w-14" />
 
               <div>
                 <h3 className="text-2xl font-bold text-white">

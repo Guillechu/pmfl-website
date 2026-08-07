@@ -105,9 +105,16 @@ export interface Media {
 
 export interface GalleryImage {
   id: string;
-  src: string;
+  title?: string;
+  /** Ruta local (legado). Vacío cuando la imagen vive en Cloudinary. */
+  src?: string;
+  /** public_id en Cloudinary (p. ej. "pmfl/combine-2026/combine-1"). */
+  publicId?: string;
+  /** Dimensiones originales (para reservar el espacio y evitar saltos). */
+  width?: number;
+  height?: number;
   alt: string;
-  category: "Games" | "Training" | "Fans";
+  category: string;
 }
 
 export type SponsorCategory = "Patrocinadores" | "Alianzas" | "Team Partners";

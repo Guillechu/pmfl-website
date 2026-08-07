@@ -83,6 +83,30 @@ export function recentResults(limit = 3): Game[] {
     .slice(0, limit);
 }
 
+/** Normaliza un nombre para comparar (sin tildes, minúsculas). */
+function normalizeName(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "") // quita tildes/diacríticos
+    .trim();
+}
+
+/**
+ * Busca el equipo local que corresponde a un nombre que viene de Cloob
+ * (p. ej. "WOLFPACK" → equipo con id "wolfpack"). Devuelve undefined si
+ * no hay coincidencia (equipos que existen en Cloob pero no en /data).
+ */
+export function teamByName(name: string): Team | undefined {
+  const n = normalizeName(name);
+  return teams.find(
+    (t) =>
+      normalizeName(t.name) === n ||
+      normalizeName(t.abbreviation) === n ||
+      t.id === n,
+  );
+}
+
 /** Top players by a numeric stat key (descending). */
 export function topByStat(key: keyof Player["stats"], limit = 10): Player[] {
   return [...players]

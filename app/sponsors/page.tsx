@@ -1,4 +1,4 @@
-import { sponsors } from "@/lib/data";
+import { getPublicSponsors } from "@/lib/sponsors";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import type { Sponsor, SponsorCategory } from "@/lib/types";
 
@@ -78,7 +78,12 @@ function SponsorCard({ s }: { s: Sponsor }) {
   return <div className={className}>{inner}</div>;
 }
 
-export default function SponsorsPage() {
+export const revalidate = 60;
+
+export default async function SponsorsPage() {
+  // En vivo desde Cloudinary (gestionados en /admin), con respaldo al
+  // listado estático si aún no se ha migrado ninguno.
+  const sponsors = await getPublicSponsors(60);
   return (
     <div className="container-page py-12">
       <section className="relative mb-12 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-navy-800 via-brand-navy-900 to-black p-8 md:p-12">
@@ -97,7 +102,7 @@ export default function SponsorsPage() {
         </div>
       </section>
 
-      <SponsorCarousel className="mb-14" />
+      <SponsorCarousel sponsors={sponsors} className="mb-14" />
 
       <div className="space-y-14">
         {GROUPS.map((group) => {

@@ -1,104 +1,44 @@
-"use client";
+// Galería — Server Component. Los álbumes se leen EN VIVO desde Cloudinary
+// (una subcarpeta por álbum: pmfl/combine-2026, pmfl/jornada-1…), así que
+// lo que sube el fotógrafo en /admin aparece aquí sin tocar código.
+//
+// Si Cloudinary no responde, se cae a data/gallery.json (ver lib/albums.ts).
 
-import { useMemo, useState } from "react";
-import { gallery } from "@/lib/data";
-import Lightbox from "@/components/Lightbox";
-import EmptyState from "@/components/ui/EmptyState";
-import Badge from "@/components/ui/Badge";
-import type { GalleryImage } from "@/lib/types";
+import { getAlbums } from "@/lib/albums";
+import { PLAYERS_ALBUM } from "@/lib/player-photos";
+import { SPONSORS_ALBUM } from "@/lib/sponsors";
+import GalleryAccordion from "@/components/GalleryAccordion";
 
-const CATEGORIES = ["Combine 2026"] as const;
+export const revalidate = 60;
 
-export default function GalleryPage() {
-  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("Combine 2026");
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+export const metadata = {
+  title: "Galería · PMFL",
+  description:
+    "Fotos oficiales de la Panama Major Football League: Combine, jornadas y playoffs.",
+};
 
-  const filtered: GalleryImage[] = useMemo(() => {
-    return gallery.filter((g) => String(g.category) === String(cat));
-  }, [cat]);
-
-  function go(delta: number) {
-    if (activeIndex === null) return;
-    const next = (activeIndex + delta + filtered.length) % filtered.length;
-    setActiveIndex(next);
-  }
+export default async function GalleryPage() {
+  // Hay dos carpetas de servicio que no son galerías de evento: los
+  // retratos que alimentan el pódium y los logos de patrocinadores.
+  const OCULTOS = new Set([PLAYERS_ALBUM, SPONSORS_ALBUM]);
+  const albums = (await getAlbums(60)).filter((a) => !OCULTOS.has(a.slug));
+  const total = albums.reduce((n, a) => n + a.photos.length, 0);
 
   return (
     <div className="container-page py-12">
       <header className="mb-8">
-        <p className="text-xs uppercase tracking-widest text-brand-gold-300">Visuals</p>
-        <h1 className="h-display text-4xl md:text-5xl text-white">Gallery</h1>
-        <p className="mt-2 text-white/70 max-w-2xl">
-          Imágenes del Combine 2026 de la PMFL.
+        <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+          Visuales
+        </p>
+        <h1 className="h-display text-4xl text-white md:text-5xl">Galería</h1>
+        <p className="mt-2 max-w-2xl text-white/70">
+          {total > 0
+            ? "Fotos del Combine y de cada jornada de la PMFL. Toca el nombre de un álbum para ver u ocultar sus fotos."
+            : "Las fotos de cada jornada se publicarán aquí durante la temporada."}
         </p>
       </header>
 
-      {/* Categoría */}
-      <div className="mb-6 flex flex-wrap gap-2">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c}
-            onClick={() => setCat(c)}
-            className={
-              "rounded-full px-4 py-1.5 text-sm transition-colors " +
-              (cat === c
-                ? "bg-brand-red text-white"
-                : "bg-white/5 text-white/70 hover:bg-white/10")
-            }
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-
-      {filtered.length === 0 ? (
-        <EmptyState title="No images in this category yet" />
-      ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
-          {filtered.map((img, i) => (
-            <div
-              key={img.id}
-              className="mb-4 relative group rounded-lg overflow-hidden border border-white/10"
-            >
-              {/* Imagen clickeable */}
-              <button onClick={() => setActiveIndex(i)} className="block w-full">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                />
-              </button>
-
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-              {/* Categoría */}
-              <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Badge variant="gold">{img.category}</Badge>
-              </div>
-
-              {/* BOTÓN DESCARGAR */}
-              <a
-                href={img.src}
-                download
-                onClick={(e) => e.stopPropagation()}
-                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 hover:bg-black text-white text-xs px-3 py-1 rounded"
-              >
-                Descargar
-              </a>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Lightbox */}
-      <Lightbox
-        image={activeIndex === null ? null : filtered[activeIndex]}
-        onClose={() => setActiveIndex(null)}
-        onPrev={() => go(-1)}
-        onNext={() => go(1)}
-      />
+      <GalleryAccordion albums={albums} />
     </div>
   );
 }

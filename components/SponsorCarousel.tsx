@@ -1,9 +1,15 @@
 "use client";
 
-import { sponsors } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import type { Sponsor } from "@/lib/types";
 
-export default function SponsorCarousel({ className }: { className?: string }) {
+export default function SponsorCarousel({
+  sponsors,
+  className,
+}: {
+  sponsors: Sponsor[];
+  className?: string;
+}) {
   const loop = [...sponsors, ...sponsors];
 
   return (

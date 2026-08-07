@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    image: pmfl-website:latest
+    container_name: pmfl-website
+    restart: unless-stopped
+    ports:
+      # Puerto 8096 en el host (convención del servidor: 8090-8095 ya en uso).
+      # El túnel de Cloudflare apuntará pmfl.com.pa -> http://localhost:8096
+      - "8096:3000"
+    env_file:
+      - .env
+    # Alternativa: define las variables aquí en vez de .env
+    # environment:
+    #   - CLOOB_TOURNAMENT_ID=bc8db9e5-70a0-413e-ba6c-5ca1cd229e3c
+    #   - CLOOB_CATEGORY_ID=m804k0vhd0ubn
