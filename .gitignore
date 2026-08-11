@@ -15,7 +15,11 @@ next-env.d.ts
 #  - gallery: migrada a Cloudinary
 #  - videos: alojar en YouTube/Cloudinary
 public/gallery
-public/videos
+# Se ignora el CONTENIDO, no la carpeta: si se ignora "public/videos" a
+# secas, git no entra y la excepción de abajo nunca llega a evaluarse.
+public/videos/*
+# Excepción: este sí lo sirve el sitio (data/media.json lo referencia).
+!public/videos/combine-2026.mp4
 
 # ── Endurecido 2026-08-07 ───────────────────────────────────
 # Secretos: .env y TODAS sus copias (los .bak conservan claves vigentes).
@@ -41,9 +45,12 @@ service-account*.json
 node_modules/
 .next/
 out/
-media/
-staticfiles/
-__pycache__/
-*.pyc
 *.log
 .DS_Store
+
+# OJO: aquí había "media/", "staticfiles/", "__pycache__/" y "*.pyc",
+# heredados de una plantilla de Django. "media/" no está anclado, así que
+# git ignoraba CUALQUIER carpeta llamada media a cualquier profundidad:
+# app/media (código fuente de la página /media) y public/media (miniaturas).
+# Por eso la página de Media se perdió sin que saltara ningún error.
+# No añadir patrones sin anclar: usa "/ruta/concreta".
