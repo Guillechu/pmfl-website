@@ -84,7 +84,7 @@
     "description": "Disciplina y estrategia definen su estilo de juego.",
     "coachingStaff": [
       {
-        "name": "Horacio Perez",
+        "name": "Horacio Pérez",
         "role": "Head Coach"
       },
       {
@@ -108,7 +108,7 @@
         "role": "DL/OL Coach"
       }
     ],
-    "headCoach": "Horacio Perez",
+    "headCoach": "Horacio Pérez",
     "offensiveCoordinator": "Rene Reyna"
   },
   {
@@ -163,8 +163,8 @@
     "description": "Equipo dinámico con enfoque ofensivo.",
     "coachingStaff": [
       {
-        "name": "Raul Esquivel",
-        "role": "Coach Ofensivo"
+        "name": "Raúl Esquivel",
+        "role": "Head Coach"
       },
       {
         "name": "Danello Codrington",
@@ -186,7 +186,8 @@
         "name": "Yorsh Martinez",
         "role": "Coach Special Teams"
       }
-    ]
+    ],
+    "headCoach": "Raúl Esquivel"
   },
   {
     "id": "tigers",
