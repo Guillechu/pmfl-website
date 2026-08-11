@@ -201,11 +201,28 @@ export default async function TeamDetailPage({
             Cuerpo Técnico
           </h3>
           <div className="mt-2 space-y-2">
-            <Row label="Head Coach" value={team.headCoach || "Por confirmar"} />
-            <Row
-              label="Offensive Coordinator"
-              value={team.offensiveCoordinator || "Por confirmar"}
-            />
+            {team.coachingStaff && team.coachingStaff.length > 0 ? (
+              // Se lista el cuerpo técnico completo con el cargo que puso
+              // cada club, en vez de encajarlo en dos casillas fijas.
+              team.coachingStaff.map((coach, i) => (
+                <Row
+                  key={`${coach.name}-${i}`}
+                  label={coach.role || "Coach"}
+                  value={coach.name}
+                />
+              ))
+            ) : (
+              <>
+                <Row
+                  label="Head Coach"
+                  value={team.headCoach || "Por confirmar"}
+                />
+                <Row
+                  label="Offensive Coordinator"
+                  value={team.offensiveCoordinator || "Por confirmar"}
+                />
+              </>
+            )}
           </div>
 
           <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">

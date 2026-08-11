@@ -16,6 +16,16 @@ export interface TeamStatsBlock {
   turnoverDiff: number;
 }
 
+/**
+ * Miembro del cuerpo técnico. El cargo va tal y como lo escribió el club
+ * en el roster oficial ("DL/OL Coach", "Coach Ofensivo", "Asistente Head
+ * Coach"…): cada uno usa su propia nomenclatura y no se reinterpreta.
+ */
+export interface Coach {
+  name: string;
+  role: string;
+}
+
 export interface Team {
   id: string;
   name: string;
@@ -25,6 +35,8 @@ export interface Team {
   founded?: number;
   headCoach?: string;
   offensiveCoordinator?: string;
+  /** Cuerpo técnico completo, con el head coach primero. */
+  coachingStaff?: Coach[];
   stadium?: string;
   primaryColor?: string;
   secondaryColor?: string;

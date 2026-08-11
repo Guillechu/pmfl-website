@@ -10,12 +10,58 @@
     "gm": "Alonso Smith",
     "instagram": "https://www.instagram.com/panamawolfpack/",
     "logo": "/teams/wolfpack.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Equipo competitivo con gran intensidad y juego físico."
+    "description": "Equipo competitivo con gran intensidad y juego físico.",
+    "coachingStaff": [
+      {
+        "name": "Henis Ortega",
+        "role": "Head Coach"
+      },
+      {
+        "name": "Alonso Smith",
+        "role": "Offensive Coord"
+      },
+      {
+        "name": "Omar Cedeño",
+        "role": "OL Coach"
+      },
+      {
+        "name": "Ariel Bonilla",
+        "role": "RB Coach"
+      },
+      {
+        "name": "Jan Karl Da Costa",
+        "role": "WR Coach"
+      },
+      {
+        "name": "Gerardo Garrudo",
+        "role": "Defensive Coord"
+      },
+      {
+        "name": "Edwin Guerrero",
+        "role": "DL Coach"
+      },
+      {
+        "name": "Edgardo Nuñez",
+        "role": "Special Team Coord"
+      },
+      {
+        "name": "Armodio Corrioso",
+        "role": "DB Coach"
+      },
+      {
+        "name": "Fernando Franco",
+        "role": "LB Coach"
+      }
+    ]
   },
   {
     "id": "saints",
@@ -26,12 +72,44 @@
     "gm": "Horacio \"Cachorro\" Pérez",
     "instagram": "https://www.instagram.com/panamasaints/",
     "logo": "/teams/saints.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Disciplina y estrategia definen su estilo de juego."
+    "description": "Disciplina y estrategia definen su estilo de juego.",
+    "coachingStaff": [
+      {
+        "name": "Horacio Perez",
+        "role": "Head Coach"
+      },
+      {
+        "name": "Ariel Velasquez",
+        "role": "DL/OL Coach"
+      },
+      {
+        "name": "Ivan Paz",
+        "role": "Coach asistente"
+      },
+      {
+        "name": "Rene Reyna",
+        "role": "Coordinador Ofensivo"
+      },
+      {
+        "name": "Joel Rivera",
+        "role": "Ball boy coach, water boy coach"
+      },
+      {
+        "name": "Manuel Rodríguez",
+        "role": "DL/OL Coach"
+      }
+    ],
+    "headCoach": "Horacio Perez",
+    "offensiveCoordinator": "Rene Reyna"
   },
   {
     "id": "hunters",
@@ -42,12 +120,27 @@
     "gm": "José López",
     "instagram": "https://www.instagram.com/huntersmedellin/",
     "logo": "/teams/hunters.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Velocidad y agresividad en cada jugada."
+    "description": "Velocidad y agresividad en cada jugada.",
+    "coachingStaff": [
+      {
+        "name": "José Alberto López Cardona",
+        "role": "Head Coach"
+      },
+      {
+        "name": "Gustavo Cardona",
+        "role": "Asistente Head Coach"
+      }
+    ],
+    "headCoach": "José Alberto López Cardona"
   },
   {
     "id": "raptors",
@@ -58,12 +151,42 @@
     "gm": "Jonathan \"Campanita\" Jaramillo",
     "instagram": "https://www.instagram.com/panamaraptorsfc/",
     "logo": "/teams/raptors.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Equipo dinámico con enfoque ofensivo."
+    "description": "Equipo dinámico con enfoque ofensivo.",
+    "coachingStaff": [
+      {
+        "name": "Raul Esquivel",
+        "role": "Coach Ofensivo"
+      },
+      {
+        "name": "Danello Codrington",
+        "role": "Coach Defensivo"
+      },
+      {
+        "name": "Alex Tuñon",
+        "role": "Coach Asistente"
+      },
+      {
+        "name": "Xavier Roberts",
+        "role": "Coach Asistente"
+      },
+      {
+        "name": "Josue Mccaty",
+        "role": "Coach Asistente"
+      },
+      {
+        "name": "Yorsh Martinez",
+        "role": "Coach Special Teams"
+      }
+    ]
   },
   {
     "id": "tigers",
@@ -74,12 +197,55 @@
     "gm": "Jill Carrillo",
     "instagram": "https://www.instagram.com/tigers_pty/",
     "logo": "/teams/tigers.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Fuerza, poder y dominio en el campo."
+    "description": "Fuerza, poder y dominio en el campo.",
+    "coachingStaff": [
+      {
+        "name": "Roberto Carrillo",
+        "role": "Head Coach"
+      },
+      {
+        "name": "Jill Carrillo",
+        "role": "GM"
+      },
+      {
+        "name": "Leslei Ríos",
+        "role": "Admin/Social Media"
+      },
+      {
+        "name": "Alberto Fields",
+        "role": "Defense Coach"
+      },
+      {
+        "name": "Guadalupe De Gracía",
+        "role": "DL Coach"
+      },
+      {
+        "name": "Luis Carrillo",
+        "role": "Offense Coach"
+      },
+      {
+        "name": "Diego La Balza",
+        "role": "OL Coach"
+      },
+      {
+        "name": "David Proenza",
+        "role": "QB Coach"
+      },
+      {
+        "name": "Aaron Kyle",
+        "role": "Coach"
+      }
+    ],
+    "headCoach": "Roberto Carrillo"
   },
   {
     "id": "aguilas-doradas",
@@ -90,12 +256,35 @@
     "gm": "Vielka Rizos",
     "instagram": "https://www.instagram.com/aguilas_doradasarenapanama/",
     "logo": "/teams/aguilas-doradas.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Precisión y visión aérea en su juego."
+    "description": "Precisión y visión aérea en su juego.",
+    "coachingStaff": [
+      {
+        "name": "Carlos Flores",
+        "role": "Head Coach"
+      },
+      {
+        "name": "Aristides Collazos",
+        "role": "Coach Defensa"
+      },
+      {
+        "name": "Jaime Pereira",
+        "role": "Coach Ofensiva"
+      },
+      {
+        "name": "Luis Espinosa",
+        "role": "Coach Special Teams/Defensa"
+      }
+    ],
+    "headCoach": "Carlos Flores"
   },
   {
     "id": "eagles",
@@ -106,11 +295,39 @@
     "gm": "Luis Alarcón",
     "instagram": "https://www.instagram.com/coloneagles/",
     "logo": "/teams/eagles.png",
-    "record": { "wins": 0, "losses": 0, "ties": 0 },
+    "record": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
     "stats": {
       "pointsFor": 0,
       "pointsAgainst": 0
     },
-    "description": "Explosividad y velocidad en cada ofensiva."
+    "description": "Explosividad y velocidad en cada ofensiva.",
+    "coachingStaff": [
+      {
+        "name": "Sterry Etheridge",
+        "role": "Head Coach"
+      },
+      {
+        "name": "Horacio Dyer",
+        "role": "Coordinador Defensivo"
+      },
+      {
+        "name": "Dalfonso Duncan",
+        "role": "Coordinador Ofensivo"
+      },
+      {
+        "name": "Heberto Ayarza",
+        "role": "Coordinador Equip. Especiales"
+      },
+      {
+        "name": "Catherin Amaya",
+        "role": "Asistente"
+      }
+    ],
+    "headCoach": "Sterry Etheridge",
+    "offensiveCoordinator": "Dalfonso Duncan"
   }
 ]
