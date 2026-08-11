@@ -59,8 +59,11 @@ export default function TeamRosterTable({ roster }: { roster: RosterRow[] }) {
       label: "N.º",
       align: "center",
       sortable: true,
-      sortValue: (player) => player.number,
+      // Quien no tiene dorsal asignado va al final de la lista, no al
+      // principio como haría un 0.
+      sortValue: (player) => player.number || Number.MAX_SAFE_INTEGER,
       className: "w-16",
+      render: (player) => player.number || "—",
     },
     {
       key: "name",

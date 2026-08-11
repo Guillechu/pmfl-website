@@ -30,6 +30,12 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
  * estatura y peso salen de su formulario de inscripción; si un jugador
  * no los tiene rellenos ahí, se completan desde /data emparejando por
  * nombre. Si Cloob no tiene a nadie inscrito, se muestra el local.
+ *
+ * Cloob enriquece, pero NUNCA recorta: mientras los clubes terminan de
+ * inscribirse, Cloob va muy por detrás del roster oficial de /data (un
+ * club puede tener ahí un solo jugador). Quien esté en /data y todavía
+ * no aparezca en Cloob se añade igualmente, emparejando por nombre para
+ * no duplicar a nadie.
  */
 function buildRoster(
   cloob: Awaited<ReturnType<typeof getClubRosterByName>>,
@@ -48,9 +54,13 @@ function buildRoster(
   if (cloob.length === 0) return local.map(localRow);
 
   const localByName = new Map(local.map((p) => [slugify(p.name), p]));
+  const emparejados = new Set<string>();
 
-  return cloob.map((c) => {
-    const match = localByName.get(slugify(c.name));
+  const inscritos = cloob.map((c) => {
+    const clave = slugify(c.name);
+    const match = localByName.get(clave);
+    if (match) emparejados.add(clave);
+
     return {
       id: c.id,
       name: c.name,
@@ -64,6 +74,12 @@ function buildRoster(
       photo: c.avatar ?? match?.photo,
     };
   });
+
+  const pendientes = local
+    .filter((p) => !emparejados.has(slugify(p.name)))
+    .map(localRow);
+
+  return [...inscritos, ...pendientes];
 }
 
 export default async function TeamDetailPage({

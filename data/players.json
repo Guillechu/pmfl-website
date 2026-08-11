@@ -1,12 +1,3522 @@
 [
   {
-    "id": "guillermo-chu",
+    "id": "aguilas-doradas-abdiel-perigault",
+    "teamId": "aguilas-doradas",
+    "name": "Abdiel Perigault",
+    "number": 30,
+    "position": "DB/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-abdiel-cubillas",
+    "teamId": "aguilas-doradas",
+    "name": "Abdiel Cubillas",
+    "number": 56,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-adolfo-gongora",
+    "teamId": "aguilas-doradas",
+    "name": "Adolfo Gongora",
+    "number": 65,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-alcibiades-arosemena",
+    "teamId": "aguilas-doradas",
+    "name": "Alcibiades Arosemena",
+    "number": 59,
+    "position": "LB/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-alfonso-de-leon",
+    "teamId": "aguilas-doradas",
+    "name": "Alfonso de Leon",
+    "number": 93,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-antonio-de-leon",
+    "teamId": "aguilas-doradas",
+    "name": "Antonio de Leon",
+    "number": 80,
+    "position": "RB/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-arturo-camarena",
+    "teamId": "aguilas-doradas",
+    "name": "Arturo Camarena",
+    "number": 33,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-brandon-gonzalez",
+    "teamId": "aguilas-doradas",
+    "name": "Brandon Gonzalez",
+    "number": 13,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-carlos-troyano",
+    "teamId": "aguilas-doradas",
+    "name": "Carlos Troyano",
+    "number": 72,
+    "position": "DL/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-carlos-marquinez",
+    "teamId": "aguilas-doradas",
+    "name": "Carlos Marquinez",
+    "number": 67,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-carlos-miramontes",
+    "teamId": "aguilas-doradas",
+    "name": "Carlos Miramontes",
+    "number": 84,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-cesar-ortiz",
+    "teamId": "aguilas-doradas",
+    "name": "Cesar Ortiz",
+    "number": 26,
+    "position": "FB/RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-christian-menotti",
+    "teamId": "aguilas-doradas",
+    "name": "Christian Menotti",
+    "number": 47,
+    "position": "RB/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-daniel-pravia",
+    "teamId": "aguilas-doradas",
+    "name": "Daniel Pravia",
+    "number": 23,
+    "position": "DL/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-daniel-ramirez",
+    "teamId": "aguilas-doradas",
+    "name": "Daniel Ramirez",
+    "number": 74,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-darinel-aizpurua",
+    "teamId": "aguilas-doradas",
+    "name": "Darinel Aizpurua",
+    "number": 60,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-darnel-berroa",
+    "teamId": "aguilas-doradas",
+    "name": "Darnel Berroa",
+    "number": 86,
+    "position": "DL/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-david-corro",
+    "teamId": "aguilas-doradas",
+    "name": "David Corro",
+    "number": 29,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-derek-brown",
+    "teamId": "aguilas-doradas",
+    "name": "Derek Brown",
+    "number": 18,
+    "position": "QB/TE/LB/DE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-diogenes-perez",
+    "teamId": "aguilas-doradas",
+    "name": "Diogenes Perez",
+    "number": 34,
+    "position": "LB/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-eduardo-tomlinson",
+    "teamId": "aguilas-doradas",
+    "name": "Eduardo Tomlinson",
+    "number": 1,
+    "position": "LB/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-edwin-meza",
+    "teamId": "aguilas-doradas",
+    "name": "Edwin Meza",
+    "number": 87,
+    "position": "DL/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-emmanuel-del-cid",
+    "teamId": "aguilas-doradas",
+    "name": "Emmanuel del Cid",
+    "number": 2,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-fernando-ramirez",
+    "teamId": "aguilas-doradas",
+    "name": "Fernando Ramirez",
+    "number": 74,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-francisco-iriarte",
+    "teamId": "aguilas-doradas",
+    "name": "Francisco Iriarte",
+    "number": 27,
+    "position": "LB/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-german-gonzalez",
+    "teamId": "aguilas-doradas",
+    "name": "German Gonzalez",
+    "number": 57,
+    "position": "LB/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-gustavo-quiroz",
+    "teamId": "aguilas-doradas",
+    "name": "Gustavo Quiroz",
+    "number": 52,
+    "position": "LB/DL/RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-gustavo-barba",
+    "teamId": "aguilas-doradas",
+    "name": "Gustavo Barba",
+    "number": 99,
+    "position": "DL/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-isaac-diaz",
+    "teamId": "aguilas-doradas",
+    "name": "Isaac Diaz",
+    "number": 62,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-ivan-munoz",
+    "teamId": "aguilas-doradas",
+    "name": "Ivan Muñoz",
+    "number": 75,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jeferson-torres",
+    "teamId": "aguilas-doradas",
+    "name": "Jeferson Torres",
+    "number": 95,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jonathan-romero",
+    "teamId": "aguilas-doradas",
+    "name": "Jonathan Romero",
+    "number": 9,
+    "position": "WR/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jonathan-sanchez",
+    "teamId": "aguilas-doradas",
+    "name": "Jonathan Sanchez",
+    "number": 39,
+    "position": "LB/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jose-martinez",
+    "teamId": "aguilas-doradas",
+    "name": "Jose Martinez",
+    "number": 16,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jose-ruiz",
+    "teamId": "aguilas-doradas",
+    "name": "Jose Ruiz",
+    "number": 57,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jose-marquinez",
+    "teamId": "aguilas-doradas",
+    "name": "Jose Marquinez",
+    "number": 77,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-jose-gonzalez",
+    "teamId": "aguilas-doradas",
+    "name": "Jose Gonzalez",
+    "number": 91,
+    "position": "LB/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-joseph-quiroz",
+    "teamId": "aguilas-doradas",
+    "name": "Joseph Quiroz",
+    "number": 11,
+    "position": "RB/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-josue-quiroz",
+    "teamId": "aguilas-doradas",
+    "name": "Josue Quiroz",
+    "number": 6,
+    "position": "RB/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-josue-singh",
+    "teamId": "aguilas-doradas",
+    "name": "Josue Singh",
+    "number": 81,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-kevin-pinzon",
+    "teamId": "aguilas-doradas",
+    "name": "Kevin Pinzon",
+    "number": 66,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-luis-rodriguez",
+    "teamId": "aguilas-doradas",
+    "name": "Luis Rodriguez",
+    "number": 15,
+    "position": "QB/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-luis-jaen",
+    "teamId": "aguilas-doradas",
+    "name": "Luis Jaen",
+    "number": 40,
+    "position": "DL/TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-manfred-flores",
+    "teamId": "aguilas-doradas",
+    "name": "Manfred Flores",
+    "number": 17,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-manuel-mock",
+    "teamId": "aguilas-doradas",
+    "name": "Manuel Mock",
+    "number": 70,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-nathan-delgado",
+    "teamId": "aguilas-doradas",
+    "name": "Nathan Delgado",
+    "number": 49,
+    "position": "LB/WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-raul-barria",
+    "teamId": "aguilas-doradas",
+    "name": "Raul Barria",
+    "number": 69,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-ricardo-mata",
+    "teamId": "aguilas-doradas",
+    "name": "Ricardo Mata",
+    "number": 8,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-ricardo-cruz",
+    "teamId": "aguilas-doradas",
+    "name": "Ricardo Cruz",
+    "number": 19,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-roderick-montalvan",
+    "teamId": "aguilas-doradas",
+    "name": "Roderick Montalvan",
+    "number": 57,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-rodrigo-corro",
+    "teamId": "aguilas-doradas",
+    "name": "Rodrigo Corro",
+    "number": 79,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-uzziel-montilla",
+    "teamId": "aguilas-doradas",
+    "name": "Uzziel Montilla",
+    "number": 0,
+    "position": "QB/WR/S",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "aguilas-doradas-victor-bonilla",
+    "teamId": "aguilas-doradas",
+    "name": "Victor Bonilla",
+    "number": 64,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-abddiel-burbano",
+    "teamId": "eagles",
+    "name": "Abddiel Burbano",
+    "number": 61,
+    "position": "OL-DL",
+    "height": "1.76 m",
+    "weight": 300,
+    "stats": {}
+  },
+  {
+    "id": "eagles-abdiel-james",
+    "teamId": "eagles",
+    "name": "Abdiel James",
+    "number": 55,
+    "position": "OL-DL-LB",
+    "height": "1.69 m",
+    "weight": 255,
+    "stats": {}
+  },
+  {
+    "id": "eagles-abdul-ayarza",
+    "teamId": "eagles",
+    "name": "Abdul Ayarza",
+    "number": 52,
+    "position": "ML",
+    "height": "1.80 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "eagles-abid-pacheco",
+    "teamId": "eagles",
+    "name": "Abid Pacheco",
+    "number": 32,
+    "position": "LR-RB",
+    "height": "1.70 m",
+    "weight": 150,
+    "stats": {}
+  },
+  {
+    "id": "eagles-abinadab-pascual",
+    "teamId": "eagles",
+    "name": "Abinadab Pascual",
+    "number": 38,
+    "position": "WR-RB-DB",
+    "height": "1.72 m",
+    "weight": 170,
+    "stats": {}
+  },
+  {
+    "id": "eagles-adonis-rodriguez",
+    "teamId": "eagles",
+    "name": "Adonis Rodriguez",
+    "number": 16,
+    "position": "DB-CB",
+    "height": "1.70 m",
+    "weight": 148,
+    "stats": {}
+  },
+  {
+    "id": "eagles-aldahir-meneses",
+    "teamId": "eagles",
+    "name": "Aldahir Meneses",
+    "number": 77,
+    "position": "OL-DL",
+    "height": "1.90 m",
+    "weight": 315,
+    "stats": {}
+  },
+  {
+    "id": "eagles-aldair-martinez",
+    "teamId": "eagles",
+    "name": "Aldair Martinez",
+    "number": 58,
+    "position": "DL-LB",
+    "height": "1.75 m",
+    "weight": 240,
+    "stats": {}
+  },
+  {
+    "id": "eagles-aldair-barrera",
+    "teamId": "eagles",
+    "name": "Aldair Barrera",
+    "number": 1,
+    "position": "DB-CB",
+    "height": "1.74 m",
+    "weight": 168,
+    "stats": {}
+  },
+  {
+    "id": "eagles-alfredo-caraballo",
+    "teamId": "eagles",
+    "name": "Alfredo Caraballo",
+    "number": 53,
+    "position": "ML",
+    "height": "1.75 m",
+    "weight": 245,
+    "stats": {}
+  },
+  {
+    "id": "eagles-alvis-dominguez",
+    "teamId": "eagles",
+    "name": "Alvis Dominguez",
+    "number": 90,
+    "position": "OL-DL",
+    "height": "1.82 m",
+    "weight": 233,
+    "stats": {}
+  },
+  {
+    "id": "eagles-amir-duran",
+    "teamId": "eagles",
+    "name": "Amir Duran",
+    "number": 74,
+    "position": "OL-DL",
+    "height": "1.69 m",
+    "weight": 200,
+    "stats": {}
+  },
+  {
+    "id": "eagles-dangelo-barrios",
+    "teamId": "eagles",
+    "name": "Dangelo Barrios",
+    "number": 69,
+    "position": "OL-DL",
+    "height": "1.82 m",
+    "weight": 255,
+    "stats": {}
+  },
+  {
+    "id": "eagles-denzel-foderingham",
+    "teamId": "eagles",
+    "name": "Denzel Foderingham",
+    "number": 10,
+    "position": "FC-WR",
+    "height": "",
+    "weight": 170,
+    "stats": {}
+  },
+  {
+    "id": "eagles-derek-downer",
+    "teamId": "eagles",
+    "name": "Derek Downer",
+    "number": 90,
+    "position": "DL-OL",
+    "height": "1.75 m",
+    "weight": 257,
+    "stats": {}
+  },
+  {
+    "id": "eagles-edgar-bernard",
+    "teamId": "eagles",
+    "name": "Edgar Bernard",
+    "number": 59,
+    "position": "MLB-DE",
+    "height": "1.80 m",
+    "weight": 215,
+    "stats": {}
+  },
+  {
+    "id": "eagles-edward-flores",
+    "teamId": "eagles",
+    "name": "Edward Flores",
+    "number": 25,
+    "position": "LB-CB",
+    "height": "1.67 m",
+    "weight": 176,
+    "stats": {}
+  },
+  {
+    "id": "eagles-eugenio-cobos",
+    "teamId": "eagles",
+    "name": "Eugenio Cobos",
+    "number": 15,
+    "position": "RB-OSL",
+    "height": "1.74 m",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-fidel-salazar",
+    "teamId": "eagles",
+    "name": "Fidel Salazar",
+    "number": 36,
+    "position": "OL-MLB",
+    "height": "1.80 m",
+    "weight": 200,
+    "stats": {}
+  },
+  {
+    "id": "eagles-glenn-cunnigham",
+    "teamId": "eagles",
+    "name": "Glenn Cunnigham",
+    "number": 3,
+    "position": "RB-LB",
+    "height": "1.72 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "eagles-jair-jimenez",
+    "teamId": "eagles",
+    "name": "Jair Jimenez",
+    "number": 95,
+    "position": "OL-DL",
+    "height": "1.84 m",
+    "weight": 313,
+    "stats": {}
+  },
+  {
+    "id": "eagles-joel-rodriguez",
+    "teamId": "eagles",
+    "name": "Joel Rodriguez",
+    "number": 76,
+    "position": "DE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-johisir-rodriguez",
+    "teamId": "eagles",
+    "name": "Johisir Rodriguez",
+    "number": 99,
+    "position": "OL-DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-josephe-salcedo",
+    "teamId": "eagles",
+    "name": "Josephe Salcedo",
+    "number": 7,
+    "position": "QB",
+    "height": "1.75 m",
+    "weight": 120,
+    "stats": {}
+  },
+  {
+    "id": "eagles-josuel-reid",
+    "teamId": "eagles",
+    "name": "Josuel Reid",
+    "number": 24,
+    "position": "CB/0LB-FS",
+    "height": "1.70 m",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-kevin-man",
+    "teamId": "eagles",
+    "name": "Kevin Man",
+    "number": 28,
+    "position": "LB",
+    "height": "1.77 m",
+    "weight": 167,
+    "stats": {}
+  },
+  {
+    "id": "eagles-luis-morales",
+    "teamId": "eagles",
+    "name": "Luis Morales",
+    "number": 11,
+    "position": "WR",
+    "height": "1.78 m",
+    "weight": 205,
+    "stats": {}
+  },
+  {
+    "id": "eagles-luis-alarcon",
+    "teamId": "eagles",
+    "name": "Luis Alarcon",
+    "number": 68,
+    "position": "OL-DL",
+    "height": "1.80 m",
+    "weight": 240,
+    "stats": {}
+  },
+  {
+    "id": "eagles-manuel-salazar",
+    "teamId": "eagles",
+    "name": "Manuel Salazar",
+    "number": 12,
+    "position": "DB-WR",
+    "height": "1.73 m",
+    "weight": 143,
+    "stats": {}
+  },
+  {
+    "id": "eagles-manuel-castillo",
+    "teamId": "eagles",
+    "name": "Manuel Castillo",
+    "number": 72,
+    "position": "OL-DL",
+    "height": "1.65 m",
+    "weight": 232,
+    "stats": {}
+  },
+  {
+    "id": "eagles-michael-gonzalez",
+    "teamId": "eagles",
+    "name": "Michael Gonzalez",
+    "number": 82,
+    "position": "DB-OSL-CB",
+    "height": "1.82 m",
+    "weight": 200,
+    "stats": {}
+  },
+  {
+    "id": "eagles-miguel-cordoba",
+    "teamId": "eagles",
+    "name": "Miguel Cordoba",
+    "number": 66,
+    "position": "OL-DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-miguel-tejada",
+    "teamId": "eagles",
+    "name": "Miguel Tejada",
+    "number": 71,
+    "position": "OL-DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "eagles-nair-belmo",
+    "teamId": "eagles",
+    "name": "Nair Belmo",
+    "number": 17,
+    "position": "CB-RB-WR",
+    "height": "1.71 m",
+    "weight": 138,
+    "stats": {}
+  },
+  {
+    "id": "eagles-newton-sylvestre",
+    "teamId": "eagles",
+    "name": "Newton Sylvestre",
+    "number": 18,
+    "position": "RB-LB",
+    "height": "1.66 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "eagles-omar-monterrosa",
+    "teamId": "eagles",
+    "name": "Omar Monterrosa",
+    "number": 78,
+    "position": "OL-DL",
+    "height": "1.80 m",
+    "weight": 310,
+    "stats": {}
+  },
+  {
+    "id": "eagles-omar-monterrosa-2",
+    "teamId": "eagles",
+    "name": "Omar Monterrosa",
+    "number": 0,
+    "position": "QB-OL-DL",
+    "height": "1.77 m",
+    "weight": 250,
+    "stats": {}
+  },
+  {
+    "id": "eagles-pablo-betegon",
+    "teamId": "eagles",
+    "name": "Pablo Betegon",
+    "number": 83,
+    "position": "WR-TE",
+    "height": "1.85 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "eagles-raylin-solano",
+    "teamId": "eagles",
+    "name": "Raylin Solano",
+    "number": 92,
+    "position": "W-R",
+    "height": "1.70 m",
+    "weight": 164,
+    "stats": {}
+  },
+  {
+    "id": "eagles-reyleen-vaughan",
+    "teamId": "eagles",
+    "name": "Reyleen Vaughan",
+    "number": 40,
+    "position": "RB-LB-DE",
+    "height": "1.69 m",
+    "weight": 198,
+    "stats": {}
+  },
+  {
+    "id": "eagles-ricardo-arrieta",
+    "teamId": "eagles",
+    "name": "Ricardo Arrieta",
+    "number": 19,
+    "position": "WR-RB",
+    "height": "1.80 m",
+    "weight": 165,
+    "stats": {}
+  },
+  {
+    "id": "eagles-rigoberto-forcheney",
+    "teamId": "eagles",
+    "name": "Rigoberto Forcheney",
+    "number": 13,
+    "position": "WR",
+    "height": "1.80 m",
+    "weight": 165,
+    "stats": {}
+  },
+  {
+    "id": "eagles-roberto-jaen",
+    "teamId": "eagles",
+    "name": "Roberto Jaen",
+    "number": 79,
+    "position": "OL-DL",
+    "height": "1.75 m",
+    "weight": 240,
+    "stats": {}
+  },
+  {
+    "id": "eagles-samad-reid",
+    "teamId": "eagles",
+    "name": "Samad Reid",
+    "number": 22,
+    "position": "RB-LB",
+    "height": "1.71 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "eagles-samuel-moreno",
+    "teamId": "eagles",
+    "name": "Samuel Moreno",
+    "number": 70,
+    "position": "OL-DL",
+    "height": "1.89 m",
+    "weight": 250,
+    "stats": {}
+  },
+  {
+    "id": "eagles-victor-lindo",
+    "teamId": "eagles",
+    "name": "Victor Lindo",
+    "number": 33,
+    "position": "WR-RB",
+    "height": "1.75 m",
+    "weight": 160,
+    "stats": {}
+  },
+  {
+    "id": "eagles-yair-rountree",
+    "teamId": "eagles",
+    "name": "Yair Rountree",
+    "number": 9,
+    "position": "WR-D-B-QB",
+    "height": "1.85 m",
+    "weight": 176,
+    "stats": {}
+  },
+  {
+    "id": "hunters-alejandro-vallejo-garcia",
+    "teamId": "hunters",
+    "name": "Alejandro Vallejo García",
+    "number": 9,
+    "position": "LB/RB",
+    "height": "1.70 m",
+    "weight": 192,
+    "stats": {}
+  },
+  {
+    "id": "hunters-alejandro-vicaria",
+    "teamId": "hunters",
+    "name": "Alejandro Vicaria",
+    "number": 93,
+    "position": "DL/TE",
+    "height": "1.73 m",
+    "weight": 187,
+    "stats": {}
+  },
+  {
+    "id": "hunters-alejandro-estrada-agudelo",
+    "teamId": "hunters",
+    "name": "Alejandro Estrada Agudelo",
+    "number": 98,
+    "position": "DL",
+    "height": "1.75 m",
+    "weight": 234,
+    "stats": {}
+  },
+  {
+    "id": "hunters-andres-mauricio-arias",
+    "teamId": "hunters",
+    "name": "Andrés Mauricio Arias",
+    "number": 89,
+    "position": "LB",
+    "height": "1.70 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "hunters-arnold-steven-contreras",
+    "teamId": "hunters",
+    "name": "Arnold Steven Contreras",
+    "number": 78,
+    "position": "OL",
+    "height": "1.70 m",
+    "weight": 309,
+    "stats": {}
+  },
+  {
+    "id": "hunters-byron-ramirez",
+    "teamId": "hunters",
+    "name": "Byron Ramirez",
+    "number": 61,
+    "position": "OL",
+    "height": "1.75 m",
+    "weight": 353,
+    "stats": {}
+  },
+  {
+    "id": "hunters-carlos-arturo-mejia",
+    "teamId": "hunters",
+    "name": "Carlos Arturo Mejía",
+    "number": 15,
+    "position": "WR/FS",
+    "height": "1.90 m",
+    "weight": 198,
+    "stats": {}
+  },
+  {
+    "id": "hunters-carlos-esteban-arango",
+    "teamId": "hunters",
+    "name": "Carlos Esteban Arango",
+    "number": 83,
+    "position": "SS/TE",
+    "height": "1.80 m",
+    "weight": 198,
+    "stats": {}
+  },
+  {
+    "id": "hunters-cesar-soler",
+    "teamId": "hunters",
+    "name": "Cesar Soler",
+    "number": 16,
+    "position": "WR",
+    "height": "1.75 m",
+    "weight": 162,
+    "stats": {}
+  },
+  {
+    "id": "hunters-christopher-esquivel",
+    "teamId": "hunters",
+    "name": "Christopher Esquivel",
+    "number": 88,
+    "position": "FS",
+    "height": "1.70 m",
+    "weight": 160,
+    "stats": {}
+  },
+  {
+    "id": "hunters-daniel-chavarria",
+    "teamId": "hunters",
+    "name": "Daniel Chavarria",
+    "number": 12,
+    "position": "WR/RB",
+    "height": "1.74 m",
+    "weight": 160,
+    "stats": {}
+  },
+  {
+    "id": "hunters-daniel-mora",
+    "teamId": "hunters",
+    "name": "Daniel Mora",
+    "number": 14,
+    "position": "TE/QB/S",
+    "height": "1.85 m",
+    "weight": 216,
+    "stats": {}
+  },
+  {
+    "id": "hunters-daniel-echeverry-cano",
+    "teamId": "hunters",
+    "name": "Daniel Echeverry Cano",
+    "number": 21,
+    "position": "CB",
+    "height": "1.70 m",
+    "weight": 145,
+    "stats": {}
+  },
+  {
+    "id": "hunters-daniel-mazo-gomez",
+    "teamId": "hunters",
+    "name": "Daniel Mazo Gómez",
+    "number": 77,
+    "position": "LB/FB",
+    "height": "1.83 m",
+    "weight": 218,
+    "stats": {}
+  },
+  {
+    "id": "hunters-daniel-stiven-calderon-manco",
+    "teamId": "hunters",
+    "name": "Daniel Stiven Calderon Manco",
+    "number": 73,
+    "position": "OL",
+    "height": "1.80 m",
+    "weight": 298,
+    "stats": {}
+  },
+  {
+    "id": "hunters-david-emch",
+    "teamId": "hunters",
+    "name": "David Emch",
+    "number": 33,
+    "position": "RB/LB",
+    "height": "1.85 m",
+    "weight": 176,
+    "stats": {}
+  },
+  {
+    "id": "hunters-diego-alexander-calderon",
+    "teamId": "hunters",
+    "name": "Diego Alexander Calderón",
+    "number": 55,
+    "position": "LB",
+    "height": "1.78 m",
+    "weight": 209,
+    "stats": {}
+  },
+  {
+    "id": "hunters-esteban-vanegas-ruiz",
+    "teamId": "hunters",
+    "name": "Esteban Vanegas Ruiz",
+    "number": 26,
+    "position": "QB",
+    "height": "1.80 m",
+    "weight": 209,
+    "stats": {}
+  },
+  {
+    "id": "hunters-esteban-roldan",
+    "teamId": "hunters",
+    "name": "Esteban Roldán",
+    "number": 90,
+    "position": "LB",
+    "height": "1.77 m",
+    "weight": 198,
+    "stats": {}
+  },
+  {
+    "id": "hunters-federico-santamaria",
+    "teamId": "hunters",
+    "name": "Federico Santamaria",
+    "number": 69,
+    "position": "OL",
+    "height": "1.97 m",
+    "weight": 287,
+    "stats": {}
+  },
+  {
+    "id": "hunters-felipe-gomez",
+    "teamId": "hunters",
+    "name": "Felipe Gómez",
+    "number": 37,
+    "position": "TE/LB",
+    "height": "1.80 m",
+    "weight": 196,
+    "stats": {}
+  },
+  {
+    "id": "hunters-frank-harrison-atehortua-mazo",
+    "teamId": "hunters",
+    "name": "Frank Harrison Atehortua Mazo",
+    "number": 84,
+    "position": "WR/K",
+    "height": "1.70 m",
+    "weight": 172,
+    "stats": {}
+  },
+  {
+    "id": "hunters-gabriel-alvarez",
+    "teamId": "hunters",
+    "name": "Gabriel Alvarez",
+    "number": 59,
+    "position": "OL",
+    "height": "1.74 m",
+    "weight": 342,
+    "stats": {}
+  },
+  {
+    "id": "hunters-heinz-murillo",
+    "teamId": "hunters",
+    "name": "Heinz Murillo",
+    "number": 23,
+    "position": "DL/LB/TE",
+    "height": "1.87 m",
+    "weight": 220,
+    "stats": {}
+  },
+  {
+    "id": "hunters-ivan-andres-prieto-delgado",
+    "teamId": "hunters",
+    "name": "Iván Andrés Prieto Delgado",
+    "number": 13,
+    "position": "RB/CB",
+    "height": "1.70 m",
+    "weight": 170,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jhonathan-arango",
+    "teamId": "hunters",
+    "name": "Jhonathan Arango",
+    "number": 56,
+    "position": "LB",
+    "height": "1.69 m",
+    "weight": 181,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jorge-andres-mazo",
+    "teamId": "hunters",
+    "name": "Jorge Andrés Mazo",
+    "number": 94,
+    "position": "DL/OL/K",
+    "height": "1.87 m",
+    "weight": 234,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jose-guzman",
+    "teamId": "hunters",
+    "name": "Jose Guzman",
+    "number": 5,
+    "position": "RB/LB",
+    "height": "1.81 m",
+    "weight": 216,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jose-dionisio-guerrero",
+    "teamId": "hunters",
+    "name": "Jose Dionisio Guerrero",
+    "number": 53,
+    "position": "OL/DL",
+    "height": "1.82 m",
+    "weight": 269,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jose-francisco-pardo-munoz",
+    "teamId": "hunters",
+    "name": "José Francisco Pardo Muñoz",
+    "number": 70,
+    "position": "OL",
+    "height": "1.87 m",
+    "weight": 328,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jose-ignacio-david-garcia",
+    "teamId": "hunters",
+    "name": "José Ignacio David García",
+    "number": 10,
+    "position": "SS",
+    "height": "1.70 m",
+    "weight": 161,
+    "stats": {}
+  },
+  {
+    "id": "hunters-jose-luis-bolivar",
+    "teamId": "hunters",
+    "name": "José Luis Bolívar",
+    "number": 40,
+    "position": "CB",
+    "height": "1.63 m",
+    "weight": 141,
+    "stats": {}
+  },
+  {
+    "id": "hunters-juan-camilo-chica-betancur",
+    "teamId": "hunters",
+    "name": "Juan Camilo Chica Betancur",
+    "number": 91,
+    "position": "DL",
+    "height": "1.78 m",
+    "weight": 278,
+    "stats": {}
+  },
+  {
+    "id": "hunters-juan-david-flores",
+    "teamId": "hunters",
+    "name": "Juan David Flores",
+    "number": 99,
+    "position": "DL",
+    "height": "1.76 m",
+    "weight": 231,
+    "stats": {}
+  },
+  {
+    "id": "hunters-julian-rueda",
+    "teamId": "hunters",
+    "name": "Julián Rueda",
+    "number": 18,
+    "position": "WR",
+    "height": "1.75 m",
+    "weight": 146,
+    "stats": {}
+  },
+  {
+    "id": "hunters-kelvin-david-florez-hernandez",
+    "teamId": "hunters",
+    "name": "Kelvin David Flórez Hernández",
+    "number": 30,
+    "position": "RB",
+    "height": "1.80 m",
+    "weight": 165,
+    "stats": {}
+  },
+  {
+    "id": "hunters-luis-fernando-londono-alzate",
+    "teamId": "hunters",
+    "name": "Luis Fernando Londoño Álzate",
+    "number": 71,
+    "position": "OL",
+    "height": "1.84 m",
+    "weight": 265,
+    "stats": {}
+  },
+  {
+    "id": "hunters-mario-godinez-arias",
+    "teamId": "hunters",
+    "name": "Mario Godinez Arias",
+    "number": 29,
+    "position": "FS/WR",
+    "height": "1.87 m",
+    "weight": 162,
+    "stats": {}
+  },
+  {
+    "id": "hunters-max-quiroz",
+    "teamId": "hunters",
+    "name": "Max Quiroz",
+    "number": 31,
+    "position": "RB/LB",
+    "height": "1.80 m",
+    "weight": 276,
+    "stats": {}
+  },
+  {
+    "id": "hunters-omar-osiris-azcona",
+    "teamId": "hunters",
+    "name": "Omar Osiris Azcona",
+    "number": 48,
+    "position": "DL",
+    "height": "1.78 m",
+    "weight": 176,
+    "stats": {}
+  },
+  {
+    "id": "hunters-santiago-martinez-gomez",
+    "teamId": "hunters",
+    "name": "Santiago Martínez Gómez",
+    "number": 97,
+    "position": "DL/OL/FB",
+    "height": "1.90 m",
+    "weight": 287,
+    "stats": {}
+  },
+  {
+    "id": "hunters-uber-alexander-gomez",
+    "teamId": "hunters",
+    "name": "Uber Alexander Gómez",
+    "number": 79,
+    "position": "OL",
+    "height": "1.86 m",
+    "weight": 271,
+    "stats": {}
+  },
+  {
+    "id": "raptors-andrew-gomez",
+    "teamId": "raptors",
+    "name": "Andrew Gomez",
+    "number": 45,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-angel-flores",
+    "teamId": "raptors",
+    "name": "Angel Flores",
+    "number": 35,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-antonio-guerra",
+    "teamId": "raptors",
+    "name": "Antonio Guerra",
+    "number": 1,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-augusto-vega",
+    "teamId": "raptors",
+    "name": "Augusto Vega",
+    "number": 16,
+    "position": "QB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-benedith-veliz",
+    "teamId": "raptors",
+    "name": "Benedith Veliz",
+    "number": 17,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-boris-gonzalez",
+    "teamId": "raptors",
+    "name": "Boris Gonzalez",
+    "number": 0,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-bryan-martez",
+    "teamId": "raptors",
+    "name": "Bryan Martez",
+    "number": 22,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-carlos-flores",
+    "teamId": "raptors",
+    "name": "Carlos Flores",
+    "number": 18,
+    "position": "QB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-carlos-garcia",
+    "teamId": "raptors",
+    "name": "Carlos Garcia",
+    "number": 53,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-cristian-espinoza-jr",
+    "teamId": "raptors",
+    "name": "Cristian Espinoza Jr.",
+    "number": 4,
+    "position": "WR/RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-deniel-tejada",
+    "teamId": "raptors",
+    "name": "Deniel Tejada",
+    "number": 82,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-edgar-gonzalez",
+    "teamId": "raptors",
+    "name": "Edgar González",
+    "number": 70,
+    "position": "OL/C",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-edgar-gil",
+    "teamId": "raptors",
+    "name": "Edgar Gil",
+    "number": 62,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-edgar-noel",
+    "teamId": "raptors",
+    "name": "Edgar Noel",
+    "number": 95,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-eduardo-augustine",
+    "teamId": "raptors",
+    "name": "Eduardo Augustine",
+    "number": 12,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-eduardo-vergara",
+    "teamId": "raptors",
+    "name": "Eduardo Vergara",
+    "number": 29,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-eduardo-sanchez",
+    "teamId": "raptors",
+    "name": "Eduardo Sanchez",
+    "number": 46,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-erick-pineda",
+    "teamId": "raptors",
+    "name": "Erick Pineda",
+    "number": 63,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-erick-tem",
+    "teamId": "raptors",
+    "name": "Erick Tem",
+    "number": 36,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-ernesto-herrera",
+    "teamId": "raptors",
+    "name": "Ernesto Herrera",
+    "number": 55,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-felix-garcia",
+    "teamId": "raptors",
+    "name": "Félix García",
+    "number": 52,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-felix-moreno",
+    "teamId": "raptors",
+    "name": "Felix Moreno",
+    "number": 77,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-fernando-newball",
+    "teamId": "raptors",
+    "name": "Fernando Newball",
+    "number": 68,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-guillermo-torres",
+    "teamId": "raptors",
+    "name": "Guillermo Torres",
+    "number": 50,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jair-mairena",
+    "teamId": "raptors",
+    "name": "Jair Mairena",
+    "number": 0,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jarod-miranda",
+    "teamId": "raptors",
+    "name": "Jarod Miranda",
+    "number": 7,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jean-fernandez",
+    "teamId": "raptors",
+    "name": "jean Fernandez",
+    "number": 23,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jonathan-jaramillo",
+    "teamId": "raptors",
+    "name": "Jonathan Jaramillo",
+    "number": 27,
+    "position": "DB/WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jorge-rosas",
+    "teamId": "raptors",
+    "name": "Jorge Rosas",
+    "number": 8,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jorge-cordoba",
+    "teamId": "raptors",
+    "name": "Jorge Córdoba",
+    "number": 21,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jose-rodriguez",
+    "teamId": "raptors",
+    "name": "Jose Rodríguez",
+    "number": 19,
+    "position": "DB/WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jose-murillo",
+    "teamId": "raptors",
+    "name": "Jose Murillo",
+    "number": 87,
+    "position": "WR/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jose-rodas",
+    "teamId": "raptors",
+    "name": "Jose Rodas",
+    "number": 98,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jose-arauz",
+    "teamId": "raptors",
+    "name": "Jose Arauz",
+    "number": 20,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-jose-rojo",
+    "teamId": "raptors",
+    "name": "Jose Rojo",
+    "number": 57,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-kenrick-belgrave",
+    "teamId": "raptors",
+    "name": "Kenrick Belgrave",
+    "number": 31,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-luis-molinar",
+    "teamId": "raptors",
+    "name": "Luis Molinar",
+    "number": 10,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-luis-gonzalez",
+    "teamId": "raptors",
+    "name": "Luis González",
+    "number": 78,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-marcos-mendoza",
+    "teamId": "raptors",
+    "name": "Marcos Mendoza",
+    "number": 5,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-mario-batista",
+    "teamId": "raptors",
+    "name": "Mario Batista",
+    "number": 94,
+    "position": "LB/DE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-marquinho-ponce",
+    "teamId": "raptors",
+    "name": "Marquinho Ponce",
+    "number": 96,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-omar-roman",
+    "teamId": "raptors",
+    "name": "Omar Roman",
+    "number": 79,
+    "position": "DL/OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-oscar-jimenez",
+    "teamId": "raptors",
+    "name": "Oscar Jimenez",
+    "number": 6,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-rodney-christopher",
+    "teamId": "raptors",
+    "name": "Rodney Christopher",
+    "number": 3,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-rodrigo-tejeira",
+    "teamId": "raptors",
+    "name": "Rodrigo Tejeira",
+    "number": 9,
+    "position": "QB/WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-ronald-flores",
+    "teamId": "raptors",
+    "name": "Ronald Flores",
+    "number": 28,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-samir-elliot",
+    "teamId": "raptors",
+    "name": "Samir Elliot",
+    "number": 24,
+    "position": "DB/WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-samuel-cuevas",
+    "teamId": "raptors",
+    "name": "Samuel Cuevas",
+    "number": 14,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-stewart-guzman",
+    "teamId": "raptors",
+    "name": "Stewart Guzman",
+    "number": 25,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-vaungh-husband",
+    "teamId": "raptors",
+    "name": "Vaungh Husband",
+    "number": 74,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-victor-anchundia",
+    "teamId": "raptors",
+    "name": "Victor Anchundia",
+    "number": 26,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-xavier-ramos",
+    "teamId": "raptors",
+    "name": "Xavier Ramos",
+    "number": 11,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "raptors-yossuet-murillo",
+    "teamId": "raptors",
+    "name": "Yossuet Murillo",
+    "number": 58,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-alexander-alvarado",
+    "teamId": "saints",
+    "name": "Alexander Alvarado",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-andres-arias",
+    "teamId": "saints",
+    "name": "Andres Arias",
+    "number": 0,
+    "position": "SF/LB/CB",
+    "height": "1.80 m",
+    "weight": 165,
+    "stats": {}
+  },
+  {
+    "id": "saints-eduardo-arrue",
+    "teamId": "saints",
+    "name": "Eduardo Arrue",
+    "number": 33,
+    "position": "DB/WR",
+    "height": "1.73 m",
+    "weight": 158,
+    "stats": {}
+  },
+  {
+    "id": "saints-luis-ayala",
+    "teamId": "saints",
+    "name": "Luis Ayala",
+    "number": 52,
+    "position": "OL/DL",
+    "height": "1.82 m",
+    "weight": 280,
+    "stats": {}
+  },
+  {
+    "id": "saints-angel-bonilla",
+    "teamId": "saints",
+    "name": "Angel Bonilla",
+    "number": 72,
+    "position": "LG",
+    "height": "1.76 m",
+    "weight": 275,
+    "stats": {}
+  },
+  {
+    "id": "saints-ian-caballero",
+    "teamId": "saints",
+    "name": "Ian Caballero",
+    "number": 5,
+    "position": "CB",
+    "height": "1.65 m",
+    "weight": 145,
+    "stats": {}
+  },
+  {
+    "id": "saints-sebastian-calvo",
+    "teamId": "saints",
+    "name": "Sebastian Calvo",
+    "number": 2,
+    "position": "WR/RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-irving-castaneda",
+    "teamId": "saints",
+    "name": "Irving Castañeda",
+    "number": 60,
+    "position": "OL",
+    "height": "1.85 m",
+    "weight": 350,
+    "stats": {}
+  },
+  {
+    "id": "saints-james-clark",
+    "teamId": "saints",
+    "name": "James Clark",
+    "number": 77,
+    "position": "DT",
+    "height": "1.70 m",
+    "weight": 219,
+    "stats": {}
+  },
+  {
+    "id": "saints-alberto-cortes",
+    "teamId": "saints",
+    "name": "Alberto Cortes",
+    "number": 69,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-fernando-de-la-ossa",
+    "teamId": "saints",
+    "name": "Fernando De La Ossa",
+    "number": 76,
+    "position": "DL/OL",
+    "height": "1.71 m",
+    "weight": 225,
+    "stats": {}
+  },
+  {
+    "id": "saints-alexander-diaz",
+    "teamId": "saints",
+    "name": "Alexander Diaz",
+    "number": 27,
+    "position": "DB/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-antonio-diaz",
+    "teamId": "saints",
+    "name": "Antonio Diaz",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-giovanni-esoinosa",
+    "teamId": "saints",
+    "name": "Giovanni Esoinosa",
+    "number": 35,
+    "position": "RB",
+    "height": "1.75 m",
+    "weight": 236,
+    "stats": {}
+  },
+  {
+    "id": "saints-gabriel-espino",
+    "teamId": "saints",
+    "name": "Gabriel Espino",
+    "number": 92,
+    "position": "DL/OL",
+    "height": "1.81 m",
+    "weight": 245,
+    "stats": {}
+  },
+  {
+    "id": "saints-manuel-gil",
+    "teamId": "saints",
+    "name": "Manuel Gil",
+    "number": 25,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-jose-luis-gonzalez",
+    "teamId": "saints",
+    "name": "Jose luis González",
+    "number": 15,
+    "position": "WR/RB",
+    "height": "1.75 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "saints-tomas-gonzalez",
+    "teamId": "saints",
+    "name": "Tomás González",
+    "number": 68,
+    "position": "DL/OL",
+    "height": "1.80 m",
+    "weight": 270,
+    "stats": {}
+  },
+  {
+    "id": "saints-aristides-gonzalez",
+    "teamId": "saints",
+    "name": "Arístides González",
+    "number": 10,
+    "position": "WR/CB",
+    "height": "1.77 m",
+    "weight": 167,
+    "stats": {}
+  },
+  {
+    "id": "saints-joseph-gonzaque",
+    "teamId": "saints",
+    "name": "Joseph Gonzaque",
+    "number": 54,
+    "position": "DT",
+    "height": "1.76 m",
+    "weight": 245,
+    "stats": {}
+  },
+  {
+    "id": "saints-aldair-guadamuz",
+    "teamId": "saints",
+    "name": "Aldair Guadamuz",
+    "number": 24,
+    "position": "CB",
+    "height": "1.83 m",
+    "weight": 185,
+    "stats": {}
+  },
+  {
+    "id": "saints-gerardo-guerra",
+    "teamId": "saints",
+    "name": "Gerardo Guerra",
+    "number": 70,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-jaime-jiron",
+    "teamId": "saints",
+    "name": "Jaime Jiron",
+    "number": 0,
+    "position": "DL/LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-josef-kleba",
+    "teamId": "saints",
+    "name": "Josef Kleba",
+    "number": 13,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-ethan-lloyd",
+    "teamId": "saints",
+    "name": "Ethan Lloyd",
+    "number": 2,
+    "position": "RB",
+    "height": "1.70 m",
+    "weight": 180,
+    "stats": {}
+  },
+  {
+    "id": "saints-ricardo-manfre",
+    "teamId": "saints",
+    "name": "Ricardo Manfre",
+    "number": 71,
+    "position": "DE",
+    "height": "1.75 m",
+    "weight": 220,
+    "stats": {}
+  },
+  {
+    "id": "saints-ernesto-marcel",
+    "teamId": "saints",
+    "name": "Ernesto Marcel",
+    "number": 0,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-william-martinez",
+    "teamId": "saints",
+    "name": "William Martinez",
+    "number": 58,
+    "position": "OL/LB",
+    "height": "1.70 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "saints-kevin-martinez",
+    "teamId": "saints",
+    "name": "Kevin Martínez",
+    "number": 29,
+    "position": "FB/RB",
+    "height": "1.73 m",
+    "weight": 220,
+    "stats": {}
+  },
+  {
+    "id": "saints-joaquin-melgar",
+    "teamId": "saints",
+    "name": "Joaquin Melgar",
+    "number": 55,
+    "position": "OL/DL",
+    "height": "1.70 m",
+    "weight": 250,
+    "stats": {}
+  },
+  {
+    "id": "saints-alcibiades-mendez",
+    "teamId": "saints",
+    "name": "Alcibiades Mendez",
+    "number": 14,
+    "position": "WR/RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-jose-mexil",
+    "teamId": "saints",
+    "name": "Jose Mexil",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-tomas-middleton",
+    "teamId": "saints",
+    "name": "Tomas Middleton",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-marc-morales",
+    "teamId": "saints",
+    "name": "Marc Morales",
+    "number": 78,
+    "position": "OL/DL",
+    "height": "1.80 m",
+    "weight": 250,
+    "stats": {}
+  },
+  {
+    "id": "saints-anthony-morales",
+    "teamId": "saints",
+    "name": "Anthony Morales",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-alvis-moreno",
+    "teamId": "saints",
+    "name": "Alvis Moreno",
+    "number": 5,
+    "position": "FB",
+    "height": "1.75 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "saints-aimar-othon",
+    "teamId": "saints",
+    "name": "Aimar Othon",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-josu-paz",
+    "teamId": "saints",
+    "name": "Josu Paz",
+    "number": 17,
+    "position": "QB/RB/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-carlos-peregrina",
+    "teamId": "saints",
+    "name": "Carlos Peregrina",
+    "number": 7,
+    "position": "QB",
+    "height": "1.91 m",
+    "weight": 200,
+    "stats": {}
+  },
+  {
+    "id": "saints-cristian-pernia",
+    "teamId": "saints",
+    "name": "Cristian Pernia",
+    "number": 99,
+    "position": "DE",
+    "height": "1.83 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "saints-enrique-phillips",
+    "teamId": "saints",
+    "name": "Enrique Phillips",
+    "number": 34,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-kevin-pimentel",
+    "teamId": "saints",
+    "name": "Kevin Pimentel",
+    "number": 19,
+    "position": "CB",
+    "height": "1.70 m",
+    "weight": 165,
+    "stats": {}
+  },
+  {
+    "id": "saints-andres-quintero",
+    "teamId": "saints",
+    "name": "Andrés Quintero",
+    "number": 91,
+    "position": "DL",
+    "height": "1.83 m",
+    "weight": 230,
+    "stats": {}
+  },
+  {
+    "id": "saints-gaspar-ramos",
+    "teamId": "saints",
+    "name": "Gaspar Ramos",
+    "number": 11,
+    "position": "QB/RB/DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-jofiel-roger",
+    "teamId": "saints",
+    "name": "Jofiel Roger",
+    "number": 0,
+    "position": "",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-erick-rudas",
+    "teamId": "saints",
+    "name": "Erick Rudas",
+    "number": 42,
+    "position": "LB/DE",
+    "height": "1.80 m",
+    "weight": 230,
+    "stats": {}
+  },
+  {
+    "id": "saints-pacifico-saavedra",
+    "teamId": "saints",
+    "name": "Pacifico Saavedra",
+    "number": 53,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-jonatan-torres",
+    "teamId": "saints",
+    "name": "Jonatan Torres",
+    "number": 28,
+    "position": "LB",
+    "height": "1.75 m",
+    "weight": 220,
+    "stats": {}
+  },
+  {
+    "id": "saints-enox-urena",
+    "teamId": "saints",
+    "name": "Enox Ureña",
+    "number": 9,
+    "position": "WR",
+    "height": "1.80 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "saints-rene-valdes",
+    "teamId": "saints",
+    "name": "Rene Valdes",
+    "number": 23,
+    "position": "LB/TE/CB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-david-valdes",
+    "teamId": "saints",
+    "name": "David Valdes",
+    "number": 32,
+    "position": "FB/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-jaime-valdes",
+    "teamId": "saints",
+    "name": "Jaime Valdes",
+    "number": 1,
+    "position": "WR/CB",
+    "height": "1.80 m",
+    "weight": 182,
+    "stats": {}
+  },
+  {
+    "id": "saints-julio-valencia",
+    "teamId": "saints",
+    "name": "Julio Valencia",
+    "number": 22,
+    "position": "WR/TE",
+    "height": "1.73 m",
+    "weight": 200,
+    "stats": {}
+  },
+  {
+    "id": "saints-irving-vasquez",
+    "teamId": "saints",
+    "name": "Irving Vásquez",
+    "number": 53,
+    "position": "DT",
+    "height": "1.67 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "saints-alejandro-watson",
+    "teamId": "saints",
+    "name": "Alejandro Watson",
+    "number": 12,
+    "position": "QB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "saints-ricardo-young",
+    "teamId": "saints",
+    "name": "Ricardo Young",
+    "number": 56,
+    "position": "OL/DL",
+    "height": "1.85 m",
+    "weight": 255,
+    "stats": {}
+  },
+  {
+    "id": "saints-clyde-zuniga",
+    "teamId": "saints",
+    "name": "Clyde Zuñiga",
+    "number": 0,
+    "position": "OL/DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "tigers-aaron-verdeguez",
+    "teamId": "tigers",
+    "name": "Aaron Verdeguez",
+    "number": 47,
+    "position": "LB 9 TECHNIQUE",
+    "height": "1.74 m",
+    "weight": 230,
+    "stats": {}
+  },
+  {
+    "id": "tigers-aaron-barahona",
+    "teamId": "tigers",
+    "name": "Aaron Barahona",
+    "number": 21,
+    "position": "CB",
+    "height": "1.73 m",
+    "weight": 163,
+    "stats": {}
+  },
+  {
+    "id": "tigers-adalberto-mordock",
+    "teamId": "tigers",
+    "name": "Adalberto Mordock",
+    "number": 3,
+    "position": "TE",
+    "height": "1.91 m",
+    "weight": 275,
+    "stats": {}
+  },
+  {
+    "id": "tigers-adrian-angarita",
+    "teamId": "tigers",
+    "name": "Adrian Angarita",
+    "number": 64,
+    "position": "OL",
+    "height": "1.87 m",
+    "weight": 324,
+    "stats": {}
+  },
+  {
+    "id": "tigers-aldair-coya",
+    "teamId": "tigers",
+    "name": "Aldair Coya",
+    "number": 98,
+    "position": "EDGE",
+    "height": "1.80 m",
+    "weight": 240,
+    "stats": {}
+  },
+  {
+    "id": "tigers-alejandro-ruiz",
+    "teamId": "tigers",
+    "name": "Alejandro Ruiz",
+    "number": 85,
+    "position": "DE, OL",
+    "height": "1.70 m",
+    "weight": 200,
+    "stats": {}
+  },
+  {
+    "id": "tigers-alejandro-cedeno",
+    "teamId": "tigers",
+    "name": "Alejandro Cedeño",
+    "number": 92,
+    "position": "LB",
+    "height": "1.78 m",
+    "weight": 223,
+    "stats": {}
+  },
+  {
+    "id": "tigers-alexander-verdeguez",
+    "teamId": "tigers",
+    "name": "Alexander Verdeguez",
+    "number": 43,
+    "position": "D-LÍNE",
+    "height": "1.71 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "tigers-alexander-valentin",
+    "teamId": "tigers",
+    "name": "Alexander Valentín",
+    "number": 22,
+    "position": "RB-SR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "tigers-andres-zambrano",
+    "teamId": "tigers",
+    "name": "Andres Zambrano",
+    "number": 12,
+    "position": "S",
+    "height": "1.79 m",
+    "weight": 184,
+    "stats": {}
+  },
+  {
+    "id": "tigers-carlos-fernandez",
+    "teamId": "tigers",
+    "name": "Carlos Fernandez",
+    "number": 50,
+    "position": "CENTER",
+    "height": "1.78 m",
+    "weight": 280,
+    "stats": {}
+  },
+  {
+    "id": "tigers-carlos-polo",
+    "teamId": "tigers",
+    "name": "Carlos Polo",
+    "number": 51,
+    "position": "OL",
+    "height": "1.80 m",
+    "weight": 225,
+    "stats": {}
+  },
+  {
+    "id": "tigers-cesar-calvo",
+    "teamId": "tigers",
+    "name": "Cesar Calvo",
+    "number": 61,
+    "position": "OL/DL",
+    "height": "1.84 m",
+    "weight": 245,
+    "stats": {}
+  },
+  {
+    "id": "tigers-cristian-restrepo",
+    "teamId": "tigers",
+    "name": "Cristian Restrepo",
+    "number": 16,
+    "position": "QB/WR",
+    "height": "1.85 m",
+    "weight": 183,
+    "stats": {}
+  },
+  {
+    "id": "tigers-daniel-sanchez",
+    "teamId": "tigers",
+    "name": "Daniel Sanchez",
+    "number": 24,
+    "position": "STRONG SAFETY",
+    "height": "1.79 m",
+    "weight": 185,
+    "stats": {}
+  },
+  {
+    "id": "tigers-daniel-arosemena",
+    "teamId": "tigers",
+    "name": "Daniel Arosemena",
+    "number": 90,
+    "position": "DE",
+    "height": "1.70 m",
+    "weight": 190,
+    "stats": {}
+  },
+  {
+    "id": "tigers-d-jilmar-jimenez",
+    "teamId": "tigers",
+    "name": "D'Jilmar Jiménez",
+    "number": 88,
+    "position": "LB/RB/FB",
+    "height": "1.73 m",
+    "weight": 180,
+    "stats": {}
+  },
+  {
+    "id": "tigers-edgar-dean",
+    "teamId": "tigers",
+    "name": "Edgar Dean",
+    "number": 89,
+    "position": "WR, DB",
+    "height": "1.95 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "tigers-edgard-guerra",
+    "teamId": "tigers",
+    "name": "Edgard Guerra",
+    "number": 14,
+    "position": "CB",
+    "height": "1.69 m",
+    "weight": 135,
+    "stats": {}
+  },
+  {
+    "id": "tigers-edgardo-vega",
+    "teamId": "tigers",
+    "name": "Edgardo Vega",
+    "number": 1,
+    "position": "WR-CB",
+    "height": "1.75 m",
+    "weight": 170,
+    "stats": {}
+  },
+  {
+    "id": "tigers-elix-peralta",
+    "teamId": "tigers",
+    "name": "Elix Peralta",
+    "number": 15,
+    "position": "TE, RB",
+    "height": "1.79 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "tigers-erick-asprilla",
+    "teamId": "tigers",
+    "name": "Erick Asprilla",
+    "number": 8,
+    "position": "WR, DB",
+    "height": "1.73 m",
+    "weight": 164,
+    "stats": {}
+  },
+  {
+    "id": "tigers-francisco-saldivar",
+    "teamId": "tigers",
+    "name": "Francisco Saldivar",
+    "number": 2,
+    "position": "FREESAFETY/WR",
+    "height": "1.75 m",
+    "weight": 160,
+    "stats": {}
+  },
+  {
+    "id": "tigers-gabriel-de-puente",
+    "teamId": "tigers",
+    "name": "Gabriel De Puente",
+    "number": 7,
+    "position": "LB, DE, TD, RB",
+    "height": "1.79 m",
+    "weight": 205,
+    "stats": {}
+  },
+  {
+    "id": "tigers-ian-de-leon",
+    "teamId": "tigers",
+    "name": "Ian De León",
+    "number": 10,
+    "position": "WR/DB",
+    "height": "1.65 m",
+    "weight": 135,
+    "stats": {}
+  },
+  {
+    "id": "tigers-ismael-valdes",
+    "teamId": "tigers",
+    "name": "Ismael Valdes",
+    "number": 25,
+    "position": "DT",
+    "height": "1.80 m",
+    "weight": 238,
+    "stats": {}
+  },
+  {
+    "id": "tigers-ivan-garcia",
+    "teamId": "tigers",
+    "name": "Ivan Garcia",
+    "number": 78,
+    "position": "DE",
+    "height": "1.78 m",
+    "weight": 175,
+    "stats": {}
+  },
+  {
+    "id": "tigers-jesus-lasso",
+    "teamId": "tigers",
+    "name": "Jesus Lasso",
+    "number": 79,
+    "position": "OL",
+    "height": "1.82 m",
+    "weight": 255,
+    "stats": {}
+  },
+  {
+    "id": "tigers-jorge-paredes",
+    "teamId": "tigers",
+    "name": "Jorge Paredes",
+    "number": 9,
+    "position": "WING BACK",
+    "height": "1.67 m",
+    "weight": 156,
+    "stats": {}
+  },
+  {
+    "id": "tigers-jorge-guzman",
+    "teamId": "tigers",
+    "name": "Jorge Guzman",
+    "number": 34,
+    "position": "RB",
+    "height": "1.69 m",
+    "weight": 160,
+    "stats": {}
+  },
+  {
+    "id": "tigers-jose-gomez",
+    "teamId": "tigers",
+    "name": "Jose Gomez",
+    "number": 13,
+    "position": "RB",
+    "height": "1.67 m",
+    "weight": 215,
+    "stats": {}
+  },
+  {
+    "id": "tigers-josefrank-requena",
+    "teamId": "tigers",
+    "name": "JoseFrank Requena",
+    "number": 19,
+    "position": "WR",
+    "height": "1.78 m",
+    "weight": 158,
+    "stats": {}
+  },
+  {
+    "id": "tigers-josue-bosquez",
+    "teamId": "tigers",
+    "name": "Josue Bosquez",
+    "number": 0,
+    "position": "WR, RB, SF",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "tigers-juan-vega",
+    "teamId": "tigers",
+    "name": "Juan Vega",
+    "number": 11,
+    "position": "CB/WR/S",
+    "height": "1.74 m",
+    "weight": 174,
+    "stats": {}
+  },
+  {
+    "id": "tigers-juan-villarreal",
+    "teamId": "tigers",
+    "name": "Juan Villarreal",
+    "number": 55,
+    "position": "DE, OT",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "tigers-juan-diego-martinez",
+    "teamId": "tigers",
+    "name": "Juan Diego Martinez",
+    "number": 6,
+    "position": "DE",
+    "height": "1.71 m",
+    "weight": 210,
+    "stats": {}
+  },
+  {
+    "id": "tigers-kenneth-gavidia",
+    "teamId": "tigers",
+    "name": "Kenneth Gavidia",
+    "number": 28,
+    "position": "WR/RB/CB",
+    "height": "1.83 m",
+    "weight": 195,
+    "stats": {}
+  },
+  {
+    "id": "tigers-luis-rios",
+    "teamId": "tigers",
+    "name": "Luis Rìos",
+    "number": 97,
+    "position": "OL/DL",
+    "height": "1.86 m",
+    "weight": 260,
+    "stats": {}
+  },
+  {
+    "id": "tigers-luis-perez",
+    "teamId": "tigers",
+    "name": "Luis Pérez",
+    "number": 17,
+    "position": "RB/LB",
+    "height": "1.73 m",
+    "weight": 183,
+    "stats": {}
+  },
+  {
+    "id": "tigers-luis-eduardo-guaylupo",
+    "teamId": "tigers",
+    "name": "Luis Eduardo Guaylupo",
+    "number": 33,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "tigers-miguel-sanchez",
+    "teamId": "tigers",
+    "name": "Miguel Sanchez",
+    "number": 26,
+    "position": "DE",
+    "height": "1.79 m",
+    "weight": 220,
+    "stats": {}
+  },
+  {
+    "id": "tigers-nicholas-santamaria",
+    "teamId": "tigers",
+    "name": "Nicholas Santamaria",
+    "number": 73,
+    "position": "TACKLE IZQUIERDO",
+    "height": "1.86 m",
+    "weight": 245,
+    "stats": {}
+  },
+  {
+    "id": "tigers-omar-henry",
+    "teamId": "tigers",
+    "name": "Omar Henry",
+    "number": 4,
+    "position": "WR, RB, CB",
+    "height": "1.85 m",
+    "weight": 195,
+    "stats": {}
+  },
+  {
+    "id": "tigers-robert-carrillo",
+    "teamId": "tigers",
+    "name": "Robert Carrillo",
+    "number": 54,
+    "position": "OGUARDDERECHO",
+    "height": "1.80 m",
+    "weight": 350,
+    "stats": {}
+  },
+  {
+    "id": "tigers-roberto-selman",
+    "teamId": "tigers",
+    "name": "Roberto Selman",
+    "number": 29,
+    "position": "WR",
+    "height": "1.76 m",
+    "weight": 189,
+    "stats": {}
+  },
+  {
+    "id": "tigers-ronaldo-gudino",
+    "teamId": "tigers",
+    "name": "Ronaldo Gudiño",
+    "number": 53,
+    "position": "OL, DL",
+    "height": "1.90 m",
+    "weight": 250,
+    "stats": {}
+  },
+  {
+    "id": "tigers-tomas-sanchez",
+    "teamId": "tigers",
+    "name": "Tomas Sanchez",
+    "number": 72,
+    "position": "DT",
+    "height": "1.90 m",
+    "weight": 245,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-aaron-rodriguez",
+    "teamId": "wolfpack",
+    "name": "Aaron Rodríguez",
+    "number": 76,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-alejandro-morales",
+    "teamId": "wolfpack",
+    "name": "Alejandro Morales",
+    "number": 54,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-andrei-gonzalez",
+    "teamId": "wolfpack",
+    "name": "Andrei González",
+    "number": 29,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-angelo-gonzalez",
+    "teamId": "wolfpack",
+    "name": "Angelo Gonzalez",
+    "number": 96,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-anthony-godoy",
+    "teamId": "wolfpack",
+    "name": "Anthony Godoy",
+    "number": 86,
+    "position": "TE",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-ariel-villamil",
+    "teamId": "wolfpack",
+    "name": "Ariel Villamil",
+    "number": 14,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-arturo-de-gracia",
+    "teamId": "wolfpack",
+    "name": "Arturo De Gracia",
+    "number": 77,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-benito-belgrave",
+    "teamId": "wolfpack",
+    "name": "Benito Belgrave",
+    "number": 55,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-bruno-hernandez",
+    "teamId": "wolfpack",
+    "name": "Bruno Hernández",
+    "number": 7,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-calvin-alexis",
+    "teamId": "wolfpack",
+    "name": "Calvin Alexis",
+    "number": 95,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-carlos-waldron",
+    "teamId": "wolfpack",
+    "name": "Carlos Waldron",
+    "number": 12,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-carlos-padron",
+    "teamId": "wolfpack",
+    "name": "Carlos Padron",
+    "number": 62,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-christian-herrera",
+    "teamId": "wolfpack",
+    "name": "Christian Herrera",
+    "number": 50,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-david-mulgrave",
+    "teamId": "wolfpack",
+    "name": "David Mulgrave",
+    "number": 6,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-david-gonzalez",
+    "teamId": "wolfpack",
+    "name": "David González",
+    "number": 13,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-d-brayan-preudhomme",
+    "teamId": "wolfpack",
+    "name": "D'Brayan Preudhomme",
+    "number": 18,
+    "position": "QB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-dulcidio-gonzalez",
+    "teamId": "wolfpack",
+    "name": "Dulcidio González",
+    "number": 1,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-eduardo-martinez",
+    "teamId": "wolfpack",
+    "name": "Eduardo Martinez",
+    "number": 32,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-emmanuel-hernadez",
+    "teamId": "wolfpack",
+    "name": "Emmanuel Hernadez",
+    "number": 0,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-enrique-myles",
+    "teamId": "wolfpack",
+    "name": "Enrique Myles",
+    "number": 71,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-ezra-drakes",
+    "teamId": "wolfpack",
+    "name": "Ezra Drakes",
+    "number": 31,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-felipe-fernandez",
+    "teamId": "wolfpack",
+    "name": "Felipe Fernández",
+    "number": 8,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-fermin-escobar",
+    "teamId": "wolfpack",
+    "name": "Fermin Escobar",
+    "number": 16,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-fernando-arias",
+    "teamId": "wolfpack",
+    "name": "Fernando Arias",
+    "number": 34,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-fernando-dimares",
+    "teamId": "wolfpack",
+    "name": "Fernando Dimares",
+    "number": 56,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-francisco-aparicio",
+    "teamId": "wolfpack",
+    "name": "Francisco Aparicio",
+    "number": 33,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-frank-thomas",
+    "teamId": "wolfpack",
+    "name": "Frank Thomas",
+    "number": 43,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-guillermo-chu",
     "teamId": "wolfpack",
     "name": "Guillermo Chu",
     "number": 22,
     "position": "WR",
-    "height": "175 cm",
-    "weight": 175,
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-jaabar-anglin",
+    "teamId": "wolfpack",
+    "name": "Jaabar Anglin",
+    "number": 80,
+    "position": "LB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-jean-carlos-gonzalez",
+    "teamId": "wolfpack",
+    "name": "Jean Carlos González",
+    "number": 63,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-jesus-reyes",
+    "teamId": "wolfpack",
+    "name": "Jesus Reyes",
+    "number": 44,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-jonathan-polo",
+    "teamId": "wolfpack",
+    "name": "Jonathan Polo",
+    "number": 17,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-jonathan-romero",
+    "teamId": "wolfpack",
+    "name": "Jonathan Romero",
+    "number": 97,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-john-herndon",
+    "teamId": "wolfpack",
+    "name": "John Herndon",
+    "number": 90,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-jose-arauz",
+    "teamId": "wolfpack",
+    "name": "José Araúz",
+    "number": 65,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-julio-cerrud",
+    "teamId": "wolfpack",
+    "name": "Julio Cerrud",
+    "number": 2,
+    "position": "K",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-kevin-villalba",
+    "teamId": "wolfpack",
+    "name": "Kevin Villalba",
+    "number": 72,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-kevin-castillo",
+    "teamId": "wolfpack",
+    "name": "Kevin Castillo",
+    "number": 85,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-kevin-ballestero",
+    "teamId": "wolfpack",
+    "name": "Kevin Ballestero",
+    "number": 37,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-michael-muller",
+    "teamId": "wolfpack",
+    "name": "Michael Muller",
+    "number": 57,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-mike-garcia",
+    "teamId": "wolfpack",
+    "name": "Mike Garcia",
+    "number": 59,
+    "position": "OL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-misael-alvarez",
+    "teamId": "wolfpack",
+    "name": "Misael Alvarez",
+    "number": 23,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-noel-gonzalez",
+    "teamId": "wolfpack",
+    "name": "Noel Gonzalez",
+    "number": 51,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-oswald-martinez",
+    "teamId": "wolfpack",
+    "name": "Oswald Martinez",
+    "number": 10,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-ovidio-espino",
+    "teamId": "wolfpack",
+    "name": "Ovidio Espino",
+    "number": 42,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-pedro-brin",
+    "teamId": "wolfpack",
+    "name": "Pedro Brin",
+    "number": 27,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-rafael-borges",
+    "teamId": "wolfpack",
+    "name": "Rafael Borges",
+    "number": 3,
+    "position": "RB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-raul-mata",
+    "teamId": "wolfpack",
+    "name": "Raúl Mata",
+    "number": 73,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-ricardo-rampay",
+    "teamId": "wolfpack",
+    "name": "Ricardo Rampay",
+    "number": 9,
+    "position": "WR",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-rodrigo-acevedo",
+    "teamId": "wolfpack",
+    "name": "Rodrigo Acevedo",
+    "number": 99,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-sabdel-vega",
+    "teamId": "wolfpack",
+    "name": "Sabdel Vega",
+    "number": 25,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-samuel-ochoa",
+    "teamId": "wolfpack",
+    "name": "Samuel Ochoa",
+    "number": 45,
+    "position": "DL",
+    "height": "",
+    "weight": 0,
+    "stats": {}
+  },
+  {
+    "id": "wolfpack-yahmal-rojas",
+    "teamId": "wolfpack",
+    "name": "Yahmal Rojas",
+    "number": 19,
+    "position": "DB",
+    "height": "",
+    "weight": 0,
     "stats": {}
   }
 ]
