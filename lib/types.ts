@@ -155,7 +155,26 @@ export interface WeeklyPanel {
   image: string;
 }
 
+/**
+ * Noticia destacada en el inicio. Apunta a un medio externo: la imagen se
+ * sirve desde el propio medio y siempre se muestra la fuente, porque el
+ * contenido no es nuestro.
+ */
+export interface NewsPanel {
+  url: string;
+  /** Medio que publica ("TVN-2 · TVMax"). */
+  source: string;
+  /** ISO, para ordenar o comparar. */
+  date: string;
+  /** Fecha ya escrita para mostrar. */
+  dateLabel: string;
+  title: string;
+  summary: string;
+  image: string;
+}
+
 export interface WeeklyLinks {
+  news?: NewsPanel;
   youtubeLive: WeeklyPanel;
   tickets: WeeklyPanel;
 }

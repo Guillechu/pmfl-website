@@ -1,14 +1,23 @@
 {
+  "news": {
+    "url": "https://www.tvn-2.com/tvmax/mas-deportes/futbol-americano-estadio-emilio-royo-resultados-choque-internacional_1_2255613.html",
+    "source": "TVN-2 · TVMax",
+    "date": "2026-08-12",
+    "dateLabel": "12 de agosto de 2026",
+    "title": "¡Vuelve la acción del Football Americano en Panamá! La PMFL arranca con choque internacional y debutantes",
+    "summary": "La temporada 2026 comienza el sábado 15 de agosto en el Estadio Emilio Royo, con los Hunters de Medellín como primera franquicia internacional de la liga y el debut de Águilas Doradas y Colón Eagles.",
+    "image": "https://static.tvn-2.com/clip/c046e176-3a68-4674-a157-f24bba4e177a_16-9-aspect-ratio_default_0.jpg"
+  },
+  "tickets": {
+    "url": "https://ticketpluspty.com/eventos/kick-off-20026-week-1",
+    "label": "Kickoff 2026 · Week 1",
+    "note": "Sábado 15 de agosto · Estadio Emilio Royo · desde B/. 3.00",
+    "image": "/media/kickoff-2026-week1.jpg"
+  },
   "youtubeLive": {
     "url": "https://www.youtube.com/@PMFL507",
     "label": "En vivo esta semana",
     "note": "Sigue los partidos en directo por YouTube.",
     "image": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg"
-  },
-  "tickets": {
-    "url": "https://ticketpluspty.com/",
-    "label": "Compra tus boletos",
-    "note": "Asegura tu entrada para los juegos de la semana.",
-    "image": "/media/draft-2026.jpg"
   }
 }
