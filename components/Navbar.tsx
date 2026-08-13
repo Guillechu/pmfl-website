@@ -6,6 +6,10 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import LeagueMark from "./LeagueMark";
 import SearchBar from "./SearchBar";
+// Se importa el JSON directo y no "@/lib/data": ese módulo arrastra
+// players.json y gallery.json (>100 KB), y este componente va en todas
+// las páginas, así que acabaría en el bundle de cliente entero.
+import weekly from "@/data/weekly.json";
 
 const NAV = [
   { href: "/", label: "Inicio" },
@@ -20,7 +24,10 @@ const NAV = [
   { href: "/contact", label: "Contacto" },
 ];
 
-const TICKETS_URL = "https://ticketpluspty.com/";
+// Mismo enlace que la tarjeta de boletos del inicio: al cambiar de
+// jornada se edita data/weekly.json y se actualizan los dos a la vez.
+const TICKETS_URL = weekly.tickets.url;
+const TICKETS_LABEL = weekly.tickets.label;
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -139,7 +146,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="mt-2 rounded-md bg-emerald-500 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-emerald-400"
               >
-                Tickets · Ticketpluss
+                Tickets · {TICKETS_LABEL}
               </a>
             </nav>
           </div>
