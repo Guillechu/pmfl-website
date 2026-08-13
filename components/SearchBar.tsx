@@ -2,17 +2,82 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { teams, players } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 type Result =
   | { kind: "team"; id: string; label: string; sub: string; href: string }
   | { kind: "player"; id: string; label: string; sub: string; href: string };
 
+interface SearchTeam {
+  id: string;
+  name: string;
+  city: string;
+  abbreviation: string;
+  conference: string;
+}
+interface SearchPlayer {
+  id: string;
+  name: string;
+  teamId: string;
+  position: string;
+}
+interface SearchIndex {
+  teams: SearchTeam[];
+  players: SearchPlayer[];
+}
+
+const VACIO: SearchIndex = { teams: [], players: [] };
+
+/**
+ * El índice se pide a /api/search la primera vez que alguien abre el
+ * buscador, no al cargar la página: importarlo aquí metería data/*.json
+ * entero en el bundle de cliente de TODAS las páginas (el buscador está
+ * en el Navbar). Se guarda a nivel de módulo para pedirlo una sola vez
+ * por sesión, aunque haya varias instancias (escritorio y móvil).
+ */
+let cache: SearchIndex | null = null;
+let enVuelo: Promise<SearchIndex> | null = null;
+
+function cargarIndice(): Promise<SearchIndex> {
+  if (cache) return Promise.resolve(cache);
+  if (!enVuelo) {
+    enVuelo = fetch("/api/search")
+      .then((r) => (r.ok ? r.json() : VACIO))
+      .then((data: SearchIndex) => {
+        cache = data;
+        return data;
+      })
+      .catch(() => VACIO)
+      .finally(() => {
+        enVuelo = null;
+      });
+  }
+  return enVuelo;
+}
+
 export default function SearchBar({ className }: { className?: string }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState<SearchIndex>(cache ?? VACIO);
+  const [cargando, setCargando] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  // Se descarga al primer contacto con el buscador, no antes.
+  useEffect(() => {
+    if (!open || cache) return;
+    let vivo = true;
+    setCargando(true);
+    cargarIndice().then((data) => {
+      if (!vivo) return;
+      setIndex(data);
+      setCargando(false);
+    });
+    return () => {
+      vivo = false;
+    };
+  }, [open]);
+
+  const { teams, players } = index;
 
   const results = useMemo<Result[]>(() => {
     if (q.trim().length < 2) return [];
@@ -28,7 +93,7 @@ export default function SearchBar({ className }: { className?: string }) {
         kind: "team",
         id: t.id,
         label: t.name,
-        sub: `${t.city} · ${t.conference}`,
+        sub: t.conference ? `${t.city} · ${t.conference}` : t.city,
         href: `/teams/${t.id}`,
       }));
 
@@ -81,7 +146,9 @@ export default function SearchBar({ className }: { className?: string }) {
       {open && q.trim().length >= 2 && (
         <div className="absolute z-50 mt-2 w-full rounded-md border border-white/10 bg-brand-navy-800/95 backdrop-blur-md shadow-card overflow-hidden animate-fade-in">
           {results.length === 0 ? (
-            <div className="px-3 py-3 text-sm text-white/60">No matches.</div>
+            <div className="px-3 py-3 text-sm text-white/60">
+              {cargando ? "Buscando…" : "Sin resultados."}
+            </div>
           ) : (
             <ul className="max-h-80 overflow-auto py-1">
               {results.map((r) => (
