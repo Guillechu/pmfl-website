@@ -7,6 +7,7 @@ import MatchCard from "@/components/MatchCard";
 import VideoEmbed from "@/components/VideoEmbed";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import Countdown from "@/components/Countdown";
+import NewsCard from "@/components/NewsCard";
 import { CardSection } from "@/components/ui/Card";
 import { recentResults, nextGames, media, weekly, teamByName } from "@/lib/data";
 import {
@@ -102,49 +103,9 @@ export default async function HomePage() {
           </a>
 
           {weekly.news && (
-            <a
-              href={weekly.news.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group mt-5 grid overflow-hidden rounded-2xl border border-white/10 transition-colors hover:border-brand-gold/40 md:grid-cols-[minmax(0,340px)_1fr]"
-            >
-              <div className="relative aspect-video overflow-hidden md:aspect-auto">
-                {/* Foto del medio: se sirve desde su propio dominio. */}
-                <img
-                  src={weekly.news.image}
-                  alt=""
-                  className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                />
-              </div>
-
-              <div className="p-6">
-                <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="rounded-full bg-brand-red px-3 py-1 font-semibold text-white">
-                    NOTICIA
-                  </span>
-                  <span className="text-white/60">{weekly.news.source}</span>
-                  <span className="text-white/30" aria-hidden="true">
-                    ·
-                  </span>
-                  <span className="text-white/60">
-                    {weekly.news.dateLabel}
-                  </span>
-                </div>
-
-                <h3 className="mt-3 h-display text-2xl leading-tight text-white transition-colors group-hover:text-brand-gold-300">
-                  {weekly.news.title}
-                </h3>
-
-                <p className="mt-2 text-sm text-white/75">
-                  {weekly.news.summary}
-                </p>
-
-                <span className="mt-4 inline-flex items-center gap-2 text-sm text-brand-gold-300">
-                  Leer la nota completa
-                  <span aria-hidden="true">→</span>
-                </span>
-              </div>
-            </a>
+            <div className="mt-5">
+              <NewsCard news={weekly.news} />
+            </div>
           )}
         </CardSection>
 

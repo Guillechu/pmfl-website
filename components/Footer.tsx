@@ -9,7 +9,7 @@ import {
 
 const FOOTER_SOCIAL = [
   { label: "Instagram", href: "https://www.instagram.com/pmfl507/", Icon: InstagramIcon },
-  { label: "YouTube", href: "https://www.youtube.com/@PMFL507", Icon: YouTubeIcon },
+  { label: "YouTube", href: "https://www.youtube.com/@pmfl", Icon: YouTubeIcon },
   {
     label: "Facebook",
     href: "https://www.facebook.com/p/Panama-Major-Football-League-100063496664850/",

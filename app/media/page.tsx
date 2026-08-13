@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import MediaSections from "@/components/MediaSections";
+import NewsCard from "@/components/NewsCard";
 import Badge from "@/components/ui/Badge";
+import { weekly } from "@/lib/data";
 
 export const metadata = {
   title: "Media · PMFL",
@@ -40,6 +42,14 @@ export default function MediaPage() {
           </h2>
           <Badge variant="gold">Nuevo</Badge>
         </div>
+
+        {/* Prensa primero: es lo más reciente y es contenido de un medio.
+            La misma tarjeta que se muestra en el inicio. */}
+        {weekly.news && (
+          <div className="mb-5">
+            <NewsCard news={weekly.news} />
+          </div>
+        )}
 
         <div className="card overflow-hidden p-0">
           <div className="grid items-center lg:grid-cols-2">
