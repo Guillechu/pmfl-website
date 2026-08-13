@@ -163,7 +163,7 @@ export default async function StatsPage() {
         </p>
         <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/60 ring-1 ring-white/10">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-gold/70" />
-          Estadísticas soportadas por Bowwl App
+          Estadísticas soportadas por Boowl App
         </p>
       </header>
 
@@ -226,9 +226,19 @@ export default async function StatsPage() {
             </section>
           )}
 
-          <p className="pt-4 text-center text-xs text-white/40">
-            Datos oficiales proporcionados por el sistema de gestión de la liga.
-          </p>
+          {/* Crédito de la plataforma. El logo va en PNG con fondo
+              transparente, para que se apoye sobre el navy del sitio sin
+              recuadro; el nombre queda en el alt. */}
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-4 text-center text-xs text-white/40">
+            <span>Datos oficiales proporcionados por la plataforma</span>
+            <img
+              src="/boowl.png"
+              alt="Boowl"
+              width={480}
+              height={269}
+              className="h-8 w-auto"
+            />
+          </div>
         </div>
       )}
     </div>
