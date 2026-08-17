@@ -1,13 +1,13 @@
 // Home — Server Component. La clasificación y los goleadores se traen en
-// vivo desde Cloob; el contador regresivo vive en <Countdown/> (cliente).
+// vivo desde Cloob.
 
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import MatchCard from "@/components/MatchCard";
 import VideoEmbed from "@/components/VideoEmbed";
 import SponsorCarousel from "@/components/SponsorCarousel";
-import Countdown from "@/components/Countdown";
 import NewsCard from "@/components/NewsCard";
+import ResultsCard from "@/components/ResultsCard";
 import { CardSection } from "@/components/ui/Card";
 import { recentResults, nextGames, media, weekly, teamByName } from "@/lib/data";
 import {
@@ -64,43 +64,10 @@ export default async function HomePage() {
       <Hero />
 
       <div className="container-page">
-        {/* Lo último: boletos del próximo evento + noticia de prensa.
-            Ambos se editan en data/weekly.json, sin tocar código. */}
+        {/* Lo último: resumen de la jornada + noticia de prensa. Ambos se
+            editan en data/weekly.json, sin tocar código. */}
         <CardSection title="LO ÚLTIMO">
-          {/* El arte del evento lleva dentro los enfrentamientos, los
-              horarios y el precio, así que se muestra entero: recortarlo
-              a un fondo de tarjeta se comía justo esa información. */}
-          <a
-            href={weekly.tickets.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group block overflow-hidden rounded-2xl border border-white/10 bg-black/40 transition-colors hover:border-brand-gold/40"
-          >
-            <img
-              src={weekly.tickets.image}
-              alt={weekly.tickets.label}
-              className="w-full"
-            />
-
-            <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
-              <div className="min-w-0">
-                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white">
-                  🎟️ BOLETOS
-                </span>
-                <h3 className="mt-2 h-display text-2xl text-white">
-                  {weekly.tickets.label}
-                </h3>
-                <p className="mt-1 text-sm text-white/70">
-                  {weekly.tickets.note}
-                </p>
-              </div>
-
-              <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white transition-colors group-hover:bg-brand-gold/20">
-                Comprar en Ticketplus
-                <span aria-hidden="true">→</span>
-              </span>
-            </div>
-          </a>
+          {weekly.resultados && <ResultsCard data={weekly.resultados} />}
 
           {weekly.news && (
             <div className="mt-5">
@@ -137,16 +104,6 @@ export default async function HomePage() {
           </a>
         </CardSection>
 
-        {/* Countdown */}
-        <CardSection title="INICIO DE TEMPORADA 2026">
-          <div className="card p-8 text-center">
-            <p className="mb-6 text-sm uppercase tracking-[0.25em] text-brand-gold-300">
-              La liga inicia el 15 de agosto de 2026
-            </p>
-            <Countdown targetDate="2026-08-15T00:00:00" />
-          </div>
-        </CardSection>
-
         {/* Play of the Week */}
         <CardSection
           title="🏈 Lo mejor del momento"
@@ -162,7 +119,7 @@ export default async function HomePage() {
             </div>
             <div className="card flex flex-col justify-center p-6">
               <span className="pill self-start bg-brand-red/20 text-brand-red-100 ring-1 ring-brand-red/40">
-                LO ÚLTIMO
+                DESTACADO
               </span>
               <h3 className="mt-3 h-display text-2xl text-white">
                 {media.playOfTheWeek.title}

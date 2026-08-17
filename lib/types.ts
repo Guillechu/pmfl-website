@@ -173,7 +173,29 @@ export interface NewsPanel {
   image: string;
 }
 
+/**
+ * Resumen editorial de una jornada para el inicio. Los marcadores se
+ * escriben a mano: es una nota sobre una jornada concreta y debe seguir
+ * diciendo lo mismo aunque la clasificación en vivo avance.
+ */
+export interface ResultsPanel {
+  /** Línea pequeña de contexto: jornada, fecha y sede. */
+  eyebrow: string;
+  title: string;
+  summary: string;
+  /** Ruta interna a la que lleva la tarjeta. */
+  url: string;
+  linkLabel: string;
+  partidos: Array<{
+    casa: string;
+    marcadorCasa: number;
+    visita: string;
+    marcadorVisita: number;
+  }>;
+}
+
 export interface WeeklyLinks {
+  resultados?: ResultsPanel;
   news?: NewsPanel;
   youtubeLive: WeeklyPanel;
   tickets: WeeklyPanel;

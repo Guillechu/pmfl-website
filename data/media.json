@@ -1,13 +1,27 @@
 {
   "playOfTheWeek": {
-    "id": "final-2025",
-    "title": "PMFL RAPTORS VS WOLFPACK FINAL 2025",
+    "id": "live-week-1",
+    "title": "PMFL LIVE",
     "team": "PMFL",
-    "youtubeId": "2MX6NX5FBHQ",
-    "thumbnail": "https://i.ytimg.com/vi/2MX6NX5FBHQ/hqdefault.jpg",
-    "description": "Revive la final 2025 entre Raptors y Wolfpack en el canal oficial de la PMFL."
+    "youtubeId": "PiO3qYM3Y0I",
+    "thumbnail": "https://i.ytimg.com/vi/PiO3qYM3Y0I/hqdefault.jpg",
+    "description": "La transmisión de la semana en el canal oficial de la PMFL."
   },
   "highlights": [
+    {
+      "id": "raptors-hunters-w1",
+      "title": "Hunters vs Raptors · Week 1",
+      "youtubeId": "ZG-ZcM39uNs",
+      "thumbnail": "https://i.ytimg.com/vi/ZG-ZcM39uNs/hqdefault.jpg",
+      "category": "Jornada 1"
+    },
+    {
+      "id": "aguilas-eagles-w1",
+      "title": "Águilas Doradas vs Colón Eagles · Week 1",
+      "youtubeId": "NRZoDgx0ZeI",
+      "thumbnail": "https://i.ytimg.com/vi/NRZoDgx0ZeI/hqdefault.jpg",
+      "category": "Jornada 1"
+    },
     {
       "id": "combine-2026",
       "title": "PMFL Combine 2026",
@@ -24,11 +38,18 @@
       "link": "https://www.tvn-2.com/tvmax/mas-deportes/football-americano-panama-major-football-league-deportes-draft_1_2239084.html"
     },
     {
+      "id": "final-2025",
+      "title": "PMFL RAPTORS VS WOLFPACK FINAL 2025",
+      "youtubeId": "2MX6NX5FBHQ",
+      "thumbnail": "https://i.ytimg.com/vi/2MX6NX5FBHQ/hqdefault.jpg",
+      "category": "Temporadas anteriores"
+    },
+    {
       "id": "live-playoff",
       "title": "PMFL LIVE PLAYOFF",
       "youtubeId": "OMG0OpJNpxs",
       "thumbnail": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg",
-      "category": "Live"
+      "category": "Temporadas anteriores"
     }
   ]
 }

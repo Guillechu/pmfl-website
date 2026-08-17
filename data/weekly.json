@@ -1,4 +1,25 @@
 {
+  "resultados": {
+    "eyebrow": "Jornada 1 · 15 de agosto · Estadio Emilio Royo",
+    "title": "Los Raptors arrancan con goleada y los Eagles ganan el duelo de debutantes",
+    "summary": "La Jornada 1 dejó el estreno más contundente en manos de los Raptors, que blanquearon a los Hunters de Medellín. En el cruce entre los dos equipos que debutaban en la liga, los Colón Eagles se impusieron a las Águilas Doradas por cinco puntos.",
+    "url": "/stats",
+    "linkLabel": "Ver la clasificación completa",
+    "partidos": [
+      {
+        "casa": "Raptors",
+        "marcadorCasa": 34,
+        "visita": "Hunters",
+        "marcadorVisita": 0
+      },
+      {
+        "casa": "Águilas Doradas",
+        "marcadorCasa": 13,
+        "visita": "Colón Eagles",
+        "marcadorVisita": 18
+      }
+    ]
+  },
   "news": {
     "url": "https://www.tvn-2.com/tvmax/mas-deportes/futbol-americano-estadio-emilio-royo-resultados-choque-internacional_1_2255613.html",
     "source": "TVN-2 · TVMax",
@@ -9,15 +30,15 @@
     "image": "https://static.tvn-2.com/clip/c046e176-3a68-4674-a157-f24bba4e177a_16-9-aspect-ratio_default_0.jpg"
   },
   "tickets": {
-    "url": "https://ticketpluspty.com/eventos/kick-off-20026-week-1",
-    "label": "Kickoff 2026 · Week 1",
-    "note": "Sábado 15 de agosto · Estadio Emilio Royo · desde B/. 3.00",
+    "url": "https://ticketpluspty.com/",
+    "label": "Boletos PMFL",
+    "note": "Entradas de la liga en Ticketplus.",
     "image": "/media/kickoff-2026-week1.jpg"
   },
   "youtubeLive": {
     "url": "https://www.youtube.com/@pmfl",
-    "label": "En vivo esta semana",
-    "note": "Sigue los partidos en directo por YouTube.",
-    "image": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg"
+    "label": "Canal oficial de la PMFL",
+    "note": "Todas las transmisiones y los partidos completos en YouTube.",
+    "image": "https://i.ytimg.com/vi/PiO3qYM3Y0I/hqdefault.jpg"
   }
 }
