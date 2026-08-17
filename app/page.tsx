@@ -79,7 +79,7 @@ export default async function HomePage() {
         <CardSection
           title="🏈 Lo mejor del momento"
           action={
-            <Link href="/media" className="text-sm text-brand-gold-300 hover:text-brand-gold-500">
+            <Link href="/media" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
               Todos los highlights →
             </Link>
           }
@@ -89,16 +89,16 @@ export default async function HomePage() {
               <VideoEmbed youtubeId={media.playOfTheWeek.youtubeId} title={media.playOfTheWeek.title} />
             </div>
             <div className="card flex flex-col justify-center p-6">
-              <span className="pill self-start bg-brand-red/20 text-brand-red-100 ring-1 ring-brand-red/40">
+              <span className="pill self-start bg-brand-red/10 dark:bg-brand-red/20 text-brand-red-700 dark:text-brand-red-100 ring-1 ring-brand-red/30 dark:ring-brand-red/40">
                 DESTACADO
               </span>
-              <h3 className="mt-3 h-display text-2xl text-white">
+              <h3 className="mt-3 h-display text-2xl text-brand-navy dark:text-white">
                 {media.playOfTheWeek.title}
               </h3>
-              <p className="mt-2 text-sm text-white/70">
+              <p className="mt-2 text-sm text-brand-navy/70 dark:text-white/70">
                 {media.playOfTheWeek.description}
               </p>
-              <p className="mt-4 text-xs uppercase tracking-wider text-brand-gold-300">
+              <p className="mt-4 text-xs uppercase tracking-wider text-brand-gold-700 dark:text-brand-gold-300">
                 {media.playOfTheWeek.team}
               </p>
             </div>
@@ -110,7 +110,7 @@ export default async function HomePage() {
           <CardSection
             title="ÚLTIMOS RESULTADOS"
             action={
-              <Link href="/schedule" className="text-sm text-brand-gold-300 hover:text-brand-gold-500">
+              <Link href="/schedule" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
                 Calendario completo →
               </Link>
             }
@@ -128,7 +128,7 @@ export default async function HomePage() {
           <CardSection
             title="PRÓXIMOS PARTIDOS"
             action={
-              <Link href="/schedule" className="text-sm text-brand-gold-300 hover:text-brand-gold-500">
+              <Link href="/schedule" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
                 Calendario completo →
               </Link>
             }
@@ -145,7 +145,7 @@ export default async function HomePage() {
         <CardSection
           title="MEJORES JUGADORES"
           action={
-            <Link href="/stats" className="text-sm text-brand-gold-300 hover:text-brand-gold-500">
+            <Link href="/stats" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
               Todas las estadísticas →
             </Link>
           }
@@ -156,8 +156,8 @@ export default async function HomePage() {
             </div>
           ) : (
             <div className="card p-10 text-center">
-              <h3 className="text-2xl font-black text-white">Estadísticas próximamente</h3>
-              <p className="mt-3 text-white/60">
+              <h3 className="text-2xl font-black text-brand-navy dark:text-white">Estadísticas próximamente</h3>
+              <p className="mt-3 text-brand-navy/60 dark:text-white/60">
                 Los líderes estarán disponibles cuando inicie la temporada 2026.
               </p>
             </div>
@@ -169,7 +169,7 @@ export default async function HomePage() {
           <CardSection
             title="CLASIFICACIÓN"
             action={
-              <Link href="/stats" className="text-sm text-brand-gold-300 hover:text-brand-gold-500">
+              <Link href="/stats" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
                 Clasificación completa →
               </Link>
             }
@@ -179,15 +179,15 @@ export default async function HomePage() {
                 const local = teamByName(t.name);
                 const inner = (
                   <>
-                    <span className="w-6 shrink-0 font-display text-3xl text-brand-gold-300">
+                    <span className="w-6 shrink-0 font-display text-3xl text-brand-gold-700 dark:text-brand-gold-300">
                       {t.position}
                     </span>
                     <TeamLogo name={t.name} team={local} className="h-11 w-11" />
                     <div className="min-w-0">
-                      <div className="h-display truncate text-white">
+                      <div className="h-display truncate text-brand-navy dark:text-white">
                         {local?.name ?? t.name}
                       </div>
-                      <div className="text-xs text-white/60">
+                      <div className="text-xs text-brand-navy/60 dark:text-white/60">
                         {t.won}-{t.lost}
                         {t.drawn ? `-${t.drawn}` : ""} · PF {t.pf}
                       </div>
@@ -216,7 +216,7 @@ export default async function HomePage() {
         <CardSection
           title="PATROCINADORES"
           action={
-            <Link href="/sponsors" className="text-sm text-brand-gold-300 hover:text-brand-gold-500">
+            <Link href="/sponsors" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
               Patrocinadores →
             </Link>
           }

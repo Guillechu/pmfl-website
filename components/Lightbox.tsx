@@ -41,21 +41,21 @@ export default function Lightbox({
     >
       <button
         onClick={(e) => { e.stopPropagation(); onPrev(); }}
-        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 text-white"
+        className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-brand-navy/[0.07] dark:bg-white/10 p-3 hover:bg-brand-navy/10 hover:dark:bg-white/20 text-brand-navy dark:text-white"
         aria-label="Previous"
       >
         ‹
       </button>
       <button
         onClick={(e) => { e.stopPropagation(); onNext(); }}
-        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 hover:bg-white/20 text-white"
+        className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-brand-navy/[0.07] dark:bg-white/10 p-3 hover:bg-brand-navy/10 hover:dark:bg-white/20 text-brand-navy dark:text-white"
         aria-label="Next"
       >
         ›
       </button>
       <button
         onClick={onClose}
-        className="absolute right-4 top-4 rounded-md px-3 py-1.5 text-sm bg-white/10 hover:bg-white/20 text-white"
+        className="absolute right-4 top-4 rounded-md px-3 py-1.5 text-sm bg-brand-navy/[0.07] dark:bg-white/10 hover:bg-brand-navy/10 hover:dark:bg-white/20 text-brand-navy dark:text-white"
       >
         Close (Esc)
       </button>
@@ -70,8 +70,8 @@ export default function Lightbox({
           alt={image.alt}
           className="w-full max-h-[80vh] object-contain rounded-lg"
         />
-        <figcaption className="mt-3 text-sm text-white/80 text-center">
-          {image.alt} · <span className="text-brand-gold-300">{image.category}</span>
+        <figcaption className="mt-3 text-sm text-brand-navy/75 dark:text-white/80 text-center">
+          {image.alt} · <span className="text-brand-gold-700 dark:text-brand-gold-300">{image.category}</span>
         </figcaption>
       </figure>
     </div>

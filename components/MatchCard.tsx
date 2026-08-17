@@ -38,17 +38,17 @@ export default function MatchCard({ game }: { game: UiGame }) {
         ) : isFinal ? (
           <Badge variant="success">{tied ? "Empate" : "Final"}</Badge>
         ) : (
-          <span className="text-xs text-white/60">
+          <span className="text-xs text-brand-navy/60 dark:text-white/60">
             {game.date ? formatGameDate(game.date.toISOString()) : "Por definir"}
           </span>
         )}
       </div>
 
       <Row side={game.away} label="VISITA" dimmed={isFinal && !awayWon && !tied} winner={awayWon} showScore={!!(isFinal || isLive)} />
-      <div className="my-2 h-px bg-white/10" />
+      <div className="my-2 h-px bg-brand-navy/[0.07] dark:bg-white/10" />
       <Row side={game.home} label="CASA" dimmed={isFinal && !homeWon && !tied} winner={homeWon} showScore={!!(isFinal || isLive)} />
 
-      <div className="mt-4 text-xs text-white/50">
+      <div className="mt-4 text-xs text-brand-navy/55 dark:text-white/50">
         <span className="truncate">{game.venue || "Sede por confirmar"}</span>
       </div>
     </article>
@@ -72,13 +72,13 @@ function Row({
     <div className={cn("flex items-center gap-3", dimmed && "opacity-60")}>
       <TeamLogo name={side.name} team={side.team} className="h-10 w-10" />
       <div className="min-w-0 flex-1">
-        <div className="text-[10px] uppercase tracking-wider text-white/40">
+        <div className="text-[10px] uppercase tracking-wider text-brand-navy/50 dark:text-white/40">
           {label}
         </div>
         <div
           className={cn(
-            "truncate font-display text-base text-white",
-            winner && "text-brand-gold-300",
+            "truncate font-display text-base text-brand-navy dark:text-white",
+            winner && "text-brand-gold-700 dark:text-brand-gold-300",
           )}
         >
           {side.team?.name ?? side.name}
@@ -87,7 +87,7 @@ function Row({
       <div
         className={cn(
           "font-display text-2xl tabular-nums",
-          winner ? "text-brand-gold-300" : "text-white",
+          winner ? "text-brand-gold-700 dark:text-brand-gold-300" : "text-brand-navy dark:text-white",
         )}
       >
         {showScore ? (side.score ?? 0) : "—"}

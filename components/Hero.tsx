@@ -10,8 +10,19 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_-20%,rgba(212,175,55,0.14),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_120%,rgba(200,16,46,0.14),transparent_60%)]" />
+        {/* Rayas verticales de fondo. Van duplicadas porque el color
+            está en un style en línea y ahí no valen las variantes dark:
+            unas rayas blancas no se ven sobre claro, y unas navy no se
+            ven sobre oscuro. */}
         <div
-          className="absolute inset-0 opacity-[0.06]"
+          className="absolute inset-0 opacity-[0.05] dark:hidden"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(90deg, transparent 0 60px, rgba(11,31,58,0.45) 60px 61px)",
+          }}
+        />
+        <div
+          className="absolute inset-0 hidden opacity-[0.06] dark:block"
           style={{
             backgroundImage:
               "repeating-linear-gradient(90deg, transparent 0 60px, rgba(255,255,255,0.6) 60px 61px)",
@@ -25,7 +36,7 @@ export default function Hero() {
           href="https://www.instagram.com/pmfl507/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/80 transition-colors hover:border-brand-gold/50 hover:text-white"
+          className="inline-flex items-center gap-2 rounded-full border border-brand-navy/15 dark:border-white/15 bg-brand-navy/[0.04] dark:bg-white/5 px-4 py-2 text-sm text-brand-navy/75 dark:text-white/80 transition-colors hover:border-brand-gold/50 hover:text-brand-navy hover:dark:text-white"
           aria-label="PMFL en Instagram"
         >
           <InstagramIcon className="h-5 w-5" />
@@ -36,22 +47,22 @@ export default function Hero() {
       <div className="container-page grid items-center gap-10 pb-16 pt-6 md:pb-24 lg:grid-cols-[1fr_auto]">
         {/* Texto */}
         <div className="order-2 animate-fade-up lg:order-1">
-          <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-brand-gold-300 sm:text-sm">
+          <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-brand-gold-700 dark:text-brand-gold-300 sm:text-sm">
             <PanamaFlag className="h-4 w-6 rounded-sm shadow-sm" />
             Liga deportiva sin fines de lucro desde 2011
           </p>
 
-          <h1 className="mt-4 h-display text-4xl leading-[0.95] text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 h-display text-4xl leading-[0.95] text-brand-navy dark:text-white sm:text-5xl lg:text-6xl">
             Panama Major
             <br />
             Football League
           </h1>
 
-          <p className="mt-3 text-lg text-brand-gold-300 md:text-xl">
+          <p className="mt-3 text-lg text-brand-gold-700 dark:text-brand-gold-300 md:text-xl">
             La liga más explosiva de Panamá
           </p>
 
-          <p className="mt-5 max-w-xl text-base text-white/75 md:text-lg">
+          <p className="mt-5 max-w-xl text-base text-brand-navy/70 dark:text-white/75 md:text-lg">
             Siete equipos. Un solo objetivo. La PMFL reúne la intensidad,
             velocidad y espectáculo del fútbol americano en todo Panamá.
           </p>
@@ -74,16 +85,16 @@ export default function Hero() {
             width={971}
             height={698}
             priority
-            className="h-auto w-[280px] animate-fade-in object-contain drop-shadow-[0_0_40px_rgba(212,175,55,0.22)] sm:w-[340px] md:w-[400px] lg:w-[460px]"
+            className="h-auto w-[280px] animate-fade-in object-contain drop-shadow-[0_12px_28px_rgba(11,31,58,0.18)] dark:drop-shadow-[0_0_40px_rgba(212,175,55,0.22)] sm:w-[340px] md:w-[400px] lg:w-[460px]"
           />
         </div>
       </div>
 
       {/* Pie de la sección: nombre en español */}
-      <div className="border-t border-white/10 bg-white/[0.02]">
+      <div className="border-t border-brand-navy/10 dark:border-white/10 bg-white dark:bg-brand-navy/[0.03] dark:bg-white/[0.02]">
         <div className="container-page flex flex-wrap items-center justify-center gap-3 py-4 text-center">
           <PanamaFlag className="h-5 w-8 rounded-sm shadow-sm" />
-          <p className="h-display text-sm tracking-wider text-white/80 md:text-base">
+          <p className="h-display text-sm tracking-wider text-brand-navy/75 dark:text-white/80 md:text-base">
             Liga Mayor de Fútbol Americano de Panamá
           </p>
         </div>

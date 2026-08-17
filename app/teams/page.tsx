@@ -27,13 +27,13 @@ export default function TeamsPage() {
   return (
     <div className="container-page py-12">
       <header className="mb-8">
-        <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+        <p className="text-xs uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
           Liga
         </p>
-        <h1 className="h-display text-4xl md:text-5xl text-white">
+        <h1 className="h-display text-4xl md:text-5xl text-brand-navy dark:text-white">
           Equipos
         </h1>
-        <p className="mt-2 text-white/70 max-w-2xl">
+        <p className="mt-2 text-brand-navy/70 dark:text-white/70 max-w-2xl">
           Los equipos de la PMFL representan el talento, la pasión y la competitividad del fútbol americano en Panamá.
         </p>
       </header>
@@ -49,7 +49,7 @@ export default function TeamsPage() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Buscar equipos..."
-          className="md:w-72 rounded-md bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder-white/40 outline-none focus:border-brand-gold/50"
+          className="md:w-72 rounded-md bg-brand-navy/[0.04] dark:bg-white/5 border border-brand-navy/10 dark:border-white/10 px-3 py-2 text-sm text-brand-navy dark:text-white placeholder-brand-navy/40 dark:placeholder-white/40 outline-none focus:border-brand-gold/50"
         />
       </div>
 

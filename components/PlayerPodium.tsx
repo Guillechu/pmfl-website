@@ -32,20 +32,20 @@ const RANKS = {
     ring: "ring-brand-gold/70",
     glow: "shadow-[0_0_28px_-6px_rgba(212,175,55,0.55)]",
     medal: "bg-brand-gold text-brand-navy-900",
-    pedestal: "h-20 bg-gradient-to-b from-brand-gold/25 to-transparent border-brand-gold/40",
+    pedestal: "h-20 bg-gradient-to-b from-brand-gold/25 to-transparent border-brand-gold-600/50 dark:border-brand-gold/40",
     avatar: "h-24 w-24 md:h-28 md:w-28",
   },
   2: {
     ring: "ring-slate-300/60",
     glow: "",
     medal: "bg-slate-300 text-slate-900",
-    pedestal: "h-14 bg-gradient-to-b from-white/12 to-transparent border-white/20",
+    pedestal: "h-14 bg-gradient-to-b from-white/12 to-transparent border-brand-navy/15 dark:border-white/20",
     avatar: "h-20 w-20 md:h-24 md:w-24",
   },
   3: {
     ring: "ring-amber-600/60",
     glow: "",
-    medal: "bg-amber-600 text-white",
+    medal: "bg-amber-600 text-brand-navy dark:text-white",
     pedestal: "h-10 bg-gradient-to-b from-amber-700/20 to-transparent border-amber-700/40",
     avatar: "h-20 w-20 md:h-24 md:w-24",
   },
@@ -70,7 +70,7 @@ function Portrait({
   // El escudo hace de respaldo tanto si no hay foto como si la foto no
   // llega a cargar (algunas del roster de Cloob devuelven 403).
   const crest = (
-    <div className={cn(base, "flex items-center justify-center bg-white/5 p-3")}>
+    <div className={cn(base, "flex items-center justify-center bg-brand-navy/[0.04] dark:bg-white/5 p-3")}>
       <TeamLogo
         name={entry.club}
         className="h-full w-full border-0 bg-transparent"
@@ -82,7 +82,7 @@ function Portrait({
   if (!entry.photo) return crest;
 
   return (
-    <div className={cn(base, "bg-white/5")}>
+    <div className={cn(base, "bg-brand-navy/[0.04] dark:bg-white/5")}>
       <PlayerAvatar
         src={entry.photo}
         alt={parsePlayerName(entry.name).name}
@@ -121,15 +121,15 @@ function PodiumSpot({ entry, rank }: { entry: PodiumEntry; rank: RankKey }) {
       </div>
 
       <div className="mt-3 min-w-0">
-        <p className="truncate font-display text-base text-white md:text-lg">
+        <p className="truncate font-display text-base text-brand-navy dark:text-white md:text-lg">
           {name}
           {number && (
-            <span className="ml-1.5 text-xs font-normal text-white/40">
+            <span className="ml-1.5 text-xs font-normal text-brand-navy/50 dark:text-white/40">
               #{number}
             </span>
           )}
         </p>
-        <p className="mt-0.5 flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider text-white/50">
+        <p className="mt-0.5 flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider text-brand-navy/55 dark:text-white/50">
           <TeamLogo
             name={entry.club}
             team={team}
@@ -139,10 +139,10 @@ function PodiumSpot({ entry, rank }: { entry: PodiumEntry; rank: RankKey }) {
           <span className="truncate">{team?.name ?? entry.club}</span>
         </p>
         <p className="mt-2">
-          <span className="font-display text-3xl text-brand-gold-300">
+          <span className="font-display text-3xl text-brand-gold-700 dark:text-brand-gold-300">
             {entry.points}
           </span>
-          <span className="ml-1 text-[10px] uppercase text-white/50">pts</span>
+          <span className="ml-1 text-[10px] uppercase text-brand-navy/55 dark:text-white/50">pts</span>
         </p>
       </div>
 
@@ -199,16 +199,16 @@ export default function PlayerPodium({
 
       {/* Del 4º en adelante */}
       {rest.length > 0 && (
-        <ul className="mt-8 divide-y divide-white/5 overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
+        <ul className="mt-8 divide-y divide-brand-navy/[0.07] dark:divide-white/5 overflow-hidden rounded-xl border border-brand-navy/10 dark:border-white/10 bg-white dark:bg-white/[0.02]">
           {rest.map((p, i) => {
             const { name, number } = parsePlayerName(p.name);
             const team = teamByName(p.club);
             return (
               <li
                 key={p.id}
-                className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/[0.04]"
+                className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.04]"
               >
-                <span className="w-6 shrink-0 text-center font-display text-lg text-white/40">
+                <span className="w-6 shrink-0 text-center font-display text-lg text-brand-navy/50 dark:text-white/40">
                   {i + 4}
                 </span>
 
@@ -227,17 +227,17 @@ export default function PlayerPodium({
                 />
 
                 <div className="min-w-0 flex-1">
-                  <div className="truncate font-medium text-white">
+                  <div className="truncate font-medium text-brand-navy dark:text-white">
                     {name}
                     {number && (
-                      <span className="ml-1.5 text-xs text-white/40">#{number}</span>
+                      <span className="ml-1.5 text-xs text-brand-navy/50 dark:text-white/40">#{number}</span>
                     )}
                   </div>
-                  <div className="truncate text-xs uppercase tracking-wider text-white/50">
+                  <div className="truncate text-xs uppercase tracking-wider text-brand-navy/55 dark:text-white/50">
                     {team ? (
                       <Link
                         href={`/teams/${team.id}`}
-                        className="hover:text-brand-gold-300"
+                        className="hover:text-brand-gold-700 hover:dark:text-brand-gold-300"
                       >
                         {team.name}
                       </Link>
@@ -248,8 +248,8 @@ export default function PlayerPodium({
                 </div>
 
                 <div className="text-right">
-                  <div className="font-display text-xl text-white">{p.points}</div>
-                  <div className="text-[10px] uppercase text-white/50">pts</div>
+                  <div className="font-display text-xl text-brand-navy dark:text-white">{p.points}</div>
+                  <div className="text-[10px] uppercase text-brand-navy/55 dark:text-white/50">pts</div>
                 </div>
               </li>
             );

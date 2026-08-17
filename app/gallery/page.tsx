@@ -27,11 +27,11 @@ export default async function GalleryPage() {
   return (
     <div className="container-page py-12">
       <header className="mb-8">
-        <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+        <p className="text-xs uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
           Visuales
         </p>
-        <h1 className="h-display text-4xl text-white md:text-5xl">Galería</h1>
-        <p className="mt-2 max-w-2xl text-white/70">
+        <h1 className="h-display text-4xl text-brand-navy dark:text-white md:text-5xl">Galería</h1>
+        <p className="mt-2 max-w-2xl text-brand-navy/70 dark:text-white/70">
           {total > 0
             ? "Fotos del Combine y de cada jornada de la PMFL. Toca el nombre de un álbum para ver u ocultar sus fotos."
             : "Las fotos de cada jornada se publicarán aquí durante la temporada."}

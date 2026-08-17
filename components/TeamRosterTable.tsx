@@ -38,10 +38,10 @@ export default function TeamRosterTable({ roster }: { roster: RosterRow[] }) {
         <PlayerAvatar
           src={player.photo}
           alt={player.name}
-          className="mx-auto h-12 w-12 rounded-full border border-white/10 object-cover"
+          className="mx-auto h-12 w-12 rounded-full border border-brand-navy/10 dark:border-white/10 object-cover"
           fallback={
             <div
-              className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-xs font-bold text-white/50"
+              className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.05] dark:bg-white/[0.06] text-xs font-bold text-brand-navy/55 dark:text-white/50"
               aria-label={`Foto de ${player.name} no disponible`}
             >
               {player.name

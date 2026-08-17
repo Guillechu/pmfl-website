@@ -18,7 +18,7 @@ function VideoCard({ video }: { video: Video }) {
 
   if (playing) {
     return (
-      <div className="overflow-hidden rounded-lg border border-white/10">
+      <div className="overflow-hidden rounded-lg border border-brand-navy/10 dark:border-white/10">
         <div className="relative aspect-video">
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`}
@@ -28,7 +28,7 @@ function VideoCard({ video }: { video: Video }) {
             className="absolute inset-0 h-full w-full"
           />
         </div>
-        <p className="p-2.5 text-xs text-white/80">{video.title}</p>
+        <p className="p-2.5 text-xs text-brand-navy/75 dark:text-white/80">{video.title}</p>
       </div>
     );
   }
@@ -36,9 +36,9 @@ function VideoCard({ video }: { video: Video }) {
   return (
     <button
       onClick={() => setPlaying(true)}
-      className="group overflow-hidden rounded-lg border border-white/10 text-left transition-colors hover:border-brand-gold/40"
+      className="group overflow-hidden rounded-lg border border-brand-navy/10 dark:border-white/10 text-left transition-colors hover:border-brand-gold-600/50 hover:dark:border-brand-gold/40"
     >
-      <div className="relative aspect-video bg-white/5">
+      <div className="relative aspect-video bg-brand-navy/[0.04] dark:bg-white/5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={video.thumbnail}
@@ -52,7 +52,7 @@ function VideoCard({ video }: { video: Video }) {
           </span>
         </span>
       </div>
-      <p className="p-2.5 text-xs text-white/80 group-hover:text-white">
+      <p className="p-2.5 text-xs text-brand-navy/75 dark:text-white/80 group-hover:text-brand-navy group-hover:dark:text-white">
         {video.title}
       </p>
     </button>
@@ -76,25 +76,25 @@ function YearBlock({ data, open }: { data: VideoYear; open: boolean }) {
   }
 
   return (
-    <section className={cn("card overflow-hidden", expanded && "border-brand-gold/30")}>
+    <section className={cn("card overflow-hidden", expanded && "border-brand-gold-600/30 dark:border-brand-gold/30")}>
       <h3>
         <button
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="flex w-full items-center gap-4 p-5 text-left transition-colors hover:bg-white/[0.04]"
+          className="flex w-full items-center gap-4 p-5 text-left transition-colors hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.04]"
         >
-          <span className="h-display text-2xl text-white">{data.year}</span>
-          <span className="pill bg-white/5 text-white/60">
+          <span className="h-display text-2xl text-brand-navy dark:text-white">{data.year}</span>
+          <span className="pill bg-brand-navy/[0.04] dark:bg-white/5 text-brand-navy/60 dark:text-white/60">
             {data.total} {data.total === 1 ? "vídeo" : "vídeos"}
           </span>
-          <span className="ml-auto text-xs text-white/45">
+          <span className="ml-auto text-xs text-brand-navy/50 dark:text-white/45">
             {data.groups.length}{" "}
             {data.groups.length === 1 ? "jornada" : "jornadas"}
           </span>
           <span
             aria-hidden="true"
             className={cn(
-              "text-2xl leading-none text-brand-gold-300 transition-transform duration-200",
+              "text-2xl leading-none text-brand-gold-700 dark:text-brand-gold-300 transition-transform duration-200",
               expanded && "rotate-180",
             )}
           >
@@ -104,26 +104,26 @@ function YearBlock({ data, open }: { data: VideoYear; open: boolean }) {
       </h3>
 
       {expanded && (
-        <div className="space-y-2 border-t border-white/10 p-4">
+        <div className="space-y-2 border-t border-brand-navy/10 dark:border-white/10 p-4">
           {data.groups.map((group) => {
             const isOpen = openGroups.has(group.label);
             return (
-              <div key={group.label} className="rounded-lg bg-white/[0.02]">
+              <div key={group.label} className="rounded-lg bg-white dark:bg-white/[0.02]">
                 <button
                   onClick={() => toggleGroup(group.label)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.04]"
                 >
-                  <span className="font-display text-sm uppercase tracking-wide text-white">
+                  <span className="font-display text-sm uppercase tracking-wide text-brand-navy dark:text-white">
                     {group.label}
                   </span>
-                  <span className="text-xs text-white/45">
+                  <span className="text-xs text-brand-navy/50 dark:text-white/45">
                     {group.videos.length}
                   </span>
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "ml-auto text-lg leading-none text-white/40 transition-transform duration-200",
+                      "ml-auto text-lg leading-none text-brand-navy/50 dark:text-white/40 transition-transform duration-200",
                       isOpen && "rotate-180",
                     )}
                   >
@@ -150,7 +150,7 @@ function YearBlock({ data, open }: { data: VideoYear; open: boolean }) {
 export default function MatchVideos({ years }: { years: VideoYear[] }) {
   if (!years.length) {
     return (
-      <div className="card p-8 text-center text-white/60">
+      <div className="card p-8 text-center text-brand-navy/60 dark:text-white/60">
         Los vídeos de los partidos aparecerán aquí en cuanto se publiquen en
         el canal de YouTube de la liga.
       </div>

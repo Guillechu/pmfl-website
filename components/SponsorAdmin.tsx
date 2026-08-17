@@ -231,7 +231,7 @@ export default function SponsorAdmin() {
   // -------- render -------------------------------------------------------
 
   if (!ready) {
-    return <div className="card p-10 text-center text-white/60">Cargando panel…</div>;
+    return <div className="card p-10 text-center text-brand-navy/60 dark:text-white/60">Cargando panel…</div>;
   }
 
   if (!authed) {
@@ -239,14 +239,14 @@ export default function SponsorAdmin() {
       <div className="mx-auto max-w-sm">
         <form onSubmit={login} className="card space-y-4 p-6">
           <div>
-            <h2 className="h-display text-xl text-white">Panel de la liga</h2>
-            <p className="mt-1 text-sm text-white/60">
+            <h2 className="h-display text-xl text-brand-navy dark:text-white">Panel de la liga</h2>
+            <p className="mt-1 text-sm text-brand-navy/60 dark:text-white/60">
               Contraseña de administración para gestionar patrocinadores.
             </p>
           </div>
 
           {!configured && (
-            <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-200 ring-1 ring-amber-400/30">
+            <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-200 ring-1 ring-amber-400/30">
               Falta definir <code>SESSION_SECRET</code> y{" "}
               <code>ADMIN_LIGA_PASSWORD</code> en el servidor.
             </p>
@@ -258,18 +258,18 @@ export default function SponsorAdmin() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Contraseña"
             autoComplete="current-password"
-            className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-white outline-none focus:border-brand-gold/50"
+            className="w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-3 py-2 text-brand-navy dark:text-white outline-none focus:border-brand-gold/50"
           />
 
-          {loginError && <p className="text-sm text-brand-red-100">{loginError}</p>}
+          {loginError && <p className="text-sm text-brand-red-700 dark:text-brand-red-100">{loginError}</p>}
 
           <button type="submit" disabled={loggingIn} className="btn-primary w-full disabled:opacity-60">
             {loggingIn ? "Entrando…" : "Entrar"}
           </button>
 
-          <p className="text-center text-xs text-white/40">
+          <p className="text-center text-xs text-brand-navy/50 dark:text-white/40">
             ¿Buscas subir fotos?{" "}
-            <a href="/adminfoto" className="text-brand-gold-300 hover:underline">
+            <a href="/adminfoto" className="text-brand-gold-700 dark:text-brand-gold-300 hover:underline">
               Área de fotógrafos
             </a>
           </p>
@@ -280,7 +280,7 @@ export default function SponsorAdmin() {
 
   const pendientes = sponsors.filter((s) => !s.editable).length;
   const inputClass =
-    "w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-brand-gold/50";
+    "w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-3 py-2 text-sm text-brand-navy dark:text-white outline-none focus:border-brand-gold/50";
 
   return (
     <div className="space-y-6">
@@ -289,8 +289,8 @@ export default function SponsorAdmin() {
           className={cn(
             "rounded-md p-3 text-sm ring-1",
             notice.kind === "ok"
-              ? "bg-emerald-500/10 text-emerald-200 ring-emerald-400/30"
-              : "bg-brand-red/10 text-brand-red-100 ring-brand-red/40",
+              ? "bg-emerald-600/10 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200 ring-emerald-600/30 dark:ring-emerald-400/30"
+              : "bg-brand-red/10 text-brand-red-700 dark:text-brand-red-100 ring-brand-red/30 dark:ring-brand-red/40",
           )}
         >
           {notice.msg}
@@ -298,7 +298,7 @@ export default function SponsorAdmin() {
       )}
 
       {pendientes > 0 && (
-        <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-200 ring-1 ring-amber-400/30">
+        <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-200 ring-1 ring-amber-400/30">
           Hay {pendientes} patrocinador(es) del listado antiguo del código.
           Se muestran en el sitio, pero para editarlos desde aquí hay que
           migrarlos a Cloudinary.
@@ -308,7 +308,7 @@ export default function SponsorAdmin() {
       {/* Alta */}
       <section className="card p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="h-display text-lg text-white">Añadir patrocinador</h2>
+          <h2 className="h-display text-lg text-brand-navy dark:text-white">Añadir patrocinador</h2>
           <button onClick={logout} className="btn-ghost text-xs">
             Salir
           </button>
@@ -316,7 +316,7 @@ export default function SponsorAdmin() {
 
         <form onSubmit={create} className="grid gap-3 sm:grid-cols-2">
           <label className="sm:col-span-1">
-            <span className="mb-1 block text-xs text-white/60">Nombre</span>
+            <span className="mb-1 block text-xs text-brand-navy/60 dark:text-white/60">Nombre</span>
             <input
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -326,7 +326,7 @@ export default function SponsorAdmin() {
           </label>
 
           <label>
-            <span className="mb-1 block text-xs text-white/60">Categoría</span>
+            <span className="mb-1 block text-xs text-brand-navy/60 dark:text-white/60">Categoría</span>
             <select
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -341,7 +341,7 @@ export default function SponsorAdmin() {
           </label>
 
           <label>
-            <span className="mb-1 block text-xs text-white/60">
+            <span className="mb-1 block text-xs text-brand-navy/60 dark:text-white/60">
               Sitio web (opcional)
             </span>
             <input
@@ -353,7 +353,7 @@ export default function SponsorAdmin() {
           </label>
 
           <label>
-            <span className="mb-1 block text-xs text-white/60">
+            <span className="mb-1 block text-xs text-brand-navy/60 dark:text-white/60">
               Orden (menor = primero)
             </span>
             <input
@@ -365,7 +365,7 @@ export default function SponsorAdmin() {
           </label>
 
           <label className="sm:col-span-2">
-            <span className="mb-1 block text-xs text-white/60">
+            <span className="mb-1 block text-xs text-brand-navy/60 dark:text-white/60">
               Logo (PNG con fondo transparente si es posible)
             </span>
             <input
@@ -373,7 +373,7 @@ export default function SponsorAdmin() {
               type="file"
               accept="image/*"
               onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-              className="w-full text-sm text-white/70 file:mr-3 file:rounded-md file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-sm file:text-white hover:file:bg-white/20"
+              className="w-full text-sm text-brand-navy/70 dark:text-white/70 file:mr-3 file:rounded-md file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-sm file:text-white hover:file:bg-white/20"
             />
           </label>
 
@@ -391,16 +391,16 @@ export default function SponsorAdmin() {
 
       {/* Listado */}
       <section className="card p-6">
-        <h2 className="mb-4 h-display text-lg text-white">
+        <h2 className="mb-4 h-display text-lg text-brand-navy dark:text-white">
           Patrocinadores actuales{" "}
-          <span className="ml-1 text-sm font-normal text-white/50">
+          <span className="ml-1 text-sm font-normal text-brand-navy/55 dark:text-white/50">
             {sponsors.length}
           </span>
         </h2>
 
         <ul className="space-y-2">
           {sponsors.map((s) => (
-            <li key={s.id} className="rounded-lg bg-white/[0.03] p-3">
+            <li key={s.id} className="rounded-lg bg-white dark:bg-white/[0.03] p-3">
               {editing === s.publicId ? (
                 <div className="grid gap-3 sm:grid-cols-2">
                   <input
@@ -458,8 +458,8 @@ export default function SponsorAdmin() {
                   </span>
 
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm text-white">{s.name}</div>
-                    <div className="truncate text-xs text-white/50">
+                    <div className="truncate text-sm text-brand-navy dark:text-white">{s.name}</div>
+                    <div className="truncate text-xs text-brand-navy/55 dark:text-white/50">
                       {s.category} · orden {s.order}
                       {s.url && s.url !== "#" ? ` · ${s.url}` : " · sin enlace"}
                     </div>
@@ -469,19 +469,19 @@ export default function SponsorAdmin() {
                     <div className="flex shrink-0 gap-1">
                       <button
                         onClick={() => startEdit(s)}
-                        className="rounded px-2 py-1 text-xs text-white/60 hover:bg-white/10 hover:text-white"
+                        className="rounded px-2 py-1 text-xs text-brand-navy/60 dark:text-white/60 hover:bg-brand-navy/[0.07] hover:dark:bg-white/10 hover:text-brand-navy hover:dark:text-white"
                       >
                         Editar
                       </button>
                       <button
                         onClick={() => remove(s)}
-                        className="rounded px-2 py-1 text-xs text-white/50 hover:bg-white/10 hover:text-brand-red-100"
+                        className="rounded px-2 py-1 text-xs text-brand-navy/55 dark:text-white/50 hover:bg-brand-navy/[0.07] hover:dark:bg-white/10 hover:text-brand-red-700 hover:dark:text-brand-red-100"
                       >
                         Borrar
                       </button>
                     </div>
                   ) : (
-                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-white/30">
+                    <span className="shrink-0 text-[10px] uppercase tracking-wider text-brand-navy/40 dark:text-white/30">
                       del código
                     </span>
                   )}

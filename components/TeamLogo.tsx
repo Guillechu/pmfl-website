@@ -48,7 +48,7 @@ export default function TeamLogo({
     return (
       <span
         className={cn(
-          "inline-flex shrink-0 items-center justify-center border border-dashed border-white/20 bg-white/[0.03] text-white/30",
+          "inline-flex shrink-0 items-center justify-center border border-dashed border-brand-navy/15 dark:border-white/20 bg-white dark:bg-white/[0.03] text-brand-navy/40 dark:text-white/30",
           rounded,
           className,
         )}
@@ -63,7 +63,7 @@ export default function TeamLogo({
     return (
       <div
         className={cn(
-          "relative shrink-0 overflow-hidden border border-white/10 bg-white/5",
+          "relative shrink-0 overflow-hidden border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5",
           rounded,
           className,
         )}
@@ -83,7 +83,7 @@ export default function TeamLogo({
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center justify-center font-black text-white ring-1 ring-white/20",
+        "inline-flex shrink-0 items-center justify-center font-black text-brand-navy dark:text-white ring-1 ring-white/20",
         rounded,
         className,
       )}

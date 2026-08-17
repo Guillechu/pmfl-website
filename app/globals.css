@@ -5,43 +5,40 @@
 @tailwind utilities;
 
 /* -----------------------------------------------------------
-   Base + theme defaults — dark mode by default
+   Dos temas: claro por defecto en CSS, oscuro con la clase
+   .dark en <html>. El oscuro es el que se sirve de entrada
+   (ver app/layout.tsx), asi que quien no toque el selector ve
+   exactamente lo de siempre.
+
+   En claro el fondo no es blanco puro sino un gris muy tenue:
+   las tarjetas son blancas y necesitan contraste contra la
+   pagina para que se note el relieve.
 ----------------------------------------------------------- */
 :root {
+  color-scheme: light;
+}
+:root.dark {
   color-scheme: dark;
 }
 
 html,
 body {
-  /* Fondo plano navy (2026-07-28). Original guardado abajo por si hay que revertir. */
-  background: #071425;
-  color: #E6EBF2;
+  background: #F1F5F9;
+  color: #0B1F3A;
   font-family: "Inter", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fondo plano: sin degradados ni glows */
+html.dark,
+html.dark body {
+  background: #071425;
+  color: #E6EBF2;
+}
+
 body {
   background-image: none;
   min-height: 100vh;
 }
-
-/* --- FONDO ORIGINAL (con degradados + glows). Para revertir, restaurar esto y
-       quitar el bloque plano de arriba:
-
-html,
-body { background: #03080F; }
-
-body {
-  background-image:
-    radial-gradient(ellipse at top, rgba(11,31,58,0.95), transparent 60%),
-    radial-gradient(circle at 80% 20%, rgba(200,16,46,0.10), transparent 50%),
-    linear-gradient(180deg, #03080F 0%, #050E1A 100%);
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
---- fin fondo original --- */
 
 @layer components {
   .container-page {
@@ -53,11 +50,14 @@ body {
   }
 
   .card {
-    @apply rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-card;
+    @apply rounded-xl border border-brand-navy/10 bg-white shadow-card
+      dark:border-white/10 dark:bg-white/[0.03] dark:backdrop-blur-sm dark:shadow-cardDark;
   }
 
   .card-hover {
-    @apply transition-all duration-200 hover:border-brand-gold/40 hover:bg-white/[0.06] hover:shadow-glow;
+    @apply transition-all duration-200
+      hover:border-brand-gold-600/50 hover:shadow-glow
+      dark:hover:border-brand-gold/40 dark:hover:bg-white/[0.06] dark:hover:shadow-glowDark;
   }
 
   .pill {
@@ -66,16 +66,19 @@ body {
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition-all
-      focus:outline-none focus:ring-2 focus:ring-brand-gold/60 focus:ring-offset-2 focus:ring-offset-brand-navy-900;
+      focus:outline-none focus:ring-2 focus:ring-brand-gold-600/60 focus:ring-offset-2 focus:ring-offset-white
+      dark:focus:ring-brand-gold/60 dark:focus:ring-offset-brand-navy-900;
   }
   .btn-primary {
     @apply btn bg-brand-red text-white hover:bg-brand-red-600 active:scale-[0.98];
   }
   .btn-secondary {
-    @apply btn border border-white/15 bg-white/5 text-white hover:bg-white/10;
+    @apply btn border border-brand-navy/15 bg-white text-brand-navy hover:bg-brand-navy/5
+      dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:bg-white/10;
   }
   .btn-ghost {
-    @apply btn text-white/80 hover:text-white hover:bg-white/5;
+    @apply btn text-brand-navy/70 hover:bg-brand-navy/5 hover:text-brand-navy
+      dark:text-white/80 dark:hover:bg-white/5 dark:hover:text-white;
   }
 }
 
@@ -85,6 +88,9 @@ body {
   user-select: none;
 }
 .sortable:hover {
+  color: #7A6320;
+}
+html.dark .sortable:hover {
   color: #EAD27A;
 }
 

@@ -327,7 +327,7 @@ export default function AdminPanel() {
 
   if (!ready) {
     return (
-      <div className="card p-10 text-center text-white/60">Cargando panel…</div>
+      <div className="card p-10 text-center text-brand-navy/60 dark:text-white/60">Cargando panel…</div>
     );
   }
 
@@ -336,14 +336,14 @@ export default function AdminPanel() {
       <div className="mx-auto max-w-sm">
         <form onSubmit={login} className="card space-y-4 p-6">
           <div>
-            <h2 className="h-display text-xl text-white">Área de fotógrafos</h2>
-            <p className="mt-1 text-sm text-white/60">
+            <h2 className="h-display text-xl text-brand-navy dark:text-white">Área de fotógrafos</h2>
+            <p className="mt-1 text-sm text-brand-navy/60 dark:text-white/60">
               Introduce la contraseña para subir fotos.
             </p>
           </div>
 
           {!adminOk && (
-            <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-200 ring-1 ring-amber-400/30">
+            <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-200 ring-1 ring-amber-400/30">
               Falta configurar <code>ADMIN_PASSWORD</code> y{" "}
               <code>SESSION_SECRET</code> en el servidor.
             </p>
@@ -355,10 +355,10 @@ export default function AdminPanel() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Contraseña"
             autoComplete="current-password"
-            className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-white outline-none focus:border-brand-gold/50"
+            className="w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-3 py-2 text-brand-navy dark:text-white outline-none focus:border-brand-gold/50"
           />
 
-          {loginError && <p className="text-sm text-brand-red-100">{loginError}</p>}
+          {loginError && <p className="text-sm text-brand-red-700 dark:text-brand-red-100">{loginError}</p>}
 
           <button type="submit" disabled={loggingIn} className="btn-primary w-full disabled:opacity-60">
             {loggingIn ? "Entrando…" : "Entrar"}
@@ -376,7 +376,7 @@ export default function AdminPanel() {
   return (
     <div className="space-y-6">
       {!cloudinaryOk && (
-        <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-200 ring-1 ring-amber-400/30">
+        <p className="rounded-md bg-amber-500/10 p-3 text-sm text-amber-700 dark:text-amber-200 ring-1 ring-amber-400/30">
           Cloudinary no está configurado en el servidor: no se puede subir.
         </p>
       )}
@@ -386,8 +386,8 @@ export default function AdminPanel() {
           className={cn(
             "rounded-md p-3 text-sm ring-1",
             notice.kind === "ok"
-              ? "bg-emerald-500/10 text-emerald-200 ring-emerald-400/30"
-              : "bg-brand-red/10 text-brand-red-100 ring-brand-red/40",
+              ? "bg-emerald-600/10 dark:bg-emerald-500/10 text-emerald-800 dark:text-emerald-200 ring-emerald-600/30 dark:ring-emerald-400/30"
+              : "bg-brand-red/10 text-brand-red-700 dark:text-brand-red-100 ring-brand-red/30 dark:ring-brand-red/40",
           )}
         >
           {notice.msg}
@@ -397,8 +397,8 @@ export default function AdminPanel() {
       {/* Paso 1 — álbum */}
       <section className="card p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="h-display text-lg text-white">
-            <span className="mr-2 text-brand-gold-300">1.</span> Álbum
+          <h2 className="h-display text-lg text-brand-navy dark:text-white">
+            <span className="mr-2 text-brand-gold-700 dark:text-brand-gold-300">1.</span> Álbum
           </h2>
           <button onClick={logout} className="btn-ghost text-xs">
             Salir
@@ -415,7 +415,7 @@ export default function AdminPanel() {
                   "rounded-full px-4 py-1.5 text-sm transition-colors",
                   selected === a.slug
                     ? "bg-brand-red text-white"
-                    : "bg-white/5 text-white/70 hover:bg-white/10",
+                    : "bg-brand-navy/[0.04] dark:bg-white/5 text-brand-navy/70 dark:text-white/70 hover:bg-brand-navy/[0.07] hover:dark:bg-white/10",
                 )}
               >
                 {a.title}
@@ -424,7 +424,7 @@ export default function AdminPanel() {
             ))}
           </div>
         ) : (
-          <p className="mb-4 text-sm text-white/60">
+          <p className="mb-4 text-sm text-brand-navy/60 dark:text-white/60">
             Todavía no hay álbumes. Crea el primero abajo.
           </p>
         )}
@@ -434,7 +434,7 @@ export default function AdminPanel() {
             value={newAlbum}
             onChange={(e) => setNewAlbum(e.target.value)}
             placeholder="Nombre del álbum nuevo (ej. Jornada 1)"
-            className="flex-1 rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-brand-gold/50"
+            className="flex-1 rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-3 py-2 text-sm text-brand-navy dark:text-white outline-none focus:border-brand-gold/50"
           />
           <button
             type="button"
@@ -451,21 +451,21 @@ export default function AdminPanel() {
 
       {/* Paso 2 — fotos */}
       <section className="card p-6">
-        <h2 className="mb-1 h-display text-lg text-white">
-          <span className="mr-2 text-brand-gold-300">2.</span> Fotos
+        <h2 className="mb-1 h-display text-lg text-brand-navy dark:text-white">
+          <span className="mr-2 text-brand-gold-700 dark:text-brand-gold-300">2.</span> Fotos
         </h2>
-        <p className="mb-4 text-sm text-white/60">
+        <p className="mb-4 text-sm text-brand-navy/60 dark:text-white/60">
           {selectedAlbum
             ? `Se subirán a "${selectedAlbum.title}" (${selectedAlbum.count} fotos actualmente).`
             : "Elige un álbum arriba."}
         </p>
 
         {selected === PLAYERS_ALBUM && (
-          <p className="mb-4 rounded-md bg-brand-gold/10 p-3 text-sm text-brand-gold-300 ring-1 ring-brand-gold/30">
+          <p className="mb-4 rounded-md bg-brand-gold-600/10 dark:bg-brand-gold/10 p-3 text-sm text-brand-gold-700 dark:text-brand-gold-300 ring-1 ring-brand-gold/30">
             <strong>Retratos de jugadores.</strong> Nombra cada archivo con el
             nombre del jugador —{" "}
-            <code className="text-white/80">rafael-borges.jpg</code> o{" "}
-            <code className="text-white/80">Rafael Borges.jpg</code>— y la foto
+            <code className="text-brand-navy/75 dark:text-white/80">rafael-borges.jpg</code> o{" "}
+            <code className="text-brand-navy/75 dark:text-white/80">Rafael Borges.jpg</code>— y la foto
             saldrá sola en el pódium de anotadores. Volver a subir el mismo
             nombre reemplaza la foto. Este álbum no aparece en la galería
             pública.
@@ -488,11 +488,11 @@ export default function AdminPanel() {
             "cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-colors",
             dragging
               ? "border-brand-gold/60 bg-brand-gold/5"
-              : "border-white/15 hover:border-white/30 hover:bg-white/[0.03]",
+              : "border-brand-navy/15 dark:border-white/15 hover:border-white/30 hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.03]",
           )}
         >
-          <p className="text-white">Arrastra las fotos aquí</p>
-          <p className="mt-1 text-sm text-white/50">
+          <p className="text-brand-navy dark:text-white">Arrastra las fotos aquí</p>
+          <p className="mt-1 text-sm text-brand-navy/55 dark:text-white/50">
             o haz clic para elegirlas · JPG o PNG, hasta 10 MB cada una
           </p>
           <input
@@ -529,7 +529,7 @@ export default function AdminPanel() {
               >
                 Limpiar lista
               </button>
-              <span className="text-sm text-white/60">
+              <span className="text-sm text-brand-navy/60 dark:text-white/60">
                 {done} subidas · {pending} pendientes
                 {failed ? ` · ${failed} con error` : ""}
               </span>
@@ -537,7 +537,7 @@ export default function AdminPanel() {
 
             <ul className="mt-4 space-y-2">
               {items.map((it) => (
-                <li key={it.key} className="flex items-center gap-3 rounded-lg bg-white/[0.03] p-3">
+                <li key={it.key} className="flex items-center gap-3 rounded-lg bg-white dark:bg-white/[0.03] p-3">
                   {it.publicId ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
@@ -546,19 +546,19 @@ export default function AdminPanel() {
                       className="h-12 w-12 shrink-0 rounded object-cover"
                     />
                   ) : (
-                    <div className="h-12 w-12 shrink-0 rounded bg-white/5" />
+                    <div className="h-12 w-12 shrink-0 rounded bg-brand-navy/[0.04] dark:bg-white/5" />
                   )}
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="truncate text-sm text-white">{it.name}</span>
+                      <span className="truncate text-sm text-brand-navy dark:text-white">{it.name}</span>
                       <span
                         className={cn(
                           "shrink-0 text-xs",
-                          it.state === "done" && "text-emerald-300",
-                          it.state === "error" && "text-brand-red-100",
-                          it.state === "uploading" && "text-brand-gold-300",
-                          it.state === "pending" && "text-white/40",
+                          it.state === "done" && "text-emerald-700 dark:text-emerald-300",
+                          it.state === "error" && "text-brand-red-700 dark:text-brand-red-100",
+                          it.state === "uploading" && "text-brand-gold-700 dark:text-brand-gold-300",
+                          it.state === "pending" && "text-brand-navy/50 dark:text-white/40",
                         )}
                       >
                         {it.state === "done"
@@ -570,7 +570,7 @@ export default function AdminPanel() {
                               : "En cola"}
                       </span>
                     </div>
-                    <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/10">
+                    <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-brand-navy/[0.07] dark:bg-white/10">
                       <div
                         className={cn(
                           "h-full transition-all",
@@ -584,7 +584,7 @@ export default function AdminPanel() {
                   {it.state === "done" && (
                     <button
                       onClick={() => removePhoto(it)}
-                      className="shrink-0 rounded px-2 py-1 text-xs text-white/50 hover:bg-white/10 hover:text-brand-red-100"
+                      className="shrink-0 rounded px-2 py-1 text-xs text-brand-navy/55 dark:text-white/50 hover:bg-brand-navy/[0.07] hover:dark:bg-white/10 hover:text-brand-red-700 hover:dark:text-brand-red-100"
                       title="Borrar de la galería"
                     >
                       Borrar

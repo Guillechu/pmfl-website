@@ -45,8 +45,8 @@ export default function ContactForm() {
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/15 text-2xl">
           ✅
         </div>
-        <h3 className="mt-3 h-display text-xl text-white">¡Mensaje enviado!</h3>
-        <p className="mt-2 max-w-sm text-white/70">
+        <h3 className="mt-3 h-display text-xl text-brand-navy dark:text-white">¡Mensaje enviado!</h3>
+        <p className="mt-2 max-w-sm text-brand-navy/70 dark:text-white/70">
           Gracias por escribirnos. Te responderemos lo antes posible.
         </p>
         <button
@@ -63,42 +63,42 @@ export default function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <label className="text-xs text-white/60">Nombre</label>
+        <label className="text-xs text-brand-navy/60 dark:text-white/60">Nombre</label>
         <input
           name="name"
           type="text"
           required
           minLength={2}
           placeholder="Tu nombre completo"
-          className="mt-1 w-full rounded-md border border-white/10 bg-white/5 px-4 py-2 text-white outline-none focus:border-brand-gold/50"
+          className="mt-1 w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-4 py-2 text-brand-navy dark:text-white outline-none focus:border-brand-gold/50"
         />
       </div>
 
       <div>
-        <label className="text-xs text-white/60">Correo</label>
+        <label className="text-xs text-brand-navy/60 dark:text-white/60">Correo</label>
         <input
           name="email"
           type="email"
           required
           placeholder="tu@email.com"
-          className="mt-1 w-full rounded-md border border-white/10 bg-white/5 px-4 py-2 text-white outline-none focus:border-brand-gold/50"
+          className="mt-1 w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-4 py-2 text-brand-navy dark:text-white outline-none focus:border-brand-gold/50"
         />
       </div>
 
       <div>
-        <label className="text-xs text-white/60">Mensaje</label>
+        <label className="text-xs text-brand-navy/60 dark:text-white/60">Mensaje</label>
         <textarea
           name="message"
           rows={5}
           required
           minLength={5}
           placeholder="¿En qué podemos ayudarte?"
-          className="mt-1 w-full rounded-md border border-white/10 bg-white/5 px-4 py-2 text-white outline-none focus:border-brand-gold/50"
+          className="mt-1 w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-4 py-2 text-brand-navy dark:text-white outline-none focus:border-brand-gold/50"
         />
       </div>
 
       {status === "error" && (
-        <p className="rounded-md border border-brand-red/40 bg-brand-red/10 px-3 py-2 text-sm text-brand-red-100">
+        <p className="rounded-md border border-brand-red/40 bg-brand-red/10 px-3 py-2 text-sm text-brand-red-700 dark:text-brand-red-100">
           {error}
         </p>
       )}
