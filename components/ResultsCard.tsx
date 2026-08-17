@@ -43,8 +43,29 @@ export default function ResultsCard({ data }: { data: ResultsPanel }) {
   return (
     <Link
       href={data.url}
-      className="group block overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-navy-800 via-brand-navy-900 to-black transition-colors hover:border-brand-gold/40"
+      className={
+        "group grid overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-navy-800 via-brand-navy-900 to-black transition-colors hover:border-brand-gold/40 " +
+        (data.image ? "lg:grid-cols-[minmax(0,44%)_1fr]" : "")
+      }
     >
+      {data.image && (
+        // En pantalla ancha la foto ocupa una columna y se estira al alto
+        // del texto: así queda casi en su proporción natural. Como banner
+        // a todo lo ancho se recortaba dos tercios de la imagen y se
+        // perdía la mitad de los jugadores.
+        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-auto">
+          <img
+            src={data.image}
+            alt={data.imageAlt ?? ""}
+            className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
+          />
+          {/* Funde la foto con la tarjeta: por abajo al apilarse, por el
+              lado derecho cuando van en columnas. */}
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-brand-navy-900 to-transparent lg:hidden" />
+          <div className="absolute inset-y-0 right-0 hidden w-20 bg-gradient-to-l from-brand-navy-900 to-transparent lg:block" />
+        </div>
+      )}
+
       <div className="p-6 md:p-8">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="rounded-full bg-brand-red px-3 py-1 font-semibold text-white">

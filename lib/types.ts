@@ -183,6 +183,9 @@ export interface ResultsPanel {
   eyebrow: string;
   title: string;
   summary: string;
+  /** Foto de cabecera, opcional. */
+  image?: string;
+  imageAlt?: string;
   /** Ruta interna a la que lleva la tarjeta. */
   url: string;
   linkLabel: string;
