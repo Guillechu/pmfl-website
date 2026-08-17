@@ -35,6 +35,188 @@
     "logo": "/sponsors/pandeportes.png"
   },
   {
+    "id": "5to5",
+    "name": "5to5",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/5to5.png"
+  },
+  {
+    "id": "alcaldia-medellin",
+    "name": "Alcaldía de Medellín",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/alcaldia-medellin.png"
+  },
+  {
+    "id": "burger-guys",
+    "name": "Burger Guys",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/burger-guys.png"
+  },
+  {
+    "id": "cyc-abogados",
+    "name": "C&C Abogados",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/cyc-abogados.png"
+  },
+  {
+    "id": "copy-color",
+    "name": "Copy Color",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/copy-color.png"
+  },
+  {
+    "id": "distribuidora-roman",
+    "name": "Distribuidora Román",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/distribuidora-roman.png"
+  },
+  {
+    "id": "diva-tropical",
+    "name": "Diva Tropical Lounge",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/diva-tropical.png"
+  },
+  {
+    "id": "fonpets",
+    "name": "Fonpets",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/fonpets.png"
+  },
+  {
+    "id": "haztec",
+    "name": "Haztec",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/haztec.png"
+  },
+  {
+    "id": "hotel-internacional-colon",
+    "name": "Hotel Internacional de Colón",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/hotel-internacional-colon.png"
+  },
+  {
+    "id": "ibax",
+    "name": "IBAX",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/ibax.png"
+  },
+  {
+    "id": "inder-medellin",
+    "name": "Inder · Alcaldía de Medellín",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/inder-medellin.png"
+  },
+  {
+    "id": "m3-logistics",
+    "name": "M3 International Logistics",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/m3-logistics.png"
+  },
+  {
+    "id": "movexa",
+    "name": "Movexa",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/movexa.png"
+  },
+  {
+    "id": "nelson-cedeno",
+    "name": "Nelson Cedeño",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/nelson-cedeno.png"
+  },
+  {
+    "id": "productos-sublimados",
+    "name": "Productos Sublimados Panamá",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/productos-sublimados.png"
+  },
+  {
+    "id": "rutas-panama",
+    "name": "Rutas Panamá",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/rutas-panama.png"
+  },
+  {
+    "id": "selected-padel-club",
+    "name": "Selected Padel Club",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/selected-padel-club.png"
+  },
+  {
+    "id": "soeac",
+    "name": "SOEAC",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/soeac.png"
+  },
+  {
+    "id": "somos-seguros",
+    "name": "Somos Seguros",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/somos-seguros.png"
+  },
+  {
+    "id": "spill-control",
+    "name": "Spill Control",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/spill-control.png"
+  },
+  {
+    "id": "see-more-logistics",
+    "name": "See More Logistics",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/see-more-logistics.png"
+  },
+  {
+    "id": "starlink",
+    "name": "Starlink",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/starlink.png"
+  },
+  {
+    "id": "talleres-industriales",
+    "name": "Talleres Industriales International",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/talleres-industriales.png"
+  },
+  {
+    "id": "z-social-media",
+    "name": "Z Social Media",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/z-social-media.png"
+  },
+  {
+    "id": "zky-aloaristi",
+    "name": "ZKY Aloaristi",
+    "category": "Patrocinadores",
+    "url": "#",
+    "logo": "/sponsors/zky-aloaristi.png"
+  },
+  {
     "id": "touchdown-panama",
     "name": "Touchdown Panamá",
     "category": "Alianzas",
