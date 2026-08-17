@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { teams, getTeam, getTeamRoster, schedule } from "@/lib/data";
+import { teams, getTeam, getTeamRoster, schedule, teamByName } from "@/lib/data";
 import TeamMark from "@/components/TeamMark";
 import MatchCard from "@/components/MatchCard";
 import TeamRosterTable, { type RosterRow } from "@/components/TeamRosterTable";
 import { InstagramIcon } from "@/components/SocialIcons";
-import { getClubRosterByName, getMatches } from "@/lib/cloob";
+import { getClubRosterByName, getMatches, getStandings } from "@/lib/cloob";
 import { fromCloob, fromLocal } from "@/lib/match";
 import { slugify } from "@/lib/utils";
 import type { Player } from "@/lib/types";
@@ -91,10 +91,21 @@ export default async function TeamDetailPage({
 
   if (!team) notFound();
 
-  const [cloobRoster, cloobMatches] = await Promise.all([
+  const [cloobRoster, cloobMatches, standings] = await Promise.all([
     getClubRosterByName(team.name).catch(() => []),
     getMatches().catch(() => []),
+    getStandings().catch(() => []),
   ]);
+
+  // Récord y puntos: manda Cloob, igual que la clasificación del inicio.
+  // data/teams.json solo sirve de respaldo; sus cifras están a cero y se
+  // quedaban ahí aunque el equipo ya hubiera jugado.
+  const fila = standings.find((s) => teamByName(s.name)?.id === team.id);
+  const record = fila
+    ? `${fila.won}-${fila.lost}`
+    : `${team.record.wins}-${team.record.losses}`;
+  const puntosFavor = fila ? fila.pf : team.stats.pointsFor;
+  const puntosContra = fila ? fila.pc : team.stats.pointsAgainst;
 
   const roster = buildRoster(cloobRoster, getTeamRoster(team.id));
 
@@ -168,20 +179,11 @@ export default async function TeamDetailPage({
         </p>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Stat
-            label="Record"
-            value={`${team.record.wins}-${team.record.losses}`}
-          />
+          <Stat label="Record" value={record} />
 
-          <Stat
-            label="Puntos a favor"
-            value={team.stats.pointsFor}
-          />
+          <Stat label="Puntos a favor" value={puntosFavor} />
 
-          <Stat
-            label="Puntos en contra"
-            value={team.stats.pointsAgainst}
-          />
+          <Stat label="Puntos en contra" value={puntosContra} />
         </div>
       </header>
 
