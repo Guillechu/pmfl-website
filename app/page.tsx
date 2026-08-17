@@ -1,5 +1,5 @@
-// Home — Server Component. La clasificación y los goleadores se traen en
-// vivo desde Cloob.
+// Home — Server Component. La clasificación y los líderes de anotación se
+// traen en vivo desde Cloob.
 
 import Link from "next/link";
 import Hero from "@/components/Hero";
