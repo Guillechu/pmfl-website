@@ -133,17 +133,18 @@ export default async function TeamDetailPage({
     <div className="container-page py-10">
       <Link
         href="/teams"
-        className="text-sm text-brand-gold-300 hover:text-brand-gold-500"
+        className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500"
       >
         ← Todos los equipos
       </Link>
 
-      <header
-        className="mt-4 rounded-2xl border border-white/10 p-6 md:p-10 relative overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, ${team.primaryColor} 0%, #03080F 80%)`,
-        }}
-      >
+      {/* El fondo iba en un style en línea con team.primaryColor, que
+          ningún equipo tiene definido: salía "linear-gradient(135deg,
+          undefined 0%, …)", CSS inválido que el navegador descartaba. La
+          cabecera llevaba sin fondo desde siempre y no se notaba porque
+          coincidía con el de la página. Ahora es un degradado real y con
+          una versión por tema. */}
+      <header className="relative mt-4 overflow-hidden rounded-2xl border border-brand-navy/10 bg-gradient-to-br from-white via-white to-brand-navy/[0.06] p-6 shadow-card md:p-10 dark:border-white/10 dark:from-brand-navy-700 dark:via-brand-navy-800 dark:to-brand-navy-900 dark:shadow-cardDark">
         <div className="flex flex-col md:flex-row items-center gap-10">
           <TeamMark
             team={team}
@@ -151,11 +152,11 @@ export default async function TeamDetailPage({
           />
 
           <div className="min-w-0 text-center md:text-left">
-            <h1 className="h-display text-4xl md:text-6xl text-white leading-tight">
+            <h1 className="h-display text-4xl md:text-6xl text-brand-navy dark:text-white leading-tight">
               {team.name}
             </h1>
 
-            <p className="text-white/75 mt-2 text-lg">
+            <p className="text-brand-navy/70 dark:text-white/75 mt-2 text-lg">
               {team.city}
             </p>
 
@@ -174,7 +175,7 @@ export default async function TeamDetailPage({
           </div>
         </div>
 
-        <p className="mt-6 max-w-3xl text-white/85">
+        <p className="mt-6 max-w-3xl text-brand-navy/80 dark:text-white/85">
           {team.description}
         </p>
 
@@ -189,9 +190,9 @@ export default async function TeamDetailPage({
 
       <section className="grid lg:grid-cols-[1fr_2fr] gap-6 mt-8">
         <aside className="card p-6 text-sm">
-          <h2 className="h-display text-xl text-white">Club Info</h2>
+          <h2 className="h-display text-xl text-brand-navy dark:text-white">Club Info</h2>
 
-          <h3 className="mt-4 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+          <h3 className="mt-4 text-xs font-semibold uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
             Directivos
           </h3>
           <div className="mt-2 space-y-2">
@@ -199,7 +200,7 @@ export default async function TeamDetailPage({
             <Row label="GM" value={team.gm || "Por confirmar"} />
           </div>
 
-          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
             Cuerpo Técnico
           </h3>
           <div className="mt-2 space-y-2">
@@ -227,7 +228,7 @@ export default async function TeamDetailPage({
             )}
           </div>
 
-          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-300">
+          <h3 className="mt-5 text-xs font-semibold uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
             Club
           </h3>
           <div className="mt-2 space-y-2">
@@ -237,7 +238,7 @@ export default async function TeamDetailPage({
 
         <div>
           <div className="mb-3">
-            <h2 className="h-display text-xl text-white">
+            <h2 className="h-display text-xl text-brand-navy dark:text-white">
               Roster
             </h2>
           </div>
@@ -247,12 +248,12 @@ export default async function TeamDetailPage({
       </section>
 
       <section className="mt-10">
-        <h2 className="h-display text-xl text-white mb-3">
+        <h2 className="h-display text-xl text-brand-navy dark:text-white mb-3">
           Calendario del equipo
         </h2>
 
         {teamGames.length === 0 ? (
-          <div className="card p-8 text-center text-white/60">
+          <div className="card p-8 text-center text-brand-navy/60 dark:text-white/60">
             El calendario de {team.name} estará disponible pronto.
           </div>
         ) : (
@@ -275,12 +276,12 @@ function Stat({
   value: number | string;
 }) {
   return (
-    <div className="rounded-lg bg-black/30 border border-white/10 px-4 py-3 backdrop-blur-sm">
-      <div className="text-[10px] uppercase tracking-widest text-white/60">
+    <div className="rounded-lg bg-brand-navy/[0.05] dark:bg-black/30 border border-white/10 px-4 py-3 backdrop-blur-sm">
+      <div className="text-[10px] uppercase tracking-widest text-brand-navy/60 dark:text-white/60">
         {label}
       </div>
 
-      <div className="font-display text-2xl text-white tabular-nums">
+      <div className="font-display text-2xl text-brand-navy dark:text-white tabular-nums">
         {value}
       </div>
     </div>
@@ -295,10 +296,10 @@ function Row({
   value: number | string;
 }) {
   return (
-    <div className="flex justify-between gap-4 border-b border-white/5 pb-2 last:border-0">
-      <span className="text-white/60">{label}</span>
+    <div className="flex justify-between gap-4 border-b border-brand-navy/[0.07] dark:border-white/5 pb-2 last:border-0">
+      <span className="text-brand-navy/60 dark:text-white/60">{label}</span>
 
-      <span className="text-white font-medium text-right">
+      <span className="text-brand-navy dark:text-white font-medium text-right">
         {value}
       </span>
     </div>

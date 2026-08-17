@@ -34,11 +34,11 @@ function TeamName({ name }: { name: string }) {
   const content = (
     <span className="flex items-center gap-3">
       <TeamLogo name={name} team={local} className="h-9 w-9" />
-      <span className="font-medium text-white">{local?.name ?? name}</span>
+      <span className="font-medium text-brand-navy dark:text-white">{local?.name ?? name}</span>
     </span>
   );
   return local ? (
-    <Link href={`/teams/${local.id}`} className="hover:text-brand-gold-300">
+    <Link href={`/teams/${local.id}`} className="hover:text-brand-gold-700 hover:dark:text-brand-gold-300">
       {content}
     </Link>
   ) : (
@@ -48,7 +48,7 @@ function TeamName({ name }: { name: string }) {
 
 function LiveBadge() {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-brand-red/20 px-3 py-1 text-xs font-semibold text-brand-red-100 ring-1 ring-brand-red/40">
+    <span className="inline-flex items-center gap-2 rounded-full bg-brand-red/10 dark:bg-brand-red/20 px-3 py-1 text-xs font-semibold text-brand-red-700 dark:text-brand-red-100 ring-1 ring-brand-red/30 dark:ring-brand-red/40">
       <span className="relative flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-red opacity-75" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-red" />
@@ -65,7 +65,7 @@ function StandingsTable({ rows }: { rows: CloobStanding[] }) {
     <div className="card overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-white/[0.04] text-xs uppercase tracking-wider text-white/60">
+          <thead className="bg-white dark:bg-white/[0.04] text-xs uppercase tracking-wider text-brand-navy/60 dark:text-white/60">
             <tr>
               <th className="w-10 px-3 py-3 text-center font-medium">#</th>
               <th className="px-4 py-3 text-left font-medium">Equipo</th>
@@ -76,24 +76,24 @@ function StandingsTable({ rows }: { rows: CloobStanding[] }) {
               <th className="px-3 py-3 text-center font-medium" title="Puntos a favor">PF</th>
               <th className="px-3 py-3 text-center font-medium" title="Puntos en contra">PC</th>
               <th className="px-3 py-3 text-center font-medium" title="Diferencia">DIF</th>
-              <th className="px-3 py-3 text-center font-semibold text-white/80" title="Puntos">PTS</th>
+              <th className="px-3 py-3 text-center font-semibold text-brand-navy/75 dark:text-white/80" title="Puntos">PTS</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-brand-navy/[0.07] dark:divide-white/5">
             {rows.map((t) => {
               const playoff = t.position <= 4; // top 4 → zona de playoffs
               return (
                 <tr
                   key={t.name + t.position}
-                  className="transition-colors hover:bg-white/[0.04]"
+                  className="transition-colors hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.04]"
                 >
                   <td className="px-3 py-3 text-center">
                     <span
                       className={
                         "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold " +
                         (playoff
-                          ? "bg-brand-gold/20 text-brand-gold-300 ring-1 ring-brand-gold/40"
-                          : "text-white/60")
+                          ? "bg-brand-gold-600/15 dark:bg-brand-gold/20 text-brand-gold-700 dark:text-brand-gold-300 ring-1 ring-brand-gold-600/40 dark:ring-brand-gold/40"
+                          : "text-brand-navy/60 dark:text-white/60")
                       }
                     >
                       {t.position}
@@ -102,16 +102,16 @@ function StandingsTable({ rows }: { rows: CloobStanding[] }) {
                   <td className="px-4 py-3">
                     <TeamName name={t.name} />
                   </td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/80">{t.played}</td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/90">{t.won}</td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/70">{t.drawn}</td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/90">{t.lost}</td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/70">{t.pf}</td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/70">{t.pc}</td>
-                  <td className="px-3 py-3 text-center tabular-nums text-white/70">
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/75 dark:text-white/80">{t.played}</td>
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/85 dark:text-white/90">{t.won}</td>
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/70 dark:text-white/70">{t.drawn}</td>
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/85 dark:text-white/90">{t.lost}</td>
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/70 dark:text-white/70">{t.pf}</td>
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/70 dark:text-white/70">{t.pc}</td>
+                  <td className="px-3 py-3 text-center tabular-nums text-brand-navy/70 dark:text-white/70">
                     {t.diff > 0 ? `+${t.diff}` : t.diff}
                   </td>
-                  <td className="px-3 py-3 text-center tabular-nums text-lg font-black text-brand-gold-300">
+                  <td className="px-3 py-3 text-center tabular-nums text-lg font-black text-brand-gold-700 dark:text-brand-gold-300">
                     {t.points}
                   </td>
                 </tr>
@@ -120,8 +120,8 @@ function StandingsTable({ rows }: { rows: CloobStanding[] }) {
           </tbody>
         </table>
       </div>
-      <p className="border-t border-white/5 px-4 py-3 text-xs text-white/45">
-        <span className="mr-1 inline-block h-2 w-2 rounded-full bg-brand-gold/60 align-middle" />
+      <p className="border-t border-brand-navy/[0.07] dark:border-white/5 px-4 py-3 text-xs text-brand-navy/50 dark:text-white/45">
+        <span className="mr-1 inline-block h-2 w-2 rounded-full bg-brand-gold-600/60 dark:bg-brand-gold/60 align-middle" />
         Zona de playoffs (top 4)
       </p>
     </div>
@@ -151,28 +151,28 @@ export default async function StatsPage() {
     <div className="container-page py-12">
       <header className="mb-8">
         <div className="flex items-center gap-3">
-          <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+          <p className="text-xs uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
             Temporada · PMFL
           </p>
           {hasData && <LiveBadge />}
         </div>
-        <h1 className="h-display text-4xl text-white md:text-5xl">Rankings y Stats</h1>
-        <p className="mt-2 max-w-2xl text-white/70">
+        <h1 className="h-display text-4xl text-brand-navy dark:text-white md:text-5xl">Rankings y Stats</h1>
+        <p className="mt-2 max-w-2xl text-brand-navy/70 dark:text-white/70">
           Clasificación, líderes de anotación y resultados oficiales,
           actualizados automáticamente.
         </p>
-        <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-white/60 ring-1 ring-white/10">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-gold/70" />
+        <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-brand-navy/[0.04] dark:bg-white/5 px-3 py-1 text-xs text-brand-navy/60 dark:text-white/60 ring-1 ring-brand-navy/10 dark:ring-white/10">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand-gold-600/70 dark:bg-brand-gold/70" />
           Estadísticas soportadas por Boowl App
         </p>
       </header>
 
       {!hasData ? (
         <div className="card p-10 text-center">
-          <h3 className="text-2xl font-black text-white">
+          <h3 className="text-2xl font-black text-brand-navy dark:text-white">
             Estadísticas próximamente
           </h3>
-          <p className="mx-auto mt-3 max-w-md text-white/60">
+          <p className="mx-auto mt-3 max-w-md text-brand-navy/60 dark:text-white/60">
             Los líderes y la clasificación oficial estarán disponibles cuando
             haya partidos registrados en la temporada.
           </p>
@@ -181,14 +181,14 @@ export default async function StatsPage() {
         <div className="space-y-12">
           {/* Clasificación */}
           <section>
-            <h2 className="mb-4 h-display text-2xl text-white">Clasificación</h2>
+            <h2 className="mb-4 h-display text-2xl text-brand-navy dark:text-white">Clasificación</h2>
             <StandingsTable rows={standings} />
           </section>
 
           {/* Líderes de anotación — pódium */}
           {podium.length > 0 && (
             <section>
-              <h2 className="mb-4 h-display text-2xl text-white">
+              <h2 className="mb-4 h-display text-2xl text-brand-navy dark:text-white">
                 Líderes de anotación
               </h2>
               <div className="card px-4 py-8 md:px-8">
@@ -200,10 +200,10 @@ export default async function StatsPage() {
           {/* Líderes por categoría — todo lo que publica Cloob */}
           {statGroups.length > 0 && (
             <section>
-              <h2 className="mb-1 h-display text-2xl text-white">
+              <h2 className="mb-1 h-display text-2xl text-brand-navy dark:text-white">
                 Líderes por categoría
               </h2>
-              <p className="mb-5 text-sm text-white/60">
+              <p className="mb-5 text-sm text-brand-navy/60 dark:text-white/60">
                 Top 3 de cada estadística.
               </p>
               <StatLeaderboards groups={statGroups} photos={photos} />
@@ -213,7 +213,7 @@ export default async function StatsPage() {
           {/* Resultados recientes */}
           {results.length > 0 && (
             <section>
-              <h2 className="mb-4 h-display text-2xl text-white">
+              <h2 className="mb-4 h-display text-2xl text-brand-navy dark:text-white">
                 Resultados recientes
               </h2>
               {/* Misma tarjeta que el home y el calendario: escudos,
@@ -229,14 +229,27 @@ export default async function StatsPage() {
           {/* Crédito de la plataforma. El logo va en PNG con fondo
               transparente, para que se apoye sobre el navy del sitio sin
               recuadro; el nombre queda en el alt. */}
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-4 text-center text-xs text-white/40">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 pt-4 text-center text-xs text-brand-navy/50 dark:text-white/40">
             <span>Datos oficiales proporcionados por la plataforma</span>
+            {/* El logo original lleva el wordmark en blanco, así que
+                sobre la apariencia clara desaparecía y solo quedaba el
+                trofeo rojo. Se sirve una versión con el texto en navy y
+                se intercambian por tema; el alt va solo en una para no
+                anunciar el nombre dos veces a un lector de pantalla. */}
             <img
-              src="/boowl.png"
+              src="/boowl-claro.png"
               alt="Boowl"
               width={480}
               height={269}
-              className="h-8 w-auto"
+              className="h-8 w-auto dark:hidden"
+            />
+            <img
+              src="/boowl.png"
+              alt=""
+              aria-hidden="true"
+              width={480}
+              height={269}
+              className="hidden h-8 w-auto dark:block"
             />
           </div>
         </div>

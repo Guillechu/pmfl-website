@@ -49,16 +49,16 @@ export default function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200",
         scrolled
-          ? "border-b border-white/10 bg-brand-navy-900/85 backdrop-blur-md"
-          : "border-b border-transparent bg-brand-navy-900/40 backdrop-blur"
+          ? "border-b border-brand-navy/10 dark:border-white/10 bg-white/90 dark:bg-brand-navy-900/85 backdrop-blur-md"
+          : "border-b border-transparent bg-white/70 dark:bg-brand-navy-900/40 backdrop-blur"
       )}
     >
       <div className="container-page flex h-16 items-center gap-4">
         <Link href="/" className="flex items-center gap-2 group">
           <LeagueMark className="h-9 w-9 transition-transform group-hover:scale-105" />
           <div className="leading-tight">
-            <div className="h-display text-lg text-white">PMFL</div>
-            <div className="text-[10px] uppercase tracking-widest text-brand-gold-300">
+            <div className="h-display text-lg text-brand-navy dark:text-white">PMFL</div>
+            <div className="text-[10px] uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
               Panama Major Football League
             </div>
           </div>
@@ -75,8 +75,8 @@ export default function Navbar() {
                 className={cn(
                   "rounded-md px-2.5 py-2 text-[13px] font-medium transition-colors whitespace-nowrap",
                   active
-                    ? "bg-white/10 text-brand-gold-300"
-                    : "text-white/80 hover:text-white hover:bg-white/5"
+                    ? "bg-brand-navy/[0.07] dark:bg-white/10 text-brand-gold-700 dark:text-brand-gold-300"
+                    : "text-brand-navy/75 dark:text-white/80 hover:text-brand-navy hover:dark:text-white hover:bg-brand-navy/[0.04] hover:dark:bg-white/5"
                 )}
               >
                 {item.label}
@@ -102,7 +102,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen((o) => !o)}
-          className="lg:hidden ml-auto rounded-md p-2 text-white/80 hover:text-white hover:bg-white/5"
+          className="lg:hidden ml-auto rounded-md p-2 text-brand-navy/75 dark:text-white/80 hover:text-brand-navy hover:dark:text-white hover:bg-brand-navy/[0.04] hover:dark:bg-white/5"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
@@ -118,7 +118,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="lg:hidden border-t border-white/10 bg-brand-navy-900/95 backdrop-blur-md animate-fade-in">
+        <div className="lg:hidden border-t border-brand-navy/10 dark:border-white/10 bg-white/95 dark:bg-brand-navy-900/95 backdrop-blur-md animate-fade-in">
           <div className="container-page py-3">
             <SearchBar />
             <nav className="mt-3 flex flex-col">
@@ -131,8 +131,8 @@ export default function Navbar() {
                     className={cn(
                       "rounded-md px-3 py-2 text-sm font-medium transition-colors",
                       active
-                        ? "bg-white/10 text-brand-gold-300"
-                        : "text-white/85 hover:bg-white/5"
+                        ? "bg-brand-navy/[0.07] dark:bg-white/10 text-brand-gold-700 dark:text-brand-gold-300"
+                        : "text-brand-navy/80 dark:text-white/85 hover:bg-brand-navy/[0.04] hover:dark:bg-white/5"
                     )}
                   >
                     {item.label}

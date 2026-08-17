@@ -127,7 +127,7 @@ export default function SearchBar({ className }: { className?: string }) {
     <div ref={ref} className={cn("relative", className)}>
       <div className="relative">
         <svg
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50"
+          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-navy/55 dark:text-white/50"
           viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
         >
           <circle cx="11" cy="11" r="7" />
@@ -139,14 +139,14 @@ export default function SearchBar({ className }: { className?: string }) {
           onChange={(e) => { setQ(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
           placeholder="Buscar equipos o jugadores…"
-          className="w-full rounded-md bg-white/5 border border-white/10 pl-9 pr-3 py-2 text-sm text-white placeholder-white/40 outline-none focus:border-brand-gold/50 focus:bg-white/10 transition-colors"
+          className="w-full rounded-md bg-brand-navy/[0.04] dark:bg-white/5 border border-brand-navy/10 dark:border-white/10 pl-9 pr-3 py-2 text-sm text-brand-navy dark:text-white placeholder-brand-navy/40 dark:placeholder-white/40 outline-none focus:border-brand-gold/50 focus:bg-brand-navy/[0.07] focus:dark:bg-white/10 transition-colors"
         />
       </div>
 
       {open && q.trim().length >= 2 && (
-        <div className="absolute z-50 mt-2 w-full rounded-md border border-white/10 bg-brand-navy-800/95 backdrop-blur-md shadow-card overflow-hidden animate-fade-in">
+        <div className="absolute z-50 mt-2 w-full rounded-md border border-brand-navy/10 dark:border-white/10 bg-white/95 dark:bg-brand-navy-800/95 backdrop-blur-md shadow-card overflow-hidden animate-fade-in">
           {results.length === 0 ? (
-            <div className="px-3 py-3 text-sm text-white/60">
+            <div className="px-3 py-3 text-sm text-brand-navy/60 dark:text-white/60">
               {cargando ? "Buscando…" : "Sin resultados."}
             </div>
           ) : (
@@ -156,13 +156,13 @@ export default function SearchBar({ className }: { className?: string }) {
                   <Link
                     href={r.href}
                     onClick={() => { setOpen(false); setQ(""); }}
-                    className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-white/5"
+                    className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-brand-navy/[0.04] hover:dark:bg-white/5"
                   >
                     <div>
-                      <div className="text-sm text-white">{r.label}</div>
-                      <div className="text-xs text-white/50">{r.sub}</div>
+                      <div className="text-sm text-brand-navy dark:text-white">{r.label}</div>
+                      <div className="text-xs text-brand-navy/55 dark:text-white/50">{r.sub}</div>
                     </div>
-                    <span className="text-[10px] uppercase tracking-wider text-brand-gold-300">
+                    <span className="text-[10px] uppercase tracking-wider text-brand-gold-700 dark:text-brand-gold-300">
                       {r.kind}
                     </span>
                   </Link>

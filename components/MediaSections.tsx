@@ -29,7 +29,7 @@ export default function MediaSections() {
     {/* PLAY OF THE WEEK */}
     <section className="mb-12">
       <div className="mb-3 flex items-end justify-between">
-        <h2 className="h-display text-2xl text-white">
+        <h2 className="h-display text-2xl text-brand-navy dark:text-white">
           Video Destacado
         </h2>
         <Badge variant="red">PMFL</Badge>
@@ -44,13 +44,13 @@ export default function MediaSections() {
         </div>
 
         <div className="card p-6 flex flex-col justify-center">
-          <h3 className="h-display text-2xl text-white">
+          <h3 className="h-display text-2xl text-brand-navy dark:text-white">
             {media.playOfTheWeek.title}
           </h3>
-          <p className="mt-2 text-sm text-white/70">
+          <p className="mt-2 text-sm text-brand-navy/70 dark:text-white/70">
             {media.playOfTheWeek.description}
           </p>
-          <p className="mt-4 text-xs uppercase tracking-wider text-brand-gold-300">
+          <p className="mt-4 text-xs uppercase tracking-wider text-brand-gold-700 dark:text-brand-gold-300">
             {media.playOfTheWeek.team}
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function MediaSections() {
     {/* HIGHLIGHTS */}
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="h-display text-2xl text-white">
+        <h2 className="h-display text-2xl text-brand-navy dark:text-white">
           Highlights
         </h2>
 
@@ -73,7 +73,7 @@ export default function MediaSections() {
                 "rounded-full px-3 py-1 text-xs transition-colors " +
                 (cat === c
                   ? "bg-brand-red text-white"
-                  : "bg-white/5 text-white/70 hover:bg-white/10")
+                  : "bg-brand-navy/[0.04] dark:bg-white/5 text-brand-navy/70 dark:text-white/70 hover:bg-brand-navy/[0.07] hover:dark:bg-white/10")
               }
             >
               {c}
@@ -112,7 +112,7 @@ export default function MediaSections() {
                     </div>
 
                     <div className="p-4">
-                      <h3 className="font-semibold text-white group-hover:text-brand-gold-300 transition-colors">
+                      <h3 className="font-semibold text-brand-navy dark:text-white group-hover:text-brand-gold-700 group-hover:dark:text-brand-gold-300 transition-colors">
                         {h.title}
                       </h3>
                     </div>
@@ -159,7 +159,7 @@ export default function MediaSections() {
                     </div>
 
                     <div className="p-4">
-                      <h3 className="font-semibold text-white group-hover:text-brand-gold-300 transition-colors">
+                      <h3 className="font-semibold text-brand-navy dark:text-white group-hover:text-brand-gold-700 group-hover:dark:text-brand-gold-300 transition-colors">
                         {h.title}
                       </h3>
                     </div>

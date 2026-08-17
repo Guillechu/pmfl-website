@@ -32,17 +32,17 @@ export default function PlayerCard({
       />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="font-display text-2xl text-brand-gold-300">#{player.number}</span>
-          <h4 className="font-semibold text-white truncate">{player.name}</h4>
+          <span className="font-display text-2xl text-brand-gold-700 dark:text-brand-gold-300">#{player.number}</span>
+          <h4 className="font-semibold text-brand-navy dark:text-white truncate">{player.name}</h4>
         </div>
-        <p className="text-xs text-white/60">
+        <p className="text-xs text-brand-navy/60 dark:text-white/60">
           {player.position} · {team?.name ?? "Free Agent"}
         </p>
       </div>
       {value !== undefined && (
         <div className="text-right">
-          <div className="font-display text-2xl text-white tabular-nums">{value}</div>
-          <div className="text-[10px] uppercase tracking-wider text-white/50">
+          <div className="font-display text-2xl text-brand-navy dark:text-white tabular-nums">{value}</div>
+          <div className="text-[10px] uppercase tracking-wider text-brand-navy/55 dark:text-white/50">
             {String(highlightStat)}
           </div>
         </div>

@@ -47,6 +47,10 @@ const config: Config = {
             300: "#EAD27A",
             500: "#D4AF37",
             600: "#A88A2C",
+            // Para el tema claro: el 300 sobre blanco da 1.3:1 de
+            // contraste, ilegible. El 700 sube a 5.1:1.
+            700: "#7A6320",
+            800: "#5C4A18",
           },
         },
       },
@@ -55,8 +59,13 @@ const config: Config = {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 24px rgba(212, 175, 55, 0.25)",
-        card: "0 10px 30px -10px rgba(0,0,0,0.6)",
+        // Sombras del tema claro: en navy suave. Una sombra negra al 60%
+        // sobre fondo claro ensucia en vez de elevar.
+        card: "0 1px 2px rgba(11,31,58,0.04), 0 10px 30px -14px rgba(11,31,58,0.18)",
+        glow: "0 0 0 1px rgba(168,138,44,0.35), 0 8px 24px -12px rgba(11,31,58,0.25)",
+        // Las de siempre, para el tema oscuro.
+        cardDark: "0 10px 30px -10px rgba(0,0,0,0.6)",
+        glowDark: "0 0 24px rgba(212, 175, 55, 0.25)",
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease-out both",

@@ -7,7 +7,7 @@ export default function VideoEmbed({
   title: string;
 }) {
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-black">
+    <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-brand-navy/10 dark:border-white/10 bg-black">
       <iframe
         src={`https://www.youtube.com/embed/${youtubeId}`}
         title={title}

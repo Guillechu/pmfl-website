@@ -35,7 +35,7 @@ function SponsorCard({ s }: { s: Sponsor }) {
     <>
       {s.logo ? (
         <div
-          className={`relative z-10 flex w-full items-center justify-center rounded-xl bg-white ${
+          className={`relative z-10 flex w-full items-center justify-center rounded-xl dark:bg-white ${
             big ? "h-44 px-10 py-8" : "h-20 px-4 py-3"
           }`}
         >
@@ -49,13 +49,13 @@ function SponsorCard({ s }: { s: Sponsor }) {
         </div>
       ) : (
         <div className="relative z-10 flex h-16 w-full items-center justify-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-gold/30 bg-brand-gold/10 font-display text-lg text-brand-gold-300">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-brand-gold-600/30 dark:border-brand-gold/30 bg-brand-gold-600/10 dark:bg-brand-gold/10 font-display text-lg text-brand-gold-700 dark:text-brand-gold-300">
             {initials(s.name)}
           </span>
         </div>
       )}
       <h3
-        className={`relative z-10 mt-4 font-display tracking-wide text-white ${
+        className={`relative z-10 mt-4 font-display tracking-wide text-brand-navy dark:text-white ${
           big ? "text-xl" : "text-base"
         }`}
       >
@@ -66,7 +66,7 @@ function SponsorCard({ s }: { s: Sponsor }) {
 
   const className = `group relative flex ${
     big ? "min-h-[240px]" : "min-h-[160px]"
-  } flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-center transition duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:bg-white/[0.07]`;
+  } flex-col items-center justify-center overflow-hidden rounded-2xl border border-brand-navy/10 dark:border-white/10 bg-white dark:bg-white/[0.04] p-6 text-center transition duration-300 hover:-translate-y-1 hover:border-brand-gold-600/50 hover:dark:border-brand-gold/40 hover:bg-brand-navy/[0.06] hover:dark:bg-white/[0.07]`;
 
   if (hasLink) {
     return (
@@ -86,16 +86,16 @@ export default async function SponsorsPage() {
   const sponsors = await getPublicSponsors(60);
   return (
     <div className="container-page py-12">
-      <section className="relative mb-12 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-brand-navy-800 via-brand-navy-900 to-black p-8 md:p-12">
+      <section className="relative mb-12 overflow-hidden rounded-2xl border border-brand-navy/10 dark:border-white/10 bg-gradient-to-br from-white dark:from-brand-navy-800 via-white dark:via-brand-navy-900 to-black p-8 md:p-12">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(212,175,55,0.18),transparent_45%)]" />
         <div className="relative z-10 max-w-3xl">
-          <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+          <p className="text-xs uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
             Aliados oficiales
           </p>
-          <h1 className="mt-3 h-display text-4xl leading-tight text-white md:text-6xl">
+          <h1 className="mt-3 h-display text-4xl leading-tight text-brand-navy dark:text-white md:text-6xl">
             Patrocinadores PMFL 2026
           </h1>
-          <p className="mt-4 text-base text-white/75 md:text-lg">
+          <p className="mt-4 text-base text-brand-navy/70 dark:text-white/75 md:text-lg">
             Marcas que impulsan el crecimiento del fútbol americano en Panamá y
             apoyan la evolución de la liga más explosiva del país.
           </p>
@@ -113,10 +113,10 @@ export default async function SponsorsPage() {
             <section key={group.key}>
               <div className="mb-6 flex items-end justify-between gap-4">
                 <div>
-                  <h2 className="h-display text-3xl text-white">{group.key}</h2>
-                  <p className="mt-1 text-sm text-white/60">{group.blurb}</p>
+                  <h2 className="h-display text-3xl text-brand-navy dark:text-white">{group.key}</h2>
+                  <p className="mt-1 text-sm text-brand-navy/60 dark:text-white/60">{group.blurb}</p>
                 </div>
-                <span className="whitespace-nowrap text-sm text-white/50">
+                <span className="whitespace-nowrap text-sm text-brand-navy/55 dark:text-white/50">
                   {items.length} {items.length === 1 ? "aliado" : "aliados"}
                 </span>
               </div>
@@ -140,13 +140,13 @@ export default async function SponsorsPage() {
       <section className="card relative mt-16 overflow-hidden p-8 text-center md:p-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,16,46,0.16),transparent_60%)]" />
         <div className="relative z-10">
-          <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+          <p className="text-xs uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
             Únete a la liga
           </p>
-          <h2 className="mt-2 h-display text-3xl text-white">
+          <h2 className="mt-2 h-display text-3xl text-brand-navy dark:text-white">
             Impulsa tu marca con la PMFL
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-white/70">
+          <p className="mx-auto mt-3 max-w-2xl text-brand-navy/70 dark:text-white/70">
             Conecta con fanáticos apasionados, atletas, equipos y comunidades
             deportivas en todo Panamá. Sé parte del crecimiento del fútbol
             americano nacional.

@@ -11,7 +11,7 @@ import type { UiGame } from "@/lib/match";
 import { groupByWeek } from "@/lib/match";
 
 const SELECT_CLASS =
-  "rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-brand-gold/50";
+  "rounded-md border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5 px-3 py-2 text-sm text-brand-navy dark:text-white outline-none focus:border-brand-gold/50";
 
 export default function ScheduleView({ games }: { games: UiGame[] }) {
   const [weekFilter, setWeekFilter] = useState<string>("all");
@@ -90,12 +90,12 @@ export default function ScheduleView({ games }: { games: UiGame[] }) {
           ))}
         </select>
 
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-white/70 sm:ml-auto">
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-brand-navy/70 dark:text-white/70 sm:ml-auto">
           <input
             type="checkbox"
             checked={onlyUpcoming}
             onChange={(e) => setOnlyUpcoming(e.target.checked)}
-            className="h-4 w-4 rounded border-white/20 bg-white/5 accent-brand-red"
+            className="h-4 w-4 rounded border-brand-navy/15 dark:border-white/20 bg-brand-navy/[0.04] dark:bg-white/5 accent-brand-red"
           />
           Solo por jugar
         </label>
@@ -111,10 +111,10 @@ export default function ScheduleView({ games }: { games: UiGame[] }) {
           {grouped.map(([week, list]) => (
             <section key={week ?? "playoffs"}>
               <div className="mb-3 flex items-baseline gap-3">
-                <h2 className="h-display text-2xl text-white">
+                <h2 className="h-display text-2xl text-brand-navy dark:text-white">
                   {week === null ? "Playoffs y Gran Final" : `Jornada ${week}`}
                 </h2>
-                <span className="text-xs text-white/50">
+                <span className="text-xs text-brand-navy/55 dark:text-white/50">
                   {list.length} {list.length === 1 ? "partido" : "partidos"}
                 </span>
               </div>

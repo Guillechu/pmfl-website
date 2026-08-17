@@ -26,12 +26,12 @@ export default function SponsorCarousel({
         {loop.map((s, i) => (
           <div
             key={`${s.id}-${i}`}
-            className="flex items-center gap-3 min-w-[220px] h-16 rounded-md border border-white/10 bg-white/[0.04] px-5 hover:bg-white/[0.08] transition"
+            className="flex items-center gap-3 min-w-[220px] h-16 rounded-md border border-brand-navy/10 dark:border-white/10 bg-white dark:bg-white/[0.04] px-5 hover:bg-white/[0.08] transition"
             title={s.name}
           >
             {/* Logo (solo si lo tenemos), sobre fondo blanco para que se vea */}
             {s.logo && (
-              <span className="flex h-10 items-center justify-center rounded bg-white px-2">
+              <span className="flex h-10 items-center justify-center rounded dark:bg-white px-2">
                 <img
                   src={s.logo}
                   alt={s.name}
@@ -42,7 +42,7 @@ export default function SponsorCarousel({
             )}
 
             {/* Nombre */}
-            <span className="text-sm text-white/80 font-medium whitespace-nowrap">
+            <span className="text-sm text-brand-navy/75 dark:text-white/80 font-medium whitespace-nowrap">
               {s.name}
             </span>
           </div>

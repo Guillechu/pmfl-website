@@ -67,7 +67,7 @@ export default function StatsTable<T extends Record<string, any>>({
     <div className="card overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-white/[0.04] text-xs uppercase tracking-wider text-white/60">
+          <thead className="bg-white dark:bg-white/[0.04] text-xs uppercase tracking-wider text-brand-navy/60 dark:text-white/60">
             <tr>
               {columns.map((c) => (
                 <th
@@ -91,12 +91,12 @@ export default function StatsTable<T extends Record<string, any>>({
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-brand-navy/[0.07] dark:divide-white/5">
             {sorted.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-4 py-10 text-center text-white/60"
+                  className="px-4 py-10 text-center text-brand-navy/60 dark:text-white/60"
                 >
                   {emptyText}
                 </td>
@@ -105,13 +105,13 @@ export default function StatsTable<T extends Record<string, any>>({
               sorted.map((row, i) => (
                 <tr
                   key={i}
-                  className="hover:bg-white/[0.04] transition-colors"
+                  className="hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.04] transition-colors"
                 >
                   {columns.map((c) => (
                     <td
                       key={String(c.key)}
                       className={cn(
-                        "px-4 py-3 text-white/90",
+                        "px-4 py-3 text-brand-navy/85 dark:text-white/90",
                         c.align === "right" && "text-right tabular-nums",
                         c.align === "center" && "text-center",
                         c.className

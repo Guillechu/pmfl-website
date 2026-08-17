@@ -15,8 +15,8 @@ import { cn } from "@/lib/utils";
 
 /** Color del puesto: oro, plata, bronce. */
 const RANK_COLOR = [
-  "text-brand-gold-300",
-  "text-slate-300",
+  "text-brand-gold-700 dark:text-brand-gold-300",
+  "text-slate-600 dark:text-slate-300",
   "text-amber-600",
 ] as const;
 
@@ -33,15 +33,15 @@ export default function StatLeaderboards({
     <div className="space-y-10">
       {groups.map((group) => (
         <section key={group.key}>
-          <h3 className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold-300">
+          <h3 className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-gold-700 dark:text-brand-gold-300">
             {group.label}
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-brand-navy/[0.07] dark:bg-white/10" />
           </h3>
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {group.categories.map((cat) => (
               <div key={cat.key} className="card p-4">
-                <h4 className="mb-3 truncate text-sm font-semibold text-white/90">
+                <h4 className="mb-3 truncate text-sm font-semibold text-brand-navy/85 dark:text-white/90">
                   {cat.label}
                 </h4>
 
@@ -59,7 +59,7 @@ export default function StatLeaderboards({
                         <span
                           className={cn(
                             "w-3 shrink-0 text-center font-display text-sm",
-                            RANK_COLOR[i] ?? "text-white/40",
+                            RANK_COLOR[i] ?? "text-brand-navy/50 dark:text-white/40",
                           )}
                         >
                           {i + 1}
@@ -80,19 +80,19 @@ export default function StatLeaderboards({
                         />
 
                         <div className="min-w-0 flex-1">
-                          <div className="truncate text-sm text-white">
+                          <div className="truncate text-sm text-brand-navy dark:text-white">
                             {name}
                             {number && (
-                              <span className="ml-1 text-[10px] text-white/40">
+                              <span className="ml-1 text-[10px] text-brand-navy/50 dark:text-white/40">
                                 #{number}
                               </span>
                             )}
                           </div>
-                          <div className="truncate text-[10px] uppercase tracking-wider text-white/45">
+                          <div className="truncate text-[10px] uppercase tracking-wider text-brand-navy/50 dark:text-white/45">
                             {team ? (
                               <Link
                                 href={`/teams/${team.id}`}
-                                className="hover:text-brand-gold-300"
+                                className="hover:text-brand-gold-700 hover:dark:text-brand-gold-300"
                               >
                                 {team.name}
                               </Link>
@@ -102,7 +102,7 @@ export default function StatLeaderboards({
                           </div>
                         </div>
 
-                        <span className="shrink-0 font-display text-lg tabular-nums text-white">
+                        <span className="shrink-0 font-display text-lg tabular-nums text-brand-navy dark:text-white">
                           {leader.value}
                         </span>
                       </li>

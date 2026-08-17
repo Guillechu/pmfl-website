@@ -7,21 +7,21 @@ export default function DraftPage() {
   return (
     <div className="container-page py-12">
       <header className="mb-8">
-        <p className="text-xs uppercase tracking-widest text-brand-gold-300">
+        <p className="text-xs uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
           PMFL Draft 2026
         </p>
 
-        <h1 className="h-display text-4xl md:text-5xl text-white">
+        <h1 className="h-display text-4xl md:text-5xl text-brand-navy dark:text-white">
           Draft Results
         </h1>
 
-        <p className="mt-2 text-white/70 max-w-2xl">
+        <p className="mt-2 text-brand-navy/70 dark:text-white/70 max-w-2xl">
           Resultados oficiales del Round 1 del Draft PMFL 2026.
         </p>
       </header>
 
       <section>
-        <h2 className="h-display text-2xl text-white mb-5">
+        <h2 className="h-display text-2xl text-brand-navy dark:text-white mb-5">
           Round 1
         </h2>
 
@@ -31,7 +31,7 @@ export default function DraftPage() {
               key={player.pick}
               className="card p-5 flex items-center gap-5"
             >
-              <div className="text-4xl font-black text-brand-gold-300 w-12 text-center">
+              <div className="text-4xl font-black text-brand-gold-700 dark:text-brand-gold-300 w-12 text-center">
                 {player.pick}
               </div>
 
@@ -39,15 +39,15 @@ export default function DraftPage() {
               <TeamLogo name={player.team} className="h-14 w-14" />
 
               <div>
-                <h3 className="text-2xl font-bold text-white">
+                <h3 className="text-2xl font-bold text-brand-navy dark:text-white">
                   {player.name}
                 </h3>
 
-                <p className="text-white/60">
+                <p className="text-brand-navy/60 dark:text-white/60">
                   {player.position} · #{player.number}
                 </p>
 
-                <p className="text-brand-gold-300 font-semibold capitalize">
+                <p className="text-brand-gold-700 dark:text-brand-gold-300 font-semibold capitalize">
                   {player.team}
                 </p>
               </div>

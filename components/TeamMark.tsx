@@ -10,7 +10,7 @@ export default function TeamMark({
 }) {
   return (
     <div className={`${className} relative`}>
-      <div className="w-full h-full rounded-lg bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+      <div className="w-full h-full rounded-lg bg-brand-navy/[0.04] dark:bg-white/5 border border-brand-navy/10 dark:border-white/10 flex items-center justify-center overflow-hidden">
         <Image
           src={team.logo}
           alt={team.name}

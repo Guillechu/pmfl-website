@@ -102,7 +102,7 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
         <button onClick={() => setOpen(new Set())} className="btn-ghost text-xs">
           Cerrar todos
         </button>
-        <span className="ml-auto text-xs text-white/50">
+        <span className="ml-auto text-xs text-brand-navy/55 dark:text-white/50">
           {albums.length} {albums.length === 1 ? "álbum" : "álbumes"} · {total} fotos
         </span>
       </div>
@@ -118,7 +118,7 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
               key={album.slug}
               className={cn(
                 "card overflow-hidden transition-colors",
-                isOpen && "border-brand-gold/30",
+                isOpen && "border-brand-gold-600/30 dark:border-brand-gold/30",
               )}
             >
               {/* Cabecera clickeable: abre / cierra el álbum */}
@@ -127,7 +127,7 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
                   onClick={() => toggle(album.slug)}
                   aria-expanded={isOpen}
                   aria-controls={panelId}
-                  className="flex w-full items-center gap-4 p-5 text-left transition-colors hover:bg-white/[0.04]"
+                  className="flex w-full items-center gap-4 p-5 text-left transition-colors hover:bg-brand-navy/[0.04] hover:dark:bg-white/[0.04]"
                 >
                   {/* Portada en miniatura */}
                   {album.photos[0] ? (
@@ -136,15 +136,15 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
                       src={thumbSrc(album.photos[0])}
                       alt=""
                       loading="lazy"
-                      className="h-14 w-14 shrink-0 rounded-lg border border-white/10 object-cover"
+                      className="h-14 w-14 shrink-0 rounded-lg border border-brand-navy/10 dark:border-white/10 object-cover"
                     />
                   ) : (
-                    <div className="h-14 w-14 shrink-0 rounded-lg border border-white/10 bg-white/5" />
+                    <div className="h-14 w-14 shrink-0 rounded-lg border border-brand-navy/10 dark:border-white/10 bg-brand-navy/[0.04] dark:bg-white/5" />
                   )}
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                      <span className="h-display text-xl text-white md:text-2xl">
+                      <span className="h-display text-xl text-brand-navy dark:text-white md:text-2xl">
                         {album.title}
                       </span>
                       <Badge variant="muted">
@@ -152,7 +152,7 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
                         {album.photos.length === 1 ? "foto" : "fotos"}
                       </Badge>
                     </div>
-                    <p className="mt-0.5 text-xs text-white/50">
+                    <p className="mt-0.5 text-xs text-brand-navy/55 dark:text-white/50">
                       {isOpen ? "Clic para ocultar" : "Clic para ver las fotos"}
                       {fecha ? ` · ${fecha}` : ""}
                     </p>
@@ -162,7 +162,7 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "shrink-0 text-2xl leading-none text-brand-gold-300 transition-transform duration-200",
+                      "shrink-0 text-2xl leading-none text-brand-gold-700 dark:text-brand-gold-300 transition-transform duration-200",
                       isOpen && "rotate-180",
                     )}
                   >
@@ -173,12 +173,12 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
 
               {/* Cuadrícula de fotos — solo se monta si el álbum está abierto */}
               {isOpen && (
-                <div id={panelId} className="border-t border-white/10 p-5">
+                <div id={panelId} className="border-t border-brand-navy/10 dark:border-white/10 p-5">
                   <div className="columns-1 gap-4 [column-fill:_balance] sm:columns-2 lg:columns-3">
                     {album.photos.map((img, i) => (
                       <div
                         key={img.id}
-                        className="group relative mb-4 overflow-hidden rounded-lg border border-white/10"
+                        className="group relative mb-4 overflow-hidden rounded-lg border border-brand-navy/10 dark:border-white/10"
                       >
                         <button
                           onClick={() => setActive({ slug: album.slug, index: i })}
