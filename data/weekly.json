@@ -36,11 +36,5 @@
     "label": "Boletos PMFL",
     "note": "Entradas de la liga en Ticketplus.",
     "image": "/media/kickoff-2026-week1.jpg"
-  },
-  "youtubeLive": {
-    "url": "https://www.youtube.com/@pmfl",
-    "label": "Canal oficial de la PMFL",
-    "note": "Todas las transmisiones y los partidos completos en YouTube.",
-    "image": "https://i.ytimg.com/vi/PiO3qYM3Y0I/hqdefault.jpg"
   }
 }

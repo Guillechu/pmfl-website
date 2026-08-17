@@ -200,6 +200,6 @@ export interface ResultsPanel {
 export interface WeeklyLinks {
   resultados?: ResultsPanel;
   news?: NewsPanel;
-  youtubeLive: WeeklyPanel;
+  /** Alimenta el botón Tickets del menú. */
   tickets: WeeklyPanel;
 }

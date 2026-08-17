@@ -21,7 +21,6 @@ import PlayerPodium from "@/components/PlayerPodium";
 import TeamLogo from "@/components/TeamLogo";
 import { getPlayerPhotoMap, photoFor } from "@/lib/player-photos";
 import { getPublicSponsors } from "@/lib/sponsors";
-import { YouTubeIcon } from "@/components/SocialIcons";
 
 export const revalidate = 60;
 
@@ -74,34 +73,6 @@ export default async function HomePage() {
               <NewsCard news={weekly.news} />
             </div>
           )}
-        </CardSection>
-
-        {/* Live de YouTube (se actualiza en data/weekly.json) */}
-        <CardSection title="EN VIVO">
-          <a
-            href={weekly.youtubeLive.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex min-h-[220px] items-end overflow-hidden rounded-2xl border border-white/10"
-          >
-            <img
-              src={weekly.youtubeLive.image}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover opacity-60 transition duration-300 group-hover:scale-105 group-hover:opacity-70"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-            <div className="relative z-10 p-6">
-              <span className="inline-flex items-center gap-2 rounded-full bg-brand-red px-3 py-1 text-xs font-semibold text-white">
-                <YouTubeIcon className="h-4 w-4" /> EN VIVO
-              </span>
-              <h3 className="mt-3 h-display text-2xl text-white">
-                {weekly.youtubeLive.label}
-              </h3>
-              <p className="mt-1 text-sm text-white/75">
-                {weekly.youtubeLive.note}
-              </p>
-            </div>
-          </a>
         </CardSection>
 
         {/* Play of the Week */}
