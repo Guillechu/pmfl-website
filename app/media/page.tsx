@@ -1,7 +1,8 @@
 import MediaSections from "@/components/MediaSections";
+import VideoGallery from "@/components/VideoGallery";
 import NewsCard from "@/components/NewsCard";
 import Badge from "@/components/ui/Badge";
-import { weekly } from "@/lib/data";
+import { weekly, media } from "@/lib/data";
 
 export const metadata = {
   title: "Media · PMFL",
@@ -31,6 +32,9 @@ export default function MediaPage() {
           exclusivo de la PMFL.
         </p>
       </header>
+
+      {/* VÍDEOS — lo primero de la página */}
+      <VideoGallery videos={media.videos ?? []} />
 
       {/* ÚLTIMAS NOTICIAS */}
       <section className="mb-12">

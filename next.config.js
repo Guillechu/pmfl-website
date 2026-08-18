@@ -25,6 +25,13 @@ const nextConfig = {
   // (308 permanente) conservando la ruta, para no perder enlaces ni SEO.
   async redirects() {
     return [
+      // /rules paso a ser una seccion dentro de /about. Sin esto, los
+      // enlaces antiguos darian 404, que es lo que ocurrio al mover Media.
+      {
+        source: "/rules",
+        destination: "/about#reglas",
+        permanent: true,
+      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "pmflpanama.com" }],

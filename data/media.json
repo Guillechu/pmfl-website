@@ -7,7 +7,7 @@
     "thumbnail": "https://i.ytimg.com/vi/PiO3qYM3Y0I/hqdefault.jpg",
     "description": "La transmisión de la semana en el canal oficial de la PMFL."
   },
-  "highlights": [
+  "videos": [
     {
       "id": "raptors-hunters-w1",
       "title": "Hunters vs Raptors · Week 1",
@@ -23,6 +23,22 @@
       "category": "Jornada 1"
     },
     {
+      "id": "final-2025",
+      "title": "PMFL RAPTORS VS WOLFPACK FINAL 2025",
+      "youtubeId": "2MX6NX5FBHQ",
+      "thumbnail": "https://i.ytimg.com/vi/2MX6NX5FBHQ/hqdefault.jpg",
+      "category": "Temporadas anteriores"
+    },
+    {
+      "id": "live-playoff",
+      "title": "PMFL LIVE PLAYOFF",
+      "youtubeId": "OMG0OpJNpxs",
+      "thumbnail": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg",
+      "category": "Temporadas anteriores"
+    }
+  ],
+  "highlights": [
+    {
       "id": "combine-2026",
       "title": "PMFL Combine 2026",
       "video": "/videos/combine-2026.mp4",
@@ -36,20 +52,6 @@
       "thumbnail": "/media/draft-2026.jpg",
       "category": "Noticia",
       "link": "https://www.tvn-2.com/tvmax/mas-deportes/football-americano-panama-major-football-league-deportes-draft_1_2239084.html"
-    },
-    {
-      "id": "final-2025",
-      "title": "PMFL RAPTORS VS WOLFPACK FINAL 2025",
-      "youtubeId": "2MX6NX5FBHQ",
-      "thumbnail": "https://i.ytimg.com/vi/2MX6NX5FBHQ/hqdefault.jpg",
-      "category": "Temporadas anteriores"
-    },
-    {
-      "id": "live-playoff",
-      "title": "PMFL LIVE PLAYOFF",
-      "youtubeId": "OMG0OpJNpxs",
-      "thumbnail": "https://i.ytimg.com/vi/OMG0OpJNpxs/hqdefault.jpg",
-      "category": "Temporadas anteriores"
     }
   ]
 }

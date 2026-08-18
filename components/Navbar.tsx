@@ -18,7 +18,6 @@ const NAV = [
   { href: "/schedule", label: "Calendario" },
   { href: "/media", label: "Media" },
   { href: "/gallery", label: "Galería" },
-  { href: "/rules", label: "Reglas IFAF" },
   { href: "/about", label: "Nosotros" },
   { href: "/sponsors", label: "Patrocinadores" },
   { href: "/contact", label: "Contacto" },
