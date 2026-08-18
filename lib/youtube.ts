@@ -1,3 +1,5 @@
+import archiveJson from "@/data/youtube-archive.json";
+
 // ----------------------------------------------------------------------
 // Vídeos del canal de YouTube de la PMFL (@pmfl).
 //
@@ -26,6 +28,18 @@ const CHANNEL_ID =
 
 /** Un vídeo nuevo tarda como mucho esto en salir en el sitio. */
 const REVALIDATE = Number(process.env.YOUTUBE_REVALIDATE ?? 3600);
+
+/**
+ * YouTube devuelve el muro de consentimiento —una página sin un solo vídeo—
+ * a quien no manda estas cookies. Pasa sobre todo desde IPs de centros de
+ * datos, que es justo donde se construye el sitio.
+ */
+const HEADERS_YT: Record<string, string> = {
+  "User-Agent":
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36",
+  "Accept-Language": "es",
+  Cookie: "CONSENT=YES+cb; SOCS=CAI",
+};
 
 /** Tope de páginas del canal (30 vídeos por página). */
 const MAX_PAGES = 8;
@@ -151,12 +165,7 @@ async function fetchFromChannel(): Promise<Video[]> {
   const res = await fetch(
     `https://www.youtube.com/channel/${CHANNEL_ID}/videos`,
     {
-      headers: {
-        // Sin un User-Agent de navegador YouTube devuelve una página distinta.
-        "User-Agent":
-          "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36",
-        "Accept-Language": "es",
-      },
+      headers: HEADERS_YT,
       next: { revalidate: REVALIDATE },
     },
   );
@@ -181,7 +190,7 @@ async function fetchFromChannel(): Promise<Video[]> {
       "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { ...HEADERS_YT, "Content-Type": "application/json" },
         body: JSON.stringify({
           context: { client: { clientName: "WEB", clientVersion, hl: "es" } },
           continuation: token,
@@ -240,23 +249,54 @@ function decodeXml(s: string): string {
     .replace(/&amp;/g, "&");
 }
 
+// -------- fuente 3: el archivo guardado en el repo ---------------------
+
+/**
+ * Vídeos de data/youtube-archive.json.
+ *
+ * Leer el canal completo funciona desde una máquina normal, pero NO desde los
+ * servidores donde se construye el sitio: allí YouTube responde el muro de
+ * consentimiento y solo quedaban los 15 últimos del RSS. Por eso el histórico
+ * viaja dentro del repo y el sitio nunca muestra menos que eso.
+ *
+ * Se regenera con:  node scripts/actualizar-archivo-youtube.mjs
+ */
+function fromArchive(): Video[] {
+  return (archiveJson as Array<{ id: string; title: string }>).map((v) =>
+    toVideo(v.id, v.title),
+  );
+}
+
+/** Une varias listas sin repetir vídeos; gana el título de la primera. */
+function merge(...listas: Video[][]): Video[] {
+  const porId = new Map<string, Video>();
+  for (const lista of listas) {
+    for (const v of lista) if (!porId.has(v.id)) porId.set(v.id, v);
+  }
+  return [...porId.values()];
+}
+
 // -------- API pública del módulo --------------------------------------
 
 /** Todos los vídeos del canal, sin agrupar. [] si nada responde. */
 export async function getChannelVideos(): Promise<Video[]> {
+  const archivo = fromArchive();
+
+  // 1) El canal entero, cuando YouTube lo permite: trae también lo de hoy.
   try {
     const videos = await fetchFromChannel();
-    if (videos.length) return videos;
+    if (videos.length) return merge(videos, archivo);
     console.warn("[youtube] el canal no devolvió vídeos; probando el RSS");
   } catch (err) {
     console.error("[youtube] no se pudo leer el canal:", err);
   }
 
+  // 2) Si no, el RSS —que sí responde siempre— sobre el archivo del repo.
   try {
-    return await fetchFromRss();
+    return merge(await fetchFromRss(), archivo);
   } catch (err) {
     console.error("[youtube] el RSS tampoco respondió:", err);
-    return [];
+    return archivo;
   }
 }
 
