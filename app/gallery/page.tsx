@@ -20,8 +20,21 @@ export const metadata = {
 export default async function GalleryPage() {
   // Hay dos carpetas de servicio que no son galerías de evento: los
   // retratos que alimentan el pódium y los logos de patrocinadores.
-  const OCULTOS = new Set([PLAYERS_ALBUM, SPONSORS_ALBUM]);
-  const albums = (await getAlbums(60)).filter((a) => !OCULTOS.has(a.slug));
+  //
+  // Se comparan normalizadas y no por igualdad exacta: la carpeta de
+  // Cloudinary puede llamarse "Patrocinadores" o llevar tilde, y con una
+  // comparación estricta se colaba en la galería pública.
+  const normalizar = (s: string) =>
+    s
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "");
+
+  const OCULTOS = new Set([PLAYERS_ALBUM, SPONSORS_ALBUM].map(normalizar));
+  const albums = (await getAlbums(60)).filter(
+    (a) => !OCULTOS.has(normalizar(a.slug)) && !OCULTOS.has(normalizar(a.title)),
+  );
   const total = albums.reduce((n, a) => n + a.photos.length, 0);
 
   return (

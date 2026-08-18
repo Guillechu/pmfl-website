@@ -64,6 +64,19 @@ function fromAsset(a: CloudinaryAsset): ManagedSponsor {
   };
 }
 
+/**
+ * Nombre normalizado para comparar el listado de Cloudinary con el de
+ * /data: sin tildes, sin mayúsculas y sin signos. "Seco Épico" y
+ * "seco epic" no deben contar como dos patrocinadores distintos.
+ */
+function claveNombre(nombre: string): string {
+  return nombre
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
 function fromStatic(s: Sponsor, i: number): ManagedSponsor {
   return { ...s, publicId: "", order: 100 + i, editable: false };
 }
@@ -86,10 +99,22 @@ export async function getSponsors(revalidate = 60): Promise<ManagedSponsor[]> {
     }
   }
 
-  // Todavía sin migrar (o Cloudinary caído): el listado de siempre.
-  if (managed.length === 0) managed = staticSponsors.map(fromStatic);
+  // Cloudinary manda, pero NUNCA recorta.
+  //
+  // Antes esto era todo o nada: en cuanto Cloudinary devolvía un solo
+  // patrocinador, los de data/sponsors.json se descartaban enteros. Al
+  // configurarse Cloudinary, el sitio pasó de 42 patrocinadores a los 16
+  // que había subidos y desaparecieron 26 sin que nadie tocara código.
+  //
+  // Ahora se combinan: los de Cloudinary primero, y detrás los del JSON
+  // que todavía no se han subido allí, emparejando por nombre para no
+  // duplicar a nadie.
+  const yaEnCloudinary = new Set(managed.map((m) => claveNombre(m.name)));
+  const pendientes = staticSponsors
+    .map(fromStatic)
+    .filter((s) => !yaEnCloudinary.has(claveNombre(s.name)));
 
-  return managed.sort(
+  return [...managed, ...pendientes].sort(
     (a, b) => a.order - b.order || a.name.localeCompare(b.name, "es"),
   );
 }
