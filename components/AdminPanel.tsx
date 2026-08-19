@@ -11,6 +11,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cldThumb } from "@/lib/cloudinary";
+import { prepareForUpload } from "@/lib/image-prepare";
 import { cn } from "@/lib/utils";
 
 interface AlbumRow {
@@ -21,7 +22,7 @@ interface AlbumRow {
   cover: string | null;
 }
 
-type FileState = "pending" | "uploading" | "done" | "error";
+type FileState = "pending" | "preparing" | "uploading" | "done" | "error";
 
 interface UploadItem {
   key: string;
@@ -31,6 +32,8 @@ interface UploadItem {
   pct: number;
   publicId?: string;
   error?: string;
+  /** Se reencodeó para caber en el tope de Cloudinary. */
+  shrunk?: boolean;
 }
 
 interface UploadSignature {
@@ -192,9 +195,13 @@ export default function AdminPanel() {
   }
 
   /** POST del archivo a Cloudinary, con progreso. true si quedó subido. */
-  function putToCloudinary(item: UploadItem, sig: UploadSignature): Promise<boolean> {
+  function putToCloudinary(
+    item: UploadItem,
+    file: File,
+    sig: UploadSignature,
+  ): Promise<boolean> {
     const form = new FormData();
-    form.append("file", item.file);
+    form.append("file", file);
     form.append("api_key", sig.apiKey);
     form.append("timestamp", String(sig.timestamp));
     form.append("signature", sig.signature);
@@ -246,7 +253,23 @@ export default function AdminPanel() {
 
   /** Pide la firma y sube un archivo. true si quedó subido. */
   async function uploadOne(item: UploadItem, albumSlug: string): Promise<boolean> {
-    patch(item.key, { state: "uploading", pct: 0, error: undefined });
+    // Las fotos de cámara pasan de los 10 MB que admite Cloudinary, así
+    // que las reducimos aquí antes de pedir la firma (ver lib/image-prepare).
+    patch(item.key, { state: "preparing", pct: 0, error: undefined });
+    let file: File;
+    try {
+      const prepared = await prepareForUpload(item.file);
+      file = prepared.file;
+      if (prepared.shrunk) patch(item.key, { shrunk: true });
+    } catch (err) {
+      patch(item.key, {
+        state: "error",
+        error: err instanceof Error ? err.message : "No se pudo preparar la foto",
+      });
+      return false;
+    }
+
+    patch(item.key, { state: "uploading", pct: 0 });
 
     try {
       const res = await fetch("/api/admin/upload-signature", {
@@ -259,7 +282,7 @@ export default function AdminPanel() {
         patch(item.key, { state: "error", error: sig.error ?? "Sin permiso para subir" });
         return false;
       }
-      return await putToCloudinary(item, sig);
+      return await putToCloudinary(item, file, sig);
     } catch {
       patch(item.key, { state: "error", error: "No se pudo pedir la firma" });
       return false;
@@ -493,7 +516,8 @@ export default function AdminPanel() {
         >
           <p className="text-brand-navy dark:text-white">Arrastra las fotos aquí</p>
           <p className="mt-1 text-sm text-brand-navy/55 dark:text-white/50">
-            o haz clic para elegirlas · JPG o PNG, hasta 10 MB cada una
+            o haz clic para elegirlas · JPG o PNG, del tamaño que salgan de
+            la cámara: las muy pesadas se optimizan solas antes de subir
           </p>
           <input
             ref={fileInput}
@@ -557,17 +581,22 @@ export default function AdminPanel() {
                           "shrink-0 text-xs",
                           it.state === "done" && "text-emerald-700 dark:text-emerald-300",
                           it.state === "error" && "text-brand-red-700 dark:text-brand-red-100",
-                          it.state === "uploading" && "text-brand-gold-700 dark:text-brand-gold-300",
+                          (it.state === "uploading" || it.state === "preparing") &&
+                            "text-brand-gold-700 dark:text-brand-gold-300",
                           it.state === "pending" && "text-brand-navy/50 dark:text-white/40",
                         )}
                       >
                         {it.state === "done"
-                          ? "Listo"
+                          ? it.shrunk
+                            ? "Listo · optimizada"
+                            : "Listo"
                           : it.state === "error"
                             ? (it.error ?? "Error")
-                            : it.state === "uploading"
-                              ? `${it.pct}%`
-                              : "En cola"}
+                            : it.state === "preparing"
+                              ? "Optimizando…"
+                              : it.state === "uploading"
+                                ? `${it.pct}%`
+                                : "En cola"}
                       </span>
                     </div>
                     <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-brand-navy/[0.07] dark:bg-white/10">
