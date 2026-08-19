@@ -124,7 +124,11 @@ export default async function HomePage() {
             <div className="lg:col-span-2">
               <VideoEmbed youtubeId={media.playOfTheWeek.youtubeId} title={media.playOfTheWeek.title} />
             </div>
-            <div className="card flex flex-col justify-center p-6">
+            {/* En móvil se apila justo debajo del vídeo y repite el
+                título que el propio reproductor ya muestra. En
+                escritorio va al lado y sí aporta, así que solo se
+                oculta en pantallas pequeñas. */}
+            <div className="hidden card flex-col justify-center p-6 lg:flex">
               <span className="pill self-start bg-brand-red/10 dark:bg-brand-red/20 text-brand-red-700 dark:text-brand-red-100 ring-1 ring-brand-red/30 dark:ring-brand-red/40">
                 DESTACADO
               </span>
