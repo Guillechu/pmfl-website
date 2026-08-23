@@ -1,11 +1,11 @@
 {
   "playOfTheWeek": {
-    "id": "live-week-1",
-    "title": "PMFL LIVE",
+    "id": "live-week-2",
+    "title": "PMFL Football Live Stream",
     "team": "PMFL",
-    "youtubeId": "PiO3qYM3Y0I",
-    "thumbnail": "https://i.ytimg.com/vi/PiO3qYM3Y0I/hqdefault.jpg",
-    "description": "La transmisión de la semana en el canal oficial de la PMFL."
+    "youtubeId": "xTm-47nAPJ0",
+    "thumbnail": "https://i.ytimg.com/vi/xTm-47nAPJ0/hqdefault.jpg",
+    "description": "La transmisión en vivo de la jornada, por el canal oficial de la PMFL."
   },
   "videos": [
     {
