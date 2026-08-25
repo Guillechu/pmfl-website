@@ -1,28 +1,40 @@
-"use client";
+// Listado de equipos. El récord y los puntos vienen EN VIVO de Cloob,
+// igual que la clasificación del inicio y la ficha de cada equipo;
+// data/teams.json solo sirve de respaldo (sus cifras están a cero y no
+// se actualizan solas, que es lo que dejaba todas las tarjetas en 0-0).
+//
+// La página es un Server Component para poder llamar a Cloob sin exponer
+// la API al navegador; el buscador vive en TeamsBrowser.
 
-import { useMemo, useState } from "react";
-import { teams } from "@/lib/data";
-import TeamCard from "@/components/TeamCard";
-import EmptyState from "@/components/ui/EmptyState";
+import { teams, teamByName } from "@/lib/data";
+import { getStandings } from "@/lib/cloob";
+import TeamsBrowser from "@/components/TeamsBrowser";
+import type { LiveTeamRecord } from "@/components/TeamCard";
 
-export default function TeamsPage() {
-  const [q, setQ] = useState("");
+export const revalidate = 60;
 
-  const filtered = useMemo(() => {
-    return teams.filter((t) => {
-      if (q.trim()) {
-        const needle = q.toLowerCase();
-        if (
-          !t.name.toLowerCase().includes(needle) &&
-          !t.city.toLowerCase().includes(needle) &&
-          !t.abbreviation.toLowerCase().includes(needle)
-        ) {
-          return false;
-        }
-      }
-      return true;
-    });
-  }, [q]);
+export const metadata = {
+  title: "Equipos · PMFL",
+  description:
+    "Los equipos de la Panama Major Football League, con su récord y sus puntos al día.",
+};
+
+export default async function TeamsPage() {
+  // Si Cloob falla, cada tarjeta cae sola a lo que haya en /data.
+  const standings = await getStandings().catch(() => []);
+
+  const live: Record<string, LiveTeamRecord> = {};
+  for (const fila of standings) {
+    const local = teamByName(fila.name);
+    if (!local) continue; // equipo que está en Cloob pero no en /data
+    live[local.id] = {
+      wins: fila.won,
+      losses: fila.lost,
+      ties: fila.drawn,
+      pointsFor: fila.pf,
+      pointsAgainst: fila.pc,
+    };
+  }
 
   return (
     <div className="container-page py-12">
@@ -38,33 +50,7 @@ export default function TeamsPage() {
         </p>
       </header>
 
-      <div className="card p-4 mb-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-white bg-brand-red px-4 py-2 rounded-full">
-            Equipos
-          </span>
-        </div>
-
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Buscar equipos..."
-          className="md:w-72 rounded-md bg-brand-navy/[0.04] dark:bg-white/5 border border-brand-navy/10 dark:border-white/10 px-3 py-2 text-sm text-brand-navy dark:text-white placeholder-brand-navy/40 dark:placeholder-white/40 outline-none focus:border-brand-gold/50"
-        />
-      </div>
-
-      {filtered.length === 0 ? (
-        <EmptyState
-          title="No se encontraron equipos"
-          description="Intenta borrar la búsqueda o escribir otro nombre."
-        />
-      ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((t) => (
-            <TeamCard key={t.id} team={t} />
-          ))}
-        </div>
-      )}
+      <TeamsBrowser teams={teams} live={live} />
     </div>
   );
 }

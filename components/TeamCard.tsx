@@ -3,8 +3,33 @@ import type { Team } from "@/lib/types";
 import TeamMark from "./TeamMark";
 import Badge from "./ui/Badge";
 
-export default function TeamCard({ team }: { team: Team }) {
-  const { wins, losses, ties } = team.record;
+/**
+ * Récord y puntos traídos EN VIVO de Cloob. Cuando llegan mandan sobre
+ * data/teams.json: ese JSON está a cero y nadie lo actualiza a mano, así
+ * que dejarlo mandar hacía que todos los equipos salieran "0-0" aunque
+ * ya hubieran jugado. Es el mismo criterio que usa la ficha del equipo.
+ */
+export interface LiveTeamRecord {
+  wins: number;
+  losses: number;
+  ties: number;
+  pointsFor: number;
+  pointsAgainst: number;
+}
+
+export default function TeamCard({
+  team,
+  live,
+}: {
+  team: Team;
+  live?: LiveTeamRecord | null;
+}) {
+  const wins = live?.wins ?? team.record.wins;
+  const losses = live?.losses ?? team.record.losses;
+  const ties = live?.ties ?? team.record.ties;
+  const pointsFor = live?.pointsFor ?? team.stats.pointsFor;
+  const pointsAgainst = live?.pointsAgainst ?? team.stats.pointsAgainst;
+
   return (
     <Link
       href={`/teams/${team.id}`}
@@ -26,8 +51,8 @@ export default function TeamCard({ team }: { team: Team }) {
 
       <div className="grid grid-cols-3 gap-2 pt-3 border-t border-brand-navy/10 dark:border-white/10 text-center">
         <Stat label="Record" value={ties ? `${wins}-${losses}-${ties}` : `${wins}-${losses}`} />
-        <Stat label="PF" value={team.stats.pointsFor} />
-        <Stat label="PA" value={team.stats.pointsAgainst} />
+        <Stat label="PF" value={pointsFor} />
+        <Stat label="PA" value={pointsAgainst} />
       </div>
     </Link>
   );
