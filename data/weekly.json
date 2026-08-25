@@ -1,24 +1,34 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 1 · 15 de agosto · Estadio Emilio Royo",
-    "title": "Los Raptors arrasan en su estreno y los Eagles vencen a las Águilas Doradas",
-    "summary": "La Jornada 1 dejó el estreno más contundente en manos de los Raptors, que blanquearon a los Hunters de Medellín. En el otro partido de la jornada, los Colón Eagles se impusieron a las Águilas Doradas por cinco puntos.",
-    "image": "/media/jornada-1.jpg",
-    "imageAlt": "Los Hunters de Medellín reunidos en el vestuario antes de saltar al campo",
+    "eyebrow": "Jornada 2 · 23 de agosto · Estadio Emilio Royo",
+    "title": "Los Raptors siguen sin rival y los Tigers se llevan el duelo más apretado",
+    "summary": "La Jornada 2 estrenó a Tigers, Saints y Wolfpack, y dos de los tres debutaron ganando: los Tigers por cinco puntos ante los Wolfpack, en el partido más cerrado del día, y los Saints ante unas Águilas Doradas que siguen sin abrir su casillero. Arriba siguen los Raptors, únicos con dos triunfos y con solo 7 puntos recibidos en toda la temporada.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
         "casa": "Raptors",
-        "marcadorCasa": 34,
-        "visita": "Hunters",
-        "marcadorVisita": 0
+        "marcadorCasa": 45,
+        "visita": "Colón Eagles",
+        "marcadorVisita": 7,
+        "foto": "/media/jornada-2-raptors.jpg",
+        "fotoAlt": "El quarterback de los Raptors arma el brazo para lanzar mientras un defensivo de los Colón Eagles lo persigue"
       },
       {
-        "casa": "Águilas Doradas",
-        "marcadorCasa": 13,
-        "visita": "Colón Eagles",
-        "marcadorVisita": 18
+        "casa": "Tigers",
+        "marcadorCasa": 26,
+        "visita": "Wolfpack",
+        "marcadorVisita": 21,
+        "foto": "/media/jornada-2-tigers.jpg",
+        "fotoAlt": "El quarterback número 16 de los Tigers suelta un pase en carrera ante los Wolfpack"
+      },
+      {
+        "casa": "Saints",
+        "marcadorCasa": 20,
+        "visita": "Águilas Doradas",
+        "marcadorVisita": 7,
+        "foto": "/media/jornada-2-saints.jpg",
+        "fotoAlt": "Un jugador de los Saints se ajusta el casco en el campo durante el partido ante las Águilas Doradas"
       }
     ]
   },

@@ -185,9 +185,6 @@ export interface ResultsPanel {
   eyebrow: string;
   title: string;
   summary: string;
-  /** Foto de cabecera, opcional. */
-  image?: string;
-  imageAlt?: string;
   /** Ruta interna a la que lleva la tarjeta. */
   url: string;
   linkLabel: string;
@@ -196,6 +193,9 @@ export interface ResultsPanel {
     marcadorCasa: number;
     visita: string;
     marcadorVisita: number;
+    /** Foto del partido, opcional: una jornada puede no tenerlas. */
+    foto?: string;
+    fotoAlt?: string;
   }>;
 }
 

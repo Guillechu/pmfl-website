@@ -9,6 +9,27 @@
   },
   "videos": [
     {
+      "id": "raptors-eagles-w2",
+      "title": "Raptors vs Colón Eagles · Week 2",
+      "youtubeId": "Uarue7Ek5rE",
+      "thumbnail": "https://i.ytimg.com/vi/Uarue7Ek5rE/hqdefault.jpg",
+      "category": "Jornada 2"
+    },
+    {
+      "id": "tigers-wolfpack-w2",
+      "title": "Tigers vs Wolfpack · Week 2",
+      "youtubeId": "m1VHDWNBNv4",
+      "thumbnail": "https://i.ytimg.com/vi/m1VHDWNBNv4/hqdefault.jpg",
+      "category": "Jornada 2"
+    },
+    {
+      "id": "saints-aguilas-w2",
+      "title": "Saints vs Águilas Doradas · Week 2",
+      "youtubeId": "UFp8lt-_TWQ",
+      "thumbnail": "https://i.ytimg.com/vi/UFp8lt-_TWQ/hqdefault.jpg",
+      "category": "Jornada 2"
+    },
+    {
       "id": "raptors-hunters-w1",
       "title": "Hunters vs Raptors · Week 1",
       "youtubeId": "ZG-ZcM39uNs",

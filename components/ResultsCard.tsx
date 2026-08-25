@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { ResultsPanel } from "@/lib/types";
 
 /**
- * Resumen de la jornada en el inicio: titular, resumen y los marcadores.
+ * Resumen de la jornada en el inicio: titular, resumen y los marcadores,
+ * cada uno con su foto.
  *
  * Los marcadores se escriben en data/weekly.json a mano, no salen de
  * Cloob: esto es una nota editorial sobre una jornada concreta, y debe
@@ -15,8 +16,8 @@ function Marcador({
   marcadorVisita,
 }: ResultsPanel["partidos"][number]) {
   const fila = (equipo: string, tantos: number, gana: boolean) => (
-    <div className="flex items-baseline justify-between gap-4">
-      <span className={gana ? "font-semibold text-brand-navy dark:text-white" : "text-brand-navy/70 dark:text-white/70"}>
+    <div className="flex items-baseline justify-between gap-3">
+      <span className={"truncate " + (gana ? "font-semibold text-brand-navy dark:text-white" : "text-brand-navy/70 dark:text-white/70")}>
         {equipo}
       </span>
       <span
@@ -43,29 +44,8 @@ export default function ResultsCard({ data }: { data: ResultsPanel }) {
   return (
     <Link
       href={data.url}
-      className={
-        "group grid overflow-hidden rounded-2xl border border-brand-navy/10 dark:border-white/10 bg-gradient-to-br from-white dark:from-brand-navy-800 via-white dark:via-brand-navy-900 to-black transition-colors hover:border-brand-gold-600/50 hover:dark:border-brand-gold/40 " +
-        (data.image ? "lg:grid-cols-[minmax(0,44%)_1fr]" : "")
-      }
+      className="group block overflow-hidden rounded-2xl border border-brand-navy/10 bg-gradient-to-br from-white via-white to-brand-navy/[0.06] transition-colors hover:border-brand-gold-600/50 dark:border-white/10 dark:from-brand-navy-800 dark:via-brand-navy-900 dark:to-black hover:dark:border-brand-gold/40"
     >
-      {data.image && (
-        // En pantalla ancha la foto ocupa una columna y se estira al alto
-        // del texto: así queda casi en su proporción natural. Como banner
-        // a todo lo ancho se recortaba dos tercios de la imagen y se
-        // perdía la mitad de los jugadores.
-        <div className="relative h-56 overflow-hidden sm:h-72 lg:h-auto">
-          <img
-            src={data.image}
-            alt={data.imageAlt ?? ""}
-            className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
-          />
-          {/* Funde la foto con la tarjeta: por abajo al apilarse, por el
-              lado derecho cuando van en columnas. */}
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-brand-navy-900 to-transparent lg:hidden" />
-          <div className="absolute inset-y-0 right-0 hidden w-20 bg-gradient-to-l from-brand-navy-900 to-transparent lg:block" />
-        </div>
-      )}
-
       <div className="p-6 md:p-8">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="rounded-full bg-brand-red px-3 py-1 font-semibold text-white">
@@ -80,9 +60,28 @@ export default function ResultsCard({ data }: { data: ResultsPanel }) {
 
         <p className="mt-2 max-w-3xl text-sm text-brand-navy/70 dark:text-white/75">{data.summary}</p>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        {/* Un partido por columna. La foto va entera, sin recortar: son
+            fotos verticales y llevan dentro el crédito del fotógrafo.
+            En móvil eso las haría larguísimas apiladas, así que ahí se
+            reduce a miniatura y el marcador se pone al lado. */}
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
           {data.partidos.map((p) => (
-            <Marcador key={`${p.casa}-${p.visita}`} {...p} />
+            <article key={`${p.casa}-${p.visita}`} className="flex gap-3 sm:block">
+              {p.foto && (
+                <div className="w-28 shrink-0 overflow-hidden rounded-xl sm:mb-3 sm:w-full">
+                  <img
+                    src={p.foto}
+                    alt={p.fotoAlt ?? ""}
+                    loading="lazy"
+                    className="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
+
+              <div className="min-w-0 flex-1 self-center sm:self-auto">
+                <Marcador {...p} />
+              </div>
+            </article>
           ))}
         </div>
 
