@@ -13,7 +13,7 @@ import { useCallback, useMemo, useState } from "react";
 import Lightbox from "@/components/Lightbox";
 import Badge from "@/components/ui/Badge";
 import EmptyState from "@/components/ui/EmptyState";
-import { cldThumb, cldBlur, cldUrl } from "@/lib/cloudinary";
+import { cldThumb, cldBlur, cldDownload } from "@/lib/cloudinary";
 import type { GalleryImage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -31,8 +31,13 @@ function thumbSrc(img: GalleryImage) {
 function blurSrc(img: GalleryImage) {
   return img.publicId ? cldBlur(img.publicId) : undefined;
 }
+/**
+ * Descarga: el original sin recomprimir (ver cldDownload). Antes esto
+ * apuntaba a cldUrl(), que lleva f_auto,q_auto y devolvía un WebP de la
+ * quinta parte del peso.
+ */
 function downloadHref(img: GalleryImage) {
-  return img.publicId ? cldUrl(img.publicId) + "?_dl=1" : (img.src ?? "");
+  return img.publicId ? cldDownload(img.publicId) : (img.src ?? "");
 }
 
 /** "2026-07-30T…" → "30 jul 2026". */
@@ -214,8 +219,6 @@ export default function GalleryAccordion({ albums }: { albums: AlbumView[] }) {
                         <a
                           href={downloadHref(img)}
                           download
-                          target="_blank"
-                          rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
                           className="absolute right-2 top-2 rounded bg-black/70 px-3 py-1 text-xs text-white opacity-0 transition-opacity hover:bg-black group-hover:opacity-100"
                         >

@@ -6,6 +6,8 @@
 // solo sirven para SUBIR imágenes (script aparte), no para mostrarlas.
 // ----------------------------------------------------------------------
 
+import { slugify } from "@/lib/utils";
+
 const CLOUD_NAME =
   process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ?? "muaeugzh";
 
@@ -48,4 +50,29 @@ export function cldFull(publicId: string, width = 1600): string {
 /** Placeholder minúsculo y difuminado (carga instantánea). */
 export function cldBlur(publicId: string): string {
   return cldUrl(publicId, { width: 40, crop: "limit", blur: 1000 });
+}
+
+/**
+ * URL de DESCARGA: el archivo original, tal cual se subió.
+ *
+ * Ojo con lo que NO lleva: ni `f_auto` ni `q_auto`. Esas dos son perfectas
+ * para MOSTRAR la foto —pesan la cuarta parte y en pantalla se ven igual—,
+ * pero aplicadas a la descarga devuelven un WebP recomprimido. Medido sobre
+ * una foto real de la galería: el original son 6.8 MB y con `f_auto,q_auto`
+ * bajaban 1.4 MB. No se pierde nitidez ni resolución, se pierde el detalle
+ * fino (la trama del uniforme, el grano), que es justo lo que se nota al
+ * mirar la foto de cerca. Sin transformación, Cloudinary sirve el archivo
+ * original byte por byte.
+ *
+ * `fl_attachment` marca la respuesta como descarga y le pone nombre. Hace
+ * falta porque el atributo `download` de un <a> se ignora cuando el enlace
+ * apunta a otro dominio: sin esto el navegador abría la foto en una pestaña
+ * en vez de guardarla, y había que recurrir a "guardar como".
+ */
+export function cldDownload(publicId: string): string {
+  // El nombre viaja dentro de la ruta de transformación, donde la coma
+  // separa parámetros y el punto marca el formato: hay que dejarlo en
+  // letras, números y guiones. slugify() ya hace justo eso.
+  const name = slugify(publicId) || "pmfl";
+  return `${BASE}/fl_attachment:${name}/${publicId}`;
 }
