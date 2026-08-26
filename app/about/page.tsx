@@ -34,6 +34,38 @@ const TITLES = Object.entries(
 ).sort((a, b) => b[1] - a[1]);
 
 /**
+ * Collage de la sección "Nuestra historia". Son fotos de la Jornada 2
+ * (23 de agosto, Estadio Emilio Royo), recortadas a 4:5 y reducidas: las
+ * originales pesaban entre 3 y 8 MB cada una y aquí van a ~110 KB.
+ */
+const COLLAGE = [
+  {
+    src: "/media/nosotros/aguilas-carrera.jpg",
+    alt: "Un corredor de las Águilas Doradas avanza con el balón perseguido por el número 69 de los Saints",
+  },
+  {
+    src: "/media/nosotros/saints-celebracion.jpg",
+    alt: "El número 22 de los Saints celebra con un compañero dentro de la zona de anotación",
+  },
+  {
+    src: "/media/nosotros/eagles-pase.jpg",
+    alt: "El quarterback número 7 de los Colón Eagles arma el brazo para lanzar",
+  },
+  {
+    src: "/media/nosotros/wolfpack-carrera.jpg",
+    alt: "Un corredor de los Wolfpack rompe la tacleada de un defensivo de los Tigers",
+  },
+  {
+    src: "/media/nosotros/eagles-defensa.jpg",
+    alt: "El número 83 de los Colón Eagles frena a un receptor rival cerca de la banda",
+  },
+  {
+    src: "/media/nosotros/arbitros.jpg",
+    alt: "Dos árbitros conversan junto al marcador de la yarda 50 antes de reanudar el juego",
+  },
+];
+
+/**
  * Reglamento IFAF. Vivía en su propia página (/rules) y ahora va al
  * final de Nosotros: es material de consulta, no una sección que la
  * gente visite por su cuenta.
@@ -64,7 +96,7 @@ export default function AboutPage() {
       </header>
 
       {/* HISTORIA */}
-      <section className="mb-14 grid gap-8 lg:grid-cols-[2fr_1fr]">
+      <section className="mb-14 grid items-start gap-8 lg:grid-cols-[1.1fr_1fr]">
         <div className="space-y-4 text-brand-navy/75 dark:text-white/80 leading-relaxed">
           <h2 className="h-display text-2xl text-brand-navy dark:text-white">Nuestra historia</h2>
           <p>
@@ -104,19 +136,20 @@ export default function AboutPage() {
             </Link>
             .
           </p>
-          <p className="text-sm text-brand-navy/55 dark:text-white/50">
-            (Texto preliminar — se actualizará con la reseña oficial de la liga.)
-          </p>
         </div>
 
-        {/* Placeholder para fotos */}
-        <div className="card flex min-h-[200px] flex-col items-center justify-center p-6 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-gold-600/30 dark:border-brand-gold/30 bg-brand-gold-600/10 dark:bg-brand-gold/10 text-2xl">
-            🏈
-          </div>
-          <p className="mt-3 text-sm text-brand-navy/60 dark:text-white/60">
-            Galería de fotos históricas próximamente.
-          </p>
+        {/* Collage: sin separacion, sin borde y con las esquinas rectas, para
+            que las seis fotos se lean como una sola imagen. */}
+        <div className="grid grid-cols-3">
+          {COLLAGE.map((foto) => (
+            <img
+              key={foto.src}
+              src={foto.src}
+              alt={foto.alt}
+              loading="lazy"
+              className="block aspect-[4/5] w-full object-cover"
+            />
+          ))}
         </div>
       </section>
 
