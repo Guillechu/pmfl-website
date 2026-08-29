@@ -793,3 +793,162 @@ export async function getUpcomingMatches(limit = 3): Promise<CloobMatch[]> {
     })
     .slice(0, limit);
 }
+
+// ======================================================================
+//  Ficha individual de un jugador
+// ======================================================================
+
+/**
+ * Estadísticas acumuladas de un jugador en el torneo. Los nombres son
+ * los de Cloob; se traducen al pintarlos.
+ */
+export interface CloobPlayerStats {
+  total_points: number;
+  total_tds: number;
+  pass_yds: number;
+  pass_tds: number;
+  completions: number;
+  interceptions_thrown: number;
+  rush_yds: number;
+  rush_tds: number;
+  rec_yds: number;
+  rec_tds: number;
+  receptions: number;
+  tackles: number;
+  sacks: number;
+  interceptions: number;
+  pass_deflected: number;
+  fumbles_forced: number;
+  fumbles_recovered: number;
+  def_tds: number;
+  fg_made: number;
+  return_yds: number;
+  return_tds: number;
+  extra_points: number;
+}
+
+export interface CloobPlayerMatch {
+  matchId: string;
+  date: Date | null;
+  rivalName: string;
+  /** Marcador del jugador y del rival. null si aún no se ha jugado. */
+  own: number | null;
+  rival: number | null;
+  isMvp: boolean;
+}
+
+export interface CloobPlayerProfile {
+  playerId: string;
+  name: string;
+  number: string | null;
+  teamName: string;
+  /** Partidos con marcador; total_matches de Cloob cuenta también los
+   *  que quedan por jugar, así que no sirve para "partidos jugados". */
+  played: number;
+  mvps: number;
+  stats: CloobPlayerStats;
+  /** Selección que hace el propio Cloob de lo más destacado. */
+  highlights: Array<{ key: string; label: string; value: number }>;
+  matches: CloobPlayerMatch[];
+}
+
+const STAT_FIELDS = `total_points total_tds pass_yds pass_tds completions
+  interceptions_thrown rush_yds rush_tds rec_yds rec_tds receptions tackles
+  sacks interceptions pass_deflected fumbles_forced fumbles_recovered def_tds
+  fg_made return_yds return_tds extra_points`;
+
+const Q_PLAYER_PROFILE = `query GetPlayerTournamentProfile($tournament_id: String!, $player_id: String!) {
+  getPlayerTournamentProfile(tournament_id: $tournament_id, player_id: $player_id) {
+    player_id
+    name
+    number
+    team_name
+    match_mvps_count
+    stats { ${STAT_FIELDS} highlights { key label value } }
+    matches {
+      match_id
+      day
+      start_hour
+      team_1_name
+      team_2_name
+      team_1_score
+      team_2_score
+      is_player_team_1
+      is_mvp
+    }
+  }
+}`;
+
+interface RawPlayerMatch {
+  match_id: string;
+  day: string;
+  start_hour: string | null;
+  team_1_name: string;
+  team_2_name: string;
+  team_1_score: string | null;
+  team_2_score: string | null;
+  is_player_team_1: boolean;
+  is_mvp: boolean;
+}
+
+/**
+ * Ficha de un jugador por su id de Cloob (el mismo que trae el roster,
+ * comprobado: getTournamentTeamMembers y esta consulta comparten ids).
+ *
+ * Es pública, no hace falta sesión. Devuelve null si el jugador no juega
+ * este torneo o si Cloob no responde.
+ */
+export async function getPlayerProfile(
+  playerId: string,
+): Promise<CloobPlayerProfile | null> {
+  const data = await gql<{
+    getPlayerTournamentProfile?: {
+      player_id: string;
+      name: string;
+      number: string | null;
+      team_name: string;
+      match_mvps_count: number | null;
+      stats: (CloobPlayerStats & {
+        highlights?: Array<{ key: string; label: string; value: number }> | null;
+      }) | null;
+      matches?: RawPlayerMatch[] | null;
+    };
+  }>("GetPlayerTournamentProfile", Q_PLAYER_PROFILE, {
+    tournament_id: TOURNAMENT_ID,
+    player_id: playerId,
+  });
+
+  const p = data?.getPlayerTournamentProfile;
+  if (!p) return null;
+
+  const matches: CloobPlayerMatch[] = (p.matches ?? []).map((m) => {
+    const propio = m.is_player_team_1 ? m.team_1_score : m.team_2_score;
+    const contrario = m.is_player_team_1 ? m.team_2_score : m.team_1_score;
+    return {
+      matchId: m.match_id,
+      date: toDate(m.day, m.start_hour),
+      rivalName: m.is_player_team_1 ? m.team_2_name : m.team_1_name,
+      own: toScore(propio),
+      rival: toScore(contrario),
+      isMvp: Boolean(m.is_mvp),
+    };
+  });
+
+  const jugados = matches.filter((m) => m.own !== null && m.rival !== null);
+
+  return {
+    playerId: p.player_id,
+    name: p.name,
+    number: p.number,
+    teamName: p.team_name,
+    played: jugados.length,
+    mvps: p.match_mvps_count ?? 0,
+    stats: (p.stats ?? {}) as CloobPlayerStats,
+    highlights: p.stats?.highlights ?? [],
+    // Del más reciente al más antiguo, y los jugados antes que los que
+    // quedan por jugar: la ficha va de lo que ya hizo.
+    matches: [...jugados].sort(
+      (a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0),
+    ),
+  };
+}

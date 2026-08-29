@@ -8,6 +8,7 @@ import { InstagramIcon } from "@/components/SocialIcons";
 import { getClubRosterByName, getMatches, getStandings } from "@/lib/cloob";
 import { fromCloob, fromLocal } from "@/lib/match";
 import { slugify } from "@/lib/utils";
+import { toMeters, toPounds } from "@/lib/measurements";
 import type { Player } from "@/lib/types";
 
 // El roster y el calendario vienen de Cloob; se revalidan solos.
@@ -46,8 +47,8 @@ function buildRoster(
     name: p.name,
     number: p.number,
     position: p.position && p.position !== "TBD" ? p.position : "",
-    height: p.height ?? "",
-    weight: p.weight ? `${p.weight} lb` : "",
+    height: toMeters(p.height),
+    weight: toPounds(p.weight),
     photo: p.photo,
   });
 
@@ -68,10 +69,14 @@ function buildRoster(
       position:
         c.position ||
         (match?.position && match.position !== "TBD" ? match.position : ""),
-      height: c.height || match?.height || "",
-      weight: c.weight || (match?.weight ? `${match.weight} lb` : ""),
+      // Cloob manda, pero solo si lo que puso el club se entiende: un
+      // "?" o un campo a medias no vale más que el dato de /data.
+      height: toMeters(c.height) || toMeters(match?.height),
+      weight: toPounds(c.weight) || toPounds(match?.weight),
       // La foto oficial de Cloob gana; si no tiene, la local.
       photo: c.avatar ?? match?.photo,
+      // Inscrito en Cloob: su ficha existe y la fila enlaza a ella.
+      profileId: c.id,
     };
   });
 
