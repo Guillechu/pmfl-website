@@ -193,8 +193,15 @@ export default async function TeamDetailPage({
         </div>
       </header>
 
-      <section className="grid lg:grid-cols-[1fr_2fr] gap-6 mt-8">
-        <aside className="card p-6 text-sm">
+      {/* min-w-0 en las dos columnas: sin él, los hijos de un grid tienen
+          min-width:auto y se niegan a encoger por debajo de su contenido.
+          La tabla del roster mide 520 px de mínimo, así que en el móvil
+          estiraba la columna —y con ella Club Info, que comparte pista al
+          apilarse— más allá de la pantalla, y había que alejar el zoom
+          para leer la página. Ahora la tabla se desplaza dentro de su
+          tarjeta y el resto encaja. */}
+      <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
+        <aside className="card min-w-0 p-6 text-sm">
           <h2 className="h-display text-xl text-brand-navy dark:text-white">Club Info</h2>
 
           <h3 className="mt-4 text-xs font-semibold uppercase tracking-widest text-brand-gold-700 dark:text-brand-gold-300">
@@ -241,7 +248,7 @@ export default async function TeamDetailPage({
           </div>
         </aside>
 
-        <div>
+        <div className="min-w-0">
           <div className="mb-3">
             <h2 className="h-display text-xl text-brand-navy dark:text-white">
               Roster
