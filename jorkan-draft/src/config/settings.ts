@@ -2,6 +2,14 @@ import type { AppSettings } from '@/types/settings';
 
 const STORAGE_KEY = 'jorkan-draft.settings.v1';
 
+/**
+ * League intro music, supplied by the commissioner. Dropbox share links are
+ * normalised to a direct-delivery URL at playback time (see audio/urls.ts).
+ * Drop a file at /public/audio/intro.mp3 to override this entirely.
+ */
+export const DEFAULT_INTRO_URL =
+  'https://www.dropbox.com/scl/fi/044chewhnh0vk9fn1cyvk/Dmitry.R_-_Power_Kanye_West_Cover_-mp3.pm.mp3?rlkey=eacdml3cqi2uohdttieyrl85d&st=dduxw9aw&dl=0';
+
 export const DEFAULT_SETTINGS: AppSettings = {
   audio: {
     master: 0.85,
@@ -19,6 +27,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
     musicEnabled: true,
     sfxEnabled: true,
     countdownEnabled: true,
+    introUrl: DEFAULT_INTRO_URL,
   },
   presentation: {
     view: 'live',
@@ -27,6 +36,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
     uiScale: 1,
     lowMotion: false,
     debugOverlay: false,
+    fullscreenOnArm: true,
   },
 };
 

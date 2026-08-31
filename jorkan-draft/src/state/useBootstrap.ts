@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { SimulatorProvider } from '@/providers/SimulatorProvider';
 import { debugLog } from '@/debug/logger';
+import { getDirector } from '@/audio/Director';
 import { getRuntime } from './DraftRuntime';
 
 let bootstrapped = false;
@@ -26,7 +27,11 @@ export function useBootstrap(): void {
       if (import.meta.env.DEV) {
         // Development handle for driving the simulator from the console or
         // from automated screenshot runs. Never present in a production build.
-        (window as unknown as { __jorkan?: unknown }).__jorkan = { runtime, provider };
+        (window as unknown as { __jorkan?: unknown }).__jorkan = {
+          runtime,
+          provider,
+          director: () => getDirector(runtime),
+        };
       }
     })();
   }, []);

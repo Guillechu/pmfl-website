@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { BroadcastFrame } from '@/components/broadcast/BroadcastFrame';
 import { HeaderBar } from '@/components/broadcast/HeaderBar';
 import { Ticker } from '@/components/broadcast/Ticker';
@@ -10,8 +11,11 @@ import { BoardScreen } from '@/components/screens/BoardScreen';
 import { RostersScreen } from '@/components/screens/RostersScreen';
 import { CompleteScreen } from '@/components/screens/CompleteScreen';
 import { useDraft, useRuntime, useSettings, useSyncStatus, useUi } from '@/state/hooks';
+import { AudioPanel } from '@/components/ops/AudioPanel';
+import { SimulatorPanel } from '@/components/ops/SimulatorPanel';
 import { useBootstrap } from '@/state/useBootstrap';
 import { useKeyboardShortcuts } from '@/state/useKeyboardShortcuts';
+import { armPresentation, useAudioDirector } from '@/state/useAudioDirector';
 import { cn } from '@/lib/cn';
 
 export default function App() {
@@ -23,6 +27,7 @@ export default function App() {
 
   useBootstrap();
   useKeyboardShortcuts();
+  useAudioDirector();
 
   useEffect(() => {
     runtime.setRevealSeconds(settings.presentation.revealSeconds);
@@ -38,7 +43,7 @@ export default function App() {
     >
       <BroadcastFrame>
         {preDraft ? (
-          <PreDraftScreen armed={ui.armed} status={status} onArm={() => runtime.arm()} />
+          <PreDraftScreen armed={ui.armed} status={status} onArm={() => void armPresentation()} />
         ) : (
           <>
             <HeaderBar
@@ -66,6 +71,13 @@ export default function App() {
 
         <RoundBanner round={ui.roundBanner} />
         <PickReveal reveal={ui.reveal} />
+
+        <AnimatePresence>
+          {ui.showMixer ? <AudioPanel key="audio" onClose={() => runtime.toggle('showMixer')} /> : null}
+          {ui.showSimulator && import.meta.env.DEV ? (
+            <SimulatorPanel key="sim" onClose={() => runtime.toggle('showSimulator')} />
+          ) : null}
+        </AnimatePresence>
       </BroadcastFrame>
     </div>
   );

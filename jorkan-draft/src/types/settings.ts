@@ -18,6 +18,12 @@ export interface AudioSettings {
   sfxEnabled: boolean;
   /** Countdown ticks under 10 seconds. */
   countdownEnabled: boolean;
+  /**
+   * Pre-draft music. A local /public/audio/intro.mp3 wins if present;
+   * otherwise this hosted URL is used (Dropbox share links are rewritten to a
+   * direct-delivery form automatically).
+   */
+  introUrl: string | null;
 }
 
 export type PresentationView = 'live' | 'board' | 'rosters' | 'summary';
@@ -32,6 +38,8 @@ export interface PresentationSettings {
   /** Reduce motion for very slow machines. */
   lowMotion: boolean;
   debugOverlay: boolean;
+  /** Go fullscreen when the operator arms the presentation. */
+  fullscreenOnArm: boolean;
 }
 
 export interface AppSettings {
