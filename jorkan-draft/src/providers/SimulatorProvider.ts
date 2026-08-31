@@ -205,7 +205,10 @@ export class SimulatorProvider extends BaseProvider {
    */
   advance(deltaMs: number): void {
     if (this.simPhase !== 'running') return;
-    this.now += deltaMs;
+    // Simulated time drives the draft clock; emitted timestamps stay on real
+    // wall time, exactly like ESPN, so clock interpolation behaves correctly
+    // even when a test fast-forwards a whole draft in a few milliseconds.
+    this.now = Date.now();
     this.elapsedInPickMs += deltaMs;
     this.sinceSnapshotMs += deltaMs;
     this.clockMs = Math.max(0, this.clockMs - deltaMs);

@@ -1,32 +1,72 @@
-import { LEAGUE, TOTAL_PICKS } from '@/config/league';
+import { useEffect } from 'react';
+import { BroadcastFrame } from '@/components/broadcast/BroadcastFrame';
+import { HeaderBar } from '@/components/broadcast/HeaderBar';
+import { Ticker } from '@/components/broadcast/Ticker';
+import { RoundBanner } from '@/components/broadcast/RoundBanner';
+import { PickReveal } from '@/components/overlays/PickReveal';
+import { LiveScreen } from '@/components/screens/LiveScreen';
+import { PreDraftScreen } from '@/components/screens/PreDraftScreen';
+import { BoardScreen } from '@/components/screens/BoardScreen';
+import { RostersScreen } from '@/components/screens/RostersScreen';
+import { CompleteScreen } from '@/components/screens/CompleteScreen';
+import { useDraft, useRuntime, useSettings, useSyncStatus, useUi } from '@/state/hooks';
+import { useBootstrap } from '@/state/useBootstrap';
+import { useKeyboardShortcuts } from '@/state/useKeyboardShortcuts';
+import { cn } from '@/lib/cn';
 
-/** Phase 1 scaffold check: config, types, Tailwind tokens and fonts render. */
 export default function App() {
+  const runtime = useRuntime();
+  const state = useDraft();
+  const status = useSyncStatus();
+  const ui = useUi();
+  const settings = useSettings();
+
+  useBootstrap();
+  useKeyboardShortcuts();
+
+  useEffect(() => {
+    runtime.setRevealSeconds(settings.presentation.revealSeconds);
+  }, [runtime, settings.presentation.revealSeconds]);
+
+  const preDraft = state.phase === 'idle' || state.phase === 'waiting';
+
   return (
-    <div className="h-full w-full overflow-hidden bg-pitch-950 bg-field-glow p-[2rem]">
-      <p className="eyebrow">{LEAGUE.name}</p>
-      <h1 className="headline text-tv-3xl text-white">
-        {LEAGUE.season} Fantasy Football Draft
-      </h1>
-      <div className="rule-gold my-[1rem]" />
-      <p className="text-tv-md text-white/70 tabular">
-        {LEAGUE.teamCount} teams &middot; {LEAGUE.rounds} rounds &middot; {TOTAL_PICKS} picks
-      </p>
-      <ol className="mt-[1.5rem] grid grid-cols-4 gap-[0.75rem]">
-        {LEAGUE.teams.map((team) => (
-          <li key={team.id} className="panel p-[0.75rem]">
-            <div className="flex items-baseline gap-[0.5rem]">
-              <span className="headline text-tv-md tabular" style={{ color: team.accentColor }}>
-                {String(team.draftSlot).padStart(2, '0')}
-              </span>
-              <span className="headline text-tv-sm text-white">{team.name}</span>
-            </div>
-            <p className="text-tv-xs uppercase tracking-[0.2em] text-white/45">
-              {team.manager.name}
-            </p>
-          </li>
-        ))}
-      </ol>
+    <div
+      className={cn('h-full w-full', settings.presentation.lowMotion && 'low-motion')}
+      style={{ fontSize: `${settings.presentation.uiScale * 100}%` }}
+      data-jorkan-presentation="1"
+    >
+      <BroadcastFrame>
+        {preDraft ? (
+          <PreDraftScreen armed={ui.armed} status={status} onArm={() => runtime.arm()} />
+        ) : (
+          <>
+            <HeaderBar
+              state={state}
+              status={status}
+              view={ui.view}
+              onViewChange={(view) => runtime.setView(view)}
+            />
+            {state.phase === 'complete' ? (
+              <CompleteScreen state={state} view={ui.view} />
+            ) : ui.view === 'board' ? (
+              <BoardScreen state={state} />
+            ) : ui.view === 'rosters' ? (
+              <RostersScreen state={state} />
+            ) : (
+              <LiveScreen state={state} />
+            )}
+            {settings.presentation.showTicker ? (
+              <div className="h-[3.1rem] shrink-0">
+                <Ticker state={state} />
+              </div>
+            ) : null}
+          </>
+        )}
+
+        <RoundBanner round={ui.roundBanner} />
+        <PickReveal reveal={ui.reveal} />
+      </BroadcastFrame>
     </div>
   );
 }
