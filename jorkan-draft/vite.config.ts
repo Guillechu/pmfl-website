@@ -15,7 +15,8 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
-    host: '127.0.0.1',
+    // The extension bridge matches http://localhost/* and http://127.0.0.1/*.
+    host: 'localhost',
   },
   preview: { port: 5173, strictPort: true },
   build: { outDir: 'dist', sourcemap: true, target: 'es2022' },

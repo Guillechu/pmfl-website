@@ -69,6 +69,18 @@ export class DraftRuntime {
     return this.provider instanceof SimulatorProvider ? this.provider : null;
   }
 
+  /** Switch to the real ESPN feed (the default). */
+  async useEspn(): Promise<void> {
+    const { EspnDraftProvider } = await import('@/providers/EspnDraftProvider');
+    await this.attach(new EspnDraftProvider());
+  }
+
+  /** Switch to the simulator. Development and rehearsal only. */
+  async useSimulator(): Promise<void> {
+    const { SimulatorProvider } = await import('@/providers/SimulatorProvider');
+    await this.attach(new SimulatorProvider());
+  }
+
   async resync(): Promise<void> {
     debugLog('note', 'manual resync requested');
     await this.provider?.resync();
@@ -205,7 +217,16 @@ export class DraftRuntime {
   }
 
   toggle(key: 'showDebug' | 'showMixer' | 'showChecklist' | 'showSimulator'): void {
-    this.ui.update((ui) => ({ ...ui, [key]: !ui[key] }));
+    this.ui.update((ui) => {
+      const next = { ...ui, [key]: !ui[key] };
+      // The debug, audio and checklist panels share the right-hand side, so
+      // opening one closes the others rather than stacking on top of them.
+      const RIGHT_SIDE = ['showDebug', 'showMixer', 'showChecklist'] as const;
+      if (!ui[key] && (RIGHT_SIDE as readonly string[]).includes(key)) {
+        for (const other of RIGHT_SIDE) if (other !== key) next[other] = false;
+      }
+      return next;
+    });
   }
 
   setFullscreen(value: boolean): void {

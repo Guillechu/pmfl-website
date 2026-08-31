@@ -191,18 +191,35 @@ for (const team of TEAMS) {
 }
 
 /**
+ * Every configured team the text could be referring to, best match first.
+ *
+ * A parser needs to know when text is ambiguous: a container holding both
+ * "El Dandy is on the clock" and "Hospital Nicolas Solano on deck" matches two
+ * teams, and guessing between them silently puts the wrong name on the TV.
+ */
+export function resolveAllTeams(text: string | null | undefined): FantasyTeam[] {
+  if (!text) return [];
+  const key = normalizeName(text);
+  if (!key) return [];
+
+  const exact = NAME_INDEX.get(key);
+  if (exact) return [exact];
+
+  const matches = new Map<FantasyTeam, number>();
+  for (const [name, team] of NAME_INDEX) {
+    if (name.length < 4) continue;
+    if (!key.includes(name) && !name.includes(key)) continue;
+    // Longest matched alias wins: "los badros" beats "badros".
+    matches.set(team, Math.max(matches.get(team) ?? 0, name.length));
+  }
+  return [...matches.entries()].sort((a, b) => b[1] - a[1]).map(([team]) => team);
+}
+
+/**
  * Resolve arbitrary ESPN text (team name, abbreviation, or manager name) to a
- * configured team. Exact match first, then containment both ways, so a
+ * configured team. Exact match first, then the longest containment match, so a
  * renamed-on-ESPN team still lands on the right column.
  */
 export function resolveTeam(text: string | null | undefined): FantasyTeam | undefined {
-  if (!text) return undefined;
-  const key = normalizeName(text);
-  if (!key) return undefined;
-  const exact = NAME_INDEX.get(key);
-  if (exact) return exact;
-  for (const [name, team] of NAME_INDEX) {
-    if (name.length >= 4 && (key.includes(name) || name.includes(key))) return team;
-  }
-  return undefined;
+  return resolveAllTeams(text)[0];
 }

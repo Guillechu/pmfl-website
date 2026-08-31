@@ -16,10 +16,15 @@ export function SimulatorPanel({ onClose }: { onClose: () => void }) {
   if (!simulator) {
     return (
       <OpsPanel title="Simulator" subtitle="Not attached" onClose={onClose} side="left">
-        <p className="text-tv-xs text-white/50">
-          The presentation is connected to a real ESPN feed. The simulator is only available when no
-          extension feed is attached.
+        <p className="text-tv-xs leading-relaxed text-white/50">
+          The presentation is attached to the real ESPN feed. Attaching the simulator replaces that
+          feed with a fake one - never do this while a real draft is running.
         </p>
+        <div className="mt-[0.6rem]">
+          <OpsButton tone="danger" onClick={() => void runtime.useSimulator()}>
+            Attach simulator
+          </OpsButton>
+        </div>
       </OpsPanel>
     );
   }
@@ -34,6 +39,7 @@ export function SimulatorPanel({ onClose }: { onClose: () => void }) {
     <OpsPanel title="Draft simulator" subtitle="Development only" onClose={onClose} side="left" width="26rem">
       <OpsSection title="Transport">
         <div className="flex flex-wrap gap-[0.3rem]">
+          <OpsButton onClick={() => void runtime.useEspn()}>Back to ESPN</OpsButton>
           <OpsButton tone="primary" onClick={() => simulator.startDraft()}>
             Start draft
           </OpsButton>

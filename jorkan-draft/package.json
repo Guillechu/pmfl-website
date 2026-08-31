@@ -12,7 +12,8 @@
     "build:extension": "node scripts/build-extension.mjs",
     "watch:extension": "node scripts/build-extension.mjs --watch",
     "test:sim": "tsx scripts/stress-sim.ts",
-    "check": "npm run typecheck && npm run test:sim"
+    "check": "npm run typecheck && npm run test:sim && npm run test:extension",
+    "test:extension": "tsx scripts/test-extension.ts"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",

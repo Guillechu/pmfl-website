@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Jorkan League Draft Bridge</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        width: 320px;
+        margin: 0;
+        padding: 14px 16px 16px;
+        background: #060b18;
+        color: rgba(255, 255, 255, 0.9);
+        font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      h1 { margin: 0 0 2px; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+      p.sub { margin: 0 0 12px; font-size: 11px; color: rgba(255,255,255,0.45); }
+      dl { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; margin: 0 0 12px; }
+      dt { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.42); }
+      dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+      .ok { color: #6ee7a8; }
+      .bad { color: #ff8a8a; }
+      .warn { color: #ffd75e; }
+      button {
+        width: 100%;
+        margin-top: 6px;
+        padding: 7px 10px;
+        border: 1px solid rgba(255,255,255,0.16);
+        border-radius: 4px;
+        background: rgba(255,255,255,0.05);
+        color: inherit;
+        font: inherit;
+        cursor: pointer;
+      }
+      button:hover { background: rgba(255,255,255,0.1); }
+      button.primary { border-color: rgba(245,197,66,0.6); background: rgba(245,197,66,0.15); color: #ffd75e; }
+      .note { margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.4); }
+    </style>
+  </head>
+  <body>
+    <h1>Jorkan Draft Bridge</h1>
+    <p class="sub">Read-only mirror of the ESPN draft room.</p>
+    <dl id="stats"></dl>
+    <button id="debug">Enable debug capture</button>
+    <button id="export">Export debug JSON</button>
+    <button id="reset">Reset mirror</button>
+    <p class="note">
+      This extension only reads the draft room. It never makes picks and never changes ESPN.
+    </p>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
