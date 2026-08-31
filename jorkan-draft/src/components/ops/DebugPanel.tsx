@@ -90,7 +90,14 @@ export function DebugPanel({ onClose }: { onClose: () => void }) {
             mismatch={mismatch}
           />
           <Compare label="Phase" espn={espnView?.phase ?? null} tv={state.phase} mismatch={mismatch} />
-          <Compare label="Picks" espn={espnView?.picks.length ?? null} tv={state.picks.length} mismatch={() => false} />
+          {/* ESPN reads carry only recent history by design, so this row is
+              informational rather than a mismatch check. */}
+          <Compare
+            label="Picks in read / total"
+            espn={espnView?.picks.length ?? null}
+            tv={state.picks.length}
+            mismatch={() => false}
+          />
         </div>
         {status.drift.length > 0 ? (
           <p className="mt-[0.4rem] rounded-[0.2rem] border border-gold-500/40 bg-gold-500/10 px-[0.5rem] py-[0.3rem] text-tv-xs text-gold-300">

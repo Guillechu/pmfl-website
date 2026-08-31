@@ -13,6 +13,7 @@ import { CompleteScreen } from '@/components/screens/CompleteScreen';
 import { useDraft, useRuntime, useSettings, useSyncStatus, useUi } from '@/state/hooks';
 import { AudioPanel } from '@/components/ops/AudioPanel';
 import { DebugPanel } from '@/components/ops/DebugPanel';
+import { ChecklistPanel } from '@/components/ops/ChecklistPanel';
 import { SimulatorPanel } from '@/components/ops/SimulatorPanel';
 import { useBootstrap } from '@/state/useBootstrap';
 import { useKeyboardShortcuts } from '@/state/useKeyboardShortcuts';
@@ -76,6 +77,9 @@ export default function App() {
         <AnimatePresence>
           {ui.showDebug ? <DebugPanel key="debug" onClose={() => runtime.toggle('showDebug')} /> : null}
           {ui.showMixer ? <AudioPanel key="audio" onClose={() => runtime.toggle('showMixer')} /> : null}
+          {ui.showChecklist ? (
+            <ChecklistPanel key="checklist" onClose={() => runtime.toggle('showChecklist')} />
+          ) : null}
           {ui.showSimulator && import.meta.env.DEV ? (
             <SimulatorPanel key="sim" onClose={() => runtime.toggle('showSimulator')} />
           ) : null}

@@ -29,7 +29,11 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
       />
 
       <div className="relative flex items-center justify-between">
-        <span className="eyebrow">On the Clock</span>
+        {state.phase === 'paused' ? (
+          <span className="eyebrow animate-pulse-urgent text-gold-400">Draft paused by ESPN</span>
+        ) : (
+          <span className="eyebrow">On the Clock</span>
+        )}
         <div className="flex items-baseline gap-[0.55rem] font-display uppercase tracking-[0.2em]">
           <span className="text-tv-xs text-white/45">Pick</span>
           <span className="tabular text-tv-md font-bold text-white">

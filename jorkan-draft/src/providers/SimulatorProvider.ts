@@ -138,14 +138,18 @@ export class SimulatorProvider extends BaseProvider {
   pause(): void {
     if (this.simPhase !== 'running') return;
     this.simPhase = 'paused';
-    this.emit({ type: 'DRAFT_PAUSED', at: Date.now() });
+    this.now = Date.now();
+    this.emit({ type: 'DRAFT_PAUSED', at: this.now });
     this.emitClock();
+    this.emitSnapshot();
   }
 
   resume(): void {
     if (this.simPhase !== 'paused') return;
     this.simPhase = 'running';
-    this.emit({ type: 'DRAFT_RESUMED', at: Date.now() });
+    this.now = Date.now();
+    this.emit({ type: 'DRAFT_RESUMED', at: this.now });
+    this.emitSnapshot();
   }
 
   /** Force the current team to pick immediately. */
