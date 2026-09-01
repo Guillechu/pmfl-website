@@ -69,7 +69,10 @@ export function parseDraftRoom(input: ParseInput): ParseOutput {
   const startedAt = performance.now();
   const recorder = new Recorder();
   const root = input.root ?? document;
-  const atoms = textAtoms(root).filter((atom) => isVisible(atom.el));
+  // Visibility is checked per candidate rather than across every atom:
+  // getComputedStyle on thousands of elements forces a style recalculation
+  // and would make the ESPN tab stutter on every pass.
+  const atoms = textAtoms(root);
 
   const probe = input.probe?.draft ?? null;
 
@@ -179,6 +182,7 @@ function detectClock(
     if (atom.text.length > 12) continue;
     const ms = P.matchClock(atom.text);
     if (ms === null) continue;
+    if (!isVisible(atom.el)) continue;
     let score = 0;
     if (P.CLOCK.test(atom.text)) score += 2;
     const context = visibleText(atom.el.parentElement).toLowerCase();
@@ -321,6 +325,7 @@ function teamNearPhrase(atoms: TextAtom[], phrase: RegExp, competing: RegExp[] =
   for (const marker of markers) {
     // An element carrying a competing marker describes more than one team.
     if (competing.some((pattern) => pattern.test(marker.text))) continue;
+    if (!isVisible(marker.el)) continue;
 
     // Same element: "El Dandy is on the clock".
     const remainder = marker.text.replace(phrase, ' ').trim();
@@ -501,24 +506,29 @@ function pickFromRow(container: Element, leagueId: string): DraftPick | null {
 }
 
 function coordsFromRowText(text: string): Coords | null {
+  // 1. "R3 P7" - explicitly labelled, unambiguous anywhere in the row.
   const rp = text.match(P.PICK_COORD_RP);
   if (rp?.[1] && rp[2]) {
-    const round = Number(rp[1]);
-    const pickInRound = Number(rp[2]);
-    const overallPick = overallFrom(round, pickInRound);
-    if (isValidOverall(overallPick)) return { round, pickInRound, overallPick };
+    const coords = coordsFromLabelled(Number(rp[1]), Number(rp[2]));
+    if (coords) return coords;
   }
 
+  // 2. "3.07" at the start of the row, which is how a pick row leads.
   const coord = text.match(P.PICK_COORD);
   if (coord?.[1] && coord[2]) {
-    const round = Number(coord[1]);
-    const pickInRound = Number(coord[2]);
-    if (round >= 1 && round <= LEAGUE.rounds && pickInRound >= 1 && pickInRound <= LEAGUE.teamCount) {
-      const overallPick = overallFrom(round, pickInRound);
-      if (isValidOverall(overallPick)) return { round, pickInRound, overallPick };
-    }
+    const coords = coordsFromLabelled(Number(coord[1]), Number(coord[2]));
+    if (coords) return coords;
   }
 
+  // 3. "Round 3 ... Pick 7" - both labelled.
+  const roundMatch = text.match(P.ROUND);
+  const pickMatch = text.match(P.PICK_IN_ROUND);
+  if (roundMatch?.[1] && pickMatch?.[1]) {
+    const coords = coordsFromLabelled(Number(roundMatch[1]), Number(pickMatch[1]));
+    if (coords) return coords;
+  }
+
+  // 4. "43rd overall" - labelled, so safe anywhere.
   const overallMatch = text.match(P.OVERALL);
   const overallValue = overallMatch?.[1] ?? overallMatch?.[2];
   if (overallValue) {
@@ -526,6 +536,13 @@ function coordsFromRowText(text: string): Coords | null {
     if (isValidOverall(overall)) return coordsFromOverall(overall);
   }
   return null;
+}
+
+function coordsFromLabelled(round: number, pickInRound: number): Coords | null {
+  if (round < 1 || round > LEAGUE.rounds) return null;
+  if (pickInRound < 1 || pickInRound > LEAGUE.teamCount) return null;
+  const overallPick = overallFrom(round, pickInRound);
+  return isValidOverall(overallPick) ? { round, pickInRound, overallPick } : null;
 }
 
 function playerNameFrom(container: Element, anchor: HTMLElement | null, text: string): string | null {

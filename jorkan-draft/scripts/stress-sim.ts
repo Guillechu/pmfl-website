@@ -15,6 +15,7 @@ import { LEAGUE, TOTAL_PICKS, teamBySlot } from '../src/config/league';
 import { slotForOverall } from '../src/core/snake';
 import { rostersByTeam } from '../src/core/selectors';
 import { playerKey } from '../src/types/player';
+import { MOCK_PLAYER_POOL } from '../src/data/mockPlayers';
 
 interface Failure {
   check: string;
@@ -217,6 +218,114 @@ function reconnectChecks(): void {
   console.log('  reconnect: restored 40+ picks silently, replays inert');
 }
 
+/**
+ * Joining mid-draft with only recent history.
+ *
+ * ESPN's draft room only ever shows the last stretch of picks, so a
+ * presentation that connects at pick 100 legitimately has no record of picks
+ * 1-60. The next live pick must still move the clock forward - not back to
+ * the lowest slot it happens to be missing.
+ */
+function partialHistoryChecks(): void {
+  const machine = new DraftMachine();
+  const now = Date.now();
+
+  // Restore from a snapshot carrying only picks 61-100.
+  const recent = Array.from({ length: 40 }, (_, index) => samplePick(index + 61));
+  machine.apply({
+    type: 'SNAPSHOT',
+    at: now,
+    snapshot: {
+      phase: 'in_progress',
+      leagueId: LEAGUE.espnLeagueId,
+      round: coordsOf(101).round,
+      pickInRound: coordsOf(101).pickInRound,
+      overallPick: 101,
+      onTheClock: teamRefFor(101),
+      onDeck: teamRefFor(102),
+      clockMs: 300_000,
+      clockRunning: true,
+      picks: recent,
+      capturedAt: now,
+    },
+  });
+
+  check(machine.getState().overallPick === 101, 'partial: restored on pick 101', `${machine.getState().overallPick}`);
+
+  // A live pick arrives for 101.
+  const effects = machine.apply({ type: 'PICK_MADE', at: now, pick: samplePick(101) });
+  const state = machine.getState();
+
+  check(
+    state.overallPick === 102,
+    'partial: advances to the next pick, not to a gap',
+    `landed on ${state.overallPick}`,
+  );
+  check(
+    state.round === coordsOf(102).round,
+    'partial: round does not jump backwards',
+    `round ${state.round}`,
+  );
+  const roundChanges = effects.filter((effect) => effect.type === 'ROUND_CHANGED');
+  check(
+    roundChanges.length === 0,
+    'partial: no bogus round-change announcement',
+    JSON.stringify(roundChanges),
+  );
+  check(
+    state.onTheClock?.fantasyTeamId === teamRefFor(102)?.fantasyTeamId,
+    'partial: correct team on the clock',
+    state.onTheClock?.fantasyTeamName ?? 'none',
+  );
+
+  // A late backfill for an old slot must not drag the draft backwards either.
+  machine.apply({ type: 'PICK_MADE', at: now, pick: samplePick(45) });
+  check(
+    machine.getState().overallPick === 102,
+    'partial: a late old pick does not rewind the draft',
+    `${machine.getState().overallPick}`,
+  );
+
+  // The final pick completes the draft even with gaps in the board.
+  machine.apply({ type: 'PICK_MADE', at: now, pick: samplePick(TOTAL_PICKS) });
+  check(
+    machine.getState().phase === 'complete',
+    'partial: final pick completes the draft',
+    machine.getState().phase,
+  );
+
+  console.log('  partial history: advances forward, no rewind, completes on the final pick');
+}
+
+function coordsOf(overall: number) {
+  return { round: Math.floor((overall - 1) / LEAGUE.teamCount) + 1, pickInRound: ((overall - 1) % LEAGUE.teamCount) + 1 };
+}
+
+function teamRefFor(overall: number) {
+  const team = teamBySlot(slotForOverall(overall));
+  return team
+    ? { fantasyTeamId: team.id, fantasyTeamName: team.name, managerName: team.manager.name }
+    : null;
+}
+
+function samplePick(overall: number) {
+  const coords = coordsOf(overall);
+  const team = teamBySlot(slotForOverall(overall));
+  const player = MOCK_PLAYER_POOL[overall % MOCK_PLAYER_POOL.length];
+  if (!team || !player) throw new Error(`no fixture for pick ${overall}`);
+  return {
+    overallPick: overall,
+    round: coords.round,
+    pickInRound: coords.pickInRound,
+    player,
+    fantasyTeamId: team.id,
+    fantasyTeamName: team.name,
+    managerName: team.manager.name,
+    timestamp: Date.now(),
+    eventId: `${LEAGUE.espnLeagueId}|${String(overall).padStart(3, '0')}|${playerKey(player)}|${team.id}`,
+  };
+}
+
 async function main(): Promise<void> {
   console.log('Jorkan draft simulation stress test');
 
@@ -226,6 +335,7 @@ async function main(): Promise<void> {
   await run('hostile', { dropRate: 0.5, duplicateRate: 0.9, seed: 13579 });
 
   reconnectChecks();
+  partialHistoryChecks();
 
   if (failures.length > 0) {
     console.error(`\n${failures.length} check(s) FAILED:`);

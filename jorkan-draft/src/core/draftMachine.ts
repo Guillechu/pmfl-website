@@ -308,24 +308,29 @@ export class DraftMachine {
 
     const effects: Effect[] = [{ type: 'PICK_ACCEPTED', pick, live, at }];
 
-    // Move the clock on optimistically using the configured snake order; ESPN
-    // will confirm (or correct) within a second or two.
-    const nextOverall = this.nextOpenOverall();
-    if (nextOverall === null) {
+    if (pick.overallPick >= TOTAL_PICKS || this.state.picks.length >= TOTAL_PICKS) {
       effects.push(...this.complete(at));
-    } else if (live) {
-      effects.push(...this.advanceTo(nextOverall, at, {}));
+      return effects;
+    }
+
+    /*
+     * Move the clock on optimistically to the pick that follows this one;
+     * ESPN confirms (or corrects) within a second or two.
+     *
+     * Deliberately *not* "the lowest slot with no pick in it": ESPN's draft
+     * room only shows recent history, so a presentation that joined at pick
+     * 100 has real gaps at the start of the board, and that rule would throw
+     * the broadcast back to round 1 on the next selection. The guard keeps
+     * this monotonic, so a late backfill for an old slot cannot rewind the
+     * draft either.
+     */
+    if (live) {
+      const nextOverall = pick.overallPick + 1;
+      if (nextOverall > this.state.overallPick) {
+        effects.push(...this.advanceTo(nextOverall, at, {}));
+      }
     }
     return effects;
-  }
-
-  /** Lowest overall pick with no selection yet; null when the draft is full. */
-  private nextOpenOverall(): number | null {
-    const taken = new Set(this.state.picks.map((p) => p.overallPick));
-    for (let overall = 1; overall <= TOTAL_PICKS; overall += 1) {
-      if (!taken.has(overall)) return overall;
-    }
-    return null;
   }
 
   private advanceTo(overallPick: number, at: number, options: AdvanceOptions): Effect[] {

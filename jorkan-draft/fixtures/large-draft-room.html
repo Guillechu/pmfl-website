@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Large draft room (perf fixture)</title></head>
+<body>
+  <!--
+    THIS IS NOT ESPN'S MARKUP.
+
+    A deliberately large stand-in (about 4,600 elements: a player pool, a
+    history feed and the usual chrome) used to measure what a parse costs on
+    a page the size of a real draft room. The parser runs several times a
+    second in the ESPN tab, so this is the fixture that keeps it honest.
+    Measured after the rowContainer fix: ~10ms median, ~28ms worst.
+  -->
+  <div id="app">
+    <header><div>Round 8, Pick 5</div><div>Draft in progress</div></header>
+    <section><span>Time left</span><span>3:22</span></section>
+    <section id="turn">
+      <div><span>On the clock</span> <span>Los Badros</span></div>
+      <div><span>On deck</span> <span>twisteens</span></div>
+    </section>
+    <ul id="history"></ul>
+    <div id="pool"></div>
+  </div>
+  <script>
+    // A draft room is a big page: a player pool of several hundred rows, a
+    // board, and a lot of chrome. Build something of that order.
+    const pool = document.getElementById('pool');
+    for (let i = 0; i < 600; i += 1) {
+      const row = document.createElement('div');
+      row.innerHTML =
+        `<span>${i + 1}</span>` +
+        `<a href="https://www.espn.com/nfl/player/_/id/${300000 + i}/player-${i}">Player Number ${i}</a>` +
+        `<span>WR, CIN</span><span>Proj 12.4</span><span>Own 45%</span><button>Draft</button>`;
+      pool.appendChild(row);
+    }
+    const history = document.getElementById('history');
+    for (let i = 0; i < 88; i += 1) {
+      const round = Math.floor(i / 12) + 1;
+      const pick = (i % 12) + 1;
+      const li = document.createElement('li');
+      li.innerHTML =
+        `<span>${round}.${String(pick).padStart(2, '0')}</span> ` +
+        `<a href="https://www.espn.com/nfl/player/_/id/${400000 + i}/hist-${i}">History Player ${i}</a> ` +
+        `<span>RB, ATL</span> <span>selected by Los Badros</span>`;
+      history.appendChild(li);
+    }
+  </script>
+</body></html>

@@ -41,17 +41,46 @@ export function textAtoms(root: ParentNode = document, maxLength = 120): TextAto
       node = walker.nextSibling() ?? walker.nextNode();
       continue;
     }
-    const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
-    if (text && text.length <= maxLength) {
-      // Prefer the innermost element carrying this exact text.
-      const childWithSameText = Array.from(el.children).some(
-        (child) => (child.textContent ?? '').replace(/\s+/g, ' ').trim() === text,
-      );
-      if (!childWithSameText) atoms.push({ el, text });
+    // Only elements that render text of their own. A wrapper whose text comes
+    // entirely from its children is not an atom, which keeps one visible
+    // string from matching a dozen nested ancestors - and, just as
+    // importantly, keeps this walk cheap enough to run on a live draft room
+    // several times a second.
+    if (hasOwnText(el)) {
+      const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+      if (text && text.length <= maxLength) atoms.push({ el, text });
     }
     node = walker.nextNode();
   }
   return atoms;
+}
+
+/** True when the element has a non-whitespace text node of its own. */
+function hasOwnText(el: Element): boolean {
+  for (let child = el.firstChild; child; child = child.nextSibling) {
+    if (child.nodeType === 3 && (child.nodeValue ?? '').trim() !== '') return true;
+  }
+  return false;
+}
+
+/**
+ * Does this element's text run past `limit` characters?
+ *
+ * Stops counting the moment it knows, which matters enormously: the naive
+ * `el.textContent.length` rebuilds the whole subtree's text, and climbing the
+ * tree with it rebuilds the entire page's text once per step. On a real draft
+ * room that alone accounted for over 90% of a parse.
+ */
+export function textExceeds(el: Element, limit: number): boolean {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let total = 0;
+  let node = walker.nextNode();
+  while (node) {
+    total += (node.nodeValue ?? '').length;
+    if (total > limit) return true;
+    node = walker.nextNode();
+  }
+  return false;
 }
 
 /** Nearest ancestor that looks like a self-contained row/card. */
@@ -60,8 +89,9 @@ export function rowContainer(el: Element, maxHops = 6): Element {
   for (let i = 0; i < maxHops; i += 1) {
     const parent = current.parentElement;
     if (!parent) break;
-    const text = (parent.textContent ?? '').trim();
-    if (text.length > 240) break;
+    // Once the ancestor holds more than a row's worth of text we have climbed
+    // past the row and into the list around it.
+    if (textExceeds(parent, 240)) break;
     current = parent;
     if (current.tagName === 'LI' || current.tagName === 'TR' || current.getAttribute('role') === 'row') {
       break;

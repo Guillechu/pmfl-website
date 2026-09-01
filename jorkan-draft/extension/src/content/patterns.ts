@@ -19,8 +19,15 @@ export const ROUND_SHORT = /^R(\d{1,2})$/i;
 /** "Pick 7", "Pick 7 of 12", "7th pick". */
 export const PICK_IN_ROUND = /\bpick\s*(?:#\s*)?(\d{1,3})\b/i;
 
-/** "3.07" / "R3 P7" / "Pick 3.07" - a fully qualified pick coordinate. */
-export const PICK_COORD = /\b(\d{1,2})\s*[.–-]\s*(\d{1,2})\b/;
+/**
+ * "3.07" / "Pick 3.07" - a fully qualified pick coordinate.
+ *
+ * Anchored to the start of the row on purpose. A draft room is full of
+ * decimal numbers (projections, averages, percentages), and an unanchored
+ * match would happily read "Proj 12.4" as round 12, pick 4 and invent a pick
+ * that never happened.
+ */
+export const PICK_COORD = /^\s*(?:pick\s*#?\s*)?(\d{1,2})\s*[.–-]\s*(\d{1,2})(?!\d)/i;
 export const PICK_COORD_RP = /\bR\s*(\d{1,2})\s*[,\s]*P\s*(\d{1,2})\b/i;
 
 /** "Overall 43", "43rd overall", "#43 overall". */
