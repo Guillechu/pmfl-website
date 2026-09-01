@@ -728,15 +728,23 @@ function pickFromRow(container: Element, leagueId: string): DraftPick | null {
 
   const positionTeam = positionAndTeamFrom(text);
   /*
-   * Evidence that this is a person, not furniture.
+   * Proof of identity, and nothing looser.
    *
-   * A drafted player carries ESPN's numeric id, or at the very least a
-   * position. A row with a coordinate and neither is a logo, a header or a
-   * schedule cell - and the drafting team is never proof, because when the
-   * row does not name one we fall back to whoever holds that draft slot,
-   * which always succeeds and so can never fail visibly.
+   * ESPN's numeric player id is the only thing on the page that actually
+   * identifies a player: it is what the headshot is built from and what a
+   * pick is deduplicated by. Everything softer has been tried and has put
+   * fiction on the television twice - a club crest read as a player called
+   * "Team logo", then a nameless one called "Team" at no position for no
+   * club. The drafting team was never the check it looked like either,
+   * because a row that does not name one falls back to whoever holds that
+   * draft slot, which always succeeds and so never fails visibly.
+   *
+   * So a pick read off the page must carry an id. The board comes from
+   * ESPN's feed, where every pick has one; this path exists for the case
+   * where the feed is unreachable, and an empty board is far better than an
+   * invented one.
    */
-  if (!espnId && !positionTeam.position) return null;
+  if (!espnId) return null;
 
   const player = buildPlayer({
     name,

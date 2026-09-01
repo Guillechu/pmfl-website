@@ -305,9 +305,14 @@ export class EspnDraftApi {
     if (!overallPick || !playerId || !isValidOverall(overallPick)) return null;
 
     const player = this.players.get(playerId);
-    if (!player) {
-      // Better a pick a few seconds late than an announcement of "Player
-      // 4362628" on the television.
+    /*
+     * A drafted player has a name and a position. Anything less is not ready
+     * to go on television - "TEAM, --, FREE AGENT" is worse than nothing, and
+     * worse than the same pick arriving a poll later once ESPN has told us
+     * who it is. The popup reports how many are being held back, so this
+     * never fails silently.
+     */
+    if (!player || !player.name.trim() || !player.position) {
       unnamed.push(playerId);
       return null;
     }

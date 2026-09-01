@@ -120,6 +120,44 @@ async function main(): Promise<void> {
   await api.read();
   check(athleteCalls === before, 'a player ESPN cannot name is only chased once', `${athleteCalls - before} extra`);
 
+  // A pick ESPN names but cannot place: no position, no club. "TEAM, --,
+  // FREE AGENT" reached a live television before this was a rule.
+  const NAMELESS = 5551234;
+  (globalThis as { fetch: unknown }).fetch = async (input: unknown, init?: RequestInit) => {
+    const url = String(input);
+    const json = (value: unknown) => ({ ok: true, status: 200, json: async () => value }) as unknown as Response;
+    if (url.includes('site.web.api.espn.com')) return { ok: false, status: 404, json: async () => ({}) } as unknown as Response;
+    if (url.includes('view=kona_player_info')) {
+      const filter = JSON.parse(String((init?.headers as Record<string, string>)['x-fantasy-filter']));
+      const ids = filter.players.filterIds.value as number[];
+      return json({
+        players: ids.map((id) =>
+          id === NAMELESS
+            ? { id, player: { id, fullName: 'Placeholder Entry' } }
+            : { id, player: { id, ...PLAYERS[id] } },
+        ),
+      });
+    }
+    return json({
+      draftDetail: {
+        drafted: false,
+        inProgress: true,
+        picks: [
+          { overallPickNumber: 1, roundId: 1, roundPickNumber: 1, playerId: 4362628, teamId: 1, autoDraftTypeId: 0 },
+          { overallPickNumber: 2, roundId: 1, roundPickNumber: 2, playerId: NAMELESS, teamId: 2, autoDraftTypeId: 0 },
+        ],
+      },
+      teams: TEAMS,
+    });
+  };
+  const placeholder = await new EspnDraftApi('1314329848', 2026).read();
+  check(placeholder?.picks.length === 1, 'a pick with no position is held back', `${placeholder?.picks.length}`);
+  check(
+    placeholder?.unnamed.includes(NAMELESS) === true,
+    'and is reported so the popup can show it',
+    JSON.stringify(placeholder?.unnamed),
+  );
+
   // A public league served with `Access-Control-Allow-Origin: *`: the browser
   // refuses the credentialed request outright, and the same URL works the
   // moment we stop asking for the session.
