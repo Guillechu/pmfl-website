@@ -26,17 +26,32 @@ export type AudioStatus = {
   ducked: boolean;
 };
 
-const SFX_FILES: Record<SfxId, string> = {
-  'pick-is-in': '/audio/pick-is-in.mp3',
-  'on-the-clock': '/audio/on-the-clock.mp3',
-  countdown: '/audio/countdown.mp3',
-  transition: '/audio/transition.mp3',
-  round: '/audio/transition.mp3',
-  'draft-complete': '/audio/draft-complete.mp3',
+/**
+ * Operator-supplied audio.
+ *
+ * Base names, not paths: every extension is tried in turn, so whatever a
+ * sound arrives as - an .m4a off a phone, a .wav out of a recorder - it works
+ * by being dropped in under the right name, with nothing to convert and no
+ * code to edit. None of these files are committed (see public/audio/
+ * .gitignore); they stay on the machine running the show.
+ */
+const AUDIO_EXTENSIONS = ['mp3', 'm4a', 'ogg', 'wav'];
+
+const SFX_BASE: Record<SfxId, string> = {
+  'pick-is-in': 'pick-is-in',
+  'on-the-clock': 'on-the-clock',
+  countdown: 'countdown',
+  transition: 'transition',
+  round: 'transition',
+  'draft-complete': 'draft-complete',
 };
 
-const BED_FILE = '/audio/draft-bed.mp3';
-const INTRO_FILE = '/audio/intro.mp3';
+const BED_BASE = 'draft-bed';
+const INTRO_BASE = 'intro';
+
+function fileCandidates(base: string): string[] {
+  return AUDIO_EXTENSIONS.map((extension) => `/audio/${base}.${extension}`);
+}
 
 export class AudioEngine {
   private ctx: AudioContext | null = null;
@@ -53,6 +68,8 @@ export class AudioEngine {
   private introPlaying = false;
 
   private buffers = new Map<SfxId, AudioBuffer>();
+  private loadedFrom = new Map<SfxId, string>();
+  private bedLoading = false;
   private missing = new Set<string>();
   private ducked = false;
   private settings: AudioSettings | null = null;
@@ -107,21 +124,27 @@ export class AudioEngine {
   /** Load any operator-supplied files. Missing files are simply noted. */
   private async preload(): Promise<void> {
     if (!this.ctx) return;
-    const unique = new Set(Object.values(SFX_FILES));
+    const bases = [...new Set(Object.values(SFX_BASE))];
     await Promise.all(
-      [...unique].map(async (path) => {
-        const ids = (Object.keys(SFX_FILES) as SfxId[]).filter((id) => SFX_FILES[id] === path);
-        try {
-          const response = await fetch(path, { cache: 'force-cache' });
-          if (!response.ok) throw new Error(String(response.status));
-          const type = response.headers.get('content-type') ?? '';
-          // A dev server answers 200 with index.html for a missing file.
-          if (type.includes('text/html')) throw new Error('not audio');
-          const bytes = await response.arrayBuffer();
-          const buffer = await this.ctx!.decodeAudioData(bytes);
-          for (const id of ids) this.buffers.set(id, buffer);
-        } catch {
-          this.missing.add(path);
+      bases.map(async (base) => {
+        const ids = (Object.keys(SFX_BASE) as SfxId[]).filter((id) => SFX_BASE[id] === base);
+        for (const path of fileCandidates(base)) {
+          try {
+            const response = await fetch(path, { cache: 'force-cache' });
+            if (!response.ok) throw new Error(String(response.status));
+            const type = response.headers.get('content-type') ?? '';
+            // A dev server answers 200 with index.html for a missing file.
+            if (type.includes('text/html')) throw new Error('not audio');
+            const bytes = await response.arrayBuffer();
+            const buffer = await this.ctx!.decodeAudioData(bytes);
+            for (const id of ids) {
+              this.buffers.set(id, buffer);
+              this.loadedFrom.set(id, path);
+            }
+            return;
+          } catch {
+            this.missing.add(path);
+          }
         }
       }),
     );
@@ -155,33 +178,59 @@ export class AudioEngine {
     if (!this.ctx || !this.settings) return;
     if (!this.settings.musicEnabled || this.settings.muted) return;
 
-    if (!this.missing.has(BED_FILE) && !this.bedElement) {
-      // Try the operator's own bed first; fall back to the generated one.
-      const element = new Audio(BED_FILE);
-      element.loop = true;
-      element.preload = 'auto';
-      element.onerror = () => {
-        this.missing.add(BED_FILE);
-        this.bedElement = null;
-        this.startGeneratedBed();
-      };
-      element.oncanplay = () => {
-        this.bedSource = 'file';
-        void element.play().catch(() => {
-          this.missing.add(BED_FILE);
-          this.bedElement = null;
-          this.startGeneratedBed();
-        });
-      };
-      this.bedElement = element;
-      this.applyLevels();
-      return;
-    }
     if (this.bedElement) {
       void this.bedElement.play().catch(() => undefined);
       return;
     }
-    this.startGeneratedBed();
+    if (this.bedLoading) return;
+
+    // Try the operator's own bed first; fall back to the generated one.
+    const candidates = fileCandidates(BED_BASE).filter((path) => !this.missing.has(path));
+    if (candidates.length === 0) {
+      this.startGeneratedBed();
+      return;
+    }
+    this.bedLoading = true;
+    void this.loadBedElement(candidates).then((loaded) => {
+      this.bedLoading = false;
+      if (loaded && !this.bedWanted) this.bedElement?.pause();
+      if (!loaded && this.bedWanted) this.startGeneratedBed();
+    });
+  }
+
+  /** Each candidate in turn; resolves true as soon as one is playing. */
+  private async loadBedElement(candidates: string[]): Promise<boolean> {
+    for (const path of candidates) {
+      const playing = await new Promise<boolean>((resolve) => {
+        const element = new Audio();
+        element.loop = true;
+        element.preload = 'auto';
+        let settled = false;
+        const done = (value: boolean) => {
+          if (settled) return;
+          settled = true;
+          resolve(value);
+        };
+        element.onerror = () => done(false);
+        element.oncanplay = () => {
+          void element
+            .play()
+            .then(() => {
+              this.bedElement = element;
+              this.bedSource = 'file';
+              this.applyLevels();
+              done(true);
+            })
+            .catch(() => done(false));
+        };
+        element.src = path;
+        // Never hang the show on a file the browser will not decode.
+        setTimeout(() => done(false), 4000);
+      });
+      if (playing) return true;
+      this.missing.add(path);
+    }
+    return false;
   }
 
   private startGeneratedBed(): void {
@@ -206,7 +255,7 @@ export class AudioEngine {
    * URL from settings (Dropbox links are rewritten to a direct form).
    */
   async playIntro(hostedUrl?: string | null): Promise<boolean> {
-    const candidates = [INTRO_FILE, ...(hostedUrl ? directAudioCandidates(hostedUrl) : [])];
+    const candidates = [...fileCandidates(INTRO_BASE), ...(hostedUrl ? directAudioCandidates(hostedUrl) : [])];
     for (const url of candidates) {
       if (this.missing.has(url)) continue;
       const ok = await this.tryPlayIntro(url);
@@ -285,7 +334,7 @@ export class AudioEngine {
       contextState: this.ctx?.state ?? 'none',
       bedRunning: Boolean(this.bed?.isRunning()) || Boolean(this.bedElement && !this.bedElement.paused),
       bedSource: this.bedSource,
-      loadedFiles: [...this.buffers.keys()].map((id) => SFX_FILES[id]),
+      loadedFiles: [...new Set(this.loadedFrom.values())],
       missingFiles: [...this.missing],
       introPlaying: this.introPlaying,
       ducked: this.ducked,

@@ -106,63 +106,31 @@ function noiseSweep(
 }
 
 /**
- * A struck bell.
+ * A flat-topped blip: hard on, hold, off.
  *
- * What makes a bell sound like a bell is that its partials are not a harmonic
- * series - they sit at stubbornly non-musical ratios of the strike note, which
- * is why a bell has a pitch you can hum and a shimmer you cannot. The ratios
- * below are the classic ones, each partial with its own decay so the bright
- * ones die away first and leave the low hum ringing, exactly as metal does.
+ * Not the same shape as tone(), which starts decaying the instant it sounds.
+ * An alert has to hold its level for its whole short life or it reads as a
+ * bump rather than a beep.
  */
-function bell(
+function pulse(
   { ctx, destination, at }: CueContext,
-  options: { note: number; start: number; decay: number; gain: number },
+  options: { type: OscillatorType; freq: number; start: number; duration: number; gain: number },
 ): void {
-  /** ratio to the strike note, relative loudness, share of the full decay. */
-  const PARTIALS: Array<[number, number, number]> = [
-    [0.28, 0.9, 1.0], // sub-hum: weight on a television speaker
-    [0.56, 1.0, 1.0], // hum
-    [0.92, 0.67, 0.9],
-    [1.19, 1.0, 0.65],
-    [1.71, 1.8, 0.5],
-    [2.0, 2.67, 0.32],
-    [2.74, 1.67, 0.3],
-    [3.0, 1.46, 0.24],
-    [3.76, 1.33, 0.18],
-    [4.07, 1.33, 0.14],
-  ];
-  const total = PARTIALS.reduce((sum, [, amp]) => sum + amp, 0);
+  const osc = ctx.createOscillator();
+  const env = ctx.createGain();
+  osc.type = options.type;
+
   const t0 = at + options.start;
+  const t1 = t0 + options.duration;
+  osc.frequency.setValueAtTime(options.freq, t0);
+  env.gain.setValueAtTime(0.0001, t0);
+  env.gain.exponentialRampToValueAtTime(options.gain, t0 + 0.008);
+  env.gain.setValueAtTime(options.gain, t0 + options.duration * 0.7);
+  env.gain.exponentialRampToValueAtTime(0.0001, t1);
 
-  for (const [ratio, amp, share] of PARTIALS) {
-    const osc = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(options.note * ratio, t0);
-    // A real bell is never quite in tune with itself; a couple of cents of
-    // drift on the upper partials is what gives it that slow warble.
-    if (ratio > 1) osc.detune.value = (ratio * 7) % 9;
-
-    const peak = (amp / total) * options.gain;
-    const end = t0 + options.decay * share;
-    gainNode.gain.setValueAtTime(0.0001, t0);
-    gainNode.gain.exponentialRampToValueAtTime(peak, t0 + 0.004);
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, end);
-
-    osc.connect(gainNode).connect(destination);
-    osc.start(t0);
-    osc.stop(end + 0.05);
-  }
-
-  // The strike itself: the hammer on the metal, over almost before it starts.
-  noiseSweep({ ctx, destination, at }, {
-    start: options.start,
-    duration: 0.045,
-    gain: options.gain * 0.5,
-    fromHz: options.note * 6,
-    toHz: options.note * 3,
-    q: 0.8,
-  });
+  osc.connect(env).connect(destination);
+  osc.start(t0);
+  osc.stop(t1 + 0.05);
 }
 
 /** Play one cue. Returns roughly how long it lasts, in seconds. */
@@ -171,11 +139,12 @@ export function playCue(ctx: AudioContext, destination: AudioNode, id: SfxId): n
 
   switch (id) {
     case 'pick-is-in': {
-      // One bell, struck hard. It rings for about two and a half seconds,
-      // which puts the tail underneath the announcer rather than in front of
-      // him - he starts a second and a half after the strike.
-      bell(cue, { note: 523, start: 0, decay: 2.6, gain: 0.5 });
-      return 2.6;
+      // Two notes rising, a quarter of a second in total: the alert shape a
+      // draft room uses, short enough to land and be gone before the reveal
+      // has finished opening.
+      pulse(cue, { type: 'triangle', freq: 880, start: 0, duration: 0.085, gain: 0.34 });
+      pulse(cue, { type: 'triangle', freq: 1318, start: 0.11, duration: 0.14, gain: 0.32 });
+      return 0.25;
     }
 
     case 'on-the-clock': {

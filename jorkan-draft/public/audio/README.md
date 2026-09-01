@@ -6,18 +6,24 @@ license. Everything here is optional: drop a file in and it takes over.
 
 ## Files the engine looks for
 
-| File | Used for | If missing |
+| Name | Used for | If missing |
 | --- | --- | --- |
-| `intro.mp3` | Pre-draft music on the waiting screen | Falls back to the hosted intro URL in the Audio panel |
-| `draft-bed.mp3` | Background bed during the draft (must loop cleanly) | Generated bed is used |
-| `pick-is-in.mp3` | The hit when ESPN registers a selection | Synthesised brass hit |
-| `on-the-clock.mp3` | New team on the clock | Synthesised two-note call |
-| `countdown.mp3` | Ticks under ten seconds | Synthesised tick |
-| `transition.mp3` | Between the pick reveal and the next team (also used for round changes) | Synthesised whoosh |
-| `draft-complete.mp3` | Draft complete | Synthesised fanfare |
+| `intro` | Pre-draft music on the waiting screen | Falls back to the hosted intro URL in the Audio panel, then the generated bed |
+| `draft-bed` | Background bed during the draft (must loop cleanly) | Generated bed is used |
+| `pick-is-in` | The hit when ESPN registers a selection | Synthesised two-tone alert |
+| `on-the-clock` | New team on the clock | Synthesised two-note call |
+| `countdown` | Ticks under ten seconds | Synthesised tick |
+| `transition` | Between the pick reveal and the next team (also used for round changes) | Synthesised whoosh |
+| `draft-complete` | Draft complete | Synthesised fanfare |
 
-Drop a file in this folder with the exact name, then reload the presentation.
-The Audio panel (press **M**) shows which custom files were loaded.
+Any of `.mp3`, `.m4a`, `.ogg` or `.wav` - the engine tries each in that order,
+so whatever the file arrived as will do. Drop it in this folder under the
+exact name, then reload the presentation. The Audio panel (press **M**) lists
+the custom files that loaded, by full filename, so you can see at a glance
+whether yours was picked up.
+
+Nothing you put here is committed: `.gitignore` in this folder keeps these
+files on the machine running the show.
 
 ## Guidance
 
@@ -25,7 +31,6 @@ The Audio panel (press **M**) shows which custom files were loaded.
   announcer speaks; the ducking depth is set in the Audio panel.
 - The bed must loop seamlessly - trim it on a bar boundary with no silence at
   either end.
-- Use music you have the right to play. Do not put copyrighted broadcast music
-  here.
-- MP3 is the safest format; Chrome also accepts `.m4a`, `.ogg` and `.wav` if
-  you rename the file to `.mp3`-free equivalents in `AudioEngine.ts`.
+- Use music you have the right to play, and keep it to your own copy for your
+  own draft night - these files are deliberately kept out of the repository so
+  nothing here is redistributed.
