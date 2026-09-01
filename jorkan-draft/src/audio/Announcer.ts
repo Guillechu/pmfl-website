@@ -62,7 +62,7 @@ export class Announcer {
    * Settings say voiceId: null for "best available", and every settings
    * update used to overwrite the voice chosen at init with that null - so the
    * announcer quietly reverted to whatever voice the browser defaults to,
-   * which is rarely the natural man's voice we went looking for.
+   * which is rarely the natural woman's voice we went looking for.
    */
   private withVoice(settings: AudioSettings): AudioSettings {
     if (settings.voiceId || !this.defaultVoiceId) return settings;

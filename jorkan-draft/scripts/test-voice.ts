@@ -3,7 +3,7 @@
  *
  *   npm run test:voice
  *
- * The brief is a man's voice, as natural as the machine can manage. Nothing
+ * The brief is a woman's voice, as natural as the machine can manage. Nothing
  * in the Web Speech API reports either gender or quality, so both are
  * recognised by name - which makes this exactly the kind of rule that needs
  * checking against the voice lists real machines actually report.
@@ -63,29 +63,35 @@ const SPANISH_ONLY: Voice[] = [
 
 console.log('Announcer voice selection');
 
-check(pick(CHROME_WINDOWS) === 'Google UK English Male', 'Chrome/Windows picks the streamed male voice', pick(CHROME_WINDOWS));
 check(
-  pick(EDGE_WINDOWS) === 'Microsoft Guy Online (Natural) - English (United States)',
-  'Edge/Windows picks a neural male voice',
+  pick(CHROME_WINDOWS) === 'Google UK English Female',
+  'Chrome/Windows picks the streamed woman\'s voice',
+  pick(CHROME_WINDOWS),
+);
+check(
+  pick(EDGE_WINDOWS) === 'Microsoft Aria Online (Natural) - English (United States)',
+  'Edge/Windows picks a neural woman\'s voice',
   pick(EDGE_WINDOWS),
 );
-check(pick(BARE) === 'Microsoft David - English (United States)', 'a bare machine still gets a man', pick(BARE));
+check(pick(BARE) === 'Microsoft Zira - English (United States)', 'a bare machine still gets a woman', pick(BARE));
 check(pick(SPANISH_ONLY) === 'none', 'no English means no default rather than a wrong one', pick(SPANISH_ONLY));
 
-// Women's voices are never the default, however modern they are.
+// Men's voices are never the default, however modern they are.
 check(
-  scoreVoice('Microsoft Aria Online (Natural) - English (United States)', 'en-US', false) < 0,
-  'a neural woman outranks nothing',
+  scoreVoice('Microsoft Guy Online (Natural) - English (United States)', 'en-US', false) < 0,
+  'a neural man outranks nothing',
 );
-check(scoreVoice('Google UK English Female', 'en-GB', false) < 0, 'nor does a streamed one');
+check(scoreVoice('Google UK English Male', 'en-GB', false) < 0, 'nor does a streamed one');
+// "female" ends in "male"; the word boundaries are what keep them apart.
+check(scoreVoice('Google UK English Female', 'en-GB', false) > 0, 'and Female is not read as Male');
 check(
-  scoreVoice('Microsoft Guy Online (Natural) - English (United States)', 'en-US', false) >
-    scoreVoice('Microsoft David - English (United States)', 'en-US', true),
+  scoreVoice('Microsoft Aria Online (Natural) - English (United States)', 'en-US', false) >
+    scoreVoice('Microsoft Zira - English (United States)', 'en-US', true),
   'neural beats the old local engine by a distance',
 );
 check(
-  scoreVoice('Google UK English Male', 'en-GB', false) >
-    scoreVoice('Microsoft Mark - English (United States)', 'en-US', true),
+  scoreVoice('Google UK English Female', 'en-GB', false) >
+    scoreVoice('Microsoft Zira - English (United States)', 'en-US', true),
   'streamed beats local when neither is neural',
 );
 check(scoreVoice('Google Deutsch', 'de-DE', false) < 0, 'another language is never chosen');

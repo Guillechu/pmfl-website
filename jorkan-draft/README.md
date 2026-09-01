@@ -322,15 +322,15 @@ the audio panel.
 Press **M** and look at the voice list. Voices marked with a star are neural
 and sound close to a real read; everything else is a decades-old local engine
 and sounds like one. Chrome on Windows usually offers nothing better than
-*Google UK English Male*.
+*Google UK English Female*.
 
 If you want the best voice available, **run the presentation in Microsoft
-Edge**. Edge ships Microsoft's natural voices (*Guy*, *Andrew*, *Christopher*
+Edge**. Edge ships Microsoft's natural voices (*Aria*, *Jenny*, *Michelle*
 and others) and Chrome does not, and the extension loads in Edge exactly the
 same way - `edge://extensions` → Developer mode → Load unpacked → `extension/dist`.
 
-The presentation picks a man's voice, the most natural one it can find, on its
-own. Pick a different one from the list at any time; the choice is saved.
+The presentation picks a woman's voice, the most natural one it can find, on
+its own. Pick a different one from the list at any time; the choice is saved.
 
 **Announcer talks over itself**
 It cannot - announcements are queued. If a line seems late, it is waiting for
