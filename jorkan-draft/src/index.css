@@ -47,16 +47,16 @@
 @layer components {
   /* The base surface for every module on screen: white card, hairline edge. */
   .panel {
-    @apply relative rounded-[0.5rem] border border-ink/10 bg-paper shadow-panel;
+    @apply relative rounded-[0.5rem] border border-line bg-paper shadow-panel;
   }
 
   .panel-solid {
-    @apply relative rounded-[0.5rem] border border-ink/10 bg-surface-850 shadow-panel;
+    @apply relative rounded-[0.5rem] border border-line bg-surface-850 shadow-panel;
   }
 
   /* Section eyebrow: small, wide-tracked, uppercase - the broadcast label. */
   .eyebrow {
-    @apply font-display text-tv-sm font-semibold uppercase tracking-[0.28em] text-ink/55;
+    @apply font-display text-tv-sm font-semibold uppercase tracking-[0.28em] text-muted;
   }
 
   .rule-gold {

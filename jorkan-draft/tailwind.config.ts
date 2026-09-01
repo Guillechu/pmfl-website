@@ -24,6 +24,20 @@ export default {
         // is why almost everything on screen is `text-ink/70` and friends.
         ink: '#16222F',
 
+        /*
+         * Ink at fixed strengths, as real colours rather than `ink/10`.
+         *
+         * `@apply` will not resolve an opacity modifier on a custom colour on
+         * every Tailwind build - it failed on a clean Windows install while
+         * compiling fine here - and index.css is exactly where that breaks the
+         * whole stylesheet and leaves the presentation unstyled. Utilities in
+         * markup can still say `text-ink/45`; anything inside `@apply` uses
+         * these.
+         */
+        line: 'rgba(22,34,47,0.10)',
+        'line-strong': 'rgba(22,34,47,0.16)',
+        muted: 'rgba(22,34,47,0.55)',
+
         // Surfaces, lightest first: the page, panels, raised fills, rules.
         surface: {
           950: '#FFFFFF',
