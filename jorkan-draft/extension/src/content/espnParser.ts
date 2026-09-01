@@ -627,7 +627,10 @@ function detectPicks(
       const pick = pickFromRow(rowContainer(atom.el, 3), leagueId);
       if (pick && !byOverall.has(pick.overallPick)) byOverall.set(pick.overallPick, pick);
     }
-    if (byOverall.size > 0) recorder.use('picks', 'dom-text', byOverall.size);
+    if (byOverall.size > 0) {
+      recorder.use('picks', 'dom-text', byOverall.size);
+      recorder.warn(`board read from page text, not ESPN's feed (${byOverall.size} picks)`);
+    }
   }
 
   return [...byOverall.values()].sort((a, b) => a.overallPick - b.overallPick);
@@ -695,6 +698,17 @@ function pickFromRow(container: Element, leagueId: string): DraftPick | null {
   if (!name) return null;
 
   const positionTeam = positionAndTeamFrom(text);
+  /*
+   * Evidence that this is a person, not furniture.
+   *
+   * A drafted player carries ESPN's numeric id, or at the very least a
+   * position. A row with a coordinate and neither is a logo, a header or a
+   * schedule cell - and the drafting team is never proof, because when the
+   * row does not name one we fall back to whoever holds that draft slot,
+   * which always succeeds and so can never fail visibly.
+   */
+  if (!espnId && !positionTeam.position) return null;
+
   const player = buildPlayer({
     name,
     espnId,
@@ -782,9 +796,17 @@ function playerNameFrom(container: Element, anchor: HTMLElement | null, text: st
     if (label.length >= 3 && label.length <= 40 && /[a-z]/i.test(label)) return label.trim();
   }
 
-  const image = container.querySelector<HTMLImageElement>('img[alt]');
-  const alt = image?.alt?.trim();
-  if (alt && alt.length >= 3 && alt.length <= 40) return alt;
+  /*
+   * An image names a player only when it is a picture of the player. ESPN
+   * labels fantasy club crests alt="Team logo", and taking any image's alt
+   * put a crest on the board as a drafted player - 180 times over.
+   */
+  for (const image of container.querySelectorAll<HTMLImageElement>('img[alt]')) {
+    const alt = (image.getAttribute('alt') ?? '').trim();
+    if (alt.length < 3 || alt.length > 40) continue;
+    if (P.GENERIC_IMAGE_ALT.test(alt)) continue;
+    return alt;
+  }
 
   // Last resort: the longest word-like run that is not a label we recognise.
   const candidate = text
@@ -795,6 +817,7 @@ function playerNameFrom(container: Element, anchor: HTMLElement | null, text: st
         part.length >= 5 &&
         part.length <= 40 &&
         /^[A-Za-z][A-Za-z .'\-]+$/.test(part) &&
+        !P.GENERIC_IMAGE_ALT.test(part) &&
         !P.ON_THE_CLOCK.test(part) &&
         !P.SELECTED_BY.test(part),
     );

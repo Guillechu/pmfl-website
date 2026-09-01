@@ -23,6 +23,7 @@ import { pathToFileURL } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const fixture = resolve(root, 'fixtures/espn-2026-draft-room.html');
+const furniture = resolve(root, 'fixtures/espn-2026-furniture.html');
 
 interface ParseResultShape {
   snapshot: {
@@ -124,7 +125,7 @@ async function main(): Promise<void> {
   await page.goto(pathToFileURL(fixture).href);
   await page.addScriptTag({ content: script });
   const result = (await page.evaluate('__jorkanParse()')) as ParseResultShape;
-  await browser.close();
+  const browser2 = browser;
 
   const { snapshot, meta } = result;
   console.log('\nESPN 2026 draft-room fixture (captured at overall pick 104)');
@@ -158,6 +159,20 @@ async function main(): Promise<void> {
   check(meta.strategies['onDeck'] === 'dom-pick-strip', 'on deck is a reading, not a fallback', meta.strategies['onDeck'] ?? 'none');
   check(snapshot.picks.length === 0, 'no picks invented from the players grid', String(snapshot.picks.length));
   check(meta.durationMs < 60, 'parse stays cheap', `${meta.durationMs}ms`);
+
+  // Page furniture must never become a pick.
+  const second = await browser2.newPage();
+  await second.goto(pathToFileURL(furniture).href);
+  await second.addScriptTag({ content: script });
+  const furnitureResult = (await second.evaluate('__jorkanParse()')) as ParseResultShape;
+  console.log('\nPage furniture (synthesized adversarial case)');
+  console.log('  picks read:', JSON.stringify(furnitureResult.snapshot.picks));
+  check(
+    furnitureResult.snapshot.picks.length === 0,
+    'no pick is invented out of page furniture',
+    `${furnitureResult.snapshot.picks.length} invented`,
+  );
+  await browser2.close();
 
   if (failures.length > 0) {
     console.error(`\n${failures.length} failing check(s): ${failures.join(', ')}`);

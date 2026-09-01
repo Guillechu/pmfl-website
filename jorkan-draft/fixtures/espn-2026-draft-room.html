@@ -42,6 +42,16 @@
   <!-- CAPTURED: ESPN's upcoming-picks strip. -->
   <ul class="picklist">
         <li class="picklist--item picklist--pick"><div title="Los Badros " class="jsx-4106643373 pick-component tc flex flex-column items-center justify-between autopick"><div class="jsx-4106643373 pick-number ttu">PICK 105</div><div class="jsx-4106643373 auto-word">AUTO</div><div data-testid="croppable-image" class="jsx-1141285347 croppable-image team-logo" style="height: 24px; overflow: hidden; width: 24px;"><img alt="Team logo" class="Image team-logo" data-mptype="image" src="https://g.espncdn.com/lm-static/logo-packs/ffl/Xmas-AndrewJanik/XMas_15.svg"></div><div class="jsx-4106643373 team-name truncate">Los Badros </div></div></li>
+    <!--
+      RECONSTRUCTED: the round divider that sits between two rounds in the
+      strip. A screenshot of a live 2026 draft room shows it inline with the
+      pick cells - "PICK 10 | PICK 11 | PICK 12 | ROUND 2" - but the capture
+      did not record its markup. It is here because that adjacency is what
+      made the parser read a fantasy club crest as a drafted player: "ROUND 2"
+      beside "PICK 105" gives it a coordinate, and the crest's alt text gave
+      it a name.
+    -->
+    <li class="picklist--item picklist--round"><div class="jsx-4106643373 round-component tc"><div class="jsx-4106643373 round-word ttu">Round</div><div class="jsx-4106643373 round-number">2</div></div></li>
   </ul>
 
   <!-- CAPTURED: the pick area, on this frame showing the autopick prompt. -->

@@ -78,6 +78,16 @@ export const POSITION_TEAM =
 export const TEAM_POSITION =
   /\b([A-Za-z]{2,4})\b\s*[,|/–-]?\s*\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b/;
 
+/**
+ * Alt text that describes the picture rather than naming a person.
+ *
+ * ESPN puts alt="Team logo" on fantasy club crests, and a parser that took
+ * any image's alt as a player name filled a whole 180-slot board with a
+ * player called "Team logo".
+ */
+export const GENERIC_IMAGE_ALT =
+  /^(?:(?:nfl|espn|team|pro|player|club|league|default)\s+)*(?:logo|logotype|image|photo|picture|headshot|avatar|crest|icon|mug|thumbnail|placeholder)s?$/i;
+
 /** "selected", "drafted by", "selects" - links a player to a fantasy team. */
 export const SELECTED_BY = /\b(?:selected|drafted)\s+by\b|\bselects\b/i;
 
