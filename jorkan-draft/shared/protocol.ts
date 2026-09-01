@@ -50,6 +50,23 @@ export interface ParseMeta {
   warnings: string[];
   /** Milliseconds the parse took, watched so we never bog down the ESPN tab. */
   durationMs: number;
+  /**
+   * What ESPN's own draft feed answered, which is where the board comes from.
+   *
+   * Carried all the way to the popup on purpose: "the board is empty" has
+   * several very different causes - the feed never answered, it answered with
+   * nothing, or it named players we could not put a name to - and telling
+   * them apart from a screenshot is the difference between a diagnosis and a
+   * guess.
+   */
+  feed?: {
+    /** Picks the feed returned and we could use. */
+    picks: number;
+    /** Picks the feed returned that we refused to show for lack of a name. */
+    unnamed: number;
+    /** Why the last read failed, in words, or null when it worked. */
+    error: string | null;
+  };
 }
 
 export interface DebugEntry {

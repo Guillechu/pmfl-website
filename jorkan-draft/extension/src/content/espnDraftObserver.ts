@@ -164,6 +164,11 @@ function parseNow(reason: string): void {
   }
 
   previous = result.snapshot;
+  result.meta.feed = {
+    picks: apiState?.picks.length ?? 0,
+    unnamed: apiState?.unnamed.length ?? 0,
+    error: api?.error ?? null,
+  };
   for (const warning of apiState?.warnings ?? []) {
     if (!result.meta.warnings.includes(warning)) result.meta.warnings.push(warning);
   }

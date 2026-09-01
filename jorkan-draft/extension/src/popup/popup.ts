@@ -41,6 +41,18 @@ function render(data: PopupState): void {
     board === 'espn-api' ? 'ESPN draft feed' : (board ?? 'no picks yet'),
     board === 'espn-api' ? 'ok' : 'warn',
   );
+  // Exactly what ESPN's feed said, so a screenshot of this panel is a
+  // diagnosis rather than the start of one.
+  const feed = state.meta?.feed;
+  if (feed) {
+    row(
+      'Feed picks',
+      feed.error ? 'failed' : String(feed.picks),
+      feed.error ? 'bad' : feed.picks > 0 ? 'ok' : 'warn',
+    );
+    if (feed.unnamed > 0) row('Feed unnamed', String(feed.unnamed), 'warn');
+    if (feed.error) row('Feed error', feed.error.length > 46 ? `${feed.error.slice(0, 43)}...` : feed.error, 'bad');
+  }
   row('Parser', state.meta?.parserVersion ?? '--');
   row(
     'Confidence',
