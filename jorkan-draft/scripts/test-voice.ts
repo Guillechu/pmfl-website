@@ -3,7 +3,8 @@
  *
  *   npm run test:voice
  *
- * The brief is a woman's voice, as natural as the machine can manage. Nothing
+ * The brief is an American woman's voice, as natural as the machine can
+ * manage. Nothing
  * in the Web Speech API reports either gender or quality, so both are
  * recognised by name - which makes this exactly the kind of rule that needs
  * checking against the voice lists real machines actually report.
@@ -64,8 +65,8 @@ const SPANISH_ONLY: Voice[] = [
 console.log('Announcer voice selection');
 
 check(
-  pick(CHROME_WINDOWS) === 'Google UK English Female',
-  'Chrome/Windows picks the streamed woman\'s voice',
+  pick(CHROME_WINDOWS) === 'Google US English',
+  'Chrome/Windows picks the American voice, not the British one',
   pick(CHROME_WINDOWS),
 );
 check(
@@ -84,13 +85,22 @@ check(
 check(scoreVoice('Google UK English Male', 'en-GB', false) < 0, 'nor does a streamed one');
 // "female" ends in "male"; the word boundaries are what keep them apart.
 check(scoreVoice('Google UK English Female', 'en-GB', false) > 0, 'and Female is not read as Male');
+// American over British, however good the British one is.
+check(
+  scoreVoice('Google US English', 'en-US', false) > scoreVoice('Google UK English Female', 'en-GB', false),
+  'a plain American voice beats a named British one',
+);
+check(
+  scoreVoice('Microsoft Sonia Online (Natural) - English (United Kingdom)', 'en-GB', false) > 0,
+  'but British is still better than no announcer at all',
+);
 check(
   scoreVoice('Microsoft Aria Online (Natural) - English (United States)', 'en-US', false) >
     scoreVoice('Microsoft Zira - English (United States)', 'en-US', true),
   'neural beats the old local engine by a distance',
 );
 check(
-  scoreVoice('Google UK English Female', 'en-GB', false) >
+  scoreVoice('Google US English', 'en-US', false) >
     scoreVoice('Microsoft Zira - English (United States)', 'en-US', true),
   'streamed beats local when neither is neural',
 );

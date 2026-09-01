@@ -135,7 +135,6 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
           >
             Test announcer
           </OpsButton>
-          <OpsButton onClick={() => director.getEngine().playSfx('pick-is-in')}>Test pick sound</OpsButton>
           <OpsButton onClick={() => director.getEngine().playSfx('on-the-clock')}>On the clock</OpsButton>
           <OpsButton onClick={() => director.getEngine().playSfx('countdown')}>Countdown</OpsButton>
           <OpsButton onClick={() => director.getAnnouncer().cancel()} tone="danger">

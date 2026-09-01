@@ -10,9 +10,8 @@ license. Everything here is optional: drop a file in and it takes over.
 | --- | --- | --- |
 | `intro` | Pre-draft music on the waiting screen | Falls back to the hosted intro URL in the Audio panel, then the generated bed |
 | `draft-bed` | Background bed during the draft (must loop cleanly) | Generated bed is used |
-| `pick-is-in` | The hit when ESPN registers a selection | Synthesised two-tone alert |
-| `on-the-clock` | New team on the clock | Synthesised two-note call |
-| `countdown` | Ticks under ten seconds | Synthesised tick |
+| `on-the-clock` | New team on the clock - the turn changing hands | Synthesised church bell |
+| `countdown` | Each of the last five seconds of a pick | Synthesised clock tick |
 | `transition` | Between the pick reveal and the next team (also used for round changes) | Synthesised whoosh |
 | `draft-complete` | Draft complete | Synthesised fanfare |
 

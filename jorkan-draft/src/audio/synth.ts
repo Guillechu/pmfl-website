@@ -9,7 +9,6 @@
  */
 
 export type SfxId =
-  | 'pick-is-in'
   | 'on-the-clock'
   | 'countdown'
   | 'transition'
@@ -106,56 +105,103 @@ function noiseSweep(
 }
 
 /**
- * A flat-topped blip: hard on, hold, off.
+ * A struck bell.
  *
- * Not the same shape as tone(), which starts decaying the instant it sounds.
- * An alert has to hold its level for its whole short life or it reads as a
- * bump rather than a beep.
+ * Partials are given in hertz rather than as ratios because they were
+ * measured off a recording rather than chosen: a bell's overtones do not sit
+ * where a musical instrument's do, which is exactly what makes it sound like
+ * metal being hit. Each one dies at its own rate, so the bright ones go first
+ * and leave the low note behind.
  */
-function pulse(
+function struck(
   { ctx, destination, at }: CueContext,
-  options: { type: OscillatorType; freq: number; start: number; duration: number; gain: number },
+  options: {
+    start: number;
+    gain: number;
+    /** [frequency in Hz, relative loudness, seconds to fade out]. */
+    partials: Array<[number, number, number]>;
+  },
 ): void {
-  const osc = ctx.createOscillator();
-  const env = ctx.createGain();
-  osc.type = options.type;
-
+  const total = options.partials.reduce((sum, [, amp]) => sum + amp, 0);
   const t0 = at + options.start;
-  const t1 = t0 + options.duration;
-  osc.frequency.setValueAtTime(options.freq, t0);
-  env.gain.setValueAtTime(0.0001, t0);
-  env.gain.exponentialRampToValueAtTime(options.gain, t0 + 0.008);
-  env.gain.setValueAtTime(options.gain, t0 + options.duration * 0.7);
-  env.gain.exponentialRampToValueAtTime(0.0001, t1);
 
-  osc.connect(env).connect(destination);
-  osc.start(t0);
-  osc.stop(t1 + 0.05);
+  for (const [hz, amp, decay] of options.partials) {
+    const osc = ctx.createOscillator();
+    const env = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(hz, t0);
+    // Bells are never quite in tune with themselves; this is the warble.
+    osc.detune.value = (hz % 7) - 3;
+
+    const peak = (amp / total) * options.gain;
+    const end = t0 + decay;
+    env.gain.setValueAtTime(0.0001, t0);
+    env.gain.exponentialRampToValueAtTime(peak, t0 + 0.004);
+    env.gain.exponentialRampToValueAtTime(0.0001, end);
+
+    osc.connect(env).connect(destination);
+    osc.start(t0);
+    osc.stop(end + 0.05);
+  }
+
+  // The hammer on the metal, over before it has begun.
+  noiseSweep({ ctx, destination, at }, {
+    start: options.start,
+    duration: 0.04,
+    gain: options.gain * 0.45,
+    fromHz: 4200,
+    toHz: 2000,
+    q: 0.9,
+  });
 }
+
+/** Clocks alternate; five identical beeps would not read as one ticking. */
+let tock = false;
 
 /** Play one cue. Returns roughly how long it lasts, in seconds. */
 export function playCue(ctx: AudioContext, destination: AudioNode, id: SfxId): number {
   const cue: CueContext = { ctx, destination, at: ctx.currentTime + 0.02 };
 
   switch (id) {
-    case 'pick-is-in': {
-      // Two notes rising, a quarter of a second in total: the alert shape a
-      // draft room uses, short enough to land and be gone before the reveal
-      // has finished opening.
-      pulse(cue, { type: 'triangle', freq: 880, start: 0, duration: 0.085, gain: 0.34 });
-      pulse(cue, { type: 'triangle', freq: 1318, start: 0.11, duration: 0.14, gain: 0.32 });
-      return 0.25;
-    }
-
     case 'on-the-clock': {
-      tone(cue, { type: 'triangle', from: 660, to: 880, start: 0, duration: 0.18, gain: 0.16 });
-      tone(cue, { type: 'triangle', from: 880, to: 1180, start: 0.14, duration: 0.22, gain: 0.13 });
-      return 0.4;
+      // A church bell, struck once and kept short. These frequencies are not
+      // invented: they were measured off the recording the league sent, where
+      // the octave at 787Hz carries the sound, the fifth at 590 sits under it
+      // and 393 is the hum. The tail is cut to well under a second so the
+      // announcer can name the team over the top of it.
+      struck(cue, {
+        start: 0,
+        gain: 0.52,
+        partials: [
+          [393, 0.1, 0.62],
+          [590, 0.5, 0.58],
+          [787, 1.0, 0.6],
+          [1179, 0.14, 0.34],
+          [1585, 0.2, 0.32],
+          [1767, 0.12, 0.28],
+          [2357, 0.44, 0.3],
+        ],
+      });
+      return 0.7;
     }
 
     case 'countdown': {
-      tone(cue, { type: 'square', from: 1180, to: 1180, start: 0, duration: 0.07, gain: 0.11, attack: 0.004 });
-      return 0.1;
+      // A clock, not a beep: a hard click with a short knock under it, the
+      // pitch alternating so the last five seconds tick rather than repeat.
+      tock = !tock;
+      const pitch = tock ? 1 : 0.84;
+      noiseSweep(cue, { start: 0, duration: 0.022, gain: 0.24, fromHz: 3600 * pitch, toHz: 1900 * pitch, q: 1.4 });
+      tone(cue, {
+        type: 'square',
+        from: 900 * pitch,
+        to: 620 * pitch,
+        start: 0,
+        duration: 0.05,
+        gain: 0.13,
+        attack: 0.002,
+        filter: 2800,
+      });
+      return 0.07;
     }
 
     case 'transition': {

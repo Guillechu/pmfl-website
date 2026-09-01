@@ -197,15 +197,17 @@ announcer** slider.
 
 ## How to change the sound effects
 
-Drop MP3s into `public/audio/` using these names:
+Drop audio into `public/audio/` using these names, in any of `.mp3`, `.m4a`,
+`.ogg` or `.wav`:
 
 | File | Plays when |
 | --- | --- |
-| `pick-is-in.mp3` | ESPN registers a selection |
-| `on-the-clock.mp3` | A new team goes on the clock |
-| `countdown.mp3` | Each of the last ten seconds |
-| `transition.mp3` | Between the reveal and the next team, and on round changes |
-| `draft-complete.mp3` | ESPN reports the draft finished |
+| `on-the-clock` | A new team goes on the clock - a bell, so the room hears the turn change |
+| `countdown` | Each of the last five seconds of a pick |
+| `transition` | Between the reveal and the next team, and on round changes |
+| `draft-complete` | ESPN reports the draft finished |
+
+The pick itself has no sound effect: the reveal belongs to the announcer.
 
 Anything you do not supply uses the built-in synthesised cue. `public/audio/README.md`
 has the details, and the audio panel shows which custom files were loaded.
@@ -322,15 +324,16 @@ the audio panel.
 Press **M** and look at the voice list. Voices marked with a star are neural
 and sound close to a real read; everything else is a decades-old local engine
 and sounds like one. Chrome on Windows usually offers nothing better than
-*Google UK English Female*.
+*Google US English*.
 
 If you want the best voice available, **run the presentation in Microsoft
 Edge**. Edge ships Microsoft's natural voices (*Aria*, *Jenny*, *Michelle*
-and others) and Chrome does not, and the extension loads in Edge exactly the
+and other American ones) and Chrome does not, and the extension loads in Edge exactly the
 same way - `edge://extensions` → Developer mode → Load unpacked → `extension/dist`.
 
-The presentation picks a woman's voice, the most natural one it can find, on
-its own. Pick a different one from the list at any time; the choice is saved.
+The presentation picks an American woman's voice, the most natural one it can
+find, on its own. British and other English voices are ranked below every
+American one, but still rank above having no announcer at all. Pick a different one from the list at any time; the choice is saved.
 
 **Announcer talks over itself**
 It cannot - announcements are queued. If a line seems late, it is waiting for

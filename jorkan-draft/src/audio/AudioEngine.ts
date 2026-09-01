@@ -38,7 +38,6 @@ export type AudioStatus = {
 const AUDIO_EXTENSIONS = ['mp3', 'm4a', 'ogg', 'wav'];
 
 const SFX_BASE: Record<SfxId, string> = {
-  'pick-is-in': 'pick-is-in',
   'on-the-clock': 'on-the-clock',
   countdown: 'countdown',
   transition: 'transition',

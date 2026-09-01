@@ -142,8 +142,10 @@ export class Director {
 
   private onPick(pick: Parameters<typeof pickLine>[0], state: DraftState): void {
     this.lastPickAcceptedAt = Date.now();
-    this.engine.playSfx('pick-is-in');
-    // The announcer speaks with the player card, not over the incoming hit.
+    // No cue on the pick itself: the reveal is the announcer's, and a sound
+    // under it only competes with him. The bell comes afterwards, when the
+    // clock moves to the next team.
+    
     this.schedule(() => {
       this.announcer.say(pickLine(pick), {
         onDone: () => this.engine.playSfx('transition'),
@@ -189,8 +191,8 @@ export class Director {
   /* ----------------------------- countdown ----------------------------- */
 
   /**
-   * Ticks under ten seconds. Purely a sound: the clock running out is ESPN's
-   * business, and nothing here influences it.
+   * Ticks through the last five seconds. Purely a sound: the clock running
+   * out is ESPN's business, and nothing here influences it.
    */
   private startCountdownWatcher(): void {
     if (this.countdownTimer) return;
@@ -201,7 +203,7 @@ export class Director {
       if (state.phase !== 'in_progress') return;
       const ms = displayedMs(state.clock, Date.now());
       if (ms === null || !state.clock.running) return;
-      if (ms > 10_000 || ms <= 0) return;
+      if (ms > 5_000 || ms <= 0) return;
       const second = Math.ceil(ms / 1000);
       const key = `${state.overallPick}:${second}`;
       if (key === this.lastCountdownKey) return;

@@ -3,8 +3,9 @@ import type { SpeakOptions, TtsProvider, TtsVoice } from './TtsProvider';
 /*
  * Which browser voice should read the draft.
  *
- * The brief is a woman's voice, as natural as this machine can manage, and
- * the gap between the best and the worst available is enormous - the neural
+ * The brief is an American woman's voice, as natural as this machine can
+ * manage, and the gap between the best and the worst available is enormous -
+ * the neural
  * voices are close to a broadcast read, the twenty-year-old local engines are
  * unmistakably a computer. Nothing in the Web Speech API says a voice's
  * gender or its quality, so both have to be recognised by name.
@@ -41,8 +42,12 @@ export function scoreVoice(name: string, lang: string, localService: boolean): n
   if (!localService) score += 40;
   if (/google/i.test(name)) score += 25;
 
-  if (language.startsWith('en-us')) score += 12;
-  else if (language.startsWith('en-gb')) score += 8;
+  // American, not British. The penalty is large enough that no amount of
+  // polish carries an en-GB voice past a plain en-US one, but it is a penalty
+  // rather than a ban: a machine with nothing but British voices should still
+  // have an announcer.
+  if (language.startsWith('en-us')) score += 60;
+  else score -= 30;
   return score;
 }
 
@@ -118,7 +123,7 @@ export class SpeechSynthesisProvider implements TtsProvider {
   }
 
   /**
-   * The most natural woman's English voice on this machine.
+   * The most natural American woman's voice on this machine.
    *
    * The list is already sorted best-first by the same scoring, so this is the
    * head of it. Anything English will do rather than nothing.

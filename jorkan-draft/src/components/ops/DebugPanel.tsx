@@ -141,7 +141,6 @@ export function DebugPanel({ onClose }: { onClose: () => void }) {
           <OpsButton onClick={() => director.getAnnouncer().say('Announcer check. Jorkan League draft night.')}>
             Test announcer
           </OpsButton>
-          <OpsButton onClick={() => director.getEngine().playSfx('pick-is-in')}>Test pick sound</OpsButton>
           <OpsButton onClick={() => testReveal(runtime)}>Test player reveal</OpsButton>
           <OpsButton onClick={() => void toggleFullscreen()}>Fullscreen</OpsButton>
           <OpsButton onClick={() => runtime.clearReveal()}>Clear reveal</OpsButton>
