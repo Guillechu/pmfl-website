@@ -269,13 +269,18 @@ No update from ESPN for twelve seconds during a live draft. Usually the ESPN
 tab was closed or navigated away. Reopen the draft room; it recovers on its own.
 
 **The board is empty, or picks never appear**
-Open the extension popup and read **Board source**. It should say *ESPN draft
-feed*. If it says *no picks yet* once the draft is under way, the feed did not
-answer: make sure the draft room tab is the one you are signed in on, and that
-the URL still carries `leagueId` and `seasonId`. The popup also shows the
-first warning, and the debug export has an **ESPN DRAFT FEED** section saying
-exactly what happened. Everything else on the TV - round, pick, team, clock -
-keeps working meanwhile.
+Open the extension popup and read **Board source**. There are two good
+answers - *ESPN draft feed* and *dom-pick-history* - and one bad one.
+
+If it says **no picks yet** once the draft is under way, neither source is
+carrying the board. Open ESPN's **Pick History** tab and leave it open; that
+panel is where a room publishes who was drafted, and a practice room
+publishes it nowhere else. The popup's **Feed empty slots** row is the tell:
+ESPN writes `playerId -1` for a slot with no player in it, and a practice
+room returns all 180 of its slots that way whatever the draft is doing.
+
+Everything else on the TV - round, pick, team on the clock, clock - is read
+from the room itself and keeps working regardless.
 
 **The board is missing some picks**
 Open **Ctrl + Shift + D** and compare the ESPN column with the presentation
@@ -322,7 +327,8 @@ it can verify itself.
 - [ ] ESPN draft room open in its own window
 - [ ] Presentation open at `http://localhost:5173/presentation`
 - [ ] Status pill shows **ESPN SYNCED**
-- [ ] Extension popup shows **Board source: ESPN draft feed**
+- [ ] Extension popup shows a **Board source** (`ESPN draft feed` or `dom-pick-history`)
+- [ ] ESPN's **Pick History** tab left open, if the board source is `dom-pick-history`
 - [ ] TV connected over HDMI, display extended
 - [ ] TV at 1920x1080 or higher
 - [ ] Presentation fullscreen on the TV
@@ -368,24 +374,39 @@ ESPN draft room tab
 | Team on the clock | the same module's `title`, cross-checked against the league |
 | Team on deck | ESPN's upcoming-picks strip (`PICK 105 / Los Badros`) |
 | Pick clock | ESPN's countdown, read from the page |
-| **Every completed pick** | **ESPN's own read-only draft feed** |
+| **Every completed pick** | **ESPN's draft feed, or its Pick History panel** |
 
-The board needs its own paragraph, because it is the one thing that is *not*
-in the draft room's markup. ESPN renders the picks still to come along the
-top, and the selections already made are simply not there to read - a whole
-practice draft was captured without one appearing. Reading them off the
-screen would mean asking the commissioner to keep a particular panel open all
-night and losing every pick made while it was not.
+The board needs its own section, because it is the one thing the draft room
+does not simply render. The strip along the top is the picks still *to come*;
+a whole practice draft was captured without one already-made selection
+appearing in the parts of the page a parser can reach.
 
-So the extension asks ESPN the same question ESPN's own draft room asks: a
-`GET` to ESPN's read replica for the league's draft detail, made from the
-draft room's own tab, so the session the commissioner already has open is the
-one that answers. That keeps ESPN the single source of truth for every pick,
-which is the entire point of the project. It cannot write: the host has no
-write endpoints and the extension only ever issues `GET`. If the feed is
-unreachable the parser carries on reading the clock, the round and who is on
-the clock exactly as before, the popup says the board has no source, and
-nothing is invented to fill the gap.
+**First choice: ESPN's own draft feed.** A `GET` to ESPN's read replica for
+the league's draft detail, made from the draft room's own tab, so the session
+the commissioner already has open is the one that answers. It cannot write -
+the host has no write endpoints and the extension only ever issues `GET`.
+
+**Second choice, and the one that works in a practice room: the Pick History
+panel.** ESPN's feed returns a slot per pick with `playerId -1` - its marker
+for "no player here" - for every slot in a practice room, made picks
+included, so there the feed genuinely does not carry who was drafted. That
+panel does, one selection per row:
+
+```
+Jahmyr Gibbs / DET RBR1, P1 - El Dandy
+```
+
+Player, NFL club, position, round, pick and the team that took him. Every
+part is checked against something real - the club against the NFL, the team
+against this league, the coordinate against the snake - which is why this can
+be trusted where looser text reading could not: a club crest has no club, no
+position, no coordinate and no team. It only works while someone has that tab
+open, which is why the draft-day checklist says to leave it open.
+
+Whichever source answers, the board is cross-checked against the room's own
+"on the clock": a pick at or beyond the pick currently on the clock has not
+happened yet, whatever a feed lists. Nothing is ever invented to fill a gap -
+an empty board beats a wrong one.
 
 Two rules the design is built around:
 
