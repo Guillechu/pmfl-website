@@ -10,7 +10,7 @@ export function RecentPicksPanel({ picks }: { picks: readonly DraftPick[] }) {
     <section className="panel flex h-full flex-col overflow-hidden px-[1.1rem] py-[1rem]">
       <div className="flex items-center justify-between">
         <span className="eyebrow">Last Picks</span>
-        <span className="font-display text-tv-xs uppercase tracking-[0.24em] text-white/35">
+        <span className="font-display text-tv-xs uppercase tracking-[0.24em] text-ink/35">
           {picks.length > 0 ? 'Live' : 'No picks yet'}
         </span>
       </div>
@@ -25,17 +25,17 @@ export function RecentPicksPanel({ picks }: { picks: readonly DraftPick[] }) {
               animate={{ opacity: index === 0 ? 1 : 0.86 - index * 0.1, x: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-[0.6rem] rounded-[0.28rem] border border-white/5 bg-white/[0.03] px-[0.6rem] py-[0.38rem]"
+              className="flex items-center gap-[0.6rem] rounded-[0.28rem] border border-ink/5 bg-ink/[0.03] px-[0.6rem] py-[0.38rem]"
             >
               <span className="tabular w-[2.6rem] shrink-0 font-display text-tv-sm font-semibold text-gold-500">
                 {pick.round}.{String(pick.pickInRound).padStart(2, '0')}
               </span>
               <PositionBadge position={pick.player.position} className="w-[2.1rem] py-[0.16rem] text-tv-xs" />
               <div className="min-w-0 flex-1">
-                <p className="truncate font-display text-tv-sm font-semibold uppercase tracking-[0.03em] text-white">
+                <p className="truncate font-display text-tv-sm font-semibold uppercase tracking-[0.03em] text-ink">
                   {pick.player.name}
                 </p>
-                <p className="truncate text-tv-xs uppercase tracking-[0.14em] text-white/40">
+                <p className="truncate text-tv-xs uppercase tracking-[0.14em] text-ink/40">
                   {teamById(pick.fantasyTeamId)?.abbrev ?? ''} &middot; {pick.fantasyTeamName}
                 </p>
               </div>

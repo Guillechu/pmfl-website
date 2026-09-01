@@ -15,9 +15,9 @@ export function Ticker({ state }: { state: DraftState }) {
   const duration = Math.max(38, items.length * 3.4);
 
   return (
-    <div className="relative h-full overflow-hidden border-t border-white/10 bg-pitch-900/85">
+    <div className="relative h-full overflow-hidden border-t border-ink/10 bg-surface-900/85">
       <div className="absolute inset-y-0 left-0 z-10 flex items-center bg-gold-500 px-[1.1rem]">
-        <span className="font-display text-tv-sm font-bold uppercase tracking-[0.24em] text-pitch-950">
+        <span className="font-display text-tv-sm font-bold uppercase tracking-[0.24em] text-paper">
           {LEAGUE.name}
         </span>
       </div>
@@ -28,7 +28,7 @@ export function Ticker({ state }: { state: DraftState }) {
         <TickerRun items={items} />
         <TickerRun items={items} />
       </div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-[6rem] bg-gradient-to-l from-pitch-900 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-[6rem] bg-gradient-to-l from-surface-900 to-transparent" />
     </div>
   );
 }
@@ -51,10 +51,10 @@ function TickerRun({ items }: { items: TickerItem[] }) {
           >
             {item.label}
           </span>
-          <span className="font-display text-tv-sm font-medium uppercase tracking-[0.06em] text-white/85">
+          <span className="font-display text-tv-sm font-medium uppercase tracking-[0.06em] text-ink/85">
             {item.value}
           </span>
-          <span className="pl-[1.6rem] text-white/15">/</span>
+          <span className="pl-[1.6rem] text-ink/15">/</span>
         </div>
       ))}
     </div>
@@ -69,7 +69,7 @@ function buildItems(state: DraftState): TickerItem[] {
       key: 'otc',
       label: 'On the Clock',
       value: state.onTheClock.fantasyTeamName,
-      color: '#FFD75E',
+      color: '#A67512',
     });
   }
   if (state.onDeck) {

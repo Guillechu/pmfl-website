@@ -428,8 +428,17 @@ prove the reconcile and dedupe paths hold. On draft night the real feed is the
 default and the simulator is never attached unless you ask for it.
 
 **Layout.** Everything is sized in `rem` against one root font-size, so the
-whole presentation scales proportionally from 1080p to 4K. Design tokens live
-in `tailwind.config.ts`.
+whole presentation scales proportionally from 1080p to 4K. That one value in
+`src/index.css` is also the "make everything bigger" knob - the divisors are
+the stage the design is laid out on (111rem x 62.5rem), so shrinking them
+enlarges the whole picture and eventually pushes it past the screen.
+
+**Look.** Broadcast on paper: a white ground, solid printed colour, and no
+glow anywhere. Two tokens carry almost all of it - `ink` is the single
+foreground colour (opacity does the shading, hence `text-ink/55`) and
+`surface` is the light neutral scale for panels and rules. Accents are flat
+inks chosen to hold their weight on white. Design tokens live in
+`tailwind.config.ts`.
 
 ```
 src/

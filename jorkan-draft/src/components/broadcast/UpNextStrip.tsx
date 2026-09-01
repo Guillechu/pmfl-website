@@ -12,18 +12,18 @@ export function UpNextStrip({ state, made, total }: { state: DraftState; made: n
       <section className="panel flex flex-col justify-center gap-[0.5rem] px-[1.1rem] py-[0.7rem]">
         <div className="flex items-baseline justify-between">
           <span className="eyebrow">Draft Progress</span>
-          <span className="tabular font-display text-tv-md font-bold text-white">
+          <span className="tabular font-display text-tv-md font-bold text-ink">
             {made}
-            <span className="text-white/40"> / {total}</span>
+            <span className="text-ink/40"> / {total}</span>
           </span>
         </div>
-        <div className="h-[0.42rem] w-full overflow-hidden rounded-full bg-white/10">
+        <div className="h-[0.42rem] w-full overflow-hidden rounded-full bg-ink/10">
           <div
             className="h-full rounded-full bg-gradient-to-r from-gold-600 via-gold-400 to-gold-500 transition-[width] duration-500"
             style={{ width: `${total === 0 ? 0 : (made / total) * 100}%` }}
           />
         </div>
-        <div className="flex items-center justify-between font-display text-tv-xs uppercase tracking-[0.2em] text-white/40">
+        <div className="flex items-center justify-between font-display text-tv-xs uppercase tracking-[0.2em] text-ink/40">
           <span>Round {state.round}</span>
           <span>{total - made} picks remaining</span>
         </div>
@@ -42,12 +42,12 @@ function UpNextCard({
   emphasis?: boolean;
 }) {
   const config = teamById(team?.fantasyTeamId);
-  const accent = config?.accentColor ?? 'rgba(255,255,255,0.35)';
+  const accent = config?.accentColor ?? 'rgba(22,34,47,0.35)';
   return (
     <section
       className={cn(
         'panel relative flex flex-col justify-center overflow-hidden px-[1.1rem] py-[0.7rem]',
-        emphasis && 'border-white/15',
+        emphasis && 'border-ink/15',
       )}
     >
       <div
@@ -59,7 +59,7 @@ function UpNextCard({
         {config ? (
           <span
             className="flex h-[2.1rem] w-[2.1rem] shrink-0 items-center justify-center rounded-[0.25rem] font-display text-tv-sm font-bold"
-            style={{ backgroundColor: `${accent}22`, color: accent }}
+            style={{ backgroundColor: accent, color: '#FFFFFF' }}
           >
             {config.abbrev}
           </span>
@@ -67,14 +67,14 @@ function UpNextCard({
         <div className="min-w-0">
           <p
             className={cn(
-              'truncate font-display font-bold uppercase leading-none text-white',
+              'truncate font-display font-bold uppercase leading-none text-ink',
               emphasis ? 'text-tv-lg' : 'text-tv-md',
             )}
           >
             {team?.fantasyTeamName ?? '--'}
           </p>
           {team?.managerName ? (
-            <p className="truncate text-tv-xs uppercase tracking-[0.18em] text-white/40">
+            <p className="truncate text-tv-xs uppercase tracking-[0.18em] text-ink/40">
               {team.managerName}
             </p>
           ) : null}

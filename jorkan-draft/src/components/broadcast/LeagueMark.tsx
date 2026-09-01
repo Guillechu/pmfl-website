@@ -16,7 +16,7 @@ export function LeagueMark({
       <div className="leading-none">
         <div
           className={cn(
-            'headline text-white',
+            'headline text-ink',
             large ? 'text-tv-2xl tracking-[0.02em]' : 'text-tv-md',
           )}
         >
@@ -40,8 +40,8 @@ function Shield({ className }: { className?: string }) {
     <svg viewBox="0 0 64 72" className={className} aria-hidden="true">
       <defs>
         <linearGradient id="jorkan-shield" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#FFD75E" />
-          <stop offset="100%" stopColor="#D9A21B" />
+          <stop offset="0%" stopColor="#C8901A" />
+          <stop offset="100%" stopColor="#A67512" />
         </linearGradient>
       </defs>
       <path

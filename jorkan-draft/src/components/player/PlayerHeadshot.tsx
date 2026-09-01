@@ -10,7 +10,7 @@ import { espnHeadshotUrl } from '@/data/nflTeams';
 export function PlayerHeadshot({
   player,
   className,
-  accent = '#F5C542',
+  accent = '#A67512',
 }: {
   player: Player;
   className?: string;
@@ -23,7 +23,7 @@ export function PlayerHeadshot({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-[0.4rem] bg-gradient-to-b from-pitch-700/70 to-pitch-900',
+        'relative overflow-hidden rounded-[0.4rem] bg-gradient-to-b from-surface-700/70 to-surface-900',
         className,
       )}
     >

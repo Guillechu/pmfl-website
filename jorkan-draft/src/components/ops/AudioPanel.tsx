@@ -50,7 +50,7 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
           value={audio.duckLevel}
           onChange={(duckLevel) => patchAudio({ duckLevel })}
         />
-        <div className="grid grid-cols-2 gap-x-[0.9rem] gap-y-[0.2rem] pt-[0.35rem] [&>label]:rounded-[0.18rem] [&>label]:border [&>label]:border-white/8 [&>label]:bg-white/[0.03] [&>label]:px-[0.4rem] [&>label]:py-[0.18rem]">
+        <div className="grid grid-cols-2 gap-x-[0.9rem] gap-y-[0.2rem] pt-[0.35rem] [&>label]:rounded-[0.18rem] [&>label]:border [&>label]:border-ink/8 [&>label]:bg-ink/[0.03] [&>label]:px-[0.4rem] [&>label]:py-[0.18rem]">
           <OpsToggle label="Mute all" checked={audio.muted} onChange={(muted) => patchAudio({ muted })} />
           <OpsToggle label="Music" checked={audio.musicEnabled} onChange={(musicEnabled) => patchAudio({ musicEnabled })} />
           <OpsToggle label="Effects" checked={audio.sfxEnabled} onChange={(sfxEnabled) => patchAudio({ sfxEnabled })} />
@@ -69,11 +69,11 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
 
       <OpsSection title="Announcer voice">
         <label className="block">
-          <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-white/55">Voice</span>
+          <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-ink/55">Voice</span>
           <select
             value={audio.voiceId ?? ''}
             onChange={(event) => patchAudio({ voiceId: event.target.value || null })}
-            className="mt-[0.2rem] w-full rounded-[0.2rem] border border-white/15 bg-pitch-850 px-[0.4rem] py-[0.25rem] text-tv-xs text-white"
+            className="mt-[0.2rem] w-full rounded-[0.2rem] border border-ink/15 bg-surface-850 px-[0.4rem] py-[0.25rem] text-tv-xs text-ink"
           >
             <option value="">Browser default</option>
             {voices.map((voice) => (
@@ -121,7 +121,7 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
 
       <OpsSection title="Music">
         <label className="block">
-          <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-white/55">
+          <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-ink/55">
             Intro track URL
           </span>
           <input
@@ -129,7 +129,7 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
             value={audio.introUrl ?? ''}
             onChange={(event) => patchAudio({ introUrl: event.target.value || null })}
             spellCheck={false}
-            className="mt-[0.2rem] w-full rounded-[0.2rem] border border-white/15 bg-pitch-850 px-[0.4rem] py-[0.25rem] text-[0.65rem] text-white/80"
+            className="mt-[0.2rem] w-full rounded-[0.2rem] border border-ink/15 bg-surface-850 px-[0.4rem] py-[0.25rem] text-[0.65rem] text-ink/80"
           />
         </label>
         <div className="flex flex-wrap gap-[0.3rem]">
@@ -147,8 +147,8 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
       </OpsSection>
 
       <OpsSection title="Pronunciations">
-        <p className="text-[0.65rem] leading-relaxed text-white/40">
-          One rule per line, as <span className="text-white/70">name = how to say it</span>. Applies to the
+        <p className="text-[0.65rem] leading-relaxed text-ink/40">
+          One rule per line, as <span className="text-ink/70">name = how to say it</span>. Applies to the
           spoken line only; the screen keeps the real spelling.
         </p>
         <textarea
@@ -156,7 +156,7 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
           onChange={(event) => setRulesText(event.target.value)}
           spellCheck={false}
           rows={8}
-          className="w-full rounded-[0.2rem] border border-white/15 bg-pitch-850 px-[0.4rem] py-[0.3rem] font-mono text-[0.65rem] leading-relaxed text-white/80"
+          className="w-full rounded-[0.2rem] border border-ink/15 bg-surface-850 px-[0.4rem] py-[0.3rem] font-mono text-[0.65rem] leading-relaxed text-ink/80"
         />
         <div className="flex items-center gap-[0.3rem]">
           <OpsButton
@@ -179,7 +179,7 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
           >
             Reset to defaults
           </OpsButton>
-          {savedNote ? <span className="text-tv-xs text-emerald-300">{savedNote}</span> : null}
+          {savedNote ? <span className="text-tv-xs text-emerald-700">{savedNote}</span> : null}
         </div>
       </OpsSection>
 

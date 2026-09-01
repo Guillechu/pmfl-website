@@ -16,7 +16,7 @@ export function SimulatorPanel({ onClose }: { onClose: () => void }) {
   if (!simulator) {
     return (
       <OpsPanel title="Simulator" subtitle="Not attached" onClose={onClose} side="left">
-        <p className="text-tv-xs leading-relaxed text-white/50">
+        <p className="text-tv-xs leading-relaxed text-ink/50">
           The presentation is attached to the real ESPN feed. Attaching the simulator replaces that
           feed with a fake one - never do this while a real draft is running.
         </p>
@@ -100,7 +100,7 @@ export function SimulatorPanel({ onClose }: { onClose: () => void }) {
           value={options.duplicateRate}
           onChange={(duplicateRate) => update({ duplicateRate })}
         />
-        <p className="text-[0.65rem] leading-relaxed text-white/40">
+        <p className="text-[0.65rem] leading-relaxed text-ink/40">
           Dropped events must be recovered by the reconcile pass, and duplicates must never reach the
           screen twice. Both are what the extension will really do on a bad night.
         </p>

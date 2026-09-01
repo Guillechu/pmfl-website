@@ -24,7 +24,7 @@ export function HeaderBar({
   onViewChange: (view: PresentationView) => void;
 }) {
   return (
-    <header className="flex h-[5.4rem] shrink-0 items-center justify-between border-b border-white/10 bg-pitch-900/70 px-[1.6rem] backdrop-blur">
+    <header className="flex h-[5.4rem] shrink-0 items-center justify-between border-b border-ink/12 bg-paper px-[1.6rem]">
       <LeagueMark />
 
       <div className="flex items-center gap-[2.4rem]">
@@ -36,7 +36,7 @@ export function HeaderBar({
       </div>
 
       <div className="flex items-center gap-[1rem]">
-        <nav className="flex items-center gap-[0.3rem] rounded-full border border-white/10 bg-white/[0.04] p-[0.2rem]">
+        <nav className="flex items-center gap-[0.3rem] rounded-full border border-ink/10 bg-ink/[0.04] p-[0.2rem]">
           {VIEWS.map((item) => (
             <button
               key={item.id}
@@ -45,8 +45,8 @@ export function HeaderBar({
               className={cn(
                 'rounded-full px-[0.85rem] py-[0.28rem] font-display text-tv-xs font-semibold uppercase tracking-[0.2em] transition-colors',
                 view === item.id
-                  ? 'bg-gold-500 text-pitch-950'
-                  : 'text-white/55 hover:text-white',
+                  ? 'bg-gold-500 text-paper'
+                  : 'text-ink/55 hover:text-ink',
               )}
             >
               {item.label}
@@ -60,7 +60,7 @@ export function HeaderBar({
 }
 
 function Divider() {
-  return <span className="h-[2.2rem] w-px bg-white/10" />;
+  return <span className="h-[2.2rem] w-px bg-ink/10" />;
 }
 
 function Stat({
@@ -76,16 +76,16 @@ function Stat({
 }) {
   return (
     <div className="flex flex-col items-center leading-none">
-      <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.3em] text-white/40">
+      <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.3em] text-ink/40">
         {label}
       </span>
       <div className="mt-[0.22rem] flex items-baseline gap-[0.3rem]">
         <span
-          className={cn('tabular headline text-tv-lg', accent ? 'text-gold-500' : 'text-white')}
+          className={cn('tabular headline text-tv-lg', accent ? 'text-gold-500' : 'text-ink')}
         >
           {value}
         </span>
-        {sub ? <span className="text-tv-xs text-white/35">{sub}</span> : null}
+        {sub ? <span className="text-tv-xs text-ink/35">{sub}</span> : null}
       </div>
     </div>
   );

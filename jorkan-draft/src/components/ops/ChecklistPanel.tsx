@@ -87,12 +87,12 @@ export function ChecklistPanel({ onClose }: { onClose: () => void }) {
         {automatic.map((item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between border-b border-white/5 py-[0.2rem]"
+            className="flex items-center justify-between border-b border-ink/5 py-[0.2rem]"
           >
-            <span className="text-tv-xs text-white/70">{item.label}</span>
+            <span className="text-tv-xs text-ink/70">{item.label}</span>
             <span
               className={`font-display text-tv-xs font-bold uppercase tracking-[0.16em] ${
-                item.ok ? 'text-emerald-300' : 'text-alert-400'
+                item.ok ? 'text-emerald-700' : 'text-alert-500'
               }`}
             >
               {item.ok ? 'ok' : 'no'}
@@ -105,7 +105,7 @@ export function ChecklistPanel({ onClose }: { onClose: () => void }) {
         {MANUAL_ITEMS.map((item) => (
           <label
             key={item.id}
-            className="flex cursor-pointer items-center gap-[0.5rem] border-b border-white/5 py-[0.2rem]"
+            className="flex cursor-pointer items-center gap-[0.5rem] border-b border-ink/5 py-[0.2rem]"
           >
             <input
               type="checkbox"
@@ -116,7 +116,7 @@ export function ChecklistPanel({ onClose }: { onClose: () => void }) {
               className="h-[0.8rem] w-[0.8rem] accent-gold-500"
             />
             <span
-              className={`text-tv-xs ${checked[item.id] ? 'text-white/40 line-through' : 'text-white/75'}`}
+              className={`text-tv-xs ${checked[item.id] ? 'text-ink/40 line-through' : 'text-ink/75'}`}
             >
               {item.label}
             </span>
@@ -128,12 +128,12 @@ export function ChecklistPanel({ onClose }: { onClose: () => void }) {
       </OpsSection>
 
       <OpsSection title="Keys">
-        <p className="text-[0.66rem] leading-relaxed text-white/45">
-          <b className="text-white/70">1 / 2 / 3</b> live, board, rosters &middot;{' '}
-          <b className="text-white/70">F</b> fullscreen &middot; <b className="text-white/70">M</b> audio
-          &middot; <b className="text-white/70">C</b> this checklist &middot;{' '}
-          <b className="text-white/70">Ctrl+Shift+D</b> commissioner panel &middot;{' '}
-          <b className="text-white/70">Esc</b> clear a stuck reveal
+        <p className="text-[0.66rem] leading-relaxed text-ink/45">
+          <b className="text-ink/70">1 / 2 / 3</b> live, board, rosters &middot;{' '}
+          <b className="text-ink/70">F</b> fullscreen &middot; <b className="text-ink/70">M</b> audio
+          &middot; <b className="text-ink/70">C</b> this checklist &middot;{' '}
+          <b className="text-ink/70">Ctrl+Shift+D</b> commissioner panel &middot;{' '}
+          <b className="text-ink/70">Esc</b> clear a stuck reveal
           {settings.presentation.lowMotion ? ' · low-motion mode is on' : ''}
         </p>
       </OpsSection>

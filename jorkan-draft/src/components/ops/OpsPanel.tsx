@@ -30,21 +30,21 @@ export function OpsPanel({
       transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       style={{ width }}
       className={cn(
-        'absolute inset-y-[1rem] z-50 flex flex-col overflow-hidden rounded-[0.4rem] border border-white/15 bg-pitch-900/97 shadow-panel backdrop-blur',
+        'absolute inset-y-[1rem] z-50 flex flex-col overflow-hidden rounded-[0.4rem] border border-ink/15 bg-paper shadow-panel',
         side === 'right' ? 'right-[1rem]' : 'left-[1rem]',
       )}
     >
-      <header className="flex items-start justify-between border-b border-white/10 px-[1rem] py-[0.7rem]">
+      <header className="flex items-start justify-between border-b border-ink/10 px-[1rem] py-[0.7rem]">
         <div>
-          <h2 className="font-display text-tv-md font-bold uppercase tracking-[0.2em] text-white">
+          <h2 className="font-display text-tv-md font-bold uppercase tracking-[0.2em] text-ink">
             {title}
           </h2>
-          {subtitle ? <p className="text-tv-xs text-white/40">{subtitle}</p> : null}
+          {subtitle ? <p className="text-tv-xs text-ink/40">{subtitle}</p> : null}
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="rounded-[0.2rem] border border-white/15 px-[0.5rem] py-[0.15rem] font-display text-tv-xs uppercase tracking-[0.16em] text-white/60 hover:bg-white/10"
+          className="rounded-[0.2rem] border border-ink/15 px-[0.5rem] py-[0.15rem] font-display text-tv-xs uppercase tracking-[0.16em] text-ink/60 hover:bg-ink/10"
         >
           Close
         </button>
@@ -83,9 +83,9 @@ export function OpsButton({
       disabled={disabled}
       className={cn(
         'rounded-[0.22rem] border px-[0.65rem] py-[0.3rem] font-display text-tv-xs font-semibold uppercase tracking-[0.16em] transition-colors disabled:cursor-not-allowed disabled:opacity-40',
-        tone === 'primary' && 'border-gold-500/60 bg-gold-500/15 text-gold-400 hover:bg-gold-500/25',
-        tone === 'danger' && 'border-alert-500/60 bg-alert-500/10 text-alert-400 hover:bg-alert-500/20',
-        tone === 'default' && 'border-white/15 bg-white/[0.04] text-white/75 hover:bg-white/10',
+        tone === 'primary' && 'border-gold-500/60 bg-gold-500/15 text-gold-600 hover:bg-gold-500/25',
+        tone === 'danger' && 'border-alert-500/60 bg-alert-500/10 text-alert-500 hover:bg-alert-500/20',
+        tone === 'default' && 'border-ink/15 bg-ink/[0.04] text-ink/75 hover:bg-ink/10',
       )}
     >
       {children}
@@ -113,10 +113,10 @@ export function OpsSlider({
   return (
     <label className="block">
       <div className="flex items-baseline justify-between">
-        <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-white/55">
+        <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-ink/55">
           {label}
         </span>
-        <span className="tabular text-tv-xs text-white/80">
+        <span className="tabular text-tv-xs text-ink/80">
           {format ? format(value) : `${Math.round(value * 100)}%`}
         </span>
       </div>
@@ -144,7 +144,7 @@ export function OpsToggle({
 }) {
   return (
     <label className="flex cursor-pointer items-center justify-between gap-[0.6rem]">
-      <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-white/55">
+      <span className="font-display text-tv-xs uppercase tracking-[0.16em] text-ink/55">
         {label}
       </span>
       <input
@@ -159,11 +159,11 @@ export function OpsToggle({
 
 export function OpsRow({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="flex items-baseline justify-between gap-[0.6rem] border-b border-white/5 py-[0.18rem]">
-      <span className="font-display text-tv-xs uppercase tracking-[0.14em] text-white/40">
+    <div className="flex items-baseline justify-between gap-[0.6rem] border-b border-ink/5 py-[0.18rem]">
+      <span className="font-display text-tv-xs uppercase tracking-[0.14em] text-ink/40">
         {label}
       </span>
-      <span className="tabular truncate text-right text-tv-xs text-white/85">{value}</span>
+      <span className="tabular truncate text-right text-tv-xs text-ink/85">{value}</span>
     </div>
   );
 }

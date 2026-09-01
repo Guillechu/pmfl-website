@@ -70,9 +70,9 @@ export function DebugPanel({ onClose }: { onClose: () => void }) {
 
       <OpsSection title="ESPN vs presentation">
         <div className="grid grid-cols-[1fr_auto_auto] gap-x-[0.7rem] text-tv-xs">
-          <span className="font-display uppercase tracking-[0.14em] text-white/35">Field</span>
-          <span className="font-display uppercase tracking-[0.14em] text-white/35">ESPN</span>
-          <span className="font-display uppercase tracking-[0.14em] text-white/35">TV</span>
+          <span className="font-display uppercase tracking-[0.14em] text-ink/35">Field</span>
+          <span className="font-display uppercase tracking-[0.14em] text-ink/35">ESPN</span>
+          <span className="font-display uppercase tracking-[0.14em] text-ink/35">TV</span>
 
           <Compare label="Round" espn={espnView?.round ?? null} tv={state.round} mismatch={mismatch} />
           <Compare label="Pick" espn={espnView?.pickInRound ?? null} tv={state.pickInRound} mismatch={mismatch} />
@@ -108,7 +108,7 @@ export function DebugPanel({ onClose }: { onClose: () => void }) {
 
       <OpsSection title="Parser strategies">
         {Object.keys(status.strategies).length === 0 ? (
-          <p className="text-tv-xs text-white/40">No parse reported yet.</p>
+          <p className="text-tv-xs text-ink/40">No parse reported yet.</p>
         ) : (
           Object.entries(status.strategies).map(([field, strategy]) => (
             <OpsRow key={field} label={field} value={strategy} />
@@ -149,7 +149,7 @@ export function DebugPanel({ onClose }: { onClose: () => void }) {
       </OpsSection>
 
       <OpsSection title="ESPN debug capture">
-        <p className="text-[0.65rem] leading-relaxed text-white/40">
+        <p className="text-[0.65rem] leading-relaxed text-ink/40">
           Records sanitised draft-room structure so the parser can be adapted to what ESPN actually
           renders. No credentials, cookies or browsing data are ever collected.
         </p>
@@ -187,16 +187,16 @@ export function DebugPanel({ onClose }: { onClose: () => void }) {
           </OpsButton>
           <OpsButton onClick={() => clearDebug()}>Clear log</OpsButton>
         </div>
-        <div className="mt-[0.4rem] max-h-[12rem] overflow-y-auto rounded-[0.2rem] border border-white/10 bg-pitch-950/60 p-[0.4rem] font-mono text-[0.6rem] leading-relaxed text-white/60">
+        <div className="mt-[0.4rem] max-h-[12rem] overflow-y-auto rounded-[0.2rem] border border-ink/10 bg-surface-950/60 p-[0.4rem] font-mono text-[0.6rem] leading-relaxed text-ink/60">
           {entries.length === 0 ? (
-            <p className="text-white/25">No entries yet.</p>
+            <p className="text-ink/25">No entries yet.</p>
           ) : (
             entries
               .slice(-60)
               .reverse()
               .map((entry, index) => (
-                <div key={`${entry.at}-${index}`} className="border-b border-white/5 py-[0.1rem]">
-                  <span className="text-white/30">{new Date(entry.at).toLocaleTimeString()} </span>
+                <div key={`${entry.at}-${index}`} className="border-b border-ink/5 py-[0.1rem]">
+                  <span className="text-ink/30">{new Date(entry.at).toLocaleTimeString()} </span>
                   <span className="text-gold-500">{entry.kind}</span> {entry.message}
                 </div>
               ))
@@ -221,11 +221,11 @@ function Compare({
   const bad = mismatch(espn, tv);
   return (
     <>
-      <span className="border-b border-white/5 py-[0.12rem] text-white/45">{label}</span>
-      <span className={`tabular border-b border-white/5 py-[0.12rem] text-right ${bad ? 'text-alert-400' : 'text-white/80'}`}>
+      <span className="border-b border-ink/5 py-[0.12rem] text-ink/45">{label}</span>
+      <span className={`tabular border-b border-ink/5 py-[0.12rem] text-right ${bad ? 'text-alert-500' : 'text-ink/80'}`}>
         {espn ?? '--'}
       </span>
-      <span className={`tabular border-b border-white/5 py-[0.12rem] text-right ${bad ? 'text-alert-400' : 'text-white/80'}`}>
+      <span className={`tabular border-b border-ink/5 py-[0.12rem] text-right ${bad ? 'text-alert-500' : 'text-ink/80'}`}>
         {tv}
       </span>
     </>

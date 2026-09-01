@@ -16,15 +16,12 @@ export function BoardScreen({ state }: { state: DraftState }) {
           <div
             key={team.id}
             className="flex flex-col items-center justify-center rounded-[0.22rem] px-[0.2rem] py-[0.32rem]"
-            style={{ backgroundColor: `${team.accentColor}1F`, borderTop: `2px solid ${team.accentColor}` }}
+            style={{ backgroundColor: team.accentColor, borderTop: `2px solid ${team.accentColor}` }}
           >
-            <span
-              className="font-display text-tv-sm font-bold uppercase leading-none"
-              style={{ color: team.accentColor }}
-            >
+            <span className="font-display text-tv-sm font-bold uppercase leading-none text-paper">
               {team.abbrev}
             </span>
-            <span className="mt-[0.1rem] truncate text-[0.6rem] uppercase tracking-[0.1em] text-white/45">
+            <span className="mt-[0.1rem] truncate text-[0.6rem] uppercase tracking-[0.1em] text-paper/70">
               {team.manager.name}
             </span>
           </div>
@@ -37,8 +34,8 @@ export function BoardScreen({ state }: { state: DraftState }) {
             key={row[0]?.round}
             className="grid min-h-0 flex-1 grid-cols-[3.2rem_repeat(12,minmax(0,1fr))] gap-[0.28rem]"
           >
-            <div className="flex items-center justify-center rounded-[0.2rem] bg-white/[0.04]">
-              <span className="tabular font-display text-tv-sm font-bold text-white/55">
+            <div className="flex items-center justify-center rounded-[0.2rem] bg-ink/[0.04]">
+              <span className="tabular font-display text-tv-sm font-bold text-ink/55">
                 {row[0]?.round}
               </span>
             </div>
@@ -60,28 +57,28 @@ function BoardCellView({ cell }: { cell: ReturnType<typeof draftBoard>[number][n
     <div
       className={cn(
         'relative flex min-w-0 flex-col justify-center overflow-hidden rounded-[0.2rem] border px-[0.4rem] py-[0.18rem]',
-        pick ? 'border-white/8 bg-white/[0.045]' : 'border-white/5 bg-white/[0.015]',
+        pick ? 'border-ink/8 bg-ink/[0.045]' : 'border-ink/5 bg-ink/[0.015]',
         cell.isCurrent && !pick && 'border-gold-500/70 bg-gold-500/10',
       )}
       style={pick ? { borderLeft: `0.18rem solid ${color}` } : undefined}
     >
       {pick ? (
         <>
-          <span className="truncate font-display text-tv-xs font-semibold uppercase leading-tight tracking-[0.02em] text-white/92">
+          <span className="truncate font-display text-tv-xs font-semibold uppercase leading-tight tracking-[0.02em] text-ink/92">
             {pick.player.name}
           </span>
-          <span className="truncate text-[0.6rem] uppercase tracking-[0.1em] text-white/40">
+          <span className="truncate text-[0.6rem] uppercase tracking-[0.1em] text-ink/40">
             <span style={{ color }}>{pick.player.position}</span>
             {pick.player.nflTeamAbbr ? ` · ${pick.player.nflTeamAbbr}` : ''}
             {` · ${pick.overallPick}`}
           </span>
         </>
       ) : cell.isCurrent ? (
-        <span className="animate-pulse-urgent text-center font-display text-tv-xs font-bold uppercase tracking-[0.18em] text-gold-400">
+        <span className="animate-pulse-urgent text-center font-display text-tv-xs font-bold uppercase tracking-[0.18em] text-gold-600">
           On the clock
         </span>
       ) : (
-        <span className="tabular text-center text-[0.62rem] text-white/15">{cell.overallPick}</span>
+        <span className="tabular text-center text-[0.62rem] text-ink/15">{cell.overallPick}</span>
       )}
     </div>
   );

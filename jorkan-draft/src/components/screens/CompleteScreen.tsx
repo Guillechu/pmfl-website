@@ -38,7 +38,7 @@ function Summary({ state }: { state: DraftState }) {
         <p className="font-display text-tv-md font-semibold uppercase tracking-[0.5em] text-gold-500">
           {LEAGUE.name}
         </p>
-        <h1 className="headline mt-[0.4rem] text-tv-3xl leading-none text-white">
+        <h1 className="headline mt-[0.4rem] text-tv-3xl leading-none text-ink">
           {LEAGUE.season} Draft Complete
         </h1>
         <div className="rule-gold mt-[1rem] w-[40rem]" />
@@ -53,7 +53,7 @@ function Summary({ state }: { state: DraftState }) {
                 <span className="tabular w-[2.4rem] font-display text-tv-sm font-bold text-gold-500">
                   1.{String(pick.pickInRound).padStart(2, '0')}
                 </span>
-                <span className="truncate font-display text-tv-sm font-semibold uppercase text-white">
+                <span className="truncate font-display text-tv-sm font-semibold uppercase text-ink">
                   {pick.player.name}
                 </span>
                 <span
@@ -62,7 +62,7 @@ function Summary({ state }: { state: DraftState }) {
                 >
                   {pick.player.position}
                 </span>
-                <span className="truncate text-tv-xs uppercase tracking-[0.1em] text-white/35">
+                <span className="truncate text-tv-xs uppercase tracking-[0.1em] text-ink/35">
                   {pick.fantasyTeamName}
                 </span>
               </li>
@@ -109,7 +109,7 @@ function Summary({ state }: { state: DraftState }) {
         </section>
       </div>
 
-      <p className="mt-auto font-display text-tv-xs uppercase tracking-[0.3em] text-white/30">
+      <p className="mt-auto font-display text-tv-xs uppercase tracking-[0.3em] text-ink/30">
         Press 2 for the final board &middot; 3 for team rosters
       </p>
     </div>
@@ -118,9 +118,9 @@ function Summary({ state }: { state: DraftState }) {
 
 function SummaryStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[0.25rem] border border-white/8 bg-white/[0.03] px-[0.7rem] py-[0.5rem]">
-      <dt className="font-display text-tv-xs uppercase tracking-[0.22em] text-white/40">{label}</dt>
-      <dd className="tabular headline mt-[0.1rem] text-tv-lg text-white">{value}</dd>
+    <div className="rounded-[0.25rem] border border-ink/8 bg-ink/[0.03] px-[0.7rem] py-[0.5rem]">
+      <dt className="font-display text-tv-xs uppercase tracking-[0.22em] text-ink/40">{label}</dt>
+      <dd className="tabular headline mt-[0.1rem] text-tv-lg text-ink">{value}</dd>
     </div>
   );
 }

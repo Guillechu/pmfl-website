@@ -9,44 +9,61 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Deep navy / near-black broadcast ground
-        pitch: {
-          950: '#03060E',
-          900: '#060B18',
-          850: '#091223',
-          800: '#0C182E',
-          700: '#12233F',
-          600: '#1A3053',
-          500: '#254069',
+        /*
+         * Broadcast on paper.
+         *
+         * The presentation reads on a white ground with solid, printed-looking
+         * colour - the palette of a printed programme or a stadium scoreboard
+         * graphic rather than a glowing dashboard. Nothing here is a neon: every
+         * accent is a flat ink that holds its weight on white and survives a
+         * television's contrast handling.
+         */
+        paper: '#FFFFFF',
+
+        // The one foreground colour. Opacity does the rest of the work, which
+        // is why almost everything on screen is `text-ink/70` and friends.
+        ink: '#16222F',
+
+        // Surfaces, lightest first: the page, panels, raised fills, rules.
+        surface: {
+          950: '#FFFFFF',
+          900: '#FBFCFD',
+          850: '#F3F5F8',
+          800: '#E9ECF1',
+          700: '#DCE1E8',
+          600: '#C7CEDA',
+          500: '#AEB8C7',
         },
-        // Primary accent: broadcast gold
+
+        // Primary accent: a solid bronze-gold that stays legible on white.
         gold: {
-          400: '#FFD75E',
-          500: '#F5C542',
-          600: '#D9A21B',
-          700: '#A87A0F',
+          300: '#E2B245',
+          400: '#C8901A',
+          500: '#A67512',
+          600: '#875E0D',
+          700: '#63450A',
         },
-        // Secondary accent: electric blue used for motion + highlights
+        // Secondary accent: a flat navy blue for motion and highlights.
         volt: {
-          400: '#5CC2FF',
-          500: '#2E9BFF',
-          600: '#1874D6',
+          400: '#356FAF',
+          500: '#20548C',
+          600: '#173F6B',
         },
-        // Urgency
+        // Urgency.
         alert: {
-          400: '#FF6B6B',
-          500: '#E63946',
-          600: '#B4232F',
+          400: '#C13A29',
+          500: '#A22A1C',
+          600: '#7B2015',
         },
-        // Position identity colours (subtle but distinct on the board)
+        // Position identity colours, weighted for a white ground.
         pos: {
-          qb: '#E4572E',
-          rb: '#2BB673',
-          wr: '#2E9BFF',
-          te: '#F2A03D',
-          k: '#9B7BE0',
-          def: '#6C8AA6',
-          flex: '#23BFA5',
+          qb: '#B04724',
+          rb: '#1C7548',
+          wr: '#1D5C9F',
+          te: '#A06C10',
+          k: '#66499B',
+          def: '#465C6E',
+          flex: '#0F7566',
         },
       },
       fontFamily: {
@@ -57,26 +74,28 @@ export default {
       fontSize: {
         // TV-scale type ramp, driven by the root font-size set in index.css so
         // the whole layout scales from 1080p to 4K with one variable.
-        'tv-xs': ['0.75rem', { lineHeight: '1.1' }],
-        'tv-sm': ['1rem', { lineHeight: '1.1' }],
-        'tv-md': ['1.5rem', { lineHeight: '1.05' }],
-        'tv-lg': ['2.25rem', { lineHeight: '1' }],
-        'tv-xl': ['3.5rem', { lineHeight: '0.95' }],
-        'tv-2xl': ['5rem', { lineHeight: '0.92' }],
-        'tv-3xl': ['7rem', { lineHeight: '0.88' }],
-        'tv-4xl': ['9.5rem', { lineHeight: '0.85' }],
+        'tv-xs': ['0.82rem', { lineHeight: '1.1' }],
+        'tv-sm': ['1.08rem', { lineHeight: '1.1' }],
+        'tv-md': ['1.62rem', { lineHeight: '1.05' }],
+        'tv-lg': ['2.4rem', { lineHeight: '1' }],
+        'tv-xl': ['3.75rem', { lineHeight: '0.95' }],
+        'tv-2xl': ['5.4rem', { lineHeight: '0.92' }],
+        'tv-3xl': ['7.5rem', { lineHeight: '0.88' }],
+        'tv-4xl': ['10.2rem', { lineHeight: '0.85' }],
       },
       boxShadow: {
-        panel: '0 1.5rem 4rem -1rem rgba(0,0,0,0.75)',
-        glow: '0 0 3rem -0.5rem rgba(245,197,66,0.55)',
-        'glow-volt': '0 0 3rem -0.5rem rgba(46,155,255,0.55)',
+        /*
+         * Weight, not glow. A printed panel sits on the page with a hairline
+         * and the faintest lift; it does not radiate.
+         */
+        panel: '0 0.0625rem 0.125rem rgba(22,34,47,0.05), 0 0.75rem 1.75rem -0.75rem rgba(22,34,47,0.16)',
+        glow: '0 0 0 0.125rem rgba(166,117,18,0.28)',
+        'glow-volt': '0 0 0 0.125rem rgba(32,84,140,0.24)',
       },
       backgroundImage: {
-        'panel-glass':
-          'linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 38%, rgba(255,255,255,0.01) 100%)',
-        'field-glow':
-          'radial-gradient(ellipse 120% 70% at 50% 0%, rgba(46,155,255,0.18) 0%, rgba(3,6,14,0) 62%)',
-        'gold-rule': 'linear-gradient(90deg, rgba(245,197,66,0) 0%, #F5C542 18%, #FFD75E 50%, #F5C542 82%, rgba(245,197,66,0) 100%)',
+        'panel-glass': 'linear-gradient(180deg, #FFFFFF 0%, #F7F9FB 100%)',
+        'field-glow': 'linear-gradient(180deg, #FFFFFF 0%, #F4F6F9 100%)',
+        'gold-rule': 'linear-gradient(90deg, #A67512 0%, #A67512 100%)',
       },
       keyframes: {
         'ticker-scroll': {
@@ -87,15 +106,10 @@ export default {
           '0%,100%': { opacity: '1' },
           '50%': { opacity: '0.45' },
         },
-        sheen: {
-          '0%': { transform: 'translateX(-120%) skewX(-18deg)' },
-          '100%': { transform: 'translateX(320%) skewX(-18deg)' },
-        },
       },
       animation: {
         'ticker-scroll': 'ticker-scroll var(--ticker-duration,60s) linear infinite',
         'pulse-urgent': 'pulse-urgent 1s ease-in-out infinite',
-        sheen: 'sheen 2.4s ease-in-out infinite',
       },
     },
   },

@@ -37,9 +37,9 @@ export function NflTeamMark({
       // Club colours tint the chip, but the letters stay white: some teams'
       // secondary colour is black, which would vanish on this background.
       style={{
-        backgroundColor: team ? `${team.primary}44` : 'rgba(255,255,255,0.08)',
-        color: 'rgba(255,255,255,0.88)',
-        border: team ? `1px solid ${team.primary}88` : '1px solid rgba(255,255,255,0.12)',
+        backgroundColor: team ? `${team.primary}` : 'rgba(22,34,47,0.06)',
+        color: team ? '#FFFFFF' : 'rgba(22,34,47,0.75)',
+        border: team ? `1px solid ${team.primary}` : '1px solid rgba(22,34,47,0.14)',
       }}
     >
       {abbr ?? '--'}

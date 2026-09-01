@@ -23,16 +23,16 @@ export function PreDraftScreen({
   const connected = status.connection === 'connected';
 
   return (
-    <div className="relative flex flex-1 flex-col items-center justify-center px-[4rem]">
+    <div className="relative flex flex-1 flex-col px-[3.4rem] pb-[2rem] pt-[1.2rem]">
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="flex flex-col items-center"
+        className="flex flex-1 flex-col items-center justify-center"
       >
         <LeagueMark size="lg" />
 
-        <h1 className="headline mt-[1.6rem] text-center text-tv-4xl leading-[0.86] text-white">
+        <h1 className="headline mt-[1.6rem] text-center text-tv-4xl leading-[0.86] text-ink">
           {LEAGUE.season} Fantasy
           <br />
           Football Draft
@@ -59,12 +59,11 @@ export function PreDraftScreen({
               onClick={onArm}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.99 }}
-              className="relative overflow-hidden rounded-[0.4rem] border border-gold-500/60 bg-gold-500 px-[3.4rem] py-[1.05rem] font-display text-tv-lg font-bold uppercase tracking-[0.26em] text-pitch-950 shadow-glow"
+              className="relative overflow-hidden rounded-[0.4rem] border border-gold-600 bg-gold-500 px-[3.4rem] py-[1.05rem] font-display text-tv-lg font-bold uppercase tracking-[0.26em] text-paper shadow-panel"
             >
-              <span className="absolute inset-0 -translate-x-full animate-sheen bg-gradient-to-r from-transparent via-white/45 to-transparent" />
               <span className="relative">Arm Presentation</span>
             </motion.button>
-            <p className="mt-[1rem] max-w-[46rem] text-center text-tv-sm leading-relaxed text-white/45">
+            <p className="mt-[1rem] max-w-[46rem] text-center text-tv-sm leading-relaxed text-ink/45">
               This unlocks browser audio, warms up the announcer and allows fullscreen.
               It does not start the draft &mdash; ESPN does that.
             </p>
@@ -81,10 +80,10 @@ export function PreDraftScreen({
                 Waiting for ESPN draft
               </p>
             </div>
-            <p className="mt-[0.9rem] max-w-[52rem] text-center text-tv-sm leading-relaxed text-white/45">
+            <p className="mt-[0.9rem] max-w-[52rem] text-center text-tv-sm leading-relaxed text-ink/45">
               The presentation starts by itself the moment ESPN puts
               {' '}
-              <span className="text-white/70">{LEAGUE.teams[0]?.name}</span>
+              <span className="text-ink/70">{LEAGUE.teams[0]?.name}</span>
               {' '}on the clock for pick 1.01.
             </p>
           </motion.div>
@@ -101,9 +100,9 @@ function StatusChip({ label, tone }: { label: string; tone: 'good' | 'idle' | 'p
     <div
       className={cn(
         'flex items-center gap-[0.5rem] rounded-full border px-[1rem] py-[0.3rem]',
-        tone === 'good' && 'border-emerald-400/40 bg-emerald-400/10 text-emerald-300',
-        tone === 'idle' && 'border-white/15 bg-white/[0.04] text-white/50',
-        tone === 'pending' && 'border-gold-500/40 bg-gold-500/10 text-gold-400',
+        tone === 'good' && 'border-emerald-700/30 bg-emerald-700/[0.08] text-emerald-800',
+        tone === 'idle' && 'border-ink/15 bg-ink/[0.04] text-ink/50',
+        tone === 'pending' && 'border-gold-500/40 bg-gold-500/10 text-gold-600',
       )}
     >
       <span className="h-[0.4rem] w-[0.4rem] rounded-full bg-current" />
@@ -120,7 +119,7 @@ function DraftOrder() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="absolute inset-x-[3.4rem] bottom-[2.4rem]"
+      className="mt-[1.4rem] shrink-0"
     >
       <p className="eyebrow mb-[0.7rem] text-center">Official 2026 Draft Order</p>
       <ol className="grid grid-cols-12 gap-[0.5rem]">
@@ -135,10 +134,10 @@ function DraftOrder() {
             >
               {team.draftSlot}
             </span>
-            <span className="line-clamp-2 font-display text-tv-xs font-semibold uppercase leading-tight tracking-[0.05em] text-white/85">
+            <span className="line-clamp-2 font-display text-tv-xs font-semibold uppercase leading-tight tracking-[0.05em] text-ink/85">
               {team.name}
             </span>
-            <span className="truncate text-[0.62rem] uppercase tracking-[0.14em] text-white/35">
+            <span className="truncate text-[0.62rem] uppercase tracking-[0.14em] text-ink/35">
               {team.manager.name}
             </span>
           </li>

@@ -11,7 +11,7 @@ import { cn } from '@/lib/cn';
  */
 export function OnTheClockPanel({ state }: { state: DraftState }) {
   const team = teamById(state.onTheClock?.fantasyTeamId);
-  const accent = team?.accentColor ?? '#F5C542';
+  const accent = team?.accentColor ?? '#A67512';
   const name = state.onTheClock?.fantasyTeamName ?? 'Waiting for ESPN';
   const manager = state.onTheClock?.managerName;
 
@@ -22,24 +22,22 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
         style={{ backgroundColor: accent }}
       />
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.20]"
-        style={{
-          background: `radial-gradient(ellipse 70% 120% at 0% 50%, ${accent} 0%, transparent 58%)`,
-        }}
+        className="pointer-events-none absolute inset-y-0 left-0 w-[46%] opacity-[0.10]"
+        style={{ background: `linear-gradient(90deg, ${accent} 0%, transparent 100%)` }}
       />
 
       <div className="relative flex items-center justify-between">
         {state.phase === 'paused' ? (
-          <span className="eyebrow animate-pulse-urgent text-gold-400">Draft paused by ESPN</span>
+          <span className="eyebrow animate-pulse-urgent text-gold-600">Draft paused by ESPN</span>
         ) : (
           <span className="eyebrow">On the Clock</span>
         )}
         <div className="flex items-baseline gap-[0.55rem] font-display uppercase tracking-[0.2em]">
-          <span className="text-tv-xs text-white/45">Pick</span>
-          <span className="tabular text-tv-md font-bold text-white">
+          <span className="text-tv-xs text-ink/45">Pick</span>
+          <span className="tabular text-tv-md font-bold text-ink">
             {state.round}.{String(state.pickInRound).padStart(2, '0')}
           </span>
-          <span className="text-tv-xs text-white/45">Overall</span>
+          <span className="text-tv-xs text-ink/45">Overall</span>
           <span className="tabular text-tv-md font-bold text-gold-500">{state.overallPick}</span>
         </div>
       </div>
@@ -57,7 +55,7 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
             {team ? (
               <div
                 className="flex h-[4.2rem] w-[4.2rem] shrink-0 items-center justify-center rounded-[0.35rem] font-display text-tv-lg font-bold"
-                style={{ backgroundColor: `${accent}22`, color: accent, border: `1px solid ${accent}55` }}
+                style={{ backgroundColor: accent, color: '#FFFFFF', border: `1px solid ${accent}` }}
               >
                 {team.abbrev}
               </div>
@@ -65,14 +63,14 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
             <div className="min-w-0">
               <h2
                 className={cn(
-                  'headline truncate leading-[0.92] text-white',
-                  name.length > 18 ? 'text-tv-2xl' : 'text-tv-3xl',
+                  'headline line-clamp-2 leading-[0.92] text-ink',
+                  name.length > 26 ? 'text-tv-xl' : name.length > 18 ? 'text-tv-2xl' : 'text-tv-3xl',
                 )}
               >
                 {name}
               </h2>
               {manager ? (
-                <p className="mt-[0.2rem] font-display text-tv-md font-medium uppercase tracking-[0.16em] text-white/55">
+                <p className="mt-[0.2rem] font-display text-tv-md font-medium uppercase tracking-[0.16em] text-ink/55">
                   {manager}
                 </p>
               ) : null}
@@ -84,7 +82,7 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
 
       <div className="relative flex items-center gap-[0.6rem]">
         <div className="rule-gold flex-1 opacity-70" />
-        <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.3em] text-white/40">
+        <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.3em] text-ink/40">
           Round {state.round} of 15
         </span>
       </div>
@@ -108,7 +106,7 @@ function RosterSoFar({ state, accent }: { state: DraftState; accent: string }) {
     <div className="relative">
       <div className="flex items-baseline justify-between">
         <span className="eyebrow">Roster so far</span>
-        <span className="tabular font-display text-tv-xs uppercase tracking-[0.2em] text-white/35">
+        <span className="tabular font-display text-tv-xs uppercase tracking-[0.2em] text-ink/35">
           {picks.length} selected
         </span>
       </div>
@@ -120,21 +118,21 @@ function RosterSoFar({ state, accent }: { state: DraftState; accent: string }) {
             className={cn(
               'flex items-center gap-[0.3rem] rounded-[0.2rem] border px-[0.5rem] py-[0.22rem] font-display text-tv-xs font-semibold uppercase tracking-[0.1em]',
               assignment.pick
-                ? 'border-white/10 bg-white/[0.05] text-white/85'
-                : 'border-dashed border-white/12 text-white/25',
+                ? 'border-ink/10 bg-ink/[0.05] text-ink/85'
+                : 'border-dashed border-ink/12 text-ink/25',
             )}
           >
             <span
               style={{
                 color: assignment.pick
                   ? POSITION_COLOR[assignment.pick.player.position]
-                  : 'rgba(255,255,255,0.3)',
+                  : 'rgba(22,34,47,0.25)',
               }}
             >
               {assignment.slot.label}
             </span>
             {assignment.pick ? (
-              <span className="max-w-[9rem] truncate text-white/80">
+              <span className="max-w-[9rem] truncate text-ink/80">
                 {shortName(assignment.pick.player.name)}
               </span>
             ) : null}
