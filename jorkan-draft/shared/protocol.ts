@@ -64,6 +64,8 @@ export interface ParseMeta {
     picks: number;
     /** Picks the feed returned that we refused to show for lack of a name. */
     unnamed: number;
+    /** Slots the feed listed with no player in them (ESPN's playerId -1). */
+    placeholders: number;
     /** Why the last read failed, in words, or null when it worked. */
     error: string | null;
   };

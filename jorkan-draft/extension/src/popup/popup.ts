@@ -51,6 +51,7 @@ function render(data: PopupState): void {
       feed.error ? 'bad' : feed.picks > 0 ? 'ok' : 'warn',
     );
     if (feed.unnamed > 0) row('Feed unnamed', String(feed.unnamed), 'warn');
+    if (feed.placeholders > 0) row('Feed empty slots', String(feed.placeholders), 'warn');
     if (feed.error) row('Feed error', feed.error.length > 46 ? `${feed.error.slice(0, 43)}...` : feed.error, 'bad');
   }
   row('Parser', state.meta?.parserVersion ?? '--');

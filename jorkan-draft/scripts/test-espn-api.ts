@@ -120,6 +120,42 @@ async function main(): Promise<void> {
   await api.read();
   check(athleteCalls === before, 'a player ESPN cannot name is only chased once', `${athleteCalls - before} extra`);
 
+  // ESPN's own "no player here" marker, which a practice room returned for
+  // all 180 of its slots while the draft was on pick 27. Left unchecked it
+  // put a player called " Team" at position "-" on the board 26 times.
+  (globalThis as { fetch: unknown }).fetch = async (input: unknown) => {
+    const url = String(input);
+    const json = (value: unknown) => ({ ok: true, status: 200, json: async () => value }) as unknown as Response;
+    if (url.includes('site.web.api.espn.com')) {
+      return json({ athlete: { fullName: ' Team', position: { abbreviation: '-' } } });
+    }
+    if (url.includes('view=kona_player_info')) return json({ players: [] });
+    return json({
+      draftDetail: {
+        drafted: false,
+        inProgress: true,
+        picks: Array.from({ length: 24 }, (_unused, i) => ({
+          overallPickNumber: i + 1,
+          roundId: Math.floor(i / 12) + 1,
+          roundPickNumber: (i % 12) + 1,
+          playerId: -1,
+          teamId: (i % 12) + 1,
+          autoDraftTypeId: 0,
+        })),
+      },
+      teams: TEAMS,
+    });
+  };
+  const empty = await new EspnDraftApi('1487959344', 2026).read();
+  check(empty?.picks.length === 0, 'ESPN\'s empty slots are not picks', `${empty?.picks.length}`);
+  check(empty?.placeholders === 24, 'and are counted so the popup can show it', `${empty?.placeholders}`);
+  check(empty?.unnamed.length === 0, 'and are not mistaken for unnameable players', JSON.stringify(empty?.unnamed));
+  check(
+    empty?.warnings.some((w) => w.includes('not carrying who was drafted')) === true,
+    'and the feed is called out as carrying no players',
+    JSON.stringify(empty?.warnings),
+  );
+
   // A pick ESPN names but cannot place: no position, no club. "TEAM, --,
   // FREE AGENT" reached a live television before this was a rule.
   const NAMELESS = 5551234;

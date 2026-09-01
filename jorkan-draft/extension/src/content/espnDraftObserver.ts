@@ -167,6 +167,7 @@ function parseNow(reason: string): void {
   result.meta.feed = {
     picks: apiState?.picks.length ?? 0,
     unnamed: apiState?.unnamed.length ?? 0,
+    placeholders: apiState?.placeholders ?? 0,
     error: api?.error ?? null,
   };
   for (const warning of apiState?.warnings ?? []) {

@@ -45,6 +45,15 @@ export interface ApiDraftState {
   inProgress: boolean;
   /** Player ids ESPN reported that we could not put a name to. */
   unnamed: number[];
+  /**
+   * Rows the feed listed with no player in them at all.
+   *
+   * ESPN writes playerId -1 for a pick slot that has not been filled, and a
+   * practice room returned all 180 of its slots that way while the draft was
+   * on pick 27. Counting them is what tells the difference between "the feed
+   * is quiet" and "the feed has nothing to say about who was drafted".
+   */
+  placeholders: number;
   warnings: string[];
 }
 
@@ -203,17 +212,29 @@ export class EspnDraftApi {
 
     const picks: DraftPick[] = [];
     const unnamed: number[] = [];
+    let placeholders = 0;
     for (const raw of rawPicks) {
-      const built = this.toPick(asRecord(raw), warnings, unnamed);
+      const row = asRecord(raw);
+      if ((asNumber(row?.['playerId']) ?? -1) <= 0) {
+        placeholders += 1;
+        continue;
+      }
+      const built = this.toPick(row, warnings, unnamed);
       if (built) picks.push(built);
     }
     picks.sort((a, b) => a.overallPick - b.overallPick);
+    if (placeholders > 0 && picks.length === 0) {
+      warnings.push(
+        `ESPN's feed listed ${placeholders} pick slots with no player in them - it is not carrying who was drafted`,
+      );
+    }
 
     return {
       picks,
       drafted: detail?.['drafted'] === true,
       inProgress: detail?.['inProgress'] === true,
       unnamed,
+      placeholders,
       warnings,
     };
   }
@@ -323,7 +344,9 @@ export class EspnDraftApi {
     if (!row) return null;
     const overallPick = asNumber(row['overallPickNumber']);
     const playerId = asNumber(row['playerId']);
-    if (!overallPick || !playerId || !isValidOverall(overallPick)) return null;
+    // ESPN writes -1 (and 0) for "no player"; those are empty slots, not picks.
+    if (!overallPick || playerId === null || playerId <= 0) return null;
+    if (!isValidOverall(overallPick)) return null;
 
     const player = this.players.get(playerId);
     /*
@@ -333,7 +356,7 @@ export class EspnDraftApi {
      * who it is. The popup reports how many are being held back, so this
      * never fails silently.
      */
-    if (!player || !player.name.trim() || !player.position) {
+    if (!player || !player.name.trim() || normalizePosition(player.position) === 'UNKNOWN') {
       unnamed.push(playerId);
       return null;
     }
