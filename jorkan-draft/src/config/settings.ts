@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   },
   presentation: {
     view: 'live',
-    showTicker: true,
+    showTicker: false,
     revealSeconds: 7,
     uiScale: 1,
     lowMotion: false,

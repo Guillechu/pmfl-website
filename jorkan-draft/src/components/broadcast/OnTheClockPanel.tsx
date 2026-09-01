@@ -16,7 +16,7 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
   const manager = state.onTheClock?.managerName;
 
   return (
-    <section className="panel relative flex h-full flex-col justify-between overflow-hidden px-[1.6rem] py-[1.2rem]">
+    <section className="panel relative flex h-full flex-col gap-[1.4rem] overflow-hidden px-[1.6rem] py-[1.2rem]">
       <div
         className="pointer-events-none absolute inset-y-0 left-0 w-[0.32rem]"
         style={{ backgroundColor: accent }}
@@ -49,7 +49,7 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-        className="relative"
+        className="relative flex-1 flex items-center"
       >
         <div className="flex items-center gap-[1rem]">
             {team ? (
@@ -79,13 +79,6 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
       </motion.div>
 
       <RosterSoFar state={state} accent={accent} />
-
-      <div className="relative flex items-center gap-[0.6rem]">
-        <div className="rule-gold flex-1 opacity-70" />
-        <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.3em] text-ink/40">
-          Round {state.round} of 15
-        </span>
-      </div>
     </section>
   );
 }

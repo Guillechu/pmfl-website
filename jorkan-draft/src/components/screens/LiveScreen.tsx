@@ -7,17 +7,17 @@ import { progress, recentPicks } from '@/core/selectors';
 
 /** The default screen: who is picking, how long they have, what just happened. */
 export function LiveScreen({ state }: { state: DraftState }) {
-  const recent = recentPicks(state, 6);
+  const recent = recentPicks(state, 5);
   const { made, total } = progress(state);
 
   return (
-    <div className="flex flex-1 flex-col gap-[0.9rem] p-[1.2rem]">
-      <div className="grid flex-1 grid-cols-[1.5fr_0.9fr_1.05fr] gap-[0.9rem]">
+    <div className="flex flex-1 flex-col gap-[1.1rem] p-[1.5rem]">
+      <div className="grid flex-1 grid-cols-[1.55fr_1fr_1.1fr] gap-[1.1rem]">
         <OnTheClockPanel state={state} />
         <ClockPanel clock={state.clock} paused={state.phase === 'paused'} />
         <RecentPicksPanel picks={recent} />
       </div>
-      <div className="h-[7.6rem] shrink-0">
+      <div className="h-[7rem] shrink-0">
         <UpNextStrip state={state} made={made} total={total} />
       </div>
     </div>

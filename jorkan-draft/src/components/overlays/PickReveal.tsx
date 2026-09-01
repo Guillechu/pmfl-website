@@ -15,15 +15,30 @@ export function PickReveal({ reveal }: { reveal: RevealState | null }) {
   return (
     <AnimatePresence>
       {reveal ? (
-        <motion.div
-          key={reveal.pick.eventId}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35 }}
-          className="absolute inset-0 z-40 flex items-center justify-center bg-paper/97"
-        >
-          {reveal.stage === 'incoming' ? <IncomingCard /> : <PlayerCard reveal={reveal} />}
+        <motion.div key={reveal.pick.eventId} className="absolute inset-0 z-40">
+          {/*
+            The screen behind is covered by its own layer, opaque and quick.
+            While the scrim and the words faded in together the pick clock
+            showed straight through "THE PICK IS IN" - two things the eye had
+            to separate at the loudest moment of the broadcast. Now the room
+            goes white first, and only then does anything appear on it.
+          */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.16, ease: 'linear' }}
+            className="absolute inset-0 bg-paper"
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.28, delay: 0.1 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            {reveal.stage === 'incoming' ? <IncomingCard /> : <PlayerCard reveal={reveal} />}
+          </motion.div>
         </motion.div>
       ) : null}
     </AnimatePresence>

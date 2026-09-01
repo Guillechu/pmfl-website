@@ -6,9 +6,8 @@ import { cn } from '@/lib/cn';
 /** ON DECK / NEXT UP, plus how far through the draft we are. */
 export function UpNextStrip({ state, made, total }: { state: DraftState; made: number; total: number }) {
   return (
-    <div className="grid h-full grid-cols-[1fr_1fr_1.05fr] gap-[0.8rem]">
+    <div className="grid h-full grid-cols-[1.2fr_1fr] gap-[0.8rem]">
       <UpNextCard label="On Deck" team={state.onDeck} emphasis />
-      <UpNextCard label="Next Up" team={state.nextUp} />
       <section className="panel flex flex-col justify-center gap-[0.5rem] px-[1.1rem] py-[0.7rem]">
         <div className="flex items-baseline justify-between">
           <span className="eyebrow">Draft Progress</span>
@@ -23,9 +22,8 @@ export function UpNextStrip({ state, made, total }: { state: DraftState; made: n
             style={{ width: `${total === 0 ? 0 : (made / total) * 100}%` }}
           />
         </div>
-        <div className="flex items-center justify-between font-display text-tv-xs uppercase tracking-[0.2em] text-ink/40">
-          <span>Round {state.round}</span>
-          <span>{total - made} picks remaining</span>
+        <div className="font-display text-tv-xs uppercase tracking-[0.2em] text-ink/40">
+          {total - made} picks remaining
         </div>
       </section>
     </div>
