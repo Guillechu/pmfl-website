@@ -58,7 +58,23 @@ function allDebugEntries(): DebugEntry[] {
 }
 let restored = false;
 
-const extensionVersion = chrome.runtime.getManifest().version;
+/**
+ * The extension's own version, read lazily.
+ *
+ * This used to be a module-level `chrome.runtime.getManifest()`. A service
+ * worker that throws while evaluating its module registers none of its
+ * listeners, so one transient moment where `chrome.runtime` is not there yet
+ * - which Chrome does produce around a reload - took the whole bridge down
+ * until the next worker start, with nothing but a stack trace in the
+ * extensions page to show for it. Nothing needed at startup is worth that.
+ */
+function extensionVersionOf(): string {
+  try {
+    return chrome.runtime.getManifest().version;
+  } catch {
+    return 'unknown';
+  }
+}
 
 /* ----------------------------- persistence ---------------------------- */
 
@@ -92,7 +108,7 @@ function persist(): void {
 function bridgeState(includeAllPicks = true): BridgeState {
   return {
     protocolVersion: PROTOCOL_VERSION,
-    extensionVersion,
+    extensionVersion: extensionVersionOf(),
     espnTabDetected: espnPorts.size > 0,
     observerActive,
     debugMode,
