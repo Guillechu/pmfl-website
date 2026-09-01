@@ -1,7 +1,7 @@
 import type { BackgroundToEspn, DebugEntry, EspnToBackground } from '@shared/protocol';
 import type { DraftSnapshot } from '@/types/draft';
 import { PARSER_VERSION, parseDraftRoom } from './espnParser';
-import { collectRegions, pageSummary } from './debugCollector';
+import { collectDiagnostics, pageSummary } from './debugCollector';
 import type { ProbeSnapshot } from './probeTypes';
 
 /**
@@ -35,8 +35,26 @@ let previous: DraftSnapshot | null = null;
 let debugMode = false;
 let debugQueue: DebugEntry[] = [];
 let reconnectDelay = 500;
+let lastDebugCaptureAt = 0;
+let lastCapturedPhase = '';
+/** How often the page is re-photographed while debug capture is on. */
+const DEBUG_CAPTURE_INTERVAL_MS = 20_000;
 
 /* ------------------------------ plumbing ------------------------------ */
+
+/**
+ * Is this page actually a draft room?
+ *
+ * A real capture showed the mock draft *lobby* reporting alongside the draft
+ * room, and the lobby's "draft starts in 9:55" countdown was being read as
+ * the pick clock. A tab that is not a draft room must stay silent rather than
+ * feed the presentation a number from somewhere else entirely.
+ */
+function looksLikeDraftRoom(): boolean {
+  const url = location.href.toLowerCase();
+  if (url.includes('lobby')) return false;
+  return true;
+}
 
 function leagueIdFromUrl(): string | null {
   const params = new URLSearchParams(location.search);
@@ -102,6 +120,7 @@ function scheduleReconnect(): void {
 /* ------------------------------- parsing ------------------------------ */
 
 function parseNow(reason: string): void {
+  if (!looksLikeDraftRoom()) return;
   const now = Date.now();
   if (now - lastParseAt < MIN_PARSE_GAP_MS && reason === 'mutation') return;
   lastParseAt = now;
@@ -124,6 +143,11 @@ function parseNow(reason: string): void {
 
   previous = result.snapshot;
 
+  // A lone timer is not a draft room. Any page can have a countdown on it, and
+  // publishing one as the pick clock is worse than publishing nothing.
+  const read = Object.keys(result.meta.strategies);
+  if (read.length === 0 || (read.length === 1 && read[0] === 'clock')) return;
+
   // Only talk when something actually changed; ESPN re-renders constantly.
   const signature = signatureOf(result.snapshot);
   const isReconcile = reason === 'reconcile' || reason === 'forced-resync' || reason === 'connect';
@@ -133,6 +157,16 @@ function parseNow(reason: string): void {
   send({ kind: 'ESPN_SNAPSHOT', at: now, snapshot: result.snapshot, meta: result.meta });
 
   if (debugMode) {
+    // Re-photograph the page when it changes character or every so often: the
+    // draft room mid-draft looks nothing like the one before it starts, and a
+    // single capture at the moment debug was switched on misses the part we
+    // most need to see.
+    const phase = result.snapshot.phase;
+    if (phase !== lastCapturedPhase || now - lastDebugCaptureAt > DEBUG_CAPTURE_INTERVAL_MS) {
+      lastCapturedPhase = phase;
+      lastDebugCaptureAt = now;
+      captureDebugRegions();
+    }
     debugQueue.push({
       at: now,
       kind: 'parse',
@@ -178,7 +212,7 @@ function signatureOf(snapshot: DraftSnapshot): string {
 
 function captureDebugRegions(): void {
   try {
-    debugQueue.push(...collectRegions());
+    debugQueue.push(...collectDiagnostics());
     flushDebug();
   } catch (error) {
     send({ kind: 'ESPN_ERROR', at: Date.now(), message: `debug capture failed: ${String(error)}` });
@@ -187,9 +221,13 @@ function captureDebugRegions(): void {
 
 function flushDebug(): void {
   if (debugQueue.length === 0) return;
-  const entries = debugQueue.slice(-40);
+  // Send in chunks rather than dropping: a diagnostics capture is ~60 entries
+  // and every one of them is a clue.
+  const pending = debugQueue;
   debugQueue = [];
-  send({ kind: 'ESPN_DEBUG', at: Date.now(), entries });
+  for (let i = 0; i < pending.length; i += 40) {
+    send({ kind: 'ESPN_DEBUG', at: Date.now(), entries: pending.slice(i, i + 40) });
+  }
 }
 
 /* ------------------------------ observers ----------------------------- */

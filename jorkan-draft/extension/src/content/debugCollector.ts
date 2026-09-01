@@ -105,3 +105,107 @@ export function pageSummary(): Record<string, unknown> {
     tables: document.querySelectorAll('table, [role="table"], [role="grid"]').length,
   };
 }
+
+/* ------------------------------------------------------------------ *
+ * Targeted diagnostics
+ *
+ * When a field cannot be read, the useful question is not "what does the
+ * page look like" but "what did you consider, and why did you reject it".
+ * These capture exactly that for the two fields that a real 2026 draft room
+ * did not give up: the pick clock and the picks themselves.
+ * ------------------------------------------------------------------ */
+
+/** Anything that looks like a countdown, with enough context to judge it. */
+export function collectClockCandidates(): DebugEntry[] {
+  const out: DebugEntry[] = [];
+  for (const atom of textAtoms(document, 40)) {
+    if (!/\d{1,2}\s*:\s*[0-5]\d/.test(atom.text)) continue;
+    out.push({
+      at: Date.now(),
+      kind: 'dom-sample',
+      message: 'candidate:clock',
+      data: {
+        text: sanitize(atom.text),
+        ...describeBriefly(atom.el),
+        parent: describeBriefly(atom.el.parentElement),
+        grandparent: describeBriefly(atom.el.parentElement?.parentElement ?? null),
+      },
+    });
+    if (out.length >= 12) break;
+  }
+  return out;
+}
+
+/**
+ * Rows that look like a selection: a position and NFL club together are the
+ * strongest tell, since every drafted player is rendered with both.
+ */
+export function collectPickCandidates(): DebugEntry[] {
+  const out: DebugEntry[] = [];
+  const seen = new Set<Element>();
+  const POS_TEAM = /\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b[\s,|/-]*\b([A-Z]{2,4})\b|\b([A-Z]{2,4})\b[\s,|/-]*\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b/;
+  for (const atom of textAtoms(document, 120)) {
+    if (!POS_TEAM.test(atom.text)) continue;
+    const row = rowContainer(atom.el, 4);
+    if (seen.has(row)) continue;
+    seen.add(row);
+    out.push({
+      at: Date.now(),
+      kind: 'dom-sample',
+      message: 'candidate:pick-row',
+      data: {
+        matchedText: sanitize(atom.text),
+        rowText: sanitize(visibleText(row)).slice(0, 240),
+        ...describeBriefly(row),
+        html: sanitize(row.outerHTML ?? '').slice(0, 1800),
+      },
+    });
+    if (out.length >= 8) break;
+  }
+  return out;
+}
+
+/**
+ * A shallow map of the page: enough structure to see where the draft board,
+ * the history feed and the clock actually live.
+ */
+export function collectOutline(): DebugEntry[] {
+  const out: DebugEntry[] = [];
+  const walk = (el: Element, depth: number): void => {
+    if (depth > 4 || out.length >= 40) return;
+    for (const child of Array.from(el.children)) {
+      const text = visibleText(child);
+      if (!text) continue;
+      out.push({
+        at: Date.now(),
+        kind: 'dom-sample',
+        message: `outline:d${depth}`,
+        data: {
+          ...describeBriefly(child),
+          childCount: child.children.length,
+          text: sanitize(text).slice(0, 160),
+        },
+      });
+      walk(child, depth + 1);
+    }
+  };
+  if (document.body) walk(document.body, 0);
+  return out;
+}
+
+/** Tag, id and the attributes worth writing a selector against. */
+function describeBriefly(el: Element | null): Record<string, unknown> {
+  if (!el) return { tag: null };
+  const attributes: Record<string, string> = {};
+  for (const attr of Array.from(el.attributes)) {
+    if (attr.name === 'class' || attr.name === 'style') continue;
+    if (attr.value.length > 120) continue;
+    attributes[attr.name] = sanitize(attr.value);
+  }
+  return { tag: el.tagName.toLowerCase(), attributes };
+}
+
+/** Everything the next capture should contain, in one call. */
+export function collectDiagnostics(): DebugEntry[] {
+  return [...collectRegions(), ...collectClockCandidates(), ...collectPickCandidates(), ...collectOutline()];
+}

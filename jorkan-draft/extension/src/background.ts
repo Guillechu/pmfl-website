@@ -30,7 +30,16 @@ const STORAGE_KEY = 'jorkan.mirror.v1';
 const SNAPSHOT_TAIL = 40;
 /** A stored mirror older than this is from a different draft night. */
 const MIRROR_TTL_MS = 12 * 60 * 60 * 1000;
-const MAX_DEBUG_ENTRIES = 600;
+/*
+ * Two budgets, not one.
+ *
+ * A single 600-entry ring buffer lost the DOM captures from a real draft
+ * room: the parse log filled it and evicted exactly the entries the capture
+ * existed to collect. Structure is scarce and precious; parse lines are
+ * plentiful and repetitive.
+ */
+const MAX_DEBUG_SAMPLES = 400;
+const MAX_DEBUG_PARSES = 300;
 
 let mirror: Mirror = emptyMirror();
 let seen = new Set<string>();
@@ -40,7 +49,13 @@ let observerActive = false;
 let espnPorts = new Set<chrome.runtime.Port>();
 let pagePorts = new Set<chrome.runtime.Port>();
 let debugMode = false;
-let debugEntries: DebugEntry[] = [];
+let debugSamples: DebugEntry[] = [];
+let debugParses: DebugEntry[] = [];
+
+/** Newest-last, both budgets merged, for export. */
+function allDebugEntries(): DebugEntry[] {
+  return [...debugSamples, ...debugParses].sort((a, b) => a.at - b.at);
+}
 let restored = false;
 
 const extensionVersion = chrome.runtime.getManifest().version;
@@ -191,14 +206,20 @@ function attachEspnPort(port: chrome.runtime.Port): void {
         break;
 
       case 'ESPN_DEBUG':
-        debugEntries.push(...message.entries);
-        if (debugEntries.length > MAX_DEBUG_ENTRIES) {
-          debugEntries = debugEntries.slice(-MAX_DEBUG_ENTRIES);
+        for (const entry of message.entries) {
+          if (entry.kind === 'dom-sample') debugSamples.push(entry);
+          else debugParses.push(entry);
+        }
+        if (debugSamples.length > MAX_DEBUG_SAMPLES) {
+          debugSamples = debugSamples.slice(-MAX_DEBUG_SAMPLES);
+        }
+        if (debugParses.length > MAX_DEBUG_PARSES) {
+          debugParses = debugParses.slice(-MAX_DEBUG_PARSES);
         }
         break;
 
       case 'ESPN_ERROR':
-        debugEntries.push({ at: message.at, kind: 'error', message: message.message });
+        debugParses.push({ at: message.at, kind: 'error', message: message.message });
         broadcast({ kind: 'BRIDGE_ERROR', at: message.at, message: message.message });
         break;
 
@@ -249,7 +270,7 @@ function attachPagePort(port: chrome.runtime.Port): void {
         port.postMessage({
           kind: 'DEBUG_EXPORT',
           at: Date.now(),
-          entries: debugEntries,
+          entries: allDebugEntries(),
           state: bridgeState(true),
         });
         break;
@@ -277,7 +298,7 @@ chrome.runtime.onMessage.addListener((message: { kind?: string; enabled?: boolea
         pickCount: mirror.picks.length,
         espnFrames: espnPorts.size,
         presentationTabs: pagePorts.size,
-        debugEntries: debugEntries.length,
+        debugEntries: debugSamples.length + debugParses.length,
       });
       return;
     }
@@ -296,7 +317,8 @@ chrome.runtime.onMessage.addListener((message: { kind?: string; enabled?: boolea
     if (message?.kind === 'POPUP_RESET') {
       mirror = emptyMirror();
       seen = new Set();
-      debugEntries = [];
+      debugSamples = [];
+      debugParses = [];
       lastSnapshot = null;
       lastMeta = null;
       void chrome.storage.local.remove(STORAGE_KEY);
@@ -305,7 +327,7 @@ chrome.runtime.onMessage.addListener((message: { kind?: string; enabled?: boolea
       return;
     }
     if (message?.kind === 'POPUP_EXPORT') {
-      respond({ entries: debugEntries, state: bridgeState(true) });
+      respond({ entries: allDebugEntries(), state: bridgeState(true) });
       return;
     }
     respond({ ok: false });
