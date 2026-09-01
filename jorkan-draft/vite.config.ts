@@ -5,7 +5,20 @@ import { PRESENTATION_PORT } from './shared/protocol';
 
 // The presentation is a single-page app; Vite's SPA fallback means
 // http://localhost:5173/presentation serves the same index.html.
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  /*
+   * `--mode hosted` builds the copy that is served from a web server, where
+   * there is no extension and no ESPN draft room to read - a television, a
+   * phone - so ESPN is read through the site's own /api/jorkan instead.
+   *
+   * This is defined here rather than in a .env file on purpose: .env.* is
+   * gitignored, so a file would never reach the machine that runs the real
+   * build, and the hosted page would come out quietly waiting for an
+   * extension that is not there.
+   */
+  define: {
+    'import.meta.env.VITE_HOSTED': JSON.stringify(mode === 'hosted' ? '1' : ''),
+  },
   plugins: [react()],
   resolve: {
     alias: {
@@ -28,4 +41,4 @@ export default defineConfig({
   },
   preview: { port: Number(PRESENTATION_PORT), strictPort: true },
   build: { outDir: 'dist', sourcemap: true, target: 'es2022' },
-});
+}));
