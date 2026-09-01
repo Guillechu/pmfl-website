@@ -389,6 +389,19 @@ extension/
 
 - The extension is **read only**. It never clicks, never submits, never
   changes ESPN's state, and cannot make a pick.
+- **Only this presentation can talk to the extension.** Chrome match patterns
+  cannot name a port, so the bridge script is injected into every page served
+  from `localhost` - it therefore refuses to attach unless the page is on port
+  5173 (which Vite pins), and re-checks before relaying anything. The
+  background worker independently verifies that every message and every
+  connection comes from this extension and from the origin appropriate to its
+  role: the ESPN reader must be on `fantasy.espn.com`, the presentation on the
+  local port above. Without those checks Chrome's defaults would let any other
+  installed extension, or any page on any local port, ask for the draft mirror
+  and the debug capture.
+- If you change the presentation's port, change `PRESENTATION_PORT` in
+  `shared/protocol.ts`: the server, the bridge and those origin checks all
+  read it from there.
 - No ESPN credentials are asked for, stored or transmitted. It reads the
   draft room you already have open.
 - No cookies, tokens, storage or browsing data are read or collected.

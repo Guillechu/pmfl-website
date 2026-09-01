@@ -1,5 +1,11 @@
 import type { BackgroundToPage, PageEnvelope, PageToBackground } from '@shared/protocol';
-import { PAGE_CHANNEL, PAGE_READY_ATTRIBUTE, PROTOCOL_VERSION, isPageEnvelope } from '@shared/protocol';
+import {
+  PAGE_CHANNEL,
+  PAGE_READY_ATTRIBUTE,
+  PRESENTATION_PORT,
+  PROTOCOL_VERSION,
+  isPageEnvelope,
+} from '@shared/protocol';
 
 /**
  * Presentation bridge.
@@ -17,7 +23,18 @@ let port: chrome.runtime.Port | null = null;
 let reconnectDelay = 400;
 let attached = false;
 
+/**
+ * Is this page really the presentation?
+ *
+ * The manifest matches http://localhost/* and http://127.0.0.1/*, and a match
+ * pattern cannot name a port - so this script is injected into every page
+ * served from loopback, including any other project's dev server. The marker
+ * attribute is not evidence by itself: any page can set it on itself. The
+ * port is the boundary that actually holds, so it is checked first and
+ * re-checked before every message we relay.
+ */
 function isPresentationPage(): boolean {
+  if (window.location.port !== PRESENTATION_PORT) return false;
   return document.querySelector(`[${PAGE_READY_ATTRIBUTE}]`) !== null;
 }
 
@@ -75,6 +92,9 @@ window.addEventListener('message', (event) => {
   if (event.source !== window) return;
   if (event.origin !== window.location.origin) return;
   if (!isPageEnvelope(event.data) || event.data.direction !== 'to-extension') return;
+  // Re-checked per message: a page could have added the marker after we
+  // attached, and nothing else stops it speaking the protocol.
+  if (!isPresentationPage()) return;
   send(event.data.payload as PageToBackground);
 });
 

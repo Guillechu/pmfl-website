@@ -17,6 +17,27 @@ export const PROTOCOL_VERSION = 1;
 /** window.postMessage channel between the bridge content script and the page. */
 export const PAGE_CHANNEL = 'jorkan-draft-bridge';
 
+/**
+ * The port the presentation is served on.
+ *
+ * This is a security boundary, not just a convenience. Chrome match patterns
+ * cannot express a port, so the bridge content script is injected into every
+ * page served from loopback; the port is what distinguishes the presentation
+ * from any other local server. Vite pins it with strictPort so it can never
+ * silently move. Change it here and the server, the bridge and the
+ * background's origin checks all follow.
+ */
+export const PRESENTATION_PORT = '5173';
+
+/** Origins the background will accept a presentation port from. */
+export const PRESENTATION_ORIGINS = [
+  `http://localhost:${PRESENTATION_PORT}`,
+  `http://127.0.0.1:${PRESENTATION_PORT}`,
+];
+
+/** The ESPN origin the observer content script is allowed to report from. */
+export const ESPN_ORIGIN = 'https://fantasy.espn.com';
+
 /** Marker the presentation page sets so the bridge knows it is on the right page. */
 export const PAGE_READY_ATTRIBUTE = 'data-jorkan-presentation';
 

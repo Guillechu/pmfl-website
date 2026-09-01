@@ -6,7 +6,7 @@ import type {
   PageToBackground,
   ParseMeta,
 } from '@shared/protocol';
-import { PROTOCOL_VERSION } from '@shared/protocol';
+import { ESPN_ORIGIN, PRESENTATION_ORIGINS, PROTOCOL_VERSION } from '@shared/protocol';
 import type { DraftSnapshot } from '@/types/draft';
 import { applySnapshot as foldSnapshot, emptyMirror, type Mirror } from './mirror';
 
@@ -117,9 +117,48 @@ function applySnapshot(snapshot: DraftSnapshot, meta: ParseMeta): void {
   broadcast({ kind: 'EVENTS', at: Date.now(), events: result.events });
 }
 
+/* ------------------------------- senders ------------------------------ */
+
+/**
+ * Who is allowed to talk to this worker.
+ *
+ * Chrome's default, when a manifest does not declare externally_connectable,
+ * is that *any other installed extension* may connect - only web pages are
+ * blocked. Since this worker will hand back a mirror of an authenticated ESPN
+ * draft room, every message and every port is checked against our own
+ * extension id, and then against the origin appropriate to the role the
+ * caller claims. The port name is chosen by the caller and proves nothing.
+ */
+function isOwnSender(sender: chrome.runtime.MessageSender | undefined): boolean {
+  return sender?.id === chrome.runtime.id;
+}
+
+function senderOrigin(sender: chrome.runtime.MessageSender | undefined): string | null {
+  const url = sender?.url;
+  if (!url) return null;
+  try {
+    return new URL(url).origin;
+  } catch {
+    return null;
+  }
+}
+
+function mayUsePort(port: chrome.runtime.Port): boolean {
+  if (!isOwnSender(port.sender)) return false;
+  const origin = senderOrigin(port.sender);
+  if (!origin) return false;
+  if (port.name === 'espn') return origin === ESPN_ORIGIN;
+  if (port.name === 'page') return PRESENTATION_ORIGINS.includes(origin);
+  return false;
+}
+
 /* -------------------------------- ports ------------------------------- */
 
 chrome.runtime.onConnect.addListener((port) => {
+  if (!mayUsePort(port)) {
+    port.disconnect();
+    return;
+  }
   void restore().then(() => {
     if (port.name === 'espn') attachEspnPort(port);
     else if (port.name === 'page') attachPagePort(port);
@@ -225,7 +264,12 @@ function attachPagePort(port: chrome.runtime.Port): void {
 
 /* ------------------------------- popup -------------------------------- */
 
-chrome.runtime.onMessage.addListener((message: { kind?: string; enabled?: boolean }, _sender, respond) => {
+chrome.runtime.onMessage.addListener((message: { kind?: string; enabled?: boolean }, sender, respond) => {
+  // Only our own popup. Another extension asking to turn on debug capture and
+  // hand back what it collected is exactly the request to refuse.
+  if (!isOwnSender(sender) || senderOrigin(sender) !== `chrome-extension://${chrome.runtime.id}`) {
+    return false;
+  }
   void restore().then(() => {
     if (message?.kind === 'POPUP_STATE') {
       respond({
