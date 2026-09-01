@@ -1,5 +1,5 @@
 import type { DebugEntry } from '@shared/protocol';
-import { compactAtoms, rowContainer, textAtoms, visibleText } from './dom';
+import { compactAtoms, isVisible, rowContainer, textAtoms, visibleText } from './dom';
 import * as P from './patterns';
 
 /**
@@ -174,7 +174,7 @@ export function collectPickCandidates(): DebugEntry[] {
  * A shallow map of the page: enough structure to see where the draft board,
  * the history feed and the clock actually live.
  */
-export function collectOutline(maxDepth = 9, budget = 90): DebugEntry[] {
+export function collectOutline(maxDepth = 9, budget = 90, textLimit = 320): DebugEntry[] {
   const out: DebugEntry[] = [];
   const walk = (el: Element, depth: number): void => {
     if (depth > maxDepth || out.length >= budget) return;
@@ -188,7 +188,7 @@ export function collectOutline(maxDepth = 9, budget = 90): DebugEntry[] {
         data: {
           ...describeBriefly(child),
           childCount: child.children.length,
-          text: sanitize(text).slice(0, 160),
+          text: sanitize(text).slice(0, textLimit),
         },
       });
       walk(child, depth + 1);
@@ -245,6 +245,11 @@ export function collectHeadshotRows(): DebugEntry[] {
     document.querySelectorAll('img[src*="headshots/nfl/players"], img[data-src*="headshots/nfl/players"]'),
   );
   for (const image of images) {
+    // ESPN leaves the Players tab rendered behind display:none while another
+    // tab is open, and it comes first in the document - so without this the
+    // hidden available-player list ate the whole budget and the visible panel
+    // was never captured.
+    if (!isVisible(image)) continue;
     const row = rowContainer(image, 5);
     if (seen.has(row)) continue;
     seen.add(row);
@@ -259,6 +264,34 @@ export function collectHeadshotRows(): DebugEntry[] {
       },
     });
     if (out.length >= 6) break;
+  }
+  return out;
+}
+
+/**
+ * Rows of ESPN's Pick History panel, with their markup.
+ *
+ * The panel's text was what finally gave up the completed board; capturing
+ * the elements around it is what lets the reader be adapted if ESPN moves
+ * them. Matched on the same six-part shape the parser uses, so this cannot
+ * fill the export with unrelated rows.
+ */
+export function collectPickHistoryRows(): DebugEntry[] {
+  const out: DebugEntry[] = [];
+  for (const atom of compactAtoms(document, 90)) {
+    if (!P.PICK_HISTORY_ROW.test(atom.text)) continue;
+    const row = rowContainer(atom.el, 3);
+    out.push({
+      at: Date.now(),
+      kind: 'dom-sample',
+      message: 'region:pick-history-row',
+      data: {
+        text: sanitize(atom.text),
+        ...describeBriefly(row),
+        html: sanitize(row.outerHTML ?? '').slice(0, 1800),
+      },
+    });
+    if (out.length >= 4) break;
   }
   return out;
 }
@@ -282,6 +315,7 @@ export function collectDiagnostics(): DebugEntry[] {
     ...collectClockCandidates(),
     ...collectPickCandidates(),
     ...collectDraftResultsPanel(),
+    ...collectPickHistoryRows(),
     ...collectHeadshotRows(),
     ...collectOutline(),
   ];

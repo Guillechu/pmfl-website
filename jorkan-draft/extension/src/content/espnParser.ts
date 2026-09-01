@@ -8,6 +8,7 @@ import { resolveNflTeam, espnHeadshotUrl, nflLogoUrl } from '@/data/nflTeams';
 import { makeEventId } from '@/core/dedupe';
 import { coordsFromOverall, isValidOverall, overallFrom, slotForOverall } from '@/core/snake';
 import {
+  compactAtoms,
   findByPhrase,
   findHeadshot,
   findPlayerId,
@@ -100,7 +101,18 @@ export function parseDraftRoom(input: ParseInput): ParseOutput {
   // Where the draft is right now, read before the board, because it is what
   // the board is checked against.
   const coords = detectCoords(atoms, compact, probe, current, recorder);
-  const onTheClockPick = recorder.strategies['coords'] ? (coords?.overallPick ?? null) : null;
+  /*
+   * Only a reading of the room's own "on the clock" may trim the board.
+   *
+   * The trim exists to overrule a feed that lists picks which have not
+   * happened, so it has to come from a statement about *now*. A bare
+   * coordinate found in page text is not that - a Pick History row reading
+   * "R1, P1" would set the clock to pick 1 and delete the entire board it
+   * was just read from.
+   */
+  const CLOCK_COORDS = new Set(['main-world', 'dom-current-pick', 'text-overall']);
+  const coordsFrom = recorder.strategies['coords'];
+  const onTheClockPick = coordsFrom && CLOCK_COORDS.has(coordsFrom) ? (coords?.overallPick ?? null) : null;
 
   const picks = detectPicks(
     root,
@@ -196,6 +208,76 @@ function confidenceFor(snapshot: DraftSnapshot, strategies: Record<string, strin
 }
 
 /* -------------------- ESPN's own draft-room modules -------------------- */
+
+/**
+ * ESPN's Pick History panel: the completed board, in the room's own words.
+ *
+ * Captured from a live draft room, one row reads
+ *
+ *   Jahmyr Gibbs / DET RBR1, P1 - El Dandy
+ *
+ * which is a whole selection in a single string. Every part is checked
+ * against something real - the club against the NFL, the drafting team
+ * against this league, the coordinate against the snake - so unlike the
+ * loose text reading it stands in for, this cannot match page furniture: a
+ * logo has no club, no position, no coordinate and no team.
+ *
+ * The panel is a tab, so this finds nothing unless someone has it open. That
+ * is exactly right: it is the fallback for a room whose draft feed is not
+ * carrying who was drafted, which is what a practice room does.
+ */
+function readPickHistory(root: ParentNode, leagueId: string): DraftPick[] {
+  const picks: DraftPick[] = [];
+  const seen = new Set<number>();
+
+  for (const atom of compactAtoms(root, 90)) {
+    const match = atom.text.match(P.PICK_HISTORY_ROW);
+    if (!match) continue;
+    const [, rawName, rawClub, rawPosition, rawRound, rawPick, rawTeam] = match;
+    if (!rawName || !rawClub || !rawPosition || !rawRound || !rawPick || !rawTeam) continue;
+
+    const nfl = resolveNflTeam(rawClub);
+    const team = resolveTeam(rawTeam);
+    if (!nfl || !team) continue;
+
+    const coords = coordsFromLabelled(Number(rawRound), Number(rawPick));
+    if (!coords || seen.has(coords.overallPick)) continue;
+
+    const name = rawName.trim();
+    if (name.length < 3) continue;
+    seen.add(coords.overallPick);
+
+    const row = rowContainer(atom.el, 3);
+    const espnId = findPlayerId(atom.el) ?? findPlayerId(row);
+    const headshot = findHeadshot(atom.el) ?? findHeadshot(row) ?? espnHeadshotUrl(espnId) ?? null;
+    const logo = nflLogoUrl(nfl.abbr);
+
+    picks.push(
+      finishPick(
+        {
+          overallPick: coords.overallPick,
+          round: coords.round,
+          pickInRound: coords.pickInRound,
+          player: {
+            name,
+            position: normalizePosition(rawPosition),
+            rawPosition,
+            ...(espnId ? { espnId } : {}),
+            nflTeamAbbr: nfl.abbr,
+            nflTeamName: nfl.name,
+            ...(headshot ? { headshotUrl: headshot } : {}),
+            ...(logo ? { teamLogoUrl: logo } : {}),
+          },
+          fantasyTeamId: team.id,
+          fantasyTeamName: team.name,
+          managerName: team.manager.name,
+        },
+        leagueId,
+      ),
+    );
+  }
+  return picks;
+}
 
 /**
  * What ESPN's current-pick module says.
@@ -595,6 +677,15 @@ function detectPicks(
   //    reliably exists at all.
   for (const pick of apiPicks) byOverall.set(pick.overallPick, pick);
   if (byOverall.size > 0) recorder.use('picks', 'espn-api', byOverall.size);
+
+  // 0b. ESPN's Pick History panel, when someone has it open. This is what
+  //     carries the board in a room whose feed does not.
+  for (const pick of readPickHistory(root, leagueId)) {
+    if (!byOverall.has(pick.overallPick)) byOverall.set(pick.overallPick, pick);
+  }
+  if (byOverall.size > 0 && !recorder.strategies['picks']) {
+    recorder.use('picks', 'dom-pick-history', byOverall.size);
+  }
 
   // 1. Structured state, when ESPN gives it to us.
   if (probe?.picks?.length) {

@@ -88,6 +88,21 @@ export const TEAM_POSITION =
 export const GENERIC_IMAGE_ALT =
   /^(?:(?:nfl|espn|team|pro|player|club|league|default)\s+)*(?:logo|logotype|image|photo|picture|headshot|avatar|crest|icon|mug|thumbnail|placeholder)s?$/i;
 
+/**
+ * One row of ESPN's Pick History panel, captured verbatim from a live room:
+ *
+ *   Jahmyr Gibbs / DET RBR1, P1 - El Dandy
+ *   Jonathan Taylor / IND RBR1, P2 - Hospital Nicolas Solano
+ *
+ * Six parts in one string - player, NFL club, position, round, pick and the
+ * team that took him - which is the whole of a selection and the reason this
+ * can be trusted where looser reads could not. Note there is no space
+ * between the position and the "R": the panel renders two lines and the text
+ * runs together.
+ */
+export const PICK_HISTORY_ROW =
+  /^(.{2,40}?)\s*\/\s*([A-Za-z]{2,4})\s+(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\s*R\s*(\d{1,2})\s*,\s*P\s*(\d{1,2})\s*[-\u2013]\s*(.{2,60}?)\s*$/i;
+
 /** "selected", "drafted by", "selects" - links a player to a fantasy team. */
 export const SELECTED_BY = /\b(?:selected|drafted)\s+by\b|\bselects\b/i;
 

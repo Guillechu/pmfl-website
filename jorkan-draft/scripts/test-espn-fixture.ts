@@ -24,6 +24,7 @@ import { pathToFileURL } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const fixture = resolve(root, 'fixtures/espn-2026-draft-room.html');
 const furniture = resolve(root, 'fixtures/espn-2026-furniture.html');
+const pickHistory = resolve(root, 'fixtures/espn-2026-pick-history.html');
 
 interface ParseResultShape {
   snapshot: {
@@ -34,7 +35,13 @@ interface ParseResultShape {
     clockMs: number | null;
     onTheClock: { fantasyTeamName: string } | null;
     onDeck: { fantasyTeamName: string } | null;
-    picks: unknown[];
+    picks: {
+      overallPick: number;
+      round: number;
+      pickInRound: number;
+      fantasyTeamName: string;
+      player: { name: string; position: string; nflTeamAbbr?: string; espnId?: string };
+    }[];
   };
   meta: { strategies: Record<string, string>; confidence: number; warnings: string[]; durationMs: number };
 }
@@ -188,6 +195,30 @@ async function main(): Promise<void> {
   );
   check(flooded.snapshot.phase === 'in_progress', 'the draft is not declared over', flooded.snapshot.phase);
   check(meta.durationMs < 60, 'parse stays cheap', `${meta.durationMs}ms`);
+
+  // ESPN's Pick History panel, which is where the board comes from in a room
+  // whose draft feed carries no players.
+  const third = await browser2.newPage();
+  await third.goto(pathToFileURL(pickHistory).href);
+  await third.addScriptTag({ content: script });
+  const history = (await third.evaluate('__jorkanParse()')) as ParseResultShape;
+  console.log('\nESPN Pick History panel (captured text, reconstructed markup)');
+  console.log('  picks:', JSON.stringify(history.snapshot.picks.map((p) => `${p.round}.${p.pickInRound} ${p.player.name} ${p.player.position} ${p.player.nflTeamAbbr} -> ${p.fantasyTeamName}`), null, 1));
+  check(history.snapshot.picks.length === 5, 'every pick history row is read', `${history.snapshot.picks.length}`);
+  check(history.meta.strategies['picks'] === 'dom-pick-history', 'and is recorded as such', history.meta.strategies['picks'] ?? 'none');
+  const first = history.snapshot.picks[0];
+  check(first?.player.name === 'Jahmyr Gibbs', 'the player is named', String(first?.player.name));
+  check(first?.player.position === 'RB', 'the position is read', String(first?.player.position));
+  check(first?.player.nflTeamAbbr === 'DET', 'the NFL club is read', String(first?.player.nflTeamAbbr));
+  check(first?.fantasyTeamName === 'El Dandy', 'the drafting team is read', String(first?.fantasyTeamName));
+  check(first?.player.espnId === '4429795', 'the ESPN player id comes off the headshot', String(first?.player.espnId));
+  check(
+    history.snapshot.picks.every((p) => p.player.name !== 'Jahmyr Gibbs' || p.overallPick === 1),
+    'the hidden Players tab is not read as a board',
+  );
+  const dst = history.snapshot.picks.find((p) => p.overallPick === 13);
+  check(dst?.player.position === 'DST', 'a defence is read as a defence', String(dst?.player.position));
+  await third.close();
 
   // Page furniture must never become a pick.
   const second = await browser2.newPage();
