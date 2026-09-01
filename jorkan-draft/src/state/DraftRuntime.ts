@@ -75,6 +75,17 @@ export class DraftRuntime {
     await this.attach(new EspnDraftProvider());
   }
 
+  /**
+   * Switch to ESPN read through this site's own server.
+   *
+   * For the hosted page, where there is no extension and no draft room -
+   * a television's browser, a phone.
+   */
+  async useHostedEspn(): Promise<void> {
+    const { HostedEspnProvider } = await import('@/providers/HostedEspnProvider');
+    await this.attach(new HostedEspnProvider());
+  }
+
   /** Switch to the simulator. Development and rehearsal only. */
   async useSimulator(): Promise<void> {
     const { SimulatorProvider } = await import('@/providers/SimulatorProvider');

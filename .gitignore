@@ -54,3 +54,6 @@ out/
 # app/media (código fuente de la página /media) y public/media (miniaturas).
 # Por eso la página de Media se perdió sin que saltara ningún error.
 # No añadir patrones sin anclar: usa "/ruta/concreta".
+
+# Built by `npm run build:jorkan` from jorkan-draft/.
+/public/jorkan

@@ -1,4 +1,5 @@
 import type { DraftPick } from '@/types/draft';
+import type { TeamRef } from '@/types/league';
 import { LEAGUE, resolveTeam, teamBySlot } from '@/config/league';
 import { normalizePosition } from '@/types/player';
 import { makeEventId } from '@/core/dedupe';
@@ -43,6 +44,16 @@ export interface ApiDraftState {
   picks: DraftPick[];
   drafted: boolean;
   inProgress: boolean;
+  /**
+   * ESPN's own draft order: which team owns each of the 180 slots.
+   *
+   * Every slot carries its teamId from the moment the room exists, long
+   * before anyone has picked - so this is the order as ESPN will actually run
+   * it, not the one written down in our config. Reading it is what stops the
+   * broadcast naming the wrong team on the clock, and it is the only way to
+   * know who is up at all when there is no draft room on screen to read.
+   */
+  order: Array<{ overallPick: number; team: TeamRef }>;
   /** Player ids ESPN reported that we could not put a name to. */
   unnamed: number[];
   /**
@@ -166,7 +177,31 @@ export class EspnDraftApi {
   constructor(
     private readonly leagueId: string,
     private readonly season: number = LEAGUE.season,
+    /**
+     * A same-origin path that makes the ESPN call server-side, for pages that
+     * are not inside a signed-in ESPN tab - a television, a phone. Null reads
+     * ESPN directly, which only works from the draft room's own origin.
+     */
+    private readonly readerPath: string | null = null,
   ) {}
+
+  /** Where a set of views is read from, and how the filter travels. */
+  private endpoint(views: string[], filter?: unknown): string {
+    const params = new URLSearchParams();
+    for (const view of views) params.append('view', view);
+    if (this.readerPath) {
+      // Server-side reader: the filter is a query parameter, since a browser
+      // may not set the header ESPN reads it from on a cross-origin request.
+      if (filter !== undefined) params.set('filter', JSON.stringify(filter));
+      return `${this.readerPath}?${params.toString()}`;
+    }
+    return `${FFL(this.season)}/segments/0/leagues/${encodeURIComponent(this.leagueId)}?${params.toString()}`;
+  }
+
+  /** The filter as getJson wants it: a header for ESPN, nothing for the reader. */
+  private headerFilter(filter: unknown): unknown {
+    return this.readerPath ? undefined : filter;
+  }
 
   get error(): string | null {
     return this.lastError;
@@ -176,9 +211,7 @@ export class EspnDraftApi {
   async read(): Promise<ApiDraftState | null> {
     let payload: unknown;
     try {
-      payload = await getJson(
-        `${FFL(this.season)}/segments/0/leagues/${encodeURIComponent(this.leagueId)}?view=mDraftDetail&view=mTeam`,
-      );
+      payload = await getJson(this.endpoint(['mDraftDetail', 'mTeam']));
     } catch (error) {
       const status = error instanceof FeedError ? error.status : null;
       this.lastError =
@@ -212,9 +245,14 @@ export class EspnDraftApi {
 
     const picks: DraftPick[] = [];
     const unnamed: number[] = [];
+    const order: ApiDraftState['order'] = [];
     let placeholders = 0;
     for (const raw of rawPicks) {
       const row = asRecord(raw);
+      // The order is read from every slot, filled or not: an empty slot still
+      // says whose turn it is, which is exactly what we need before a pick.
+      const slot = this.toOrderEntry(row);
+      if (slot) order.push(slot);
       if ((asNumber(row?.['playerId']) ?? -1) <= 0) {
         placeholders += 1;
         continue;
@@ -223,6 +261,7 @@ export class EspnDraftApi {
       if (built) picks.push(built);
     }
     picks.sort((a, b) => a.overallPick - b.overallPick);
+    order.sort((a, b) => a.overallPick - b.overallPick);
     if (placeholders > 0 && picks.length === 0) {
       warnings.push(
         `ESPN's feed listed ${placeholders} pick slots with no player in them - it is not carrying who was drafted`,
@@ -231,11 +270,27 @@ export class EspnDraftApi {
 
     return {
       picks,
+      order,
       drafted: detail?.['drafted'] === true,
       inProgress: detail?.['inProgress'] === true,
       unnamed,
       placeholders,
       warnings,
+    };
+  }
+
+  /** Who owns one slot of the draft, whether or not it has been used. */
+  private toOrderEntry(row: Record<string, unknown> | null): { overallPick: number; team: TeamRef } | null {
+    if (!row) return null;
+    const overallPick = asNumber(row['overallPickNumber']);
+    if (!overallPick || !isValidOverall(overallPick)) return null;
+    const espnTeamId = asNumber(row['teamId']);
+    const name = espnTeamId !== null ? this.teamNames.get(espnTeamId) : undefined;
+    const team = resolveTeam(name ?? null);
+    if (!team) return null;
+    return {
+      overallPick,
+      team: { fantasyTeamId: team.id, fantasyTeamName: team.name, managerName: team.manager.name },
     };
   }
 
@@ -265,9 +320,10 @@ export class EspnDraftApi {
    */
   private async loadPlayers(ids: number[], warnings: string[]): Promise<void> {
     try {
+      const filter = { players: { filterIds: { value: ids }, limit: ids.length } };
       const payload = await getJson(
-        `${FFL(this.season)}/segments/0/leagues/${encodeURIComponent(this.leagueId)}?view=kona_player_info`,
-        { players: { filterIds: { value: ids }, limit: ids.length } },
+        this.endpoint(['kona_player_info'], filter),
+        this.headerFilter(filter),
       );
       const root = asRecord(payload);
       const entries = Array.isArray(root?.['players']) ? (root['players'] as unknown[]) : [];

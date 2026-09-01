@@ -21,6 +21,18 @@ const nextConfig = {
     ],
   },
 
+  // La transmision del draft de la Jorkan League es una aplicacion aparte,
+  // construida desde jorkan-draft/ hacia public/jorkan. Next sirve archivos
+  // de public/ tal cual, pero no entrega un index.html por entrar a la
+  // carpeta, asi que /jorkan se reescribe al archivo. El resto del sitio de
+  // la PMFL no se toca.
+  async rewrites() {
+    return [
+      { source: "/jorkan", destination: "/jorkan/index.html" },
+      { source: "/jorkan/", destination: "/jorkan/index.html" },
+    ];
+  },
+
   // El dominio oficial es pmfl.com.pa. El antiguo pmflpanama.com redirige a él
   // (308 permanente) conservando la ruta, para no perder enlaces ni SEO.
   async redirects() {

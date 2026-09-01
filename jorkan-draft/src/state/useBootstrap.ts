@@ -20,13 +20,24 @@ export function useBootstrap(): void {
     bootstrapped = true;
 
     const runtime = getRuntime();
-    const wantsSimulator =
-      import.meta.env.DEV && new URLSearchParams(window.location.search).get('sim') === '1';
+    const params = new URLSearchParams(window.location.search);
+    const wantsSimulator = import.meta.env.DEV && params.get('sim') === '1';
+    /*
+     * Two ways to reach the same draft. On a machine sitting in the ESPN
+     * draft room the extension is the source; on the hosted page - opened on
+     * a television or a phone, with nothing installed - the site's own server
+     * reads ESPN instead. The build decides, and ?hosted=1 lets the hosted
+     * path be tried from a development server.
+     */
+    const hosted = import.meta.env.VITE_HOSTED === '1' || params.get('hosted') === '1';
 
     void (async () => {
       if (wantsSimulator) {
         await runtime.useSimulator();
         debugLog('note', 'attached draft simulator (?sim=1)');
+      } else if (hosted) {
+        await runtime.useHostedEspn();
+        debugLog('note', 'attached hosted ESPN reader');
       } else {
         await runtime.useEspn();
         debugLog('note', 'attached ESPN provider; waiting for the extension bridge');
