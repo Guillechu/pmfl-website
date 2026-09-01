@@ -195,6 +195,43 @@ generated bed - quiet, seamless, and nothing to license. The bed ducks
 automatically whenever the announcer speaks; the depth is the **Duck under
 announcer** slider.
 
+## Putting it on the web, as its own site
+
+The extension exists because an ESPN draft room is a page only a signed-in
+browser can see. This league, though, is readable from ESPN's public feed with
+no session at all - which means a television or a phone can watch the draft
+with nothing installed. That is what `api/jorkan.ts` is for: a browser may not
+read another site directly, so the call is made from the server instead.
+
+**This is a site of its own. It does not go into the PMFL website**, which is
+a different project in the same repository and is not touched by any of it.
+
+Create a new project on Vercel from this repository and set:
+
+| Setting | Value |
+| --- | --- |
+| Root Directory | `jorkan-draft` |
+| Framework Preset | Vite |
+| Build Command | `npm run build:web` (already in `vercel.json`) |
+| Output Directory | `dist` |
+
+Everything else is in `vercel.json`: the ESPN reader is deployed from `api/`,
+and every other path serves the presentation. Point whatever domain you like
+at that project.
+
+Two things this path cannot do, and does not pretend to:
+
+- **No pick clock.** ESPN's public feed carries no countdown, so the hosted
+  page shows none and there is no ticking under the last five seconds. The
+  number is not there, and a made-up one on the television is worse than
+  nothing. The extension path still has the real clock.
+- **It needs the league to stay readable without a session.** Check it any
+  time by opening this in a private window - JSON means yes, a 401 means no:
+  `https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl/seasons/2026/segments/0/leagues/1314329848?view=mDraftDetail`
+
+Audio still needs one click on the device that will play it; browsers allow no
+sound before that. The **ENABLE SOUND** button in the header is that click.
+
 ## How to change the sound effects
 
 Drop audio into `public/audio/` using these names, in any of `.mp3`, `.m4a`,

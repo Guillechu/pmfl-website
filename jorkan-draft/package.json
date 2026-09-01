@@ -19,7 +19,7 @@
     "test:espn-fixture": "tsx scripts/test-espn-fixture.ts",
     "test:espn-api": "tsx scripts/test-espn-api.ts",
     "test:voice": "tsx scripts/test-voice.ts",
-    "build:web": "vite build --mode hosted --base=/jorkan/ --outDir ../public/jorkan --emptyOutDir"
+    "build:web": "vite build --mode hosted"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",
