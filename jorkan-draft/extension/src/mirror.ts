@@ -1,3 +1,4 @@
+import { LEAGUE } from '@/config/league';
 import type { DraftPhase, DraftPick, DraftSnapshot } from '@/types/draft';
 import type { ProviderEvent } from '@/types/events';
 import type { ParseMeta } from '@shared/protocol';
@@ -73,11 +74,34 @@ export function startNewLeague(
   if (!leagueId) return false;
   if (mirror.leagueId === leagueId) return false;
   const hadState = mirror.picks.length > 0 || mirror.phase !== 'idle';
-  // Someone else is still live in here.
+
+  /*
+   * The league's own draft outranks every rehearsal.
+   *
+   * The silence rule below is right for two mock rooms, which are equals -
+   * but the real draft is not anyone's equal. It takes the mirror the moment
+   * it reports, even with a mock draft still live in another tab, and once it
+   * has it nothing takes it away for the rest of the night. A forgotten
+   * rehearsal cannot end up on the television on draft night.
+   */
+  if (isTheLeaguesOwnDraft(leagueId)) {
+    Object.assign(mirror, emptyMirror(), { leagueId });
+    seen.clear();
+    return hadState;
+  }
+  if (isTheLeaguesOwnDraft(mirror.leagueId)) return false;
+
+  // Two rehearsals, then: the one still reporting keeps it, and only silence
+  // hands it over.
   if (hadState && now - mirror.updatedAt < quietMs) return false;
   Object.assign(mirror, emptyMirror(), { leagueId });
   seen.clear();
   return hadState;
+}
+
+/** True for the draft this presentation exists to televise, and nothing else. */
+export function isTheLeaguesOwnDraft(leagueId: string | null): boolean {
+  return leagueId !== null && leagueId === LEAGUE.espnLeagueId;
 }
 
 export interface ApplyResult {

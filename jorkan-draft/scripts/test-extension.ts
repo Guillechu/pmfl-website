@@ -259,6 +259,9 @@ function joiningMidDraft(): void {
  * on the next is what filled the board to 180 and made the presentation
  * declare a draft that had barely started already over - after which it
  * ignored the clock, the round, the board, the rosters and every new pick.
+ *
+ * The league's own draft is not any room's equal: it takes the mirror on
+ * sight, even with a rehearsal still live in another tab, and keeps it.
  */
 function rehearsalThenTheRealDraft(): void {
   const mirror = emptyMirror();
@@ -272,30 +275,62 @@ function rehearsalThenTheRealDraft(): void {
   applySnapshot(mirror, seen, mock, meta(), { snapshotTail: 40, bestConfidence: null, now: startedAt });
   check(mirror.picks.length === 180, 'rehearsal: the mock board fills', `${mirror.picks.length}`);
 
-  // A second room reporting while the first is still live must not wipe it:
-  // both keep reporting every second and a half, and switching on sight would
-  // have them clear each other's board several times a second.
+  // The real draft reports while the mock room is still very much alive.
   const real = snapshotFor(2, [pickAt(1)]);
   real.leagueId = LEAGUE.espnLeagueId;
-  applySnapshot(mirror, seen, real, meta(), {
+  const result = applySnapshot(mirror, seen, real, meta(), {
     snapshotTail: 40,
     bestConfidence: null,
     now: startedAt + 1_500,
   });
-  check(mirror.leagueId === 'mock-2036757808', 'two live rooms: the one reporting keeps it', String(mirror.leagueId));
-  check(mirror.picks.length === 180, 'two live rooms: no board is wiped', `${mirror.picks.length}`);
+  check(mirror.leagueId === LEAGUE.espnLeagueId, 'the real draft takes over on sight', String(mirror.leagueId));
+  check(mirror.picks.length === 1, 'the mock board is gone', `${mirror.picks.length} picks`);
+  check(countPicks(result.events) === 1, 'the first real pick is live', `${countPicks(result.events)}`);
+  check(!result.backfilled, 'one pick is not history');
 
-  // Once the rehearsal goes quiet - closed, or navigated away - the real
-  // draft takes over.
-  const result = applySnapshot(mirror, seen, real, meta(), {
+  // And the forgotten mock, still reporting every second and a half, can no
+  // longer take the television back.
+  applySnapshot(mirror, seen, mock, meta(), {
+    snapshotTail: 40,
+    bestConfidence: null,
+    now: startedAt + LEAGUE_HANDOVER_QUIET_MS + 5_000,
+  });
+  check(mirror.leagueId === LEAGUE.espnLeagueId, 'a rehearsal cannot take it back', String(mirror.leagueId));
+  check(mirror.picks.length === 1, 'nor put its board back up', `${mirror.picks.length} picks`);
+}
+
+/**
+ * Two rehearsals at once, where neither is the league's own draft.
+ *
+ * Here the rooms really are equals, so the one still reporting keeps the
+ * mirror and only silence hands it over - switching on sight would have them
+ * wipe each other's board several times a second.
+ */
+function twoRehearsalsAtOnce(): void {
+  const mirror = emptyMirror();
+  const seen = new Set<string>();
+  const startedAt = Date.now();
+
+  const first = snapshotFor(60, Array.from({ length: 59 }, (_, index) => pickAt(index + 1)));
+  first.leagueId = 'mock-first';
+  applySnapshot(mirror, seen, first, meta(), { snapshotTail: 40, bestConfidence: null, now: startedAt });
+
+  const second = snapshotFor(2, [pickAt(1)]);
+  second.leagueId = 'mock-second';
+  applySnapshot(mirror, seen, second, meta(), {
+    snapshotTail: 40,
+    bestConfidence: null,
+    now: startedAt + 1_500,
+  });
+  check(mirror.leagueId === 'mock-first', 'two rehearsals: the one reporting keeps it', String(mirror.leagueId));
+  check(mirror.picks.length === 59, 'two rehearsals: no board is wiped', `${mirror.picks.length}`);
+
+  applySnapshot(mirror, seen, second, meta(), {
     snapshotTail: 40,
     bestConfidence: null,
     now: startedAt + LEAGUE_HANDOVER_QUIET_MS + 1_000,
   });
-  check(mirror.leagueId === LEAGUE.espnLeagueId, 'real draft: the league switches', String(mirror.leagueId));
-  check(mirror.picks.length === 1, 'real draft: the mock board is gone', `${mirror.picks.length} picks`);
-  check(countPicks(result.events) === 1, 'real draft: its first pick is live', `${countPicks(result.events)}`);
-  check(!result.backfilled, 'real draft: one pick is not history');
+  check(mirror.leagueId === 'mock-second', 'two rehearsals: silence hands it over', String(mirror.leagueId));
 }
 
 function clockChatter(): void {
@@ -321,6 +356,7 @@ function main(): void {
   serviceWorkerRestart();
   joiningMidDraft();
   rehearsalThenTheRealDraft();
+  twoRehearsalsAtOnce();
   clockChatter();
 
   if (failures.length > 0) {

@@ -1,4 +1,6 @@
 import type { BridgeState } from '@shared/protocol';
+import { LEAGUE } from '@/config/league';
+import { isTheLeaguesOwnDraft } from '../mirror';
 
 /** Small status panel: is the bridge seeing ESPN, and is the TV connected. */
 
@@ -31,6 +33,16 @@ function render(data: PopupState): void {
   row('Observer', state.observerActive ? 'watching' : 'idle', state.observerActive ? 'ok' : 'warn');
   row('Presentation', data.presentationTabs > 0 ? 'connected' : 'not open', data.presentationTabs > 0 ? 'ok' : 'warn');
   row('League', state.leagueId ?? '--');
+  // Which draft this is matters more than its number. A rehearsal on the
+  // television on draft night is the failure this row exists to make obvious.
+  row(
+    'Draft',
+    state.leagueId === null
+      ? '--'
+      : isTheLeaguesOwnDraft(state.leagueId)
+        ? `${LEAGUE.name} - the real draft`
+        : 'rehearsal (not the real draft)',
+  );
   row('Draft phase', state.phase);
   row('Picks mirrored', String(data.pickCount));
   // Where the board is actually coming from. "ESPN feed" is the one that
