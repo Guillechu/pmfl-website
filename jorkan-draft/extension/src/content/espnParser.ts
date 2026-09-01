@@ -109,19 +109,59 @@ export function parseDraftRoom(input: ParseInput): ParseOutput {
     capturedAt: Date.now(),
   };
 
-  const expected = ['phase', 'clock', 'coords', 'onTheClock', 'picks'];
-  const got = expected.filter((field) => recorder.strategies[field]).length;
-
   return {
     snapshot,
     meta: {
       parserVersion: PARSER_VERSION,
       strategies: recorder.strategies,
-      confidence: got / expected.length,
+      confidence: confidenceFor(snapshot, recorder.strategies),
       warnings: recorder.warnings,
       durationMs: Math.round(performance.now() - startedAt),
     },
   };
+}
+
+/**
+ * How much of what the page *could* show did we actually read?
+ *
+ * Scored against the current phase rather than a fixed list. A pre-draft room
+ * has no clock, no team on the clock and no picks; counting those absences as
+ * failures reported a perfectly healthy read as 20% and made the popup look
+ * broken when nothing was wrong. Likewise there are genuinely no picks yet at
+ * 1.01, and a finished draft has no clock.
+ */
+function confidenceFor(snapshot: DraftSnapshot, strategies: Record<string, string>): number {
+  const expected: string[] = ['phase'];
+
+  switch (snapshot.phase) {
+    case 'in_progress':
+    case 'paused':
+      expected.push('clock', 'coords', 'onTheClock');
+      // Picks only count once at least one selection should exist.
+      if ((snapshot.overallPick ?? 1) > 1) expected.push('picks');
+      break;
+    case 'complete':
+      expected.push('picks');
+      break;
+    case 'waiting':
+      // Knowing the draft has not started is the whole of a correct read here.
+      break;
+    default:
+      // 'idle' means we could not tell what the page is - that is a real miss.
+      return 0;
+  }
+
+  /*
+   * Only what we actually read from ESPN counts. A field filled in from the
+   * configured draft order is a fallback, not a reading - and it is exactly
+   * the case where the TV can end up showing the wrong team, so it must not
+   * flatter the score.
+   */
+  const got = expected.filter((field) => {
+    const strategy = strategies[field];
+    return strategy !== undefined && !strategy.startsWith('derived');
+  }).length;
+  return expected.length === 0 ? 1 : got / expected.length;
 }
 
 /* ------------------------------- phase -------------------------------- */
