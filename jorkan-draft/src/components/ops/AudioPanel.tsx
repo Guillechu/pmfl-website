@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react';
 import { patchAudio } from '@/state/settingsStore';
-import { useRuntime, useSettings } from '@/state/hooks';
+import { useRuntime, useSettings, useUi } from '@/state/hooks';
 import { getDirector } from '@/audio/Director';
 import { SpeechSynthesisProvider } from '@/audio/tts/SpeechSynthesisProvider';
 import { loadPronunciations, savePronunciations, type PronunciationRule } from '@/config/pronunciations';
 import { MOCK_PLAYER_POOL } from '@/data/mockPlayers';
 import { LEAGUE } from '@/config/league';
 import { pickLine } from '@/audio/phrases';
+import { armPresentation } from '@/state/useAudioDirector';
 import { OpsButton, OpsPanel, OpsRow, OpsSection, OpsSlider, OpsToggle } from './OpsPanel';
 
 /** Volume mixer, voice settings and pronunciation overrides. Key: M */
 export function AudioPanel({ onClose }: { onClose: () => void }) {
   const runtime = useRuntime();
+  const ui = useUi();
   const settings = useSettings();
   const audio = settings.audio;
   const director = getDirector(runtime);
@@ -107,7 +109,24 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
           onChange={(voicePitch) => patchAudio({ voicePitch })}
           format={(value) => value.toFixed(2)}
         />
+        {/*
+          Everything below is silent until a click unlocks the browser's
+          audio, and the only place to do that used to be the pre-draft
+          screen - so pressing "Test announcer" after a mid-draft reload did
+          nothing at all, with no way to tell why.
+        */}
+        {!ui.armed ? (
+          <p className="pt-[0.2rem] text-tv-xs leading-relaxed text-gold-600">
+            Sound is off until you enable it - the browser blocks audio until something is
+            clicked. Press <strong>Enable sound</strong> below or in the header.
+          </p>
+        ) : null}
         <div className="flex flex-wrap gap-[0.3rem] pt-[0.2rem]">
+          {!ui.armed ? (
+            <OpsButton tone="primary" onClick={() => void armPresentation()}>
+              Enable sound
+            </OpsButton>
+          ) : null}
           <OpsButton
             tone="primary"
             onClick={() => {

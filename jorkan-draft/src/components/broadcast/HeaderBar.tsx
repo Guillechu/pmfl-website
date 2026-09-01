@@ -17,11 +17,15 @@ export function HeaderBar({
   status,
   view,
   onViewChange,
+  armed,
+  onArm,
 }: {
   state: DraftState;
   status: SyncStatus;
   view: PresentationView;
   onViewChange: (view: PresentationView) => void;
+  armed: boolean;
+  onArm: () => void;
 }) {
   return (
     <header className="flex h-[5.4rem] shrink-0 items-center justify-between border-b border-ink/12 bg-paper px-[1.6rem]">
@@ -36,6 +40,22 @@ export function HeaderBar({
       </div>
 
       <div className="flex items-center gap-[1rem]">
+        {/*
+          Browsers will not make a sound until somebody clicks, and the only
+          place that click used to live was the pre-draft screen. Reload the
+          page once the draft is under way - which is exactly what happens on
+          draft night - and the broadcast was silent for the rest of it with
+          nothing on screen to say why or what to do.
+        */}
+        {!armed ? (
+          <button
+            type="button"
+            onClick={onArm}
+            className="animate-pulse-urgent rounded-[0.3rem] border border-gold-600 bg-gold-500 px-[1.1rem] py-[0.42rem] font-display text-tv-xs font-bold uppercase tracking-[0.2em] text-paper"
+          >
+            Enable sound
+          </button>
+        ) : null}
         <nav className="flex items-center gap-[0.3rem] rounded-full border border-ink/10 bg-ink/[0.04] p-[0.2rem]">
           {VIEWS.map((item) => (
             <button

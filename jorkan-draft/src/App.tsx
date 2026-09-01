@@ -53,6 +53,8 @@ export default function App() {
               status={status}
               view={ui.view}
               onViewChange={(view) => runtime.setView(view)}
+              armed={ui.armed}
+              onArm={() => void armPresentation()}
             />
             {state.phase === 'complete' ? (
               <CompleteScreen state={state} view={ui.view} />

@@ -73,7 +73,18 @@ export class Director {
       // the rest of arming.
       void this.engine.playIntro(introUrl).then((played) => {
         debugLog('note', played ? 'intro music playing' : 'no intro music available');
+        // The intro is a file on the far end of somebody's Dropbox link. When
+        // it will not play there used to be no music at all, and nothing on
+        // screen said why - so fall through to the bed we generate ourselves,
+        // which needs no network and cannot go missing.
+        if (!played) this.engine.startBed();
       });
+    } else if (phase === 'in_progress') {
+      // Arming in the middle of a draft - a reloaded tab, a second screen
+      // opened late. The bed normally starts on the change into in_progress,
+      // which has already happened, so without this the room stays silent for
+      // the rest of the night.
+      this.engine.startBed();
     }
   }
 

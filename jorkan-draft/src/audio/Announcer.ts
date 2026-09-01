@@ -29,19 +29,20 @@ export class Announcer {
   private rules: PronunciationRule[] = [];
   private lastSpokenAt: number | null = null;
   private lastLine = '';
+  /** The voice we resolved at init when the operator has not chosen one. */
+  private defaultVoiceId: string | null = null;
 
   constructor(private readonly engine: AudioEngine) {
     this.provider = new SpeechSynthesisProvider();
   }
 
   async init(settings: AudioSettings): Promise<void> {
-    this.settings = settings;
     this.rules = loadPronunciations();
     await this.provider.init();
-    if (!settings.voiceId && this.provider instanceof SpeechSynthesisProvider) {
-      const preferred = this.provider.pickDefaultVoice();
-      if (preferred) this.settings = { ...settings, voiceId: preferred };
+    if (this.provider instanceof SpeechSynthesisProvider) {
+      this.defaultVoiceId = this.provider.pickDefaultVoice();
     }
+    this.settings = this.withVoice(settings);
   }
 
   setProvider(provider: TtsProvider): void {
@@ -54,7 +55,18 @@ export class Announcer {
   }
 
   setSettings(settings: AudioSettings): void {
-    this.settings = settings;
+    this.settings = this.withVoice(settings);
+  }
+
+  /**
+   * Settings say voiceId: null for "best available", and every settings
+   * update used to overwrite the voice chosen at init with that null - so the
+   * announcer quietly reverted to whatever voice the browser defaults to,
+   * which is rarely the natural man's voice we went looking for.
+   */
+  private withVoice(settings: AudioSettings): AudioSettings {
+    if (settings.voiceId || !this.defaultVoiceId) return settings;
+    return { ...settings, voiceId: this.defaultVoiceId };
   }
 
   reloadPronunciations(): void {
