@@ -116,13 +116,22 @@ That export contains sanitised structure from the real draft room (no
 credentials, cookies or personal data) and is exactly what is needed to adapt
 the parser if any field reads wrong.
 
-> **Status:** the parser is built from ESPN's stable, long-lived patterns -
-> its own state object when the page exposes it, ARIA labels, `data-`
-> attributes and ESPN player-URL shapes - and never from generated CSS class
-> names. It has been verified end to end against a live DOM and against the
-> full message pipeline, but **it has not yet been validated against the real
-> 2026 ESPN draft room**. Run a mock draft and export the debug JSON; that is
-> the step that turns "should work" into "does work".
+> **Status, honestly.** Two practice drafts in the real 2026 ESPN draft room
+> have been captured and the parser rebuilt around what they showed.
+>
+> Read from the room and **verified against that captured markup**: the round,
+> the overall pick, the team on the clock, the team on deck, and the pick
+> clock. (The clock was invisible in the first captures - ESPN builds it out
+> of separate elements, so nothing on the page owns the text "00:30" - and
+> `npm run test:espn-fixture` now proves it reads.)
+>
+> **Not yet verified against a live draft:** the completed board. The picks
+> already made are not in the room's markup at all, so they come from ESPN's
+> own read-only draft feed. Our mapping from that feed to what the TV shows is
+> tested; ESPN's live response shape is not, because only a real draft can
+> show it. The extension popup names the board's source - it should say
+> **ESPN draft feed** - so you can tell in one glance whether it worked, and
+> the debug export has a section that says exactly what the feed answered.
 
 ## How to open TV mode
 
@@ -259,10 +268,24 @@ with the extension popup that it can see the draft room.
 No update from ESPN for twelve seconds during a live draft. Usually the ESPN
 tab was closed or navigated away. Reopen the draft room; it recovers on its own.
 
-**The board is missing picks**
+**The board is empty, or picks never appear**
+Open the extension popup and read **Board source**. It should say *ESPN draft
+feed*. If it says *no picks yet* once the draft is under way, the feed did not
+answer: make sure the draft room tab is the one you are signed in on, and that
+the URL still carries `leagueId` and `seasonId`. The popup also shows the
+first warning, and the debug export has an **ESPN DRAFT FEED** section saying
+exactly what happened. Everything else on the TV - round, pick, team, clock -
+keeps working meanwhile.
+
+**The board is missing some picks**
 Open **Ctrl + Shift + D** and compare the ESPN column with the presentation
 column. Press **Resync**. If ESPN's own column is also wrong, the parser needs
 adapting - turn on debug capture and export the JSON.
+
+**The board fills in but nothing was announced**
+That is deliberate when the presentation joins a draft already in progress:
+picks that happened before anyone was watching fill the board silently, and
+the next live pick is announced normally.
 
 **No sound**
 Did you press **ARM PRESENTATION**? Check the audio panel shows *audio context:
@@ -299,6 +322,7 @@ it can verify itself.
 - [ ] ESPN draft room open in its own window
 - [ ] Presentation open at `http://localhost:5173/presentation`
 - [ ] Status pill shows **ESPN SYNCED**
+- [ ] Extension popup shows **Board source: ESPN draft feed**
 - [ ] TV connected over HDMI, display extended
 - [ ] TV at 1920x1080 or higher
 - [ ] Presentation fullscreen on the TV
@@ -319,7 +343,8 @@ it can verify itself.
 ESPN draft room tab
   └─ content script (read-only)
        ├─ MutationObserver ......... a pick shows within a frame or two
-       └─ reconcile pass, 1.5s ..... a missed mutation is caught in seconds
+       ├─ reconcile pass, 1.5s ..... a missed mutation is caught in seconds
+       └─ ESPN draft feed, 2.5s .... the completed board, GET only
             │
             ▼
      background service worker
@@ -334,6 +359,33 @@ ESPN draft room tab
                                                            └─ effects: audio,
                                                               reveal, board
 ```
+
+### Where each thing is read from
+
+| What the TV shows | Where it comes from |
+| --- | --- |
+| Round, pick number | ESPN's current-pick module (`On the Clock: Pick 104`) |
+| Team on the clock | the same module's `title`, cross-checked against the league |
+| Team on deck | ESPN's upcoming-picks strip (`PICK 105 / Los Badros`) |
+| Pick clock | ESPN's countdown, read from the page |
+| **Every completed pick** | **ESPN's own read-only draft feed** |
+
+The board needs its own paragraph, because it is the one thing that is *not*
+in the draft room's markup. ESPN renders the picks still to come along the
+top, and the selections already made are simply not there to read - a whole
+practice draft was captured without one appearing. Reading them off the
+screen would mean asking the commissioner to keep a particular panel open all
+night and losing every pick made while it was not.
+
+So the extension asks ESPN the same question ESPN's own draft room asks: a
+`GET` to ESPN's read replica for the league's draft detail, made from the
+draft room's own tab, so the session the commissioner already has open is the
+one that answers. That keeps ESPN the single source of truth for every pick,
+which is the entire point of the project. It cannot write: the host has no
+write endpoints and the extension only ever issues `GET`. If the feed is
+unreachable the parser carries on reading the clock, the round and who is on
+the clock exactly as before, the popup says the board has no source, and
+nothing is invented to fill the gap.
 
 Two rules the design is built around:
 
@@ -357,7 +409,17 @@ npm run watch:extension  # rebuild the extension on change
 npm run check            # typecheck + all tests
 npm run test:sim         # four full 180-pick drafts + reconnect checks
 npm run test:extension   # extension mirror: dedupe, phases, worker restarts
+npm run test:espn-api    # draft feed -> presentation-ready picks
+npm run test:espn-fixture# the parser against captured ESPN 2026 markup
+npm run analyze:debug -- export.json   # read a debug export from a real room
 ```
+
+**Fixtures.** `fixtures/espn-2026-draft-room.html` is captured markup from a
+real Jorkan League practice draft, not markup written to make a test pass;
+`npm run test:espn-fixture` runs the shipping parser over it in a real
+Chromium. `npm run test:espn-api` proves the mapping from a draft-detail
+document to picks - it does not prove ESPN's live response shape, which only
+a real draft can, so the popup names the board's source at a glance.
 
 **Simulator.** Add `?sim=1` to the URL, or press **S**, to drive a fake draft
 with no ESPN involved. It emits the same events the extension does and can
@@ -404,7 +466,11 @@ extension/
   read it from there.
 - No ESPN credentials are asked for, stored or transmitted. It reads the
   draft room you already have open.
-- No cookies, tokens, storage or browsing data are read or collected.
+- No cookies, tokens, storage or browsing data are read or collected. The
+  draft feed is fetched from the draft room's own tab, so the browser attaches
+  whatever session is already signed in - the extension never reads a cookie,
+  never stores one and never sends one anywhere.
+- The only host the extension talks to is ESPN itself, and only to read.
 - Debug capture records draft-room structure only, with long opaque strings
   and anything token-shaped redacted before it leaves the page.
 - Nothing is sent anywhere. Everything runs on your laptop: no server, no

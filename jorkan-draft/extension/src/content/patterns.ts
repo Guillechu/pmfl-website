@@ -12,6 +12,29 @@ export const CLOCK = /^(\d{1,2}):([0-5]\d)$/;
 /** Same, but embedded in a longer string ("Time left 4:51"). */
 export const CLOCK_LOOSE = /(?:^|[^\d:])(\d{1,2}):([0-5]\d)(?!\d)/;
 
+/**
+ * "RND 9 of 16" - the round header a real 2026 ESPN draft room renders.
+ *
+ * Anchored to the whole string on purpose. The header sits immediately beside
+ * the pick clock, and an unanchored match on a wrapper holding both would read
+ * "RND 9 of 1600:30" as a sixteen-hundred round draft.
+ */
+export const RND_OF = /^\s*RND\s*(\d{1,2})\s*of\s*(\d{1,2})\s*$/i;
+
+/**
+ * "On the Clock: Pick 104" - ESPN's current-pick module.
+ *
+ * Verified against a real draft room: the number is the *overall* pick, not
+ * the slot within the round. The number is closed with a negative lookahead
+ * rather than a word boundary because ESPN's module runs the team name
+ * straight on after it ("...Pick 104LOS BUQES DE BUGABA"), where there is no
+ * boundary between the digits and the letters at all.
+ */
+export const ON_CLOCK_PICK = /on\s+the\s+clock:?\s*pick\s*#?\s*(\d{1,3})(?!\d)/i;
+
+/** "PICK 25" - one cell of ESPN's upcoming-picks strip. */
+export const PICK_STRIP = /^\s*PICK\s*#?\s*(\d{1,3})\s*$/i;
+
 /** "Round 3", "ROUND 3 OF 15", "R3". */
 export const ROUND = /\bround\s*(\d{1,2})\b/i;
 export const ROUND_SHORT = /^R(\d{1,2})$/i;
@@ -44,10 +67,16 @@ export const DRAFT_COMPLETE = /draft\s+(?:is\s+)?(?:complete|completed|over|has\
 export const DRAFT_PAUSED = /draft\s+(?:is\s+)?paused|paused\s+by\s+(?:the\s+)?commissioner|resume\s+draft/i;
 
 /** "WR" / "RB" / "D/ST" possibly with an NFL team: "WR, CIN" or "CIN WR". */
+/*
+ * The club abbreviation is matched case-insensitively: ESPN renders it upper
+ * case in some views and title case ("Cin", "SF") in others, and requiring
+ * upper case made every title-cased row invisible. Whatever matches is still
+ * validated against the real NFL club list before it is used.
+ */
 export const POSITION_TEAM =
-  /\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b\s*[,|/–-]?\s*\b([A-Z]{2,4})?\b/;
+  /\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b\s*[,|/–-]?\s*\b([A-Za-z]{2,4})?\b/;
 export const TEAM_POSITION =
-  /\b([A-Z]{2,4})\b\s*[,|/–-]?\s*\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b/;
+  /\b([A-Za-z]{2,4})\b\s*[,|/–-]?\s*\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b/;
 
 /** "selected", "drafted by", "selects" - links a player to a fantasy team. */
 export const SELECTED_BY = /\b(?:selected|drafted)\s+by\b|\bselects\b/i;

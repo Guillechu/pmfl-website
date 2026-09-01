@@ -18,6 +18,13 @@ interface ParseData {
   warnings?: string[];
   probeSource?: string;
   probePaths?: string[];
+  api?: {
+    picks?: number;
+    unnamed?: number[];
+    drafted?: boolean | null;
+    inProgress?: boolean | null;
+    error?: string | null;
+  };
   snapshot?: {
     phase?: string;
     round?: number | null;
@@ -133,6 +140,37 @@ function main(): void {
   if (probePaths.size > 0) {
     console.log('  draft-shaped paths seen on the page:');
     for (const p of [...probePaths].slice(0, 25)) console.log(`    ${p}`);
+  }
+
+  /* ------------------------- ESPN's draft feed --------------------------- */
+
+  header("ESPN DRAFT FEED  (where the completed board comes from)");
+  const feedErrors = new Map<string, number>();
+  const unnamed = new Set<number>();
+  let bestFeedPicks = 0;
+  let feedSeen = false;
+  for (const entry of parses) {
+    const api = (entry.data as ParseData | undefined)?.api;
+    if (!api) continue;
+    feedSeen = true;
+    bestFeedPicks = Math.max(bestFeedPicks, api.picks ?? 0);
+    if (api.error) feedErrors.set(api.error, (feedErrors.get(api.error) ?? 0) + 1);
+    for (const id of api.unnamed ?? []) unnamed.add(id);
+  }
+  if (!feedSeen) {
+    console.log('  this capture predates the draft feed - reload the extension and capture again');
+  } else {
+    console.log(`  picks read from ESPN's feed: ${bestFeedPicks}`);
+    if (feedErrors.size === 0 && bestFeedPicks > 0) console.log('  the feed answered; the board is ESPN\'s own record');
+    for (const [error, count] of [...feedErrors.entries()].sort((a, b) => b[1] - a[1])) {
+      console.log(`  ERROR (x${count}) ${error}`);
+    }
+    if (bestFeedPicks === 0 && feedErrors.size === 0) {
+      console.log('  the feed answered but reported no picks - check the league id and season in the URL');
+    }
+    if (unnamed.size > 0) {
+      console.log(`  player ids ESPN would not name (held back rather than announced): ${[...unnamed].join(', ')}`);
+    }
   }
 
   /* ---------------------------- state timeline --------------------------- */

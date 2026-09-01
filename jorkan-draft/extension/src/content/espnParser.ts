@@ -14,6 +14,7 @@ import {
   isVisible,
   labelsOf,
   rowContainer,
+  scanAtoms,
   textAtoms,
   visibleText,
   type TextAtom,
@@ -37,13 +38,21 @@ import type { ProbeSnapshot } from './probeTypes';
  * page: the extension observes and never acts.
  */
 
-export const PARSER_VERSION = '0.9.0-preflight';
+export const PARSER_VERSION = '1.0.0-espn2026';
 
 export interface ParseInput {
   root?: ParentNode;
   leagueId: string | null;
   probe: ProbeSnapshot | null;
   previous: DraftSnapshot | null;
+  /**
+   * Completed picks straight from ESPN's read-only draft feed.
+   *
+   * The draft room does not render the picks already made anywhere we can
+   * reach, so this is where the board actually comes from. It outranks
+   * everything read off the screen because it is ESPN's own record.
+   */
+  apiPicks?: DraftPick[];
 }
 
 export interface ParseOutput {
@@ -72,18 +81,35 @@ export function parseDraftRoom(input: ParseInput): ParseOutput {
   // Visibility is checked per candidate rather than across every atom:
   // getComputedStyle on thousands of elements forces a style recalculation
   // and would make the ESPN tab stutter on every pass.
-  const atoms = textAtoms(root);
+  /*
+   * Two readings of the page from one walk. `compact` holds short strings
+   * assembled from sibling elements - ESPN builds its pick clock that way, so
+   * nothing owns the text "00:30" and `atoms` alone cannot see it. The tight
+   * window is what keeps "RND 9 of 16" and "00:30" from joining into one
+   * string and being read as a sixteen-hundred round draft.
+   */
+  const { atoms, compact } = scanAtoms(root, 120, 12);
 
   const probe = input.probe?.draft ?? null;
+  // ESPN's own current-pick module: the most reliable thing on the page.
+  const current = readCurrentPickModule(root);
+  const strip = readPickStrip(root, atoms);
 
   // Picks first: whether any selection has been made is itself evidence about
   // which phase the draft is in.
-  const picks = detectPicks(root, atoms, probe, input.leagueId ?? LEAGUE.espnLeagueId, recorder);
-  const phase = detectPhase(atoms, probe, picks.length, recorder);
-  const clock = detectClock(atoms, probe, recorder);
-  const coords = detectCoords(atoms, probe, recorder);
-  const onTheClock = detectOnTheClock(atoms, probe, coords?.overallPick ?? null, recorder);
-  const onDeck = detectOnDeck(atoms, coords?.overallPick ?? null, recorder);
+  const picks = detectPicks(
+    root,
+    atoms,
+    probe,
+    input.apiPicks ?? [],
+    input.leagueId ?? LEAGUE.espnLeagueId,
+    recorder,
+  );
+  const phase = detectPhase(atoms, probe, picks.length, current, recorder);
+  const clock = detectClock(atoms, compact, probe, recorder);
+  const coords = detectCoords(atoms, compact, probe, current, recorder);
+  const onTheClock = detectOnTheClock(atoms, probe, current, coords?.overallPick ?? null, recorder);
+  const onDeck = detectOnDeck(atoms, strip, coords?.overallPick ?? null, recorder);
 
   // If ESPN showed us history but no explicit coordinate, the next open pick
   // is the one on the clock.
@@ -164,12 +190,102 @@ function confidenceFor(snapshot: DraftSnapshot, strategies: Record<string, strin
   return expected.length === 0 ? 1 : got / expected.length;
 }
 
+/* -------------------- ESPN's own draft-room modules -------------------- */
+
+/**
+ * What ESPN's current-pick module says.
+ *
+ * Read from a real 2026 draft room, where it renders as
+ *
+ *   <div data-testid="current-pick" title="LOS BUQES DE BUGABA">
+ *     <div class="... on-the-clock ttu">On the Clock: Pick 104</div>
+ *     <div class="... team-name">LOS BUQES DE BUGABA</div>
+ *
+ * The test id and the title attribute are the stable parts - the classes are
+ * generated and are not used. This single element answers both "which pick"
+ * and "whose pick", which is why it outranks every text heuristic below.
+ */
+interface CurrentPick {
+  overall: number | null;
+  teamName: string | null;
+}
+
+function readCurrentPickModule(root: ParentNode): CurrentPick | null {
+  let el: Element | null = null;
+  try {
+    el = root.querySelector('[data-testid="current-pick"], [data-test-id="current-pick"]');
+  } catch {
+    return null;
+  }
+  if (!el) return null;
+
+  const title = el.getAttribute('title');
+  const text = visibleText(el);
+  const match = text.match(P.ON_CLOCK_PICK);
+  const overall = match?.[1] ? Number(match[1]) : null;
+
+  // The team name is also rendered inside, but the title attribute is a single
+  // clean value where the text is a run-on of label and name.
+  let teamName = title?.trim() || null;
+  if (!teamName && match) {
+    const remainder = text.slice((match.index ?? 0) + match[0].length).trim();
+    teamName = remainder || null;
+  }
+  if (overall === null && !teamName) return null;
+  return { overall: overall !== null && isValidOverall(overall) ? overall : null, teamName };
+}
+
+/**
+ * ESPN's upcoming-picks strip: "PICK 25 / El Dandy", "PICK 26 / AUTO / ...".
+ *
+ * These are the picks still to come, never the ones already made, so the strip
+ * is used for who is up - not as a source of selections. It is also a free
+ * check of the configured draft order against ESPN's own.
+ */
+function readPickStrip(root: ParentNode, atoms: TextAtom[]): Map<number, string> {
+  const strip = new Map<number, string>();
+  for (const atom of atoms) {
+    const match = atom.text.match(P.PICK_STRIP);
+    if (!match?.[1]) continue;
+    const overall = Number(match[1]);
+    if (!isValidOverall(overall) || strip.has(overall)) continue;
+
+    // The team name lives on a title attribute a level or two up, alongside
+    // the number - the same element that carries the "AUTO" marker.
+    let node: Element | null = atom.el;
+    for (let hop = 0; hop < 3 && node; hop += 1) {
+      const title = node.getAttribute('title')?.trim();
+      if (title && resolveTeam(title)) {
+        strip.set(overall, title);
+        break;
+      }
+      node = node.parentElement;
+    }
+    if (strip.has(overall)) continue;
+
+    // No title: fall back to the one team named inside the same cell.
+    const cell = rowContainer(atom.el, 3);
+    const named = new Set<string>();
+    for (const candidate of textAtoms(cell, 60)) {
+      if (P.PICK_STRIP.test(candidate.text)) continue;
+      const teams = resolveAllTeams(candidate.text);
+      if (teams.length === 1 && teams[0]) named.add(teams[0].name);
+    }
+    if (named.size === 1) {
+      const only = [...named][0];
+      if (only) strip.set(overall, only);
+    }
+  }
+  return strip;
+}
+
 /* ------------------------------- phase -------------------------------- */
 
 function detectPhase(
   atoms: TextAtom[],
   probe: NonNullable<ProbeSnapshot['draft']> | null,
   pickCount: number,
+  current: CurrentPick | null,
   recorder: Recorder,
 ): DraftPhase {
   if (probe?.status) {
@@ -194,6 +310,8 @@ function detectPhase(
   const notStarted = P.DRAFT_NOT_STARTED.test(haystack);
   if (notStarted && pickCount === 0) return recorder.use('phase', 'text-waiting', 'waiting');
   if (pickCount > 0) return recorder.use('phase', 'picks-exist', 'in_progress');
+  // ESPN only renders its current-pick module once the draft is under way.
+  if (current?.overall) return recorder.use('phase', 'dom-current-pick', 'in_progress');
   if (findByPhrase('on the clock', atoms).length > 0) {
     return recorder.use('phase', 'text-on-the-clock', 'in_progress');
   }
@@ -205,6 +323,7 @@ function detectPhase(
 
 function detectClock(
   atoms: TextAtom[],
+  compact: TextAtom[],
   probe: NonNullable<ProbeSnapshot['draft']> | null,
   recorder: Recorder,
 ): { ms: number | null; running: boolean | null } {
@@ -218,7 +337,17 @@ function detectClock(
   // A bare mm:ss atom is almost always the pick clock; prefer one whose
   // surroundings talk about time, and prefer the shortest text.
   const candidates: { ms: number; score: number }[] = [];
-  for (const atom of atoms) {
+  /*
+   * Both readings of the page, de-duplicated by element. ESPN's own clock is
+   * only in the compact set - it is assembled from sibling fragments and no
+   * element owns its text - while a clock labelled in prose ("Time left 4:51")
+   * is only in the atom set.
+   */
+  const byElement = new Map<Element, TextAtom>();
+  for (const atom of [...compact, ...atoms]) {
+    if (!byElement.has(atom.el)) byElement.set(atom.el, atom);
+  }
+  for (const atom of byElement.values()) {
     if (atom.text.length > 12) continue;
     const ms = P.matchClock(atom.text);
     if (ms === null) continue;
@@ -250,7 +379,9 @@ interface Coords {
 
 function detectCoords(
   atoms: TextAtom[],
+  compact: TextAtom[],
   probe: NonNullable<ProbeSnapshot['draft']> | null,
+  current: CurrentPick | null,
   recorder: Recorder,
 ): Coords | null {
   if (probe) {
@@ -269,7 +400,24 @@ function detectCoords(
     }
   }
 
-  let round: number | null = null;
+  /*
+   * ESPN's own header, read exactly: "On the Clock: Pick 104" is the overall
+   * pick and "RND 9 of 16" is the round. Cross-checking them catches a
+   * misread immediately instead of putting a wrong round on the TV.
+   */
+  const headerRound = readRound(atoms, compact);
+  if (current?.overall && isValidOverall(current.overall)) {
+    const derived = coordsFromOverall(current.overall);
+    if (headerRound && headerRound.round !== derived.round) {
+      recorder.warn(`ESPN header says round ${headerRound.round}, pick ${current.overall} implies ${derived.round}`);
+    }
+    if (headerRound && headerRound.totalRounds !== LEAGUE.rounds) {
+      recorder.warn(`ESPN says ${headerRound.totalRounds} rounds, league is configured for ${LEAGUE.rounds}`);
+    }
+    return recorder.use('coords', 'dom-current-pick', derived);
+  }
+
+  let round: number | null = headerRound?.round ?? null;
   let pickInRound: number | null = null;
   let overall: number | null = null;
 
@@ -319,12 +467,19 @@ function detectCoords(
 function detectOnTheClock(
   atoms: TextAtom[],
   probe: NonNullable<ProbeSnapshot['draft']> | null,
+  current: CurrentPick | null,
   overallPick: number | null,
   recorder: Recorder,
 ): TeamRef | null {
   if (probe?.onTheClockTeam) {
     const team = resolveTeam(probe.onTheClockTeam);
     if (team) return recorder.use('onTheClock', 'main-world', toRef(team.id));
+  }
+
+  if (current?.teamName) {
+    const team = resolveTeam(current.teamName);
+    if (team) return recorder.use('onTheClock', 'dom-current-pick', toRef(team.id));
+    recorder.warn(`ESPN says "${current.teamName}" is on the clock; no configured team matches`);
   }
 
   const found = teamNearPhrase(atoms, P.ON_THE_CLOCK, [P.ON_DECK, P.UP_NEXT]);
@@ -337,7 +492,19 @@ function detectOnTheClock(
   return null;
 }
 
-function detectOnDeck(atoms: TextAtom[], overallPick: number | null, recorder: Recorder): TeamRef | null {
+function detectOnDeck(
+  atoms: TextAtom[],
+  strip: Map<number, string>,
+  overallPick: number | null,
+  recorder: Recorder,
+): TeamRef | null {
+  // ESPN's own upcoming-picks strip is the authority on who is next.
+  if (overallPick !== null) {
+    const next = strip.get(overallPick + 1);
+    const fromStrip = next ? resolveTeam(next) : undefined;
+    if (fromStrip) return recorder.use('onDeck', 'dom-pick-strip', toRef(fromStrip.id));
+  }
+
   const found =
     teamNearPhrase(atoms, P.ON_DECK, [P.ON_THE_CLOCK]) ??
     teamNearPhrase(atoms, P.UP_NEXT, [P.ON_THE_CLOCK]);
@@ -412,18 +579,28 @@ function detectPicks(
   root: ParentNode,
   atoms: TextAtom[],
   probe: NonNullable<ProbeSnapshot['draft']> | null,
+  apiPicks: DraftPick[],
   leagueId: string,
   recorder: Recorder,
 ): DraftPick[] {
   const byOverall = new Map<number, DraftPick>();
 
+  // 0. ESPN's own draft feed: complete, and the only place a finished pick
+  //    reliably exists at all.
+  for (const pick of apiPicks) byOverall.set(pick.overallPick, pick);
+  if (byOverall.size > 0) recorder.use('picks', 'espn-api', byOverall.size);
+
   // 1. Structured state, when ESPN gives it to us.
   if (probe?.picks?.length) {
     for (const raw of probe.picks) {
       const pick = pickFromProbe(raw, leagueId);
-      if (pick) byOverall.set(pick.overallPick, pick);
+      // ESPN's feed already answered for this pick; two readings of the same
+      // selection must never become two picks.
+      if (pick && !byOverall.has(pick.overallPick)) byOverall.set(pick.overallPick, pick);
     }
-    if (byOverall.size > 0) recorder.use('picks', 'main-world', byOverall.size);
+    if (byOverall.size > 0 && !recorder.strategies['picks']) {
+      recorder.use('picks', 'main-world', byOverall.size);
+    }
   }
 
   // 2. Anything on screen with an ESPN player id attached to it.
@@ -574,6 +751,18 @@ function coordsFromRowText(text: string): Coords | null {
   if (overallValue) {
     const overall = Number(overallValue);
     if (isValidOverall(overall)) return coordsFromOverall(overall);
+  }
+  return null;
+}
+
+/** "RND 9 of 16" - anchored, so it can never read a neighbouring clock. */
+function readRound(atoms: TextAtom[], compact: TextAtom[]): { round: number; totalRounds: number } | null {
+  for (const atom of [...compact, ...atoms]) {
+    const match = atom.text.match(P.RND_OF);
+    if (!match?.[1] || !match[2]) continue;
+    const round = Number(match[1]);
+    const totalRounds = Number(match[2]);
+    if (round >= 1 && round <= 40 && totalRounds >= 1 && totalRounds <= 40) return { round, totalRounds };
   }
   return null;
 }

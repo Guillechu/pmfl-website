@@ -221,6 +221,37 @@ function serviceWorkerRestart(): void {
   check(countPicks(next) === 1, 'restart: new picks still detected', `${countPicks(next)}`);
 }
 
+/**
+ * Switching the television on at pick 104.
+ *
+ * ESPN hands us the whole board at once. That is history, not live play: the
+ * board must fill in silently and the broadcast must not try to announce a
+ * hundred picks that happened before anyone was watching. The very next pick
+ * is live again.
+ */
+function joiningMidDraft(): void {
+  const mirror = emptyMirror();
+  const seen = new Set<string>();
+  const history = Array.from({ length: 103 }, (_, index) => pickAt(index + 1));
+
+  const result = applySnapshot(mirror, seen, snapshotFor(104, history), meta(), {
+    snapshotTail: 40,
+    bestConfidence: null,
+    now: Date.now(),
+  });
+  check(result.backfilled, 'mid-draft join: recognised as history');
+  check(countPicks(result.events) === 0, 'mid-draft join: nothing announced', `${countPicks(result.events)}`);
+  check(mirror.picks.length === 103, 'mid-draft join: board filled', `${mirror.picks.length}`);
+
+  const live = applySnapshot(mirror, seen, snapshotFor(105, [...history, pickAt(104)]), meta(), {
+    snapshotTail: 40,
+    bestConfidence: null,
+    now: Date.now(),
+  });
+  check(!live.backfilled, 'mid-draft join: the next pick is live play');
+  check(countPicks(live.events) === 1, 'mid-draft join: the next pick is announced', `${countPicks(live.events)}`);
+}
+
 function clockChatter(): void {
   const mirror = emptyMirror();
   const seen = new Set<string>();
@@ -242,6 +273,7 @@ function main(): void {
   phaseTransitions();
   lowConfidenceFrame();
   serviceWorkerRestart();
+  joiningMidDraft();
   clockChatter();
 
   if (failures.length > 0) {
@@ -249,7 +281,9 @@ function main(): void {
     for (const failure of failures) console.error(`  x ${failure}`);
     process.exit(1);
   }
-  console.log('  storm, history, correction, phases, blind frame, worker restart, clock: all pass');
+  console.log(
+    '  storm, history, correction, phases, blind frame, worker restart, mid-draft join, clock: all pass',
+  );
   console.log('\nAll checks passed.');
 }
 

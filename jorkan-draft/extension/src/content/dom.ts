@@ -29,6 +29,98 @@ function isHidden(el: Element): boolean {
  * whole-page textContent, which would match a hundred parents at once.
  */
 export function textAtoms(root: ParentNode = document, maxLength = 120): TextAtom[] {
+  return scanAtoms(root, maxLength).atoms;
+}
+
+export interface AtomScan {
+  /** Elements that render text of their own. */
+  atoms: TextAtom[];
+  /**
+   * Elements whose short text is assembled entirely from children.
+   *
+   * ESPN's pick clock is exactly this: "00:30" split across sibling spans, so
+   * no element owns the string and the own-text pass cannot see it at all. A
+   * real draft room went a whole practice draft with the clock unreadable
+   * because of it.
+   */
+  compact: TextAtom[];
+}
+
+/**
+ * One walk, both readings.
+ *
+ * Kept as a single pass deliberately. Walking the tree twice doubled the cost
+ * of a parse on a live draft room, and this runs several times a second while
+ * ESPN re-renders - the tab has to stay smooth for the people actually
+ * drafting in it.
+ */
+export function scanAtoms(root: ParentNode = document, maxLength = 120, compactMaxLength = 12): AtomScan {
+  const atoms: TextAtom[] = [];
+  const compact: TextAtom[] = [];
+  const walker = document.createTreeWalker(root as Node, NodeFilter.SHOW_ELEMENT);
+  let seen = 0;
+  let node = walker.nextNode();
+  while (node && seen < MAX_NODES) {
+    seen += 1;
+    const el = node as Element;
+    const tag = el.tagName;
+    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'SVG') {
+      node = skipSubtree(walker);
+      continue;
+    }
+    if (hasOwnText(el)) {
+      // A wrapper whose text comes entirely from its children is not an atom,
+      // which keeps one visible string from matching a dozen nested ancestors.
+      if (!textExceeds(el, maxLength)) {
+        const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+        if (text) atoms.push({ el, text });
+      }
+    } else if (
+      // Only a handful of children can join into a short string, and the
+      // bound is what keeps this from measuring every container on the page.
+      el.childElementCount >= 1 &&
+      el.childElementCount <= 8 &&
+      !textExceeds(el, compactMaxLength)
+    ) {
+      const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+      if (text) compact.push({ el, text });
+    }
+    node = walker.nextNode();
+  }
+  return { atoms, compact };
+}
+
+/**
+ * Move the walker past the current element's subtree.
+ *
+ * `nextSibling()` alone returns null at the end of a level and leaves the
+ * walker where it was, which would silently re-enter the subtree we meant to
+ * skip. Climbing until a sibling exists is what actually skips it.
+ */
+function skipSubtree(walker: TreeWalker): Node | null {
+  let next = walker.nextSibling();
+  while (!next) {
+    if (!walker.parentNode()) return null;
+    next = walker.nextSibling();
+  }
+  return next;
+}
+
+/**
+ * The smallest self-contained strings on the page.
+ *
+ * `textAtoms` only returns elements that own a text node, which stops one
+ * visible string from matching a dozen nested ancestors. A real 2026 ESPN
+ * draft room showed the cost of that: its pick clock is assembled from
+ * sibling fragments, so no element owns the text "00:30" and the parser could
+ * not see the clock at all.
+ *
+ * This walk asks the complementary question - "what are the shortest complete
+ * strings here" - by descending only while an element's text is too long,
+ * then taking that element whole and skipping its subtree. Keep `maxLength`
+ * tight: it is what stops two neighbouring labels from being read as one.
+ */
+export function compactAtoms(root: ParentNode = document, maxLength = 12): TextAtom[] {
   const atoms: TextAtom[] = [];
   const walker = document.createTreeWalker(root as Node, NodeFilter.SHOW_ELEMENT);
   let seen = 0;
@@ -38,19 +130,20 @@ export function textAtoms(root: ParentNode = document, maxLength = 120): TextAto
     const el = node as Element;
     const tag = el.tagName;
     if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'SVG') {
-      node = walker.nextSibling() ?? walker.nextNode();
+      node = skipSubtree(walker);
       continue;
     }
-    // Only elements that render text of their own. A wrapper whose text comes
-    // entirely from its children is not an atom, which keeps one visible
-    // string from matching a dozen nested ancestors - and, just as
-    // importantly, keeps this walk cheap enough to run on a live draft room
-    // several times a second.
-    if (hasOwnText(el)) {
-      const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
-      if (text && text.length <= maxLength) atoms.push({ el, text });
+    if (textExceeds(el, maxLength)) {
+      node = walker.nextNode();
+      continue;
     }
-    node = walker.nextNode();
+    const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
+    if (!text) {
+      node = walker.nextNode();
+      continue;
+    }
+    atoms.push({ el, text });
+    node = skipSubtree(walker);
   }
   return atoms;
 }

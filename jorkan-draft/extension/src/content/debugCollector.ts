@@ -1,5 +1,5 @@
 import type { DebugEntry } from '@shared/protocol';
-import { rowContainer, textAtoms, visibleText } from './dom';
+import { compactAtoms, rowContainer, textAtoms, visibleText } from './dom';
 import * as P from './patterns';
 
 /**
@@ -118,7 +118,10 @@ export function pageSummary(): Record<string, unknown> {
 /** Anything that looks like a countdown, with enough context to judge it. */
 export function collectClockCandidates(): DebugEntry[] {
   const out: DebugEntry[] = [];
-  for (const atom of textAtoms(document, 40)) {
+  // Both readings of the page. ESPN's own clock only ever shows up in the
+  // compact one - it is split across sibling elements - and a capture that
+  // missed it is exactly how the clock went unread for a whole draft.
+  for (const atom of [...compactAtoms(document, 12), ...textAtoms(document, 40)]) {
     if (!/\d{1,2}\s*:\s*[0-5]\d/.test(atom.text)) continue;
     out.push({
       at: Date.now(),
@@ -143,7 +146,9 @@ export function collectClockCandidates(): DebugEntry[] {
 export function collectPickCandidates(): DebugEntry[] {
   const out: DebugEntry[] = [];
   const seen = new Set<Element>();
-  const POS_TEAM = /\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b[\s,|/-]*\b([A-Z]{2,4})\b|\b([A-Z]{2,4})\b[\s,|/-]*\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b/;
+  // Case-insensitive on the club: ESPN renders "Cin" and "SF" in different
+  // views, and demanding upper case hid every title-cased row.
+  const POS_TEAM = /\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b[\s,|/-]*\b([A-Za-z]{2,4})\b|\b([A-Za-z]{2,4})\b[\s,|/-]*\b(QB|RB|WR|TE|K|PK|D\/ST|DST|DEF)\b/i;
   for (const atom of textAtoms(document, 120)) {
     if (!POS_TEAM.test(atom.text)) continue;
     const row = rowContainer(atom.el, 4);
@@ -169,10 +174,10 @@ export function collectPickCandidates(): DebugEntry[] {
  * A shallow map of the page: enough structure to see where the draft board,
  * the history feed and the clock actually live.
  */
-export function collectOutline(): DebugEntry[] {
+export function collectOutline(maxDepth = 9, budget = 90): DebugEntry[] {
   const out: DebugEntry[] = [];
   const walk = (el: Element, depth: number): void => {
-    if (depth > 4 || out.length >= 40) return;
+    if (depth > maxDepth || out.length >= budget) return;
     for (const child of Array.from(el.children)) {
       const text = visibleText(child);
       if (!text) continue;
@@ -193,6 +198,71 @@ export function collectOutline(): DebugEntry[] {
   return out;
 }
 
+/**
+ * ESPN's draft-results view, wherever it lives.
+ *
+ * A real capture found the round filter ("All Rounds / Round 1 / Round 2")
+ * present in the page while not a single completed pick was rendered
+ * anywhere, which is what sent us to ESPN's own feed for the board. Capturing
+ * the panel around that filter is how we would find out if the picks are in
+ * the DOM after all - and where.
+ */
+export function collectDraftResultsPanel(): DebugEntry[] {
+  const out: DebugEntry[] = [];
+  const selects = Array.from(document.querySelectorAll('select'));
+  for (const select of selects) {
+    const options = Array.from(select.options).map((option) => option.text.trim());
+    if (!options.some((text) => /^round\s*\d+$/i.test(text))) continue;
+    let panel: Element = select;
+    for (let hop = 0; hop < 5 && panel.parentElement; hop += 1) panel = panel.parentElement;
+    out.push({
+      at: Date.now(),
+      kind: 'dom-sample',
+      message: 'region:draft-results',
+      data: {
+        options: options.slice(0, 20),
+        ...describeBriefly(panel),
+        text: sanitize(visibleText(panel)).slice(0, 600),
+        html: sanitize(panel.outerHTML ?? '').slice(0, 6000),
+      },
+    });
+    if (out.length >= 2) break;
+  }
+  return out;
+}
+
+/**
+ * Every rendered player headshot, with the row around it.
+ *
+ * A completed pick has to show the player somewhere, and ESPN identifies its
+ * players by the numeric id in the headshot URL. Whatever markup a pick row
+ * turns out to have, it will contain one of these.
+ */
+export function collectHeadshotRows(): DebugEntry[] {
+  const out: DebugEntry[] = [];
+  const seen = new Set<Element>();
+  const images = Array.from(
+    document.querySelectorAll('img[src*="headshots/nfl/players"], img[data-src*="headshots/nfl/players"]'),
+  );
+  for (const image of images) {
+    const row = rowContainer(image, 5);
+    if (seen.has(row)) continue;
+    seen.add(row);
+    out.push({
+      at: Date.now(),
+      kind: 'dom-sample',
+      message: 'region:headshot-row',
+      data: {
+        ...describeBriefly(row),
+        text: sanitize(visibleText(row)).slice(0, 240),
+        html: sanitize(row.outerHTML ?? '').slice(0, 1800),
+      },
+    });
+    if (out.length >= 6) break;
+  }
+  return out;
+}
+
 /** Tag, id and the attributes worth writing a selector against. */
 function describeBriefly(el: Element | null): Record<string, unknown> {
   if (!el) return { tag: null };
@@ -207,5 +277,12 @@ function describeBriefly(el: Element | null): Record<string, unknown> {
 
 /** Everything the next capture should contain, in one call. */
 export function collectDiagnostics(): DebugEntry[] {
-  return [...collectRegions(), ...collectClockCandidates(), ...collectPickCandidates(), ...collectOutline()];
+  return [
+    ...collectRegions(),
+    ...collectClockCandidates(),
+    ...collectPickCandidates(),
+    ...collectDraftResultsPanel(),
+    ...collectHeadshotRows(),
+    ...collectOutline(),
+  ];
 }

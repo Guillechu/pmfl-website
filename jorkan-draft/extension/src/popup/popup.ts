@@ -33,6 +33,14 @@ function render(data: PopupState): void {
   row('League', state.leagueId ?? '--');
   row('Draft phase', state.phase);
   row('Picks mirrored', String(data.pickCount));
+  // Where the board is actually coming from. "ESPN feed" is the one that
+  // matters: it is the only source that has every completed pick.
+  const board = state.meta?.strategies['picks'];
+  row(
+    'Board source',
+    board === 'espn-api' ? 'ESPN draft feed' : (board ?? 'no picks yet'),
+    board === 'espn-api' ? 'ok' : 'warn',
+  );
   row('Parser', state.meta?.parserVersion ?? '--');
   row(
     'Confidence',
@@ -40,6 +48,8 @@ function render(data: PopupState): void {
     state.meta && state.meta.confidence >= 0.6 ? 'ok' : 'warn',
   );
   row('Extension', state.extensionVersion);
+  const warning = state.meta?.warnings[0];
+  if (warning) row('Warning', warning.length > 48 ? `${warning.slice(0, 45)}...` : warning, 'warn');
   debugButton.textContent = state.debugMode
     ? `Disable debug capture (${data.debugEntries})`
     : 'Enable debug capture';

@@ -129,6 +129,14 @@ function applySnapshot(snapshot: DraftSnapshot, meta: ParseMeta): void {
   lastSnapshot = snapshot;
   lastMeta = meta;
   persist();
+  /*
+   * A block of history rather than live play: send the whole mirror, which
+   * the presentation restores from silently, instead of a hundred pick
+   * events it would try to announce one after another.
+   */
+  if (result.backfilled) {
+    broadcast({ kind: 'STATE_SYNC', at: Date.now(), state: bridgeState(true) });
+  }
   broadcast({ kind: 'EVENTS', at: Date.now(), events: result.events });
 }
 

@@ -12,10 +12,12 @@
     "build:extension": "node scripts/build-extension.mjs",
     "watch:extension": "node scripts/build-extension.mjs --watch",
     "test:sim": "tsx scripts/stress-sim.ts",
-    "check": "npm run typecheck && npm run test:sim && npm run test:extension && npm run test:espn-path",
+    "check": "npm run typecheck && npm run test:sim && npm run test:extension && npm run test:espn-api && npm run test:espn-path && npm run test:espn-fixture",
     "test:extension": "tsx scripts/test-extension.ts",
     "test:espn-path": "tsx scripts/test-espn-path.ts",
-    "analyze:debug": "tsx scripts/analyze-debug-export.ts"
+    "analyze:debug": "tsx scripts/analyze-debug-export.ts",
+    "test:espn-fixture": "tsx scripts/test-espn-fixture.ts",
+    "test:espn-api": "tsx scripts/test-espn-api.ts"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",
@@ -30,6 +32,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "esbuild": "^0.24.0",
+    "playwright-core": "^1.62.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
     "tsx": "^4.19.2",

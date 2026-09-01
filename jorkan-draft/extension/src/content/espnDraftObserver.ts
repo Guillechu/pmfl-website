@@ -1,7 +1,9 @@
 import type { BackgroundToEspn, DebugEntry, EspnToBackground } from '@shared/protocol';
 import type { DraftSnapshot } from '@/types/draft';
+import { LEAGUE } from '@/config/league';
 import { PARSER_VERSION, parseDraftRoom } from './espnParser';
 import { collectDiagnostics, pageSummary } from './debugCollector';
+import { EspnDraftApi, type ApiDraftState } from './espnDraftApi';
 import type { ProbeSnapshot } from './probeTypes';
 
 /**
@@ -20,6 +22,11 @@ import type { ProbeSnapshot } from './probeTypes';
 
 const PROBE_CHANNEL = 'jorkan-espn-probe';
 const RECONCILE_MS = 1500;
+/** How often ESPN's own draft feed is asked what has been picked. */
+const API_POLL_MS = 2500;
+/** After repeated failures, back off rather than hammering ESPN. */
+const API_BACKOFF_MS = 30_000;
+const API_FAILURES_BEFORE_BACKOFF = 4;
 const MUTATION_DEBOUNCE_MS = 180;
 /** Never parse more often than this, however noisy ESPN's React tree gets. */
 const MIN_PARSE_GAP_MS = 250;
@@ -37,6 +44,12 @@ let debugQueue: DebugEntry[] = [];
 let reconnectDelay = 500;
 let lastDebugCaptureAt = 0;
 let lastCapturedPhase = '';
+let api: EspnDraftApi | null = null;
+let apiKey = '';
+let apiState: ApiDraftState | null = null;
+let apiInFlight = false;
+let apiFailures = 0;
+let apiTimer: ReturnType<typeof setTimeout> | null = null;
 /** How often the page is re-photographed while debug capture is on. */
 const DEBUG_CAPTURE_INTERVAL_MS = 20_000;
 
@@ -59,6 +72,12 @@ function looksLikeDraftRoom(): boolean {
 function leagueIdFromUrl(): string | null {
   const params = new URLSearchParams(location.search);
   return params.get('leagueId') ?? params.get('leagueid');
+}
+
+function seasonFromUrl(): number {
+  const params = new URLSearchParams(location.search);
+  const value = Number(params.get('seasonId') ?? params.get('seasonid'));
+  return Number.isFinite(value) && value > 2000 && value < 2100 ? value : LEAGUE.season;
 }
 
 function send(message: EspnToBackground): void {
@@ -92,6 +111,8 @@ function connect(): void {
         break;
       case 'FORCE_RESYNC':
         window.postMessage({ channel: PROBE_CHANNEL, request: 'scan' }, location.origin);
+        apiFailures = 0;
+        void pollApi();
         parseNow('forced-resync');
         break;
       default:
@@ -131,6 +152,7 @@ function parseNow(reason: string): void {
       leagueId: leagueIdFromUrl(),
       probe,
       previous,
+      apiPicks: apiState?.picks ?? [],
     });
   } catch (error) {
     send({
@@ -142,6 +164,13 @@ function parseNow(reason: string): void {
   }
 
   previous = result.snapshot;
+  for (const warning of apiState?.warnings ?? []) {
+    if (!result.meta.warnings.includes(warning)) result.meta.warnings.push(warning);
+  }
+  if (api?.error) {
+    const message = `ESPN draft feed unreachable: ${api.error}`;
+    if (!result.meta.warnings.includes(message)) result.meta.warnings.push(message);
+  }
 
   // A lone timer is not a draft room. Any page can have a countdown on it, and
   // publishing one as the pick clock is worse than publishing nothing.
@@ -179,6 +208,13 @@ function parseNow(reason: string): void {
         warnings: result.meta.warnings,
         probeSource: probe?.source ?? 'none',
         probePaths: probe?.candidatePaths ?? [],
+        api: {
+          picks: apiState?.picks.length ?? 0,
+          unnamed: apiState?.unnamed.slice(0, 10) ?? [],
+          drafted: apiState?.drafted ?? null,
+          inProgress: apiState?.inProgress ?? null,
+          error: api?.error ?? null,
+        },
         snapshot: {
           phase: result.snapshot.phase,
           round: result.snapshot.round,
@@ -230,6 +266,62 @@ function flushDebug(): void {
   }
 }
 
+/* --------------------------- ESPN draft feed --------------------------- */
+
+/**
+ * Ask ESPN what has actually been drafted.
+ *
+ * The completed board is not in the draft room's DOM - the strip along the
+ * top is the picks still to come - so this is where the picks come from. It
+ * is a read: see espnDraftApi.ts for the rules it keeps. A failure here is
+ * never fatal; the DOM parser carries on reading the clock, the round and who
+ * is on the clock exactly as before.
+ */
+function ensureApi(): void {
+  const leagueId = leagueIdFromUrl();
+  if (!leagueId) return;
+  const season = seasonFromUrl();
+  const key = `${leagueId}:${season}`;
+  if (api && apiKey === key) return;
+  api = new EspnDraftApi(leagueId, season);
+  apiKey = key;
+  apiState = null;
+  apiFailures = 0;
+}
+
+async function pollApi(): Promise<void> {
+  if (apiInFlight || !looksLikeDraftRoom()) return;
+  ensureApi();
+  if (!api) return;
+  apiInFlight = true;
+  try {
+    const next = await api.read();
+    if (!next) {
+      apiFailures += 1;
+      return;
+    }
+    const grew = next.picks.length !== (apiState?.picks.length ?? 0);
+    apiFailures = 0;
+    apiState = next;
+    // A new pick is news; say so immediately rather than waiting for the next
+    // reconcile tick.
+    if (grew) parseNow('espn-api');
+  } catch {
+    apiFailures += 1;
+  } finally {
+    apiInFlight = false;
+  }
+}
+
+function scheduleApiPoll(): void {
+  if (apiTimer) return;
+  const delay = apiFailures >= API_FAILURES_BEFORE_BACKOFF ? API_BACKOFF_MS : API_POLL_MS;
+  apiTimer = setTimeout(() => {
+    apiTimer = null;
+    void pollApi().finally(scheduleApiPoll);
+  }, delay);
+}
+
 /* ------------------------------ observers ----------------------------- */
 
 function startObserver(): void {
@@ -278,8 +370,11 @@ window.addEventListener('pagehide', () => {
   observer = null;
   if (reconcileTimer) clearInterval(reconcileTimer);
   reconcileTimer = null;
+  if (apiTimer) clearTimeout(apiTimer);
+  apiTimer = null;
 });
 
 startObserver();
 startReconcile();
+scheduleApiPoll();
 connect();

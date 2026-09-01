@@ -44,6 +44,13 @@ export interface ApplyResult {
   events: ProviderEvent[];
   /** False when the snapshot was ignored as too low quality to trust. */
   accepted: boolean;
+  /**
+   * True when this read taught us a block of history rather than live play -
+   * joining a draft already at pick 104, say. The caller sends the whole
+   * mirror instead, so the board fills in silently rather than the television
+   * announcing a hundred picks that happened before anyone switched it on.
+   */
+  backfilled: boolean;
 }
 
 export interface ApplyOptions {
@@ -52,6 +59,13 @@ export interface ApplyOptions {
   /** Confidence of the best parse we have seen, for the quality gate. */
   bestConfidence: number | null;
   now: number;
+  /**
+   * More new picks than this in a single read is history, not live play.
+   * ESPN never completes four selections inside one poll - even a room full
+   * of autopicks takes seconds per pick - so this only ever fires when we
+   * have just learned about a draft that was already under way.
+   */
+  backfillThreshold?: number;
 }
 
 /**
@@ -69,7 +83,7 @@ export function applySnapshot(
 ): ApplyResult {
   // A frame that can barely read the page must not overwrite a good read.
   if (meta.confidence < 0.2 && (options.bestConfidence ?? 0) >= 0.2) {
-    return { events: [], accepted: false };
+    return { events: [], accepted: false, backfilled: false };
   }
 
   const at = options.now;
@@ -104,8 +118,9 @@ export function applySnapshot(
 
   // Picks, in draft order, each emitted exactly once.
   const incoming = [...snapshot.picks].sort((a, b) => a.overallPick - b.overallPick);
-  for (const pick of incoming) {
-    if (seen.has(pick.eventId)) continue;
+  const unseen = incoming.filter((pick) => !seen.has(pick.eventId));
+  const backfilled = unseen.length > (options.backfillThreshold ?? 3);
+  for (const pick of unseen) {
     seen.add(pick.eventId);
     const existingIndex = mirror.picks.findIndex((p) => p.overallPick === pick.overallPick);
     if (existingIndex >= 0) {
@@ -114,7 +129,7 @@ export function applySnapshot(
     } else {
       mirror.picks.push(pick);
     }
-    events.push({ type: 'PICK_MADE', at, pick });
+    if (!backfilled) events.push({ type: 'PICK_MADE', at, pick });
   }
   mirror.picks.sort((a, b) => a.overallPick - b.overallPick);
 
@@ -166,5 +181,5 @@ export function applySnapshot(
   });
 
   mirror.updatedAt = at;
-  return { events, accepted: true };
+  return { events, accepted: true, backfilled };
 }
