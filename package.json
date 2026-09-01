@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run build:jorkan && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "build:jorkan": "cd jorkan-draft && npm ci --include=dev && npm run build:web"
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "14.2.5",
