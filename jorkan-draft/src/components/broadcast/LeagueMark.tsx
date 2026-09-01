@@ -1,7 +1,18 @@
+import { useState } from 'react';
 import { LEAGUE } from '@/config/league';
 import { cn } from '@/lib/cn';
 
-/** League lockup used in the header and on the pre-draft screens. */
+/**
+ * League lockup used in the header and on the pre-draft screens.
+ *
+ * The league's own logo, if it has one. Drop an image at
+ * `public/branding/league-logo.png` (or `.jpg`) and it appears here without a
+ * rebuild; with no file there the drawn shield stands in. Keeping it out of
+ * the repository is deliberate - a league's artwork is theirs, and the photo
+ * on it is usually of somebody real.
+ */
+const LOGO_SOURCES = ['/branding/league-logo.png', '/branding/league-logo.jpg'];
+
 export function LeagueMark({
   size = 'sm',
   className,
@@ -10,9 +21,22 @@ export function LeagueMark({
   className?: string;
 }) {
   const large = size === 'lg';
+  const [sourceIndex, setSourceIndex] = useState(0);
+  const logo = LOGO_SOURCES[sourceIndex];
+  const box = large ? 'h-[7rem] w-[7rem]' : 'h-[2.8rem] w-[2.8rem]';
+
   return (
-    <div className={cn('flex items-center gap-[0.75rem]', className)}>
-      <Shield className={large ? 'h-[5rem] w-[5rem]' : 'h-[2.6rem] w-[2.6rem]'} />
+    <div className={cn('flex items-center gap-[0.85rem]', className)}>
+      {logo ? (
+        <img
+          src={logo}
+          alt=""
+          onError={() => setSourceIndex((index) => index + 1)}
+          className={cn(box, 'shrink-0 rounded-[0.4rem] border border-line object-cover')}
+        />
+      ) : (
+        <Shield className={large ? 'h-[5rem] w-[5rem]' : 'h-[2.6rem] w-[2.6rem]'} />
+      )}
       <div className="leading-none">
         <div
           className={cn(
@@ -49,9 +73,8 @@ function Shield({ className }: { className?: string }) {
         fill="none"
         stroke="url(#jorkan-shield)"
         strokeWidth="3"
+        strokeLinejoin="round"
       />
-      <ellipse cx="32" cy="34" rx="15" ry="9.5" fill="none" stroke="#FFFFFF" strokeWidth="2.4" />
-      <path d="M24 34h16M29 29.5v9M35 29.5v9" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }

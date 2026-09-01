@@ -27,6 +27,7 @@ ESPN draft room  ──▶  Chrome extension  ──▶  TV presentation
 - [How to test the announcer](#how-to-test-the-announcer)
 - [How to change the music](#how-to-change-the-music)
 - [How to change the sound effects](#how-to-change-the-sound-effects)
+- [How to use the league's own logo](#how-to-use-the-leagues-own-logo)
 - [How to change team data](#how-to-change-team-data)
 - [How to resync](#how-to-resync)
 - [Keyboard shortcuts](#keyboard-shortcuts)
@@ -208,6 +209,22 @@ Drop MP3s into `public/audio/` using these names:
 
 Anything you do not supply uses the built-in synthesised cue. `public/audio/README.md`
 has the details, and the audio panel shows which custom files were loaded.
+
+## How to use the league's own logo
+
+Save the league's artwork as `public/branding/league-logo.png` (a `.jpg` also
+works). It replaces the drawn shield in the header and on the pre-draft
+screen - refresh the presentation and it is there, no rebuild and no code
+change.
+
+A square image is ideal: it is drawn into a rounded square and cropped to
+fill, so anything close to 1:1 keeps its centre. Roughly 512x512 or larger
+looks right on a 4K television. With no file there the drawn shield stands
+in, so nothing breaks if you skip this.
+
+The file is deliberately not committed - a league's artwork is its own, and
+the photo on it is usually of somebody real, so it stays on the machine that
+runs the broadcast.
 
 ## How to change team data
 
