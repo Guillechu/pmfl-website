@@ -120,6 +120,44 @@ async function main(): Promise<void> {
   await api.read();
   check(athleteCalls === before, 'a player ESPN cannot name is only chased once', `${athleteCalls - before} extra`);
 
+  // A public league served with `Access-Control-Allow-Origin: *`: the browser
+  // refuses the credentialed request outright, and the same URL works the
+  // moment we stop asking for the session.
+  const seen: string[] = [];
+  (globalThis as { fetch: unknown }).fetch = async (input: unknown, init?: RequestInit) => {
+    const credentials = String(init?.credentials);
+    seen.push(credentials);
+    if (credentials === 'include') throw new TypeError('Failed to fetch');
+    const url = String(input);
+    const json = (value: unknown) => ({ ok: true, status: 200, json: async () => value }) as unknown as Response;
+    if (url.includes('view=kona_player_info')) {
+      const filter = JSON.parse(String((init?.headers as Record<string, string>)['x-fantasy-filter']));
+      const ids = filter.players.filterIds.value as number[];
+      return json({ players: ids.filter((id) => PLAYERS[id]).map((id) => ({ id, player: { id, ...PLAYERS[id] } })) });
+    }
+    if (url.includes('view=mDraftDetail')) return json(draftDetail());
+    throw new Error(`unexpected request: ${url}`);
+  };
+  const publicLeague = await new EspnDraftApi('2036757808', 2026).read();
+  check(publicLeague !== null, 'a CORS refusal is retried without the session');
+  check(publicLeague?.picks.length === 3, 'and the picks come through', `${publicLeague?.picks.length}`);
+  check(seen[0] === 'include' && seen[1] === 'omit', 'the session is tried first', seen.slice(0, 2).join(' then '));
+
+  // ESPN answering "no such league" is final; there is nothing to retry.
+  const attempts: string[] = [];
+  (globalThis as { fetch: unknown }).fetch = async (_input: unknown, init?: RequestInit) => {
+    attempts.push(String(init?.credentials));
+    return { ok: false, status: 404, json: async () => ({}) } as unknown as Response;
+  };
+  const missing = new EspnDraftApi('nope', 2026);
+  check((await missing.read()) === null, 'a missing league reads as nothing');
+  check(attempts.length === 1, 'a 404 is not retried', `${attempts.length} attempts`);
+  check(
+    missing.error?.includes('not found') === true,
+    'and says so in words the popup can show',
+    String(missing.error),
+  );
+
   if (failures.length > 0) {
     console.error(`\n${failures.length} failing check(s): ${failures.join(', ')}`);
     process.exit(1);

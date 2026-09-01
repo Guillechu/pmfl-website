@@ -70,20 +70,54 @@ const PRO_TEAM_BY_ID: Record<number, string> = {
 
 /* ------------------------------- fetching ------------------------------ */
 
-async function getJson(url: string, filter?: unknown): Promise<unknown> {
+/** An error that remembers whether ESPN actually answered, and how. */
+class FeedError extends Error {
+  constructor(
+    message: string,
+    readonly status: number | null,
+  ) {
+    super(message);
+  }
+}
+
+async function request(url: string, credentials: RequestCredentials, filter?: unknown): Promise<unknown> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
     const response = await fetch(url, {
       method: 'GET',
-      credentials: 'include',
+      credentials,
       signal: controller.signal,
       headers: filter === undefined ? {} : { 'x-fantasy-filter': JSON.stringify(filter) },
     });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) throw new FeedError(`HTTP ${response.status}`, response.status);
     return (await response.json()) as unknown;
+  } catch (error) {
+    if (error instanceof FeedError) throw error;
+    // fetch rejects without a status for a network failure and for every CORS
+    // refusal alike; the browser deliberately does not say which.
+    throw new FeedError(error instanceof Error ? error.message : String(error), null);
   } finally {
     clearTimeout(timer);
+  }
+}
+
+/**
+ * One read, tried with and then without the browser's ESPN session.
+ *
+ * A private league needs the credentialed request. A public one may be served
+ * with `Access-Control-Allow-Origin: *`, which the browser flatly refuses to
+ * combine with credentials - so the credentialed attempt fails with no status
+ * at all and the same URL succeeds the moment we stop asking for the session.
+ * Retrying is pointless once ESPN has actually answered: a 404 stays a 404.
+ */
+async function getJson(url: string, filter?: unknown): Promise<unknown> {
+  try {
+    return await request(url, 'include', filter);
+  } catch (error) {
+    const status = error instanceof FeedError ? error.status : 0;
+    if (status !== null) throw error;
+    return request(url, 'omit', filter);
   }
 }
 
@@ -131,7 +165,15 @@ export class EspnDraftApi {
         `${FFL(this.season)}/segments/0/leagues/${encodeURIComponent(this.leagueId)}?view=mDraftDetail&view=mTeam`,
       );
     } catch (error) {
-      this.lastError = error instanceof Error ? error.message : String(error);
+      const status = error instanceof FeedError ? error.status : null;
+      this.lastError =
+        status === 404
+          ? `league ${this.leagueId} not found in ESPN's ${this.season} draft feed`
+          : status === 401 || status === 403
+            ? `ESPN refused the draft feed (${status}) - is this the league you are signed in to?`
+            : status === null
+              ? `could not reach ESPN's draft feed (blocked or offline)`
+              : `HTTP ${status}`;
       return null;
     }
     this.lastError = null;
