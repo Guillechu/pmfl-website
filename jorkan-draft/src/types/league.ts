@@ -51,6 +51,18 @@ export interface League {
   /** Seconds ESPN gives each manager per pick. Display only - ESPN owns the clock. */
   pickSeconds: number;
   draftType: 'snake';
+  /**
+   * When ESPN is set to start the draft, as an ISO string carrying its own
+   * UTC offset - '2026-09-06T17:00:00-05:00' rather than a bare local time,
+   * so a laptop on the wrong timezone cannot move it. Null means no schedule
+   * is known, and the presentation simply waits.
+   *
+   * It never starts anything: ESPN starting the draft is what does that. It
+   * drives the countdown on the waiting screen and when the music comes up.
+   */
+  scheduledStart: string | null;
+  /** Minutes before the scheduled start that the intro music comes up. */
+  musicLeadMinutes: number;
   starters: readonly RosterSlotDef[];
   benchSlots: number;
   teams: readonly FantasyTeam[];

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import type { SyncStatus } from '@/types/sync';
 import { LEAGUE } from '@/config/league';
 import { LeagueMark } from '@/components/broadcast/LeagueMark';
+import { StartCountdown } from '@/components/broadcast/StartCountdown';
 import { cn } from '@/lib/cn';
 
 /**
@@ -40,7 +41,11 @@ export function PreDraftScreen({
 
         <div className="rule-gold mt-[1.4rem] w-[42rem]" />
 
-        <div className="mt-[1.6rem] flex items-center gap-[1.4rem]">
+        <div className="mt-[1.5rem]">
+          <StartCountdown />
+        </div>
+
+        <div className="mt-[1.5rem] flex items-center gap-[1.4rem]">
           <StatusChip
             label={connected ? 'Connected to ESPN' : 'Waiting for ESPN link'}
             tone={connected ? 'good' : 'idle'}

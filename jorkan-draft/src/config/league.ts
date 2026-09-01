@@ -154,6 +154,10 @@ export const LEAGUE: League = {
   rosterSize: 15,
   pickSeconds: 300,
   draftType: 'snake',
+  // Sunday 6 September 2026, 5pm, Panama time (UTC-5 all year, no daylight
+  // saving to trip over). Change this one line if the league moves the date.
+  scheduledStart: '2026-09-06T17:00:00-05:00',
+  musicLeadMinutes: 10,
   starters: STARTER_SLOTS,
   benchSlots: BENCH_SLOTS,
   teams: TEAMS,

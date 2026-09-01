@@ -4,6 +4,7 @@ import { displayedMs } from '@/core/clock';
 import type { Effect } from '@/core/draftMachine';
 import { INCOMING_MS, type DraftRuntime } from '@/state/DraftRuntime';
 import { debugLog } from '@/debug/logger';
+import { msUntilMusic } from '@/config/schedule';
 import { AudioEngine, audioEngine } from './AudioEngine';
 import { Announcer } from './Announcer';
 import {
@@ -69,16 +70,19 @@ export class Director {
 
     const phase = this.runtime.draft.get().phase;
     if (phase === 'idle' || phase === 'waiting') {
-      // Not awaited: a slow or dead music URL must not hold up fullscreen or
-      // the rest of arming.
-      void this.engine.playIntro(introUrl).then((played) => {
-        debugLog('note', played ? 'intro music playing' : 'no intro music available');
-        // The intro is a file on the far end of somebody's Dropbox link. When
-        // it will not play there used to be no music at all, and nothing on
-        // screen said why - so fall through to the bed we generate ourselves,
-        // which needs no network and cannot go missing.
-        if (!played) this.engine.startBed();
-      });
+      // Armed hours early - a television switched on in the morning - should
+      // not play the intro all day. It comes up on its own a few minutes
+      // before the league's scheduled start, or straight away if that moment
+      // has already arrived or no date is set.
+      const wait = msUntilMusic();
+      if (wait <= 0) this.startIntroMusic(introUrl);
+      else {
+        debugLog('note', `intro music held for ${Math.round(wait / 60_000)} min`);
+        this.schedule(() => {
+          const stillWaiting = this.runtime.draft.get().phase;
+          if (stillWaiting === 'idle' || stillWaiting === 'waiting') this.startIntroMusic(introUrl);
+        }, wait);
+      }
     } else if (phase === 'in_progress') {
       // Arming in the middle of a draft - a reloaded tab, a second screen
       // opened late. The bed normally starts on the change into in_progress,
@@ -86,6 +90,19 @@ export class Director {
       // the rest of the night.
       this.engine.startBed();
     }
+  }
+
+  /** Pre-draft music, with the generated bed behind it as a safety net. */
+  private startIntroMusic(introUrl: string | null): void {
+    // Not awaited: a slow or dead music URL must not hold up anything else.
+    void this.engine.playIntro(introUrl).then((played) => {
+      debugLog('note', played ? 'intro music playing' : 'no intro music available');
+      // The intro is a file on the far end of somebody's link. When it will
+      // not play there used to be no music at all, and nothing on screen said
+      // why - so fall through to the bed we generate ourselves, which needs
+      // no network and cannot go missing.
+      if (!played) this.engine.startBed();
+    });
   }
 
   setSettings(settings: AudioSettings): void {
