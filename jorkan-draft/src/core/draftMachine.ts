@@ -44,6 +44,18 @@ export function teamRefForSlot(slot: number): TeamRef | null {
 }
 
 /** Configured draft order says who owns this overall pick. ESPN can override. */
+/**
+ * A round or a pick number ESPN can actually have meant.
+ *
+ * `??` only steps aside for null, so a zero coming off ESPN used to survive
+ * all the way to the screen and put "ROUND 0" on the television. Nothing
+ * below one is a real coordinate; treat it as no reading at all and let the
+ * snake maths answer instead.
+ */
+function atLeastOne(value: number | null | undefined): number | null {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 1 ? value : null;
+}
+
 export function expectedTeamForOverall(overallPick: number): TeamRef | null {
   if (!isValidOverall(overallPick)) return null;
   return teamRefForSlot(slotForOverall(overallPick));
@@ -447,8 +459,8 @@ export class DraftMachine {
       if (changed) {
         this.state = {
           ...this.state,
-          round: snapshot.round ?? coords.round,
-          pickInRound: snapshot.pickInRound ?? coords.pickInRound,
+          round: atLeastOne(snapshot.round) ?? coords.round,
+          pickInRound: atLeastOne(snapshot.pickInRound) ?? coords.pickInRound,
           overallPick: espnOverall,
           onTheClock: espnTeam,
           onDeck: snapshot.onDeck ?? expectedTeamForOverall(espnOverall + 1),

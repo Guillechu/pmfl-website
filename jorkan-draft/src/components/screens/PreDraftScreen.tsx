@@ -80,11 +80,15 @@ export function PreDraftScreen({
                 Waiting for ESPN draft
               </p>
             </div>
+            {/*
+              This used to name the team configured in slot 1 as the one who
+              would open the draft. ESPN owns the draft order, not our config,
+              and naming a team here states as fact something we have not read
+              from ESPN - so it says the pick and lets ESPN name the team.
+            */}
             <p className="mt-[0.9rem] max-w-[52rem] text-center text-tv-sm leading-relaxed text-ink/45">
-              The presentation starts by itself the moment ESPN puts
-              {' '}
-              <span className="text-ink/70">{LEAGUE.teams[0]?.name}</span>
-              {' '}on the clock for pick 1.01.
+              The presentation starts by itself the moment ESPN puts the first
+              team on the clock for pick 1.01.
             </p>
           </motion.div>
         )}
