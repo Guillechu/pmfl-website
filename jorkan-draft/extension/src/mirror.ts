@@ -40,6 +40,25 @@ export function emptyMirror(): Mirror {
   };
 }
 
+/**
+ * Throw the mirror away when the draft room is a different draft.
+ *
+ * Every ESPN mock draft gets its own league id, so a night of rehearsals used
+ * to pile the picks of one room on top of another. The moment that reached
+ * 180 the presentation declared the draft complete and stopped listening to
+ * everything after it. A new league starts from nothing.
+ *
+ * Returns true when it actually threw something away.
+ */
+export function startNewLeague(mirror: Mirror, seen: Set<string>, leagueId: string | null): boolean {
+  if (!leagueId) return false;
+  if (mirror.leagueId === leagueId) return false;
+  const hadState = mirror.leagueId !== null && (mirror.picks.length > 0 || mirror.phase !== 'idle');
+  Object.assign(mirror, emptyMirror(), { leagueId });
+  seen.clear();
+  return hadState;
+}
+
 export interface ApplyResult {
   events: ProviderEvent[];
   /** False when the snapshot was ignored as too low quality to trust. */
@@ -89,7 +108,7 @@ export function applySnapshot(
   const at = options.now;
   const events: ProviderEvent[] = [];
 
-  if (snapshot.leagueId) mirror.leagueId = snapshot.leagueId;
+  startNewLeague(mirror, seen, snapshot.leagueId);
 
   // Phase. 'idle' means "could not tell", which is never news.
   if (snapshot.phase !== 'idle' && snapshot.phase !== mirror.phase) {

@@ -252,6 +252,39 @@ function joiningMidDraft(): void {
   check(countPicks(live.events) === 1, 'mid-draft join: the next pick is announced', `${countPicks(live.events)}`);
 }
 
+/**
+ * A rehearsal, then the real thing.
+ *
+ * Every ESPN mock draft has its own league id. Picks from one room piling up
+ * on the next is what filled the board to 180 and made the presentation
+ * declare a draft that had barely started already over - after which it
+ * ignored the clock, the round, the board, the rosters and every new pick.
+ */
+function rehearsalThenTheRealDraft(): void {
+  const mirror = emptyMirror();
+  const seen = new Set<string>();
+
+  // A full mock draft in some other league.
+  const rehearsal = Array.from({ length: 180 }, (_, index) => pickAt(index + 1));
+  const mock = snapshotFor(180, rehearsal);
+  mock.leagueId = 'mock-2036757808';
+  applySnapshot(mirror, seen, mock, meta(), { snapshotTail: 40, bestConfidence: null, now: Date.now() });
+  check(mirror.picks.length === 180, 'rehearsal: the mock board fills', `${mirror.picks.length}`);
+
+  // Then the real draft room, one pick in.
+  const real = snapshotFor(2, [pickAt(1)]);
+  real.leagueId = LEAGUE.espnLeagueId;
+  const result = applySnapshot(mirror, seen, real, meta(), {
+    snapshotTail: 40,
+    bestConfidence: null,
+    now: Date.now(),
+  });
+  check(mirror.leagueId === LEAGUE.espnLeagueId, 'real draft: the league switches', String(mirror.leagueId));
+  check(mirror.picks.length === 1, 'real draft: the mock board is gone', `${mirror.picks.length} picks`);
+  check(countPicks(result.events) === 1, 'real draft: its first pick is live', `${countPicks(result.events)}`);
+  check(!result.backfilled, 'real draft: one pick is not history');
+}
+
 function clockChatter(): void {
   const mirror = emptyMirror();
   const seen = new Set<string>();
@@ -274,6 +307,7 @@ function main(): void {
   lowConfidenceFrame();
   serviceWorkerRestart();
   joiningMidDraft();
+  rehearsalThenTheRealDraft();
   clockChatter();
 
   if (failures.length > 0) {
@@ -282,7 +316,8 @@ function main(): void {
     process.exit(1);
   }
   console.log(
-    '  storm, history, correction, phases, blind frame, worker restart, mid-draft join, clock: all pass',
+    '  storm, history, correction, phases, blind frame, worker restart, mid-draft join, ' +
+      'league switch, clock: all pass',
   );
   console.log('\nAll checks passed.');
 }

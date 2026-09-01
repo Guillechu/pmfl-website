@@ -226,6 +226,53 @@ function reconnectChecks(): void {
  * 1-60. The next live pick must still move the clock forward - not back to
  * the lowest slot it happens to be missing.
  */
+/**
+ * A finished rehearsal must not end the real draft before it starts.
+ *
+ * "A completed draft never un-completes" is the right rule for a stale read
+ * and the wrong one for a new draft room: a mock draft run to 180 picks left
+ * the presentation complete and deaf to the clock, the round, the board, the
+ * rosters and every pick of the night that followed.
+ */
+function newLeagueChecks(): void {
+  const machine = new DraftMachine();
+  const now = Date.now();
+  const full = Array.from({ length: 180 }, (_, index) => samplePick(index + 1));
+
+  const snapshotOf = (leagueId: string, overall: number, picks: ReturnType<typeof samplePick>[]) => ({
+    type: 'SNAPSHOT' as const,
+    at: now,
+    snapshot: {
+      phase: 'in_progress' as const,
+      leagueId,
+      round: coordsOf(overall).round,
+      pickInRound: coordsOf(overall).pickInRound,
+      overallPick: overall,
+      onTheClock: teamRefFor(overall),
+      onDeck: teamRefFor(overall + 1),
+      clockMs: 300_000,
+      clockRunning: true,
+      picks,
+      capturedAt: now,
+    },
+  });
+
+  machine.apply(snapshotOf('mock-848693692', 180, full));
+  check(machine.getState().phase === 'complete', 'new league: the rehearsal completes', machine.getState().phase);
+
+  machine.apply(snapshotOf(LEAGUE.espnLeagueId, 2, [samplePick(1)]));
+  const state = machine.getState();
+  check(state.phase === 'in_progress', 'new league: the real draft is live again', state.phase);
+  check(state.leagueId === LEAGUE.espnLeagueId, 'new league: the league follows ESPN', state.leagueId);
+  check(state.picks.length === 1, 'new league: the rehearsal board is gone', `${state.picks.length} picks`);
+  check(state.overallPick === 2, 'new league: back on the clock', `${state.overallPick}`);
+
+  // And the next real pick is announced, which is the whole point.
+  const effects = machine.apply({ type: 'PICK_MADE', at: now, pick: samplePick(2) });
+  const announced = effects.filter((e) => e.type === 'PICK_ACCEPTED' && e.live);
+  check(announced.length === 1, 'new league: the next pick is announced', `${announced.length}`);
+}
+
 function partialHistoryChecks(): void {
   const machine = new DraftMachine();
   const now = Date.now();
@@ -295,6 +342,7 @@ function partialHistoryChecks(): void {
   );
 
   console.log('  partial history: advances forward, no rewind, completes on the final pick');
+  console.log('  new league: a finished rehearsal does not end the real draft');
 }
 
 function coordsOf(overall: number) {
@@ -336,6 +384,7 @@ async function main(): Promise<void> {
 
   reconnectChecks();
   partialHistoryChecks();
+  newLeagueChecks();
 
   if (failures.length > 0) {
     console.error(`\n${failures.length} check(s) FAILED:`);

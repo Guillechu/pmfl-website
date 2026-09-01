@@ -8,7 +8,7 @@ import type {
 } from '@shared/protocol';
 import { ESPN_ORIGIN, PRESENTATION_ORIGINS, PROTOCOL_VERSION } from '@shared/protocol';
 import type { DraftSnapshot } from '@/types/draft';
-import { applySnapshot as foldSnapshot, emptyMirror, type Mirror } from './mirror';
+import { applySnapshot as foldSnapshot, emptyMirror, startNewLeague, type Mirror } from './mirror';
 
 /**
  * Background service worker.
@@ -118,7 +118,17 @@ function broadcast(message: BackgroundToPage): void {
 
 /* -------------------------- snapshot handling ------------------------- */
 
+/** A new draft room means a new draft; see startNewLeague in mirror.ts. */
+function switchLeague(leagueId: string | null): void {
+  if (!startNewLeague(mirror, seen, leagueId)) return;
+  lastSnapshot = null;
+  lastMeta = null;
+  persist();
+  broadcast({ kind: 'STATE_SYNC', at: Date.now(), state: bridgeState(true) });
+}
+
 function applySnapshot(snapshot: DraftSnapshot, meta: ParseMeta): void {
+
   const result = foldSnapshot(mirror, seen, snapshot, meta, {
     snapshotTail: SNAPSHOT_TAIL,
     bestConfidence: lastMeta?.confidence ?? null,
@@ -199,9 +209,9 @@ function attachEspnPort(port: chrome.runtime.Port): void {
   port.onMessage.addListener((message: EspnToBackground) => {
     switch (message.kind) {
       case 'ESPN_HELLO':
-        if (message.leagueId) mirror.leagueId = message.leagueId;
+        switchLeague(message.leagueId);
         if (debugMode) port.postMessage({ kind: 'SET_DEBUG_MODE', enabled: true });
-        broadcast({ kind: 'STATE_SYNC', at: Date.now(), state: bridgeState(false) });
+        broadcast({ kind: 'STATE_SYNC', at: Date.now(), state: bridgeState(true) });
         break;
 
       case 'ESPN_SNAPSHOT':

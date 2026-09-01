@@ -364,6 +364,21 @@ export class DraftMachine {
    * when it is the newest one and we were already synced.
    */
   private reconcile(snapshot: DraftSnapshot, at: number): Effect[] {
+    /*
+     * A different league is a different draft, and the presentation starts
+     * over for it.
+     *
+     * "A finished draft never un-finishes" is the right rule for a stale or
+     * garbled read, but it is the wrong one here: a rehearsal that ran to 180
+     * picks would leave the presentation complete and refusing to listen to
+     * anything - clock, round, board, rosters, every new pick - for the rest
+     * of the night. A league id changing under us is not a bad read, it is a
+     * new draft room.
+     */
+    if (snapshot.leagueId && snapshot.leagueId !== this.state.leagueId) {
+      this.reset(snapshot.leagueId);
+    }
+
     const effects: Effect[] = [];
     const drift: DriftEntry[] = [];
     const firstLook = !this.hydrated;
