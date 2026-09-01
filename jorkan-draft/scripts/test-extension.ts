@@ -7,7 +7,7 @@
  * protection under React re-render storms, ESPN correcting itself, phase
  * transitions, and restoring a mirror after the service worker recycles.
  */
-import { applySnapshot, emptyMirror, type Mirror } from '../extension/src/mirror';
+import { applySnapshot, emptyMirror, LEAGUE_HANDOVER_QUIET_MS, type Mirror } from '../extension/src/mirror';
 import type { DraftPick, DraftSnapshot } from '../src/types/draft';
 import type { ParseMeta } from '../shared/protocol';
 import type { ProviderEvent } from '../src/types/events';
@@ -266,18 +266,31 @@ function rehearsalThenTheRealDraft(): void {
 
   // A full mock draft in some other league.
   const rehearsal = Array.from({ length: 180 }, (_, index) => pickAt(index + 1));
+  const startedAt = Date.now();
   const mock = snapshotFor(180, rehearsal);
   mock.leagueId = 'mock-2036757808';
-  applySnapshot(mirror, seen, mock, meta(), { snapshotTail: 40, bestConfidence: null, now: Date.now() });
+  applySnapshot(mirror, seen, mock, meta(), { snapshotTail: 40, bestConfidence: null, now: startedAt });
   check(mirror.picks.length === 180, 'rehearsal: the mock board fills', `${mirror.picks.length}`);
 
-  // Then the real draft room, one pick in.
+  // A second room reporting while the first is still live must not wipe it:
+  // both keep reporting every second and a half, and switching on sight would
+  // have them clear each other's board several times a second.
   const real = snapshotFor(2, [pickAt(1)]);
   real.leagueId = LEAGUE.espnLeagueId;
+  applySnapshot(mirror, seen, real, meta(), {
+    snapshotTail: 40,
+    bestConfidence: null,
+    now: startedAt + 1_500,
+  });
+  check(mirror.leagueId === 'mock-2036757808', 'two live rooms: the one reporting keeps it', String(mirror.leagueId));
+  check(mirror.picks.length === 180, 'two live rooms: no board is wiped', `${mirror.picks.length}`);
+
+  // Once the rehearsal goes quiet - closed, or navigated away - the real
+  // draft takes over.
   const result = applySnapshot(mirror, seen, real, meta(), {
     snapshotTail: 40,
     bestConfidence: null,
-    now: Date.now(),
+    now: startedAt + LEAGUE_HANDOVER_QUIET_MS + 1_000,
   });
   check(mirror.leagueId === LEAGUE.espnLeagueId, 'real draft: the league switches', String(mirror.leagueId));
   check(mirror.picks.length === 1, 'real draft: the mock board is gone', `${mirror.picks.length} picks`);

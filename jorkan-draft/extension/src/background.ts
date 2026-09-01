@@ -120,7 +120,7 @@ function broadcast(message: BackgroundToPage): void {
 
 /** A new draft room means a new draft; see startNewLeague in mirror.ts. */
 function switchLeague(leagueId: string | null): void {
-  if (!startNewLeague(mirror, seen, leagueId)) return;
+  if (!startNewLeague(mirror, seen, leagueId, Date.now())) return;
   lastSnapshot = null;
   lastMeta = null;
   persist();

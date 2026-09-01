@@ -41,6 +41,12 @@ export function emptyMirror(): Mirror {
 }
 
 /**
+ * How long the draft we are mirroring must go quiet before another one can
+ * take its place.
+ */
+export const LEAGUE_HANDOVER_QUIET_MS = 10_000;
+
+/**
  * Throw the mirror away when the draft room is a different draft.
  *
  * Every ESPN mock draft gets its own league id, so a night of rehearsals used
@@ -48,12 +54,27 @@ export function emptyMirror(): Mirror {
  * 180 the presentation declared the draft complete and stopped listening to
  * everything after it. A new league starts from nothing.
  *
+ * The quiet period is what makes that safe. A forgotten mock draft left open
+ * in another tab keeps parsing and reporting every second and a half, so
+ * switching on sight would have the two rooms wipe each other's board several
+ * times a second - worse than the problem it fixes. Instead the draft that is
+ * actively reporting keeps the mirror, and only silence hands it over: close
+ * the old room or navigate away and the new one takes it a few seconds later.
+ *
  * Returns true when it actually threw something away.
  */
-export function startNewLeague(mirror: Mirror, seen: Set<string>, leagueId: string | null): boolean {
+export function startNewLeague(
+  mirror: Mirror,
+  seen: Set<string>,
+  leagueId: string | null,
+  now: number,
+  quietMs: number = LEAGUE_HANDOVER_QUIET_MS,
+): boolean {
   if (!leagueId) return false;
   if (mirror.leagueId === leagueId) return false;
-  const hadState = mirror.leagueId !== null && (mirror.picks.length > 0 || mirror.phase !== 'idle');
+  const hadState = mirror.picks.length > 0 || mirror.phase !== 'idle';
+  // Someone else is still live in here.
+  if (hadState && now - mirror.updatedAt < quietMs) return false;
   Object.assign(mirror, emptyMirror(), { leagueId });
   seen.clear();
   return hadState;
@@ -108,7 +129,17 @@ export function applySnapshot(
   const at = options.now;
   const events: ProviderEvent[] = [];
 
-  startNewLeague(mirror, seen, snapshot.leagueId);
+  startNewLeague(mirror, seen, snapshot.leagueId, at);
+  /*
+   * A read from a draft that is not the one we are mirroring is not ours to
+   * fold in. Ignoring it outright is what keeps a forgotten mock draft in
+   * another tab from contaminating the board - and it must not count as
+   * activity either, or the room we are actually mirroring would never go
+   * quiet enough to hand over when it really does close.
+   */
+  if (snapshot.leagueId && mirror.leagueId && snapshot.leagueId !== mirror.leagueId) {
+    return { events: [], accepted: false, backfilled: false };
+  }
 
   // Phase. 'idle' means "could not tell", which is never news.
   if (snapshot.phase !== 'idle' && snapshot.phase !== mirror.phase) {
