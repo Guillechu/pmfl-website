@@ -97,17 +97,22 @@ export function parseDraftRoom(input: ParseInput): ParseOutput {
 
   // Picks first: whether any selection has been made is itself evidence about
   // which phase the draft is in.
+  // Where the draft is right now, read before the board, because it is what
+  // the board is checked against.
+  const coords = detectCoords(atoms, compact, probe, current, recorder);
+  const onTheClockPick = recorder.strategies['coords'] ? (coords?.overallPick ?? null) : null;
+
   const picks = detectPicks(
     root,
     atoms,
     probe,
     input.apiPicks ?? [],
     input.leagueId ?? LEAGUE.espnLeagueId,
+    onTheClockPick,
     recorder,
   );
   const phase = detectPhase(atoms, probe, picks.length, current, recorder);
   const clock = detectClock(atoms, compact, probe, recorder);
-  const coords = detectCoords(atoms, compact, probe, current, recorder);
   const onTheClock = detectOnTheClock(atoms, probe, current, coords?.overallPick ?? null, recorder);
   const onDeck = detectOnDeck(atoms, strip, coords?.overallPick ?? null, recorder);
 
@@ -581,6 +586,7 @@ function detectPicks(
   probe: NonNullable<ProbeSnapshot['draft']> | null,
   apiPicks: DraftPick[],
   leagueId: string,
+  onTheClockPick: number | null,
   recorder: Recorder,
 ): DraftPick[] {
   const byOverall = new Map<number, DraftPick>();
@@ -633,7 +639,30 @@ function detectPicks(
     }
   }
 
-  return [...byOverall.values()].sort((a, b) => a.overallPick - b.overallPick);
+  /*
+   * Cross-check the board against the clock.
+   *
+   * ESPN tells us two things, and they can disagree. A practice room sitting
+   * on pick 13 had its feed return all 180 picks, named and complete - so the
+   * board filled, the presentation declared the draft over before it started,
+   * and then ignored the clock, the round and every real pick of the night.
+   *
+   * The room's own "on the clock" is the statement about *now*, so it wins: a
+   * pick at or beyond it has not been made yet, whatever the feed says. When
+   * the draft really is finished there is no pick on the clock and nothing is
+   * dropped.
+   */
+  const board = [...byOverall.values()].sort((a, b) => a.overallPick - b.overallPick);
+  if (onTheClockPick === null) return board;
+
+  const made = board.filter((pick) => pick.overallPick < onTheClockPick);
+  if (made.length !== board.length) {
+    recorder.warn(
+      `ESPN's feed listed ${board.length} picks while pick ${onTheClockPick} is on the clock; ` +
+        `kept the ${made.length} that have actually happened`,
+    );
+  }
+  return made;
 }
 
 interface ProbePick {

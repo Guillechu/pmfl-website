@@ -54,7 +54,16 @@ async function bundleParser(): Promise<string> {
   await writeFile(
     entry,
     `import { parseDraftRoom } from '${resolve(root, 'extension/src/content/espnParser.ts').replace(/\\/g, '/')}';\n` +
-      `(globalThis as any).__jorkanParse = () => parseDraftRoom({ leagueId: '1314329848', probe: null, previous: null });\n`,
+      `(globalThis as any).__jorkanParse = () => parseDraftRoom({ leagueId: '1314329848', probe: null, previous: null });\n` +
+      `(globalThis as any).__jorkanParseWithFeed = (n: number) => parseDraftRoom({\n` +
+      `  leagueId: '1314329848', probe: null, previous: null,\n` +
+      `  apiPicks: Array.from({ length: n }, (_unused, i) => ({\n` +
+      `    overallPick: i + 1, round: Math.floor(i / 12) + 1, pickInRound: (i % 12) + 1,\n` +
+      `    player: { name: 'Fed Player ' + (i + 1), position: 'WR' as const, espnId: String(1000 + i) },\n` +
+      `    fantasyTeamId: 'el-dandy', fantasyTeamName: 'El Dandy', managerName: 'Guillermo Chu',\n` +
+      `    timestamp: 0, eventId: 'feed|' + (i + 1),\n` +
+      `  })),\n` +
+      `});\n`,
   );
   const out = join(dir, 'parser.js');
   await build({
@@ -125,6 +134,15 @@ async function main(): Promise<void> {
   await page.goto(pathToFileURL(fixture).href);
   await page.addScriptTag({ content: script });
   const result = (await page.evaluate('__jorkanParse()')) as ParseResultShape;
+
+  /*
+   * The same page, handed a feed that claims the whole draft is done.
+   *
+   * A live practice room on pick 13 had ESPN's feed return all 180 picks,
+   * named and complete. The room is on pick 104 here, so 103 picks have
+   * happened and 77 have not, whatever the feed says.
+   */
+  const flooded = (await page.evaluate(`__jorkanParseWithFeed(180)`)) as ParseResultShape;
   const browser2 = browser;
 
   const { snapshot, meta } = result;
@@ -158,6 +176,17 @@ async function main(): Promise<void> {
   check(snapshot.onDeck?.fantasyTeamName === 'Los Badros', 'on deck read from the pick strip', String(snapshot.onDeck?.fantasyTeamName));
   check(meta.strategies['onDeck'] === 'dom-pick-strip', 'on deck is a reading, not a fallback', meta.strategies['onDeck'] ?? 'none');
   check(snapshot.picks.length === 0, 'no picks invented from the players grid', String(snapshot.picks.length));
+  check(
+    flooded.snapshot.picks.length === 103,
+    'a feed claiming a finished draft is trimmed to what has happened',
+    `${flooded.snapshot.picks.length} kept`,
+  );
+  check(
+    flooded.meta.warnings.some((w) => w.includes('on the clock')),
+    'and says so',
+    JSON.stringify(flooded.meta.warnings),
+  );
+  check(flooded.snapshot.phase === 'in_progress', 'the draft is not declared over', flooded.snapshot.phase);
   check(meta.durationMs < 60, 'parse stays cheap', `${meta.durationMs}ms`);
 
   // Page furniture must never become a pick.
