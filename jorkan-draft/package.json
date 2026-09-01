@@ -14,7 +14,8 @@
     "test:sim": "tsx scripts/stress-sim.ts",
     "check": "npm run typecheck && npm run test:sim && npm run test:extension && npm run test:espn-path",
     "test:extension": "tsx scripts/test-extension.ts",
-    "test:espn-path": "tsx scripts/test-espn-path.ts"
+    "test:espn-path": "tsx scripts/test-espn-path.ts",
+    "analyze:debug": "tsx scripts/analyze-debug-export.ts"
   },
   "dependencies": {
     "framer-motion": "^11.11.17",
