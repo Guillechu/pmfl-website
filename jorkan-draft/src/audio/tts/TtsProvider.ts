@@ -11,6 +11,15 @@ export interface TtsVoice {
   name: string;
   lang: string;
   isDefault: boolean;
+  /**
+   * False when the voice is streamed from a server rather than generated on
+   * the machine. Counter-intuitively that is the good sign: the network
+   * voices are the modern neural ones, and the local ones are the decades-old
+   * robotic engines.
+   */
+  localService?: boolean;
+  /** 0..1, how natural this voice is expected to sound. Best first in lists. */
+  quality?: number;
 }
 
 export interface SpeakOptions {

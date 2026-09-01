@@ -21,8 +21,11 @@ export const DEFAULT_SETTINGS: AppSettings = {
     duckAttackMs: 220,
     duckReleaseMs: 900,
     voiceId: null,
-    voiceRate: 0.96,
-    voicePitch: 0.92,
+    // Pitch shifting is the single biggest source of that "computer voice"
+    // sound, and a neural voice needs none of it. Left at 1, with only a
+    // whisker off the rate so a name lands rather than rushes.
+    voiceRate: 0.98,
+    voicePitch: 1,
     announcerEnabled: true,
     musicEnabled: true,
     sfxEnabled: true,

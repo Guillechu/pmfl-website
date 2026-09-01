@@ -301,6 +301,20 @@ running*, and that Windows is playing sound through the TV
 No speech voices installed, or the announcer is muted. Check the voice list in
 the audio panel.
 
+**The announcer sounds robotic**
+Press **M** and look at the voice list. Voices marked with a star are neural
+and sound close to a real read; everything else is a decades-old local engine
+and sounds like one. Chrome on Windows usually offers nothing better than
+*Google UK English Male*.
+
+If you want the best voice available, **run the presentation in Microsoft
+Edge**. Edge ships Microsoft's natural voices (*Guy*, *Andrew*, *Christopher*
+and others) and Chrome does not, and the extension loads in Edge exactly the
+same way - `edge://extensions` → Developer mode → Load unpacked → `extension/dist`.
+
+The presentation picks a man's voice, the most natural one it can find, on its
+own. Pick a different one from the list at any time; the choice is saved.
+
 **Announcer talks over itself**
 It cannot - announcements are queued. If a line seems late, it is waiting for
 the pick reveal to finish, which is deliberate.

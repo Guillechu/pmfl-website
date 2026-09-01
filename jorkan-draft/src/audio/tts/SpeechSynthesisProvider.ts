@@ -1,5 +1,49 @@
 import type { SpeakOptions, TtsProvider, TtsVoice } from './TtsProvider';
 
+/*
+ * Which browser voice should read the draft.
+ *
+ * The brief is a man's voice, as natural as this machine can manage, and the
+ * gap between the best and the worst available is enormous - the neural
+ * voices are close to a broadcast read, the twenty-year-old local engines are
+ * unmistakably a computer. Nothing in the Web Speech API says a voice's
+ * gender or its quality, so both have to be recognised by name.
+ */
+
+/** Neural voices, in the order they sound best for reading a draft. */
+const NATURAL_MALE = /\b(guy|andrew|brian|christopher|eric|roger|steffan|davis|tony|jason|william|liam|ryan|thomas|alfie|elliot)\b/i;
+/** The older local engines: male, and audibly synthetic. */
+const CLASSIC_MALE = /\b(david|mark|george|james|daniel|fred|alex|oliver|rishi|richard)\b/i;
+/** Named women's voices, so a search for "natural" does not land on one. */
+const FEMALE = /\b(zira|aria|jenny|michelle|ana|hazel|susan|linda|heera|catherine|eva|emma|amber|ashley|cora|elizabeth|monica|sara|nanci|samantha|karen|moira|tessa|fiona|serena|kate|libby|sonia|natasha|clara|female)\b/i;
+
+/**
+ * How good a fit a voice is, highest first. Anything at zero or below is
+ * either the wrong language or a woman's voice, and is never chosen by
+ * default - though it stays in the list for anyone who wants it.
+ */
+export function scoreVoice(name: string, lang: string, localService: boolean): number {
+  const language = lang.toLowerCase();
+  if (!language.startsWith('en')) return -100;
+  if (FEMALE.test(name)) return -50;
+
+  let score = 1;
+  // "Natural" and "Online" are how Microsoft labels its neural voices, and
+  // they are the closest thing to a real announcer a browser will give us.
+  if (/natural|neural/i.test(name)) score += 120;
+  if (/online/i.test(name)) score += 60;
+  if (NATURAL_MALE.test(name)) score += 70;
+  else if (CLASSIC_MALE.test(name)) score += 30;
+  else if (/\bmale\b/i.test(name)) score += 45;
+  // Streamed voices are the modern ones; local means the old robotic engine.
+  if (!localService) score += 40;
+  if (/google/i.test(name)) score += 25;
+
+  if (language.startsWith('en-us')) score += 12;
+  else if (language.startsWith('en-gb')) score += 8;
+  return score;
+}
+
 /**
  * Browser SpeechSynthesis.
  *
@@ -39,12 +83,16 @@ export class SpeechSynthesisProvider implements TtsProvider {
       const collect = () => {
         const list = window.speechSynthesis.getVoices();
         if (list.length === 0) return false;
-        this.cached = list.map((voice) => ({
-          id: voice.voiceURI,
-          name: voice.name,
-          lang: voice.lang,
-          isDefault: voice.default,
-        }));
+        this.cached = list
+          .map((voice) => ({
+            id: voice.voiceURI,
+            name: voice.name,
+            lang: voice.lang,
+            isDefault: voice.default,
+            localService: voice.localService,
+            quality: scoreVoice(voice.name, voice.lang, voice.localService),
+          }))
+          .sort((a, b) => (b.quality ?? 0) - (a.quality ?? 0));
         return true;
       };
       if (collect()) {
@@ -67,20 +115,15 @@ export class SpeechSynthesisProvider implements TtsProvider {
     });
   }
 
-  /** Best English voice available, preferring a natural US English one. */
+  /**
+   * The most natural male English voice on this machine.
+   *
+   * The list is already sorted best-first by the same scoring, so this is the
+   * head of it. Anything English will do rather than nothing.
+   */
   pickDefaultVoice(): string | null {
-    const preferred = [
-      /google us english/i,
-      /microsoft (guy|aria|jenny|david)/i,
-      /natural/i,
-      /en-us/i,
-    ];
-    for (const pattern of preferred) {
-      const match = this.cached.find(
-        (voice) => pattern.test(voice.name) || pattern.test(voice.lang),
-      );
-      if (match) return match.id;
-    }
+    const best = this.cached.find((voice) => (voice.quality ?? 0) > 0);
+    if (best) return best.id;
     return this.cached.find((voice) => voice.lang.toLowerCase().startsWith('en'))?.id ?? null;
   }
 

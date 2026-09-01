@@ -75,14 +75,20 @@ export function AudioPanel({ onClose }: { onClose: () => void }) {
             onChange={(event) => patchAudio({ voiceId: event.target.value || null })}
             className="mt-[0.2rem] w-full rounded-[0.2rem] border border-ink/15 bg-surface-850 px-[0.4rem] py-[0.25rem] text-tv-xs text-ink"
           >
-            <option value="">Browser default</option>
+            <option value="">Best available (a man's voice, most natural first)</option>
             {voices.map((voice) => (
               <option key={voice.id} value={voice.id}>
+                {(voice.quality ?? 0) >= 150 ? '\u2605 ' : ''}
                 {voice.name} ({voice.lang})
               </option>
             ))}
           </select>
         </label>
+        <p className="text-tv-xs leading-relaxed text-ink/45">
+          Voices marked &#9733; are neural and sound closest to a real announcer. If none are
+          listed, open this presentation in Microsoft Edge instead of Chrome - the extension
+          works there too, and Edge ships the natural voices Chrome does not.
+        </p>
         <OpsSlider
           label="Rate"
           value={audio.voiceRate}
