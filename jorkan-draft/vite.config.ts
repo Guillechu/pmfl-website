@@ -13,6 +13,12 @@ export default defineConfig({
       '@shared': fileURLToPath(new URL('./shared', import.meta.url)),
     },
   },
+  // Only the presentation is a Vite app. Without this, Vite's dependency
+  // scanner also crawls extension/src/popup/popup.html and fixtures/*.html and
+  // reports that it cannot resolve popup.js - which is true, and harmless,
+  // because esbuild builds the popup separately into extension/dist. The
+  // server worked anyway, but it greeted every start with a red error.
+  optimizeDeps: { entries: ['index.html'] },
   server: {
     // strictPort matters for more than convenience: the extension bridge only
     // attaches on this exact port, so the server must never silently move.
