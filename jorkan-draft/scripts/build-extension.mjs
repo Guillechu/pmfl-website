@@ -7,7 +7,7 @@
  * Then load extension/dist as an unpacked extension in chrome://extensions.
  */
 import { build, context } from 'esbuild';
-import { cp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { cp, mkdir, readFile, stat, writeFile, rm } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -52,23 +52,64 @@ async function copyStatic() {
   const manifest = JSON.parse(await readFile(resolve(root, 'extension/manifest.json'), 'utf8'));
   await writeFile(resolve(outdir, 'manifest.json'), JSON.stringify(manifest, null, 2));
   await cp(resolve(root, 'extension/src/popup/popup.html'), resolve(outdir, 'popup.html'));
-  await cp(resolve(root, 'extension/icon128.png'), resolve(outdir, 'icon128.png')).catch(() => {});
-  return manifest.version;
+  await cp(resolve(root, 'extension/icon128.png'), resolve(outdir, 'icon128.png'));
+  return manifest;
+}
+
+/**
+ * Every file the manifest names must actually be in dist.
+ *
+ * Chrome refuses to load an extension whose manifest points at something
+ * missing, and it only finds out at "Load unpacked" time - which is the worst
+ * possible moment. This build previously copied the icon with a .catch() that
+ * swallowed the error, and shipped a dist that Chrome rejected outright.
+ */
+async function verifyManifest(manifest) {
+  const referenced = new Set();
+  if (manifest.background?.service_worker) referenced.add(manifest.background.service_worker);
+  if (manifest.action?.default_popup) referenced.add(manifest.action.default_popup);
+  for (const entry of manifest.content_scripts ?? []) {
+    for (const file of entry.js ?? []) referenced.add(file);
+    for (const file of entry.css ?? []) referenced.add(file);
+  }
+  for (const file of Object.values(manifest.icons ?? {})) referenced.add(file);
+  for (const file of Object.values(manifest.action?.default_icon ?? {})) referenced.add(file);
+  for (const entry of manifest.web_accessible_resources ?? []) {
+    for (const file of entry.resources ?? []) referenced.add(file);
+  }
+
+  const missing = [];
+  for (const file of referenced) {
+    try {
+      await stat(resolve(outdir, file));
+    } catch {
+      missing.push(file);
+    }
+  }
+  if (missing.length > 0) {
+    throw new Error(
+      `manifest references ${missing.length} file(s) that are not in extension/dist: ${missing.join(', ')}\n` +
+        'Chrome would refuse to load this extension.',
+    );
+  }
+  console.log(`[extension] manifest verified: ${referenced.size} referenced files all present`);
 }
 
 async function main() {
   if (!watch) await rm(outdir, { recursive: true, force: true });
-  const version = await copyStatic();
+  const manifest = await copyStatic();
 
   if (watch) {
     const ctx = await context(shared);
     await ctx.watch();
-    console.log(`[extension] watching - output in extension/dist (v${version})`);
+    await verifyManifest(manifest);
+    console.log(`[extension] watching - output in extension/dist (v${manifest.version})`);
     return;
   }
 
   await build(shared);
-  console.log(`[extension] built v${version} -> extension/dist`);
+  await verifyManifest(manifest);
+  console.log(`[extension] built v${manifest.version} -> extension/dist`);
   console.log('[extension] load it: chrome://extensions -> Developer mode -> Load unpacked -> extension/dist');
 }
 
