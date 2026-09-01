@@ -158,6 +158,30 @@ async function main(): Promise<void> {
     JSON.stringify(placeholder?.unnamed),
   );
 
+  // ESPN answering in a shape we do not read: the only symptom is an empty
+  // board, so the shape itself has to reach the popup.
+  (globalThis as { fetch: unknown }).fetch = async (input: unknown) => {
+    const url = String(input);
+    const json = (value: unknown) => ({ ok: true, status: 200, json: async () => value }) as unknown as Response;
+    if (url.includes('site.web.api.espn.com')) return { ok: false, status: 404, json: async () => ({}) } as unknown as Response;
+    if (url.includes('view=kona_player_info')) return json({ playerPool: [], messages: [] });
+    return json({
+      draftDetail: {
+        drafted: false,
+        inProgress: true,
+        picks: [{ overallPickNumber: 1, roundId: 1, roundPickNumber: 1, playerId: 4362628, teamId: 1, autoDraftTypeId: 0 }],
+      },
+      teams: TEAMS,
+    });
+  };
+  const oddShape = await new EspnDraftApi('1314329848', 2026).read();
+  check(oddShape?.picks.length === 0, 'an unreadable answer yields no picks', `${oddShape?.picks.length}`);
+  check(
+    oddShape?.warnings.some((w) => w.includes('playerPool')) === true,
+    'and names the shape ESPN answered in',
+    JSON.stringify(oddShape?.warnings),
+  );
+
   // A public league served with `Access-Control-Allow-Origin: *`: the browser
   // refuses the credentialed request outright, and the same URL works the
   // moment we stop asking for the session.

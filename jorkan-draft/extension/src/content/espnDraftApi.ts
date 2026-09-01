@@ -127,6 +127,12 @@ function asRecord(value: unknown): Record<string, unknown> | null {
     : null;
 }
 
+/** The field names of an object, for saying what shape ESPN answered in. */
+function keysOf(value: Record<string, unknown> | null): string {
+  if (!value) return 'none';
+  return Object.keys(value).slice(0, 8).join(', ') || 'none';
+}
+
 function asNumber(value: unknown): number | null {
   if (typeof value === 'number' && Number.isFinite(value)) return value;
   if (typeof value === 'string' && value.trim() !== '' && Number.isFinite(Number(value))) return Number(value);
@@ -244,6 +250,16 @@ export class EspnDraftApi {
       );
       const root = asRecord(payload);
       const entries = Array.isArray(root?.['players']) ? (root['players'] as unknown[]) : [];
+      /*
+       * If ESPN answers in a shape we do not read, the only symptom is an
+       * empty board, and the cause is invisible from the outside. Naming the
+       * shape - keys only, never values - turns that into one line the popup
+       * can show, instead of a debug export and a round trip.
+       */
+      if (entries.length === 0) {
+        warnings.push(`player lookup answered with no players (top-level keys: ${keysOf(root)})`);
+      }
+      const before = this.players.size;
       for (const entry of entries) {
         const wrapper = asRecord(entry);
         const player = asRecord(wrapper?.['player']) ?? wrapper;
@@ -257,6 +273,11 @@ export class EspnDraftApi {
           position: positionId !== null ? (POSITION_BY_ID[positionId] ?? null) : null,
           proTeam: proTeamId !== null ? (PRO_TEAM_BY_ID[proTeamId] ?? null) : null,
         });
+      }
+      if (entries.length > 0 && this.players.size === before) {
+        warnings.push(
+          `player lookup named none of ${entries.length} entries (entry keys: ${keysOf(asRecord(entries[0]))})`,
+        );
       }
     } catch (error) {
       warnings.push(`player lookup failed: ${error instanceof Error ? error.message : String(error)}`);
