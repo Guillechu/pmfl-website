@@ -29,7 +29,7 @@ export function ClockPanel({ clock, paused }: { clock: ClockState; paused: boole
   return (
     <section className="panel flex h-full flex-col justify-between overflow-hidden px-[1.4rem] py-[1.1rem]">
       <div className="flex items-center justify-between">
-        <span className="eyebrow">Time Remaining</span>
+        <span className="eyebrow">Tiempo restante</span>
         {paused ? (
           <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.24em] text-gold-600">
             Paused

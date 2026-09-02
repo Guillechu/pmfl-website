@@ -9,9 +9,9 @@ export function RecentPicksPanel({ picks }: { picks: readonly DraftPick[] }) {
   return (
     <section className="panel flex h-full flex-col overflow-hidden px-[1.1rem] py-[1rem]">
       <div className="flex items-center justify-between">
-        <span className="eyebrow">Last Picks</span>
+        <span className="eyebrow">Últimos picks</span>
         <span className="font-display text-tv-xs uppercase tracking-[0.24em] text-ink/35">
-          {picks.length > 0 ? 'Live' : 'No picks yet'}
+          {picks.length > 0 ? 'Live' : 'Todavía no hay picks'}
         </span>
       </div>
 

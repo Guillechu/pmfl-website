@@ -67,7 +67,7 @@ function buildItems(state: DraftState): TickerItem[] {
   if (state.onTheClock) {
     items.push({
       key: 'otc',
-      label: 'On the Clock',
+      label: 'En el reloj',
       value: state.onTheClock.fantasyTeamName,
       color: '#A67512',
     });
@@ -77,7 +77,7 @@ function buildItems(state: DraftState): TickerItem[] {
   }
   items.push({
     key: 'round',
-    label: 'Round',
+    label: 'Ronda',
     value: `${state.round} of ${LEAGUE.rounds}`,
   });
 

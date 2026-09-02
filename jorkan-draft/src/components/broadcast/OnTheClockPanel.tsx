@@ -12,7 +12,7 @@ import { cn } from '@/lib/cn';
 export function OnTheClockPanel({ state }: { state: DraftState }) {
   const team = teamById(state.onTheClock?.fantasyTeamId);
   const accent = team?.accentColor ?? '#A67512';
-  const name = state.onTheClock?.fantasyTeamName ?? 'Waiting for ESPN';
+  const name = state.onTheClock?.fantasyTeamName ?? 'Esperando a ESPN';
   const manager = state.onTheClock?.managerName;
 
   return (
@@ -28,16 +28,16 @@ export function OnTheClockPanel({ state }: { state: DraftState }) {
 
       <div className="relative flex items-center justify-between">
         {state.phase === 'paused' ? (
-          <span className="eyebrow animate-pulse-urgent text-gold-600">Draft paused by ESPN</span>
+          <span className="eyebrow animate-pulse-urgent text-gold-600">Draft en pausa</span>
         ) : (
-          <span className="eyebrow">On the Clock</span>
+          <span className="eyebrow">En el reloj</span>
         )}
         <div className="flex items-baseline gap-[0.55rem] font-display uppercase tracking-[0.2em]">
           <span className="text-tv-xs text-ink/45">Pick</span>
           <span className="tabular text-tv-md font-bold text-ink">
             {state.round}.{String(state.pickInRound).padStart(2, '0')}
           </span>
-          <span className="text-tv-xs text-ink/45">Overall</span>
+          <span className="text-tv-xs text-ink/45">General</span>
           <span className="tabular text-tv-md font-bold text-gold-500">{state.overallPick}</span>
         </div>
       </div>
@@ -98,7 +98,7 @@ function RosterSoFar({ state, accent }: { state: DraftState; accent: string }) {
   return (
     <div className="relative">
       <div className="flex items-baseline justify-between">
-        <span className="eyebrow">Roster so far</span>
+        <span className="eyebrow">Roster hasta ahora</span>
         <span className="tabular font-display text-tv-xs uppercase tracking-[0.2em] text-ink/35">
           {picks.length} selected
         </span>

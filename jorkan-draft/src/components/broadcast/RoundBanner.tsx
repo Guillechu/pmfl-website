@@ -22,11 +22,11 @@ export function RoundBanner({ round }: { round: number | null }) {
           */}
           <div className="flex items-baseline gap-[0.8rem] rounded-[0.3rem] bg-ink px-[1.8rem] py-[0.5rem] shadow-panel">
             <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.34em] text-gold-300">
-              Round
+              Ronda
             </span>
             <span className="headline tabular text-tv-lg text-paper">{round}</span>
             <span className="font-display text-tv-xs uppercase tracking-[0.28em] text-paper/50">
-              of {LEAGUE.rounds}
+              de {LEAGUE.rounds}
             </span>
           </div>
         </motion.div>

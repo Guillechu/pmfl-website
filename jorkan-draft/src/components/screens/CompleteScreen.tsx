@@ -71,13 +71,13 @@ function Summary({ state }: { state: DraftState }) {
         </section>
 
         <section className="panel px-[1.2rem] py-[0.9rem]">
-          <span className="eyebrow">Draft Summary</span>
+          <span className="eyebrow">Resumen del draft</span>
           <dl className="mt-[0.7rem] grid grid-cols-2 gap-[0.7rem]">
-            <SummaryStat label="Total picks" value={`${state.picks.length}`} />
-            <SummaryStat label="Rounds" value={`${LEAGUE.rounds}`} />
-            <SummaryStat label="Teams" value={`${LEAGUE.teamCount}`} />
+            <SummaryStat label="Picks totales" value={`${state.picks.length}`} />
+            <SummaryStat label="Rondas" value={`${LEAGUE.rounds}`} />
+            <SummaryStat label="Equipos" value={`${LEAGUE.teamCount}`} />
             <SummaryStat
-              label="Full rosters"
+              label="Rosters completos"
               value={`${
                 [...rosters.values()].filter(
                   (roster) =>
@@ -88,7 +88,7 @@ function Summary({ state }: { state: DraftState }) {
           </dl>
 
           <div className="mt-[1rem]">
-            <span className="eyebrow">By position</span>
+            <span className="eyebrow">Por posición</span>
             <div className="mt-[0.5rem] flex flex-wrap gap-[0.4rem]">
               {Object.entries(positionCounts)
                 .sort((a, b) => b[1] - a[1])

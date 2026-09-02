@@ -125,16 +125,25 @@ export class HostedEspnProvider extends BaseProvider {
 
     const byOverall = new Map(feed.order.map((slot) => [slot.overallPick, slot.team]));
     const coords = overallPick === null ? null : coordsFromOverall(overallPick);
+    /*
+     * Before ESPN starts, nobody is on the clock.
+     *
+     * The feed names the team that owns pick 1 from the moment the draft room
+     * exists, days ahead. Reporting that as "on the clock" is us saying
+     * something ESPN has not: it made the presentation announce a team the
+     * instant the audio was unlocked, for a draft that had not begun.
+     */
+    const live = feed.inProgress;
 
     return {
       phase: feed.drafted ? 'complete' : feed.inProgress ? 'in_progress' : 'waiting',
       leagueId: LEAGUE.espnLeagueId,
-      round: coords?.round ?? null,
-      pickInRound: coords?.pickInRound ?? null,
-      overallPick,
+      round: live ? coords?.round ?? null : null,
+      pickInRound: live ? coords?.pickInRound ?? null : null,
+      overallPick: live ? overallPick : null,
       // Who is up comes from ESPN's own order, never from our config.
-      onTheClock: overallPick === null ? null : byOverall.get(overallPick) ?? null,
-      onDeck: overallPick === null ? null : byOverall.get(overallPick + 1) ?? null,
+      onTheClock: live && overallPick !== null ? byOverall.get(overallPick) ?? null : null,
+      onDeck: live && overallPick !== null ? byOverall.get(overallPick + 1) ?? null : null,
       // ESPN's public feed has no clock in it. Saying nothing is the honest
       // answer; the presentation shows no countdown rather than a made-up one.
       clockMs: null,

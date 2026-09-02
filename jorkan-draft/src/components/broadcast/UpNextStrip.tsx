@@ -7,10 +7,10 @@ import { cn } from '@/lib/cn';
 export function UpNextStrip({ state, made, total }: { state: DraftState; made: number; total: number }) {
   return (
     <div className="grid h-full grid-cols-[1.2fr_1fr] gap-[0.8rem]">
-      <UpNextCard label="On Deck" team={state.onDeck} emphasis />
+      <UpNextCard label="Siguiente" team={state.onDeck} emphasis />
       <section className="panel flex flex-col justify-center gap-[0.5rem] px-[1.1rem] py-[0.7rem]">
         <div className="flex items-baseline justify-between">
-          <span className="eyebrow">Draft Progress</span>
+          <span className="eyebrow">Avance del draft</span>
           <span className="tabular font-display text-tv-md font-bold text-ink">
             {made}
             <span className="text-ink/40"> / {total}</span>

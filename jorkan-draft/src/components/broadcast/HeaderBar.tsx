@@ -7,7 +7,7 @@ import { ConnectionPill } from './ConnectionPill';
 import { cn } from '@/lib/cn';
 
 const VIEWS: { id: PresentationView; label: string; key: string }[] = [
-  { id: 'live', label: 'Live', key: '1' },
+  { id: 'live', label: 'En vivo', key: '1' },
   { id: 'board', label: 'Board', key: '2' },
   { id: 'rosters', label: 'Rosters', key: '3' },
 ];
@@ -32,11 +32,11 @@ export function HeaderBar({
       <LeagueMark />
 
       <div className="flex items-center gap-[2.4rem]">
-        <Stat label="Round" value={`${state.round}`} sub={`of ${LEAGUE.rounds}`} />
+        <Stat label="Ronda" value={`${state.round}`} sub={`de ${LEAGUE.rounds}`} />
         <Divider />
-        <Stat label="Pick" value={`${state.pickInRound}`} sub={`of ${LEAGUE.teamCount}`} />
+        <Stat label="Pick" value={`${state.pickInRound}`} sub={`de ${LEAGUE.teamCount}`} />
         <Divider />
-        <Stat label="Overall" value={`${state.overallPick}`} sub={`of ${LEAGUE.rounds * LEAGUE.teamCount}`} accent />
+        <Stat label="General" value={`${state.overallPick}`} sub={`de ${LEAGUE.rounds * LEAGUE.teamCount}`} accent />
       </div>
 
       <div className="flex items-center gap-[1rem]">
@@ -53,7 +53,7 @@ export function HeaderBar({
             onClick={onArm}
             className="animate-pulse-urgent rounded-[0.3rem] border border-gold-600 bg-gold-500 px-[1.1rem] py-[0.42rem] font-display text-tv-xs font-bold uppercase tracking-[0.2em] text-paper"
           >
-            Enable sound
+            Activar sonido
           </button>
         ) : null}
         <nav className="flex items-center gap-[0.3rem] rounded-full border border-ink/10 bg-ink/[0.04] p-[0.2rem]">

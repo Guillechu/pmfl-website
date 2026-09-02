@@ -26,13 +26,21 @@ export function StartCountdown() {
   return (
     <div className="flex flex-col items-center">
       <p className="eyebrow text-ink/45">
-        {overdue ? 'Scheduled start has passed' : 'Draft begins in'}
+        {overdue ? 'La hora prevista ya pasó' : 'El draft empieza en'}
       </p>
-      <div className="mt-[0.5rem] flex items-end gap-[0.9rem]">
-        {days > 0 ? <Unit value={days} label="days" /> : null}
-        <Unit value={hours} label="hours" />
-        <Unit value={minutes} label="min" />
-        <Unit value={seconds} label="sec" />
+      {/*
+        No labels under the numbers. On a television the reading is obvious
+        from the shape of the clock, and four little words in a row were the
+        busiest thing on an otherwise calm screen.
+      */}
+      <div className="mt-[0.5rem] flex items-end gap-[0.7rem]">
+        {days > 0 ? <Unit value={days} /> : null}
+        {days > 0 ? <Colon /> : null}
+        <Unit value={hours} />
+        <Colon />
+        <Unit value={minutes} />
+        <Colon />
+        <Unit value={seconds} />
       </div>
       {label ? (
         <p className="mt-[0.7rem] font-display text-tv-xs uppercase tracking-[0.24em] text-ink/40">
@@ -43,15 +51,14 @@ export function StartCountdown() {
   );
 }
 
-function Unit({ value, label }: { value: number; label: string }) {
+function Unit({ value }: { value: number }) {
   return (
-    <div className="flex flex-col items-center">
-      <span className="tabular headline text-tv-2xl leading-none text-ink">
-        {String(value).padStart(2, '0')}
-      </span>
-      <span className="mt-[0.25rem] font-display text-tv-xs uppercase tracking-[0.22em] text-ink/40">
-        {label}
-      </span>
-    </div>
+    <span className="tabular headline text-tv-2xl leading-none text-ink">
+      {String(value).padStart(2, '0')}
+    </span>
   );
+}
+
+function Colon() {
+  return <span className="headline text-tv-2xl leading-none text-ink/25">:</span>;
 }

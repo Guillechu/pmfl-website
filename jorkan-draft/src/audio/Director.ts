@@ -174,12 +174,25 @@ export class Director {
   }
 
   private onTheClock(effect: Extract<Effect, { type: 'ON_THE_CLOCK' }>): void {
+    /*
+     * Nobody is on the clock until ESPN says the draft is under way.
+     *
+     * Pressing the button used to be enough to set her off: the feed names
+     * the team that owns pick 1 from the moment the draft room exists, so
+     * unlocking the audio was met with an announcement for a draft that had
+     * not started. She speaks about a live draft or she does not speak.
+     */
+    if (this.runtime.draft.get().phase !== 'in_progress') return;
+
     const delay = this.pickSequenceDelay();
     this.schedule(() => {
       this.engine.playSfx('on-the-clock');
       this.announcer.say(onTheClockLine(effect.team, effect.round, effect.pickInRound), {
-        // If ESPN has moved on while this was queued, do not read it out.
-        stillRelevant: () => this.runtime.draft.get().overallPick === effect.overallPick,
+        // If ESPN has moved on - or stopped - while this was queued, drop it.
+        stillRelevant: () => {
+          const state = this.runtime.draft.get();
+          return state.phase === 'in_progress' && state.overallPick === effect.overallPick;
+        },
       });
     }, delay);
   }

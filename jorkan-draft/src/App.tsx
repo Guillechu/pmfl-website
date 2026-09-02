@@ -45,7 +45,7 @@ export default function App() {
     >
       <BroadcastFrame>
         {preDraft ? (
-          <PreDraftScreen armed={ui.armed} status={status} onArm={() => void armPresentation()} />
+          <PreDraftScreen armed={ui.armed} onArm={() => void armPresentation()} />
         ) : (
           <>
             <HeaderBar

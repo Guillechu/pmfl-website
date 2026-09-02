@@ -56,7 +56,7 @@ export function RostersScreen({ state }: { state: DraftState }) {
                       </span>
                     </>
                   ) : (
-                    <span className="text-[0.66rem] italic text-ink/18">empty</span>
+                    <span className="text-[0.66rem] italic text-ink/18">vacío</span>
                   )}
                 </li>
               ))}
@@ -76,7 +76,7 @@ export function RostersScreen({ state }: { state: DraftState }) {
                       {entry.pick.player.name}
                     </span>
                   ) : (
-                    <span className="text-[0.64rem] italic text-ink/12">empty</span>
+                    <span className="text-[0.64rem] italic text-ink/12">vacío</span>
                   )}
                 </li>
               ))}

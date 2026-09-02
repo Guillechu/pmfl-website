@@ -57,11 +57,17 @@ export function countdownParts(ms: number): CountdownParts {
   };
 }
 
-/** The start time written out for the screen, in the viewer's own timezone. */
+/**
+ * The start time written out for the screen, in the viewer's own timezone.
+ *
+ * Spelled in Spanish regardless of what language the machine showing it is
+ * set to: the television in the room is the audience, not the operating
+ * system.
+ */
 export function scheduledStartLabel(): string | null {
   const at = scheduledStartMs();
   if (at === null) return null;
-  return new Date(at).toLocaleString(undefined, {
+  return new Date(at).toLocaleString('es', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',

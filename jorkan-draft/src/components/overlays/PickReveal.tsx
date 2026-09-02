@@ -59,7 +59,7 @@ function IncomingCard() {
           Jorkan League
         </p>
         <h1 className="headline mt-[0.6rem] text-tv-4xl leading-[0.9] text-ink">
-          The Pick Is In
+          Pick Confirmado
         </h1>
         <div className="rule-gold mx-auto mt-[1.2rem] w-[26rem]" />
       </div>
@@ -99,7 +99,7 @@ function PlayerCard({ reveal }: { reveal: RevealState }) {
         <div>
           <div className="flex items-center gap-[0.8rem]">
             <span className="font-display text-tv-sm font-semibold uppercase tracking-[0.4em] text-gold-500">
-              Round {pick.round} &middot; Pick {pick.pickInRound} &middot; Overall {pick.overallPick}
+              Ronda {pick.round} &middot; Pick {pick.pickInRound} &middot; General {pick.overallPick}
             </span>
           </div>
           <motion.h1
@@ -124,7 +124,7 @@ function PlayerCard({ reveal }: { reveal: RevealState }) {
               className="h-[3rem] w-[3rem]"
             />
             <span className="font-display text-tv-lg font-semibold uppercase tracking-[0.06em] text-ink/80">
-              {pick.player.nflTeamName ?? pick.player.nflTeamAbbr ?? 'Free Agent'}
+              {pick.player.nflTeamName ?? pick.player.nflTeamAbbr ?? 'Agente libre'}
             </span>
           </motion.div>
         </div>
@@ -137,7 +137,7 @@ function PlayerCard({ reveal }: { reveal: RevealState }) {
           style={{ borderLeftColor: accent }}
         >
           <p className="font-display text-tv-xs font-semibold uppercase tracking-[0.36em] text-ink/45">
-            Selected by
+            Seleccionado por
           </p>
           <div className="mt-[0.24rem] flex items-baseline gap-[0.9rem]">
             <h2 className="headline text-tv-xl leading-none text-ink">{pick.fantasyTeamName}</h2>
