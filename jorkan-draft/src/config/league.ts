@@ -16,7 +16,14 @@ export const STARTER_SLOTS: readonly RosterSlotDef[] = [
   { id: 'DST', label: 'DEF', eligible: ['DST'] },
 ];
 
-export const BENCH_SLOTS = 6;
+/*
+ * Seven, not six, because ESPN drafts sixteen rounds.
+ *
+ * Read off the league's own feed in production: draftDetail.picks came back
+ * with 192 slots, which is twelve teams by sixteen rounds. Nine starters and
+ * seven on the bench is what sixteen picks fill.
+ */
+export const BENCH_SLOTS = 7;
 
 /**
  * Official 2026 draft order. ESPN remains authoritative for who is actually on
@@ -150,8 +157,18 @@ export const LEAGUE: League = {
   espnLeagueId: '1314329848',
   espnLeagueUrl: 'https://fantasy.espn.com/football/league?leagueId=1314329848',
   teamCount: 12,
-  rounds: 15,
-  rosterSize: 15,
+  /*
+   * Sixteen rounds, 192 picks.
+   *
+   * Fifteen was our own assumption and it was wrong. ESPN's feed for this
+   * league returns 192 pick slots, and the draft-room header reads "RND 9 of
+   * 16" - a warning the parser had been raising all along, against a number
+   * nobody had gone back and corrected. At fifteen the presentation would
+   * have declared the draft finished twelve picks early and thrown away
+   * every one after that.
+   */
+  rounds: 16,
+  rosterSize: 16,
   pickSeconds: 300,
   draftType: 'snake',
   // Sunday 6 September 2026, 5pm, Panama time (UTC-5 all year, no daylight

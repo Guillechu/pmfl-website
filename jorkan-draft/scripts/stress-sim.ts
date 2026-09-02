@@ -3,7 +3,7 @@
  *
  *   npm run test:sim
  *
- * Runs the simulator and the state machine through all 180 picks - with ESPN
+ * Runs the simulator and the state machine through every pick - with ESPN
  * misbehaving on purpose - and asserts the properties draft night depends on:
  * no duplicate announcements, no lost picks, correct snake order, rosters that
  * add up, and bounded memory.
@@ -53,7 +53,7 @@ async function run(label: string, options: Partial<ConstructorParameters<typeof 
   provider.startDraft();
 
   const started = performance.now();
-  // 1s of simulated time per step, capped well past a full 180-pick draft.
+  // 1s of simulated time per step, capped well past a full draft.
   let steps = 0;
   const MAX_STEPS = 200_000;
   while (machine.getState().phase !== 'complete' && steps < MAX_STEPS) {
@@ -230,14 +230,14 @@ function reconnectChecks(): void {
  * A finished rehearsal must not end the real draft before it starts.
  *
  * "A completed draft never un-completes" is the right rule for a stale read
- * and the wrong one for a new draft room: a mock draft run to 180 picks left
+ * and the wrong one for a new draft room: a mock draft run to its last pick left
  * the presentation complete and deaf to the clock, the round, the board, the
  * rosters and every pick of the night that followed.
  */
 function newLeagueChecks(): void {
   const machine = new DraftMachine();
   const now = Date.now();
-  const full = Array.from({ length: 180 }, (_, index) => samplePick(index + 1));
+  const full = Array.from({ length: TOTAL_PICKS }, (_, index) => samplePick(index + 1));
 
   const snapshotOf = (leagueId: string, overall: number, picks: ReturnType<typeof samplePick>[]) => ({
     type: 'SNAPSHOT' as const,
@@ -257,7 +257,7 @@ function newLeagueChecks(): void {
     },
   });
 
-  machine.apply(snapshotOf('mock-848693692', 180, full));
+  machine.apply(snapshotOf('mock-848693692', TOTAL_PICKS, full));
   check(machine.getState().phase === 'complete', 'new league: the rehearsal completes', machine.getState().phase);
 
   machine.apply(snapshotOf(LEAGUE.espnLeagueId, 2, [samplePick(1)]));

@@ -12,6 +12,7 @@
  */
 import { SimulatorProvider } from '../src/providers/SimulatorProvider';
 import { applySnapshot, emptyMirror } from '../extension/src/mirror';
+import { TOTAL_PICKS } from '../src/config/league';
 import type { ParseMeta } from '../shared/protocol';
 import type { ProviderEvent } from '../src/types/events';
 
@@ -56,7 +57,7 @@ export function recordEspnStream(
 
   void provider.connect();
   provider.startDraft();
-  for (let i = 0; i < 20_000 && mirror.picks.length < 180; i += 1) {
+  for (let i = 0; i < 20_000 && mirror.picks.length < TOTAL_PICKS; i += 1) {
     provider.advance(1000);
   }
   provider.disconnect();
