@@ -1,1 +1,10 @@
-league-logo.*
+# Nothing is ignored here any more.
+#
+# The league's own logo has to be committed: the site is served from Vercel
+# now, and a file that lives only on the machine that ran `npm run dev` does
+# not exist for a television opening a URL. Keeping it out of the repository
+# is what left the drawn shield on screen instead.
+#
+# Audio is a different matter and stays ignored in public/audio: a song is
+# somebody else's to distribute, and the intro is referenced by URL for that
+# reason.

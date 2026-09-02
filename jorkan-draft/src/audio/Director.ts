@@ -70,18 +70,20 @@ export class Director {
 
     const phase = this.runtime.draft.get().phase;
     if (phase === 'idle' || phase === 'waiting') {
-      // Armed hours early - a television switched on in the morning - should
-      // not play the intro all day. It comes up on its own a few minutes
-      // before the league's scheduled start, or straight away if that moment
-      // has already arrived or no date is set.
+      /*
+       * Somebody pressed the button, so the music starts. It used to be held
+       * back until a few minutes before the scheduled start, which meant
+       * arming the television four days early was met with silence and no
+       * explanation - and the person doing it reasonably concluded the music
+       * was broken.
+       *
+       * The lead window still governs the case nobody is standing there for:
+       * a page left armed and waiting brings the music up on its own.
+       */
+      this.startIntroMusic(introUrl);
       const wait = msUntilMusic();
-      if (wait <= 0) this.startIntroMusic(introUrl);
-      else {
-        debugLog('note', `intro music held for ${Math.round(wait / 60_000)} min`);
-        this.schedule(() => {
-          const stillWaiting = this.runtime.draft.get().phase;
-          if (stillWaiting === 'idle' || stillWaiting === 'waiting') this.startIntroMusic(introUrl);
-        }, wait);
+      if (wait > 0) {
+        debugLog('note', `intro music will come back up in ${Math.round(wait / 60_000)} min if it stops`);
       }
     } else if (phase === 'in_progress') {
       // Arming in the middle of a draft - a reloaded tab, a second screen
