@@ -5,11 +5,11 @@ import { cn } from '@/lib/cn';
 /**
  * League lockup used in the header and on the pre-draft screens.
  *
- * The league's own logo, if it has one. Drop an image at
- * `public/branding/league-logo.png` (or `.jpg`) and it appears here without a
- * rebuild; with no file there the drawn shield stands in. Keeping it out of
- * the repository is deliberate - a league's artwork is theirs, and the photo
- * on it is usually of somebody real.
+ * The league's own logo, if it has one: an image committed at
+ * `public/branding/league-logo.png` (or `.jpg`), with the drawn shield
+ * standing in when there is none. It has to be committed - the site is served
+ * from Vercel, and a file sitting only on the machine that ran the dev server
+ * does not exist for a television opening a URL.
  */
 const LOGO_SOURCES = ['/branding/league-logo.png', '/branding/league-logo.jpg'];
 
@@ -23,7 +23,10 @@ export function LeagueMark({
   const large = size === 'lg';
   const [sourceIndex, setSourceIndex] = useState(0);
   const logo = LOGO_SOURCES[sourceIndex];
-  const box = large ? 'h-[7rem] w-[7rem]' : 'h-[2.8rem] w-[2.8rem]';
+  // Bigger on the waiting screen: it is the league's own artwork and that
+  // screen has nothing but room. object-contain so none of it is cropped away,
+  // whatever shape the file turns out to be.
+  const box = large ? 'h-[9.5rem] w-[9.5rem]' : 'h-[2.8rem] w-[2.8rem]';
 
   return (
     <div className={cn('flex items-center gap-[0.85rem]', className)}>
@@ -32,7 +35,7 @@ export function LeagueMark({
           src={logo}
           alt=""
           onError={() => setSourceIndex((index) => index + 1)}
-          className={cn(box, 'shrink-0 rounded-[0.4rem] border border-line object-cover')}
+          className={cn(box, 'shrink-0 rounded-[0.4rem] border border-line bg-paper object-contain')}
         />
       ) : (
         <Shield className={large ? 'h-[5rem] w-[5rem]' : 'h-[2.6rem] w-[2.6rem]'} />
