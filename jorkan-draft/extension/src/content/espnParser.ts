@@ -54,6 +54,16 @@ export interface ParseInput {
    * everything read off the screen because it is ESPN's own record.
    */
   apiPicks?: DraftPick[];
+  /**
+   * ESPN's own draft order: which team owns each of the 180 slots.
+   *
+   * Every slot carries its team from the moment the room exists, so this is
+   * the order as ESPN will actually run it. It replaces the order written
+   * down in our config as the answer to "whose turn is it", which is where
+   * the wrong team on the clock came from: ESPN randomises the order, and a
+   * table we wrote by hand has no way of knowing that.
+   */
+  apiOrder?: Array<{ overallPick: number; team: TeamRef }>;
 }
 
 export interface ParseOutput {
@@ -125,8 +135,9 @@ export function parseDraftRoom(input: ParseInput): ParseOutput {
   );
   const phase = detectPhase(atoms, probe, picks.length, current, recorder);
   const clock = detectClock(atoms, compact, probe, recorder);
-  const onTheClock = detectOnTheClock(atoms, probe, current, coords?.overallPick ?? null, recorder);
-  const onDeck = detectOnDeck(atoms, strip, coords?.overallPick ?? null, recorder);
+  const espnOrder = new Map((input.apiOrder ?? []).map((slot) => [slot.overallPick, slot.team]));
+  const onTheClock = detectOnTheClock(atoms, probe, current, coords?.overallPick ?? null, espnOrder, recorder);
+  const onDeck = detectOnDeck(atoms, strip, coords?.overallPick ?? null, espnOrder, recorder);
 
   // If ESPN showed us history but no explicit coordinate, the next open pick
   // is the one on the clock.
@@ -556,6 +567,7 @@ function detectOnTheClock(
   probe: NonNullable<ProbeSnapshot['draft']> | null,
   current: CurrentPick | null,
   overallPick: number | null,
+  espnOrder: Map<number, TeamRef>,
   recorder: Recorder,
 ): TeamRef | null {
   if (probe?.onTheClockTeam) {
@@ -572,9 +584,27 @@ function detectOnTheClock(
   const found = teamNearPhrase(atoms, P.ON_THE_CLOCK, [P.ON_DECK, P.UP_NEXT]);
   if (found) return recorder.use('onTheClock', 'text-on-the-clock', found);
 
+  // Nothing on screen said it. ESPN's own order knows anyway.
+  if (overallPick !== null) {
+    const fromFeed = espnOrder.get(overallPick);
+    if (fromFeed) return recorder.use('onTheClock', 'espn-draft-order', fromFeed);
+  }
+
+  /*
+   * Last resort: the order in our own config. It is a guess about ESPN
+   * rather than a reading of it - ESPN randomises the draft order, so this
+   * table can be wrong for the whole night - and saying so is what makes a
+   * wrong name on the television diagnosable instead of mysterious.
+   */
   if (overallPick !== null && isValidOverall(overallPick)) {
     const team = teamBySlot(slotForOverall(overallPick));
-    if (team) return recorder.use('onTheClock', 'derived-draft-order', toRef(team.id));
+    if (team) {
+      recorder.warn(
+        `neither ESPN's page nor its draft feed said who is on the clock for pick ${overallPick}; ` +
+          `falling back to the draft order in our config, which ESPN may not be using`,
+      );
+      return recorder.use('onTheClock', 'configured-draft-order', toRef(team.id));
+    }
   }
   return null;
 }
@@ -583,6 +613,7 @@ function detectOnDeck(
   atoms: TextAtom[],
   strip: Map<number, string>,
   overallPick: number | null,
+  espnOrder: Map<number, TeamRef>,
   recorder: Recorder,
 ): TeamRef | null {
   // ESPN's own upcoming-picks strip is the authority on who is next.
@@ -596,9 +627,14 @@ function detectOnDeck(
     teamNearPhrase(atoms, P.ON_DECK, [P.ON_THE_CLOCK]) ??
     teamNearPhrase(atoms, P.UP_NEXT, [P.ON_THE_CLOCK]);
   if (found) return recorder.use('onDeck', 'text-on-deck', found);
+
+  if (overallPick !== null) {
+    const fromFeed = espnOrder.get(overallPick + 1);
+    if (fromFeed) return recorder.use('onDeck', 'espn-draft-order', fromFeed);
+  }
   if (overallPick !== null && isValidOverall(overallPick + 1)) {
     const team = teamBySlot(slotForOverall(overallPick + 1));
-    if (team) return recorder.use('onDeck', 'derived-draft-order', toRef(team.id));
+    if (team) return recorder.use('onDeck', 'configured-draft-order', toRef(team.id));
   }
   return null;
 }

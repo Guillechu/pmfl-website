@@ -70,6 +70,16 @@ async function bundleParser(): Promise<string> {
       `    fantasyTeamId: 'el-dandy', fantasyTeamName: 'El Dandy', managerName: 'Guillermo Chu',\n` +
       `    timestamp: 0, eventId: 'feed|' + (i + 1),\n` +
       `  })),\n` +
+      `});\n` +
+      // ESPN randomises the draft order, so the table in our config can be
+      // wrong all night. This parses a page with nothing on it that names a
+      // team, handing in ESPN's order instead.
+      `(globalThis as any).__jorkanParseWithOrder = (overall: number, teamName: string) => parseDraftRoom({\n` +
+      `  leagueId: '1314329848', probe: null, previous: null,\n` +
+      `  apiOrder: [\n` +
+      `    { overallPick: overall, team: { fantasyTeamId: 'x', fantasyTeamName: teamName } },\n` +
+      `    { overallPick: overall + 1, team: { fantasyTeamId: 'y', fantasyTeamName: 'On Deck FC' } },\n` +
+      `  ],\n` +
       `});\n`,
   );
   const out = join(dir, 'parser.js');
@@ -232,6 +242,57 @@ async function main(): Promise<void> {
     'no pick is invented out of page furniture',
     `${furnitureResult.snapshot.picks.length} invented`,
   );
+  /*
+   * A page that says which pick it is but not whose.
+   *
+   * The configured order gives pick 5 to Eduardo's Energetic Team. ESPN
+   * randomises the real order, so the only trustworthy answer is the one
+   * ESPN's own feed gives - and getting this wrong is what put the wrong
+   * team on the clock at the start of a real draft.
+   */
+  const noTeamPage = await browser2.newPage();
+  await noTeamPage.goto(pathToFileURL(resolve(root, 'fixtures/espn-2026-no-team-on-clock.html')).href);
+  await noTeamPage.addScriptTag({ content: script });
+
+  const withOrder = (await noTeamPage.evaluate(
+    `__jorkanParseWithOrder(5, 'LOS BUQES DE BUGABA')`,
+  )) as ParseResultShape;
+  console.log('\nA page that names the pick but not the team');
+  console.log('  on the clock:', withOrder.snapshot.onTheClock?.fantasyTeamName ?? null,
+    `(${withOrder.meta.strategies['onTheClock'] ?? 'none'})`);
+  check(
+    withOrder.snapshot.overallPick === 5,
+    'the pick number is still read from the page',
+    String(withOrder.snapshot.overallPick),
+  );
+  check(
+    withOrder.meta.strategies['onTheClock'] === 'espn-draft-order',
+    "ESPN's own order answers who is on the clock",
+    withOrder.meta.strategies['onTheClock'] ?? 'none',
+  );
+  check(
+    withOrder.snapshot.onTheClock?.fantasyTeamName === 'LOS BUQES DE BUGABA',
+    'and it is ESPN\'s team, not the one our config has in that slot',
+    withOrder.snapshot.onTheClock?.fantasyTeamName ?? 'none',
+  );
+  check(
+    withOrder.snapshot.onDeck?.fantasyTeamName === 'On Deck FC',
+    'on deck comes from the same order',
+    withOrder.snapshot.onDeck?.fantasyTeamName ?? 'none',
+  );
+
+  const withoutOrder = (await noTeamPage.evaluate('__jorkanParse()')) as ParseResultShape;
+  check(
+    withoutOrder.meta.strategies['onTheClock'] === 'configured-draft-order',
+    'with no feed at all it falls back to our config',
+    withoutOrder.meta.strategies['onTheClock'] ?? 'none',
+  );
+  check(
+    withoutOrder.meta.warnings.some((warning) => warning.includes('our config')),
+    'and says out loud that it is guessing',
+    JSON.stringify(withoutOrder.meta.warnings),
+  );
+
   await browser2.close();
 
   if (failures.length > 0) {

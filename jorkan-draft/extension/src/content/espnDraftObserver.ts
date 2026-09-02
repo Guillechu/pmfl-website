@@ -153,6 +153,7 @@ function parseNow(reason: string): void {
       probe,
       previous,
       apiPicks: apiState?.picks ?? [],
+      apiOrder: apiState?.order ?? [],
     });
   } catch (error) {
     send({
