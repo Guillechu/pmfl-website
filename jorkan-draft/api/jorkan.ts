@@ -22,6 +22,18 @@ export const config = { runtime: 'edge' };
 const LEAGUE_ID = '1314329848';
 const SEASON = 2026;
 
+/**
+ * A mock draft is its own throwaway league on ESPN, never an event inside
+ * yours, so rehearsing on the television means naming that league. `league`
+ * accepts an id shaped the way ESPN's are and nothing else; anything else
+ * falls back to the real one. The read is the same read either way: public,
+ * GET only, no credential.
+ */
+function leagueFrom(params: URLSearchParams): string {
+  const asked = params.get('league');
+  return asked && /^\d{4,16}$/.test(asked) ? asked : LEAGUE_ID;
+}
+
 const READ_HOST = 'https://lm-api-reads.fantasy.espn.com';
 
 /** The only views the presentation asks for. */
@@ -47,7 +59,7 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   const target = new URL(
-    `${READ_HOST}/apis/v3/games/ffl/seasons/${SEASON}/segments/0/leagues/${LEAGUE_ID}`,
+    `${READ_HOST}/apis/v3/games/ffl/seasons/${SEASON}/segments/0/leagues/${leagueFrom(params)}`,
   );
   for (const view of views) target.searchParams.append('view', view);
 

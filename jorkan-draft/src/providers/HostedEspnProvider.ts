@@ -2,6 +2,7 @@ import type { DraftSnapshot } from '@/types/draft';
 import type { ProviderKind } from '@/types/sync';
 import type { ParseMeta } from '@shared/protocol';
 import { LEAGUE, TOTAL_PICKS } from '@/config/league';
+import { activeLeagueId } from '@/config/rehearsal';
 import { coordsFromOverall } from '@/core/snake';
 import { debugLog } from '@/debug/logger';
 import { EspnDraftApi } from '../../extension/src/content/espnDraftApi';
@@ -44,10 +45,18 @@ export class HostedEspnProvider extends BaseProvider {
   private timer: ReturnType<typeof setInterval> | null = null;
   private reading = false;
 
+  private readonly leagueId: string;
+
   constructor(readerPath: string = HOSTED_READER_PATH) {
     super();
-    this.api = new EspnDraftApi(LEAGUE.espnLeagueId, LEAGUE.season, readerPath);
-    this.mirror.leagueId = LEAGUE.espnLeagueId;
+    /*
+     * The real league unless the URL names another - a mock draft, for a
+     * rehearsal on the television. The reader is told which one to fetch,
+     * since it defaults to the real league on its own.
+     */
+    this.leagueId = activeLeagueId();
+    this.api = new EspnDraftApi(this.leagueId, LEAGUE.season, readerPath);
+    this.mirror.leagueId = this.leagueId;
   }
 
   async connect(): Promise<void> {
@@ -137,7 +146,7 @@ export class HostedEspnProvider extends BaseProvider {
 
     return {
       phase: feed.drafted ? 'complete' : feed.inProgress ? 'in_progress' : 'waiting',
-      leagueId: LEAGUE.espnLeagueId,
+      leagueId: this.leagueId,
       round: live ? coords?.round ?? null : null,
       pickInRound: live ? coords?.pickInRound ?? null : null,
       overallPick: live ? overallPick : null,

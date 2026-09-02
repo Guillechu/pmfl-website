@@ -193,6 +193,8 @@ export class EspnDraftApi {
       // Server-side reader: the filter is a query parameter, since a browser
       // may not set the header ESPN reads it from on a cross-origin request.
       if (filter !== undefined) params.set('filter', JSON.stringify(filter));
+      // And the league, so a rehearsal can point the page at a mock draft.
+      params.set('league', this.leagueId);
       return `${this.readerPath}?${params.toString()}`;
     }
     return `${FFL(this.season)}/segments/0/leagues/${encodeURIComponent(this.leagueId)}?${params.toString()}`;
