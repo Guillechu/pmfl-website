@@ -216,7 +216,10 @@ Create a new project on Vercel from this repository and set:
 | Output Directory | `dist` |
 
 Everything else is in `vercel.json`: the ESPN reader is deployed from `api/`,
-and every other path serves the presentation. Point whatever domain you like
+and the one rewrite there sends every other path to `index.html`, because this
+is one page under many routes. That file takes no comments and no unknown
+keys - Vercel rejects the whole deployment for a stray property, which is how
+the first attempt failed. Point whatever domain you like
 at that project.
 
 Two things this path cannot do, and does not pretend to:

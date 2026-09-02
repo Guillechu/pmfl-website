@@ -3,10 +3,6 @@
   "buildCommand": "npm run build:web",
   "outputDirectory": "dist",
   "rewrites": [
-    {
-      "comment": "One page, many routes: everything that is not the ESPN reader or a built asset serves the presentation.",
-      "source": "/((?!api/|assets/).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/((?!api/|assets/).*)", "destination": "/index.html" }
   ]
 }
