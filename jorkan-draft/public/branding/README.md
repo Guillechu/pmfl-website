@@ -1,13 +1,20 @@
 # League branding
 
-Drop the league's logo here as **`league-logo.png`** (a `.jpg` works too) and
-it replaces the drawn shield in the header and on the pre-draft screen. No
-rebuild and no code change: refresh the presentation and it is there.
+Drop the league's logo in this folder and it replaces the drawn shield in the
+header and on the pre-draft screen. Any of these names works, tried in this
+order:
 
-A square image is ideal - it is drawn into a rounded square and cropped to
-fill, so anything close to 1:1 keeps its centre. Roughly 512x512 or larger
-looks right on a 4K television.
+    league-logo.png   league-logo.jpg   league-logo.jpeg
+    league-logo.webp  league-logo.svg   logo.png   logo.jpg
 
-Nothing is committed here on purpose. A league's artwork belongs to the
-league, and the photo on it is usually of somebody real, so it stays on the
-machine that runs the broadcast rather than in a repository.
+The whole file is drawn, never cropped, so any shape is safe; something close
+to square sits best next to the wordmark. Roughly 512x512 or larger looks
+right on a 4K television.
+
+It has to be **committed and pushed**. The presentation is served from Vercel
+now, so a file that only exists on somebody's laptop does not exist for the
+television opening the URL. The fastest way in is GitHub's own uploader:
+
+    https://github.com/Guillechu/jorkan-draft/upload/main/public/branding
+
+Drag the file in, commit to `main`, and Vercel rebuilds on its own.

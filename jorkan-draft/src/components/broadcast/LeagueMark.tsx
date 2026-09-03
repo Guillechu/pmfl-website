@@ -5,13 +5,23 @@ import { cn } from '@/lib/cn';
 /**
  * League lockup used in the header and on the pre-draft screens.
  *
- * The league's own logo, if it has one: an image committed at
- * `public/branding/league-logo.png` (or `.jpg`), with the drawn shield
- * standing in when there is none. It has to be committed - the site is served
- * from Vercel, and a file sitting only on the machine that ran the dev server
- * does not exist for a television opening a URL.
+ * The league's own logo, if it has one: an image committed under
+ * `public/branding/`, with the drawn shield standing in when there is none.
+ * Several names and extensions are tried in turn so that dropping the file
+ * into the folder is the whole job - whatever the camera roll or the download
+ * called it. It has to be committed: the site is served from Vercel, and a
+ * file sitting only on the machine that ran the dev server does not exist for
+ * a television opening a URL.
  */
-const LOGO_SOURCES = ['/branding/league-logo.png', '/branding/league-logo.jpg'];
+const LOGO_SOURCES = [
+  '/branding/league-logo.png',
+  '/branding/league-logo.jpg',
+  '/branding/league-logo.jpeg',
+  '/branding/league-logo.webp',
+  '/branding/league-logo.svg',
+  '/branding/logo.png',
+  '/branding/logo.jpg',
+];
 
 export function LeagueMark({
   size = 'sm',
