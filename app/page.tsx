@@ -6,7 +6,6 @@ import Hero from "@/components/Hero";
 import MatchCard from "@/components/MatchCard";
 import VideoEmbed from "@/components/VideoEmbed";
 import SponsorCarousel from "@/components/SponsorCarousel";
-import NewsCard from "@/components/NewsCard";
 import ResultsCard from "@/components/ResultsCard";
 import { CardSection } from "@/components/ui/Card";
 import { recentResults, nextGames, media, weekly, teamByName } from "@/lib/data";
@@ -63,19 +62,50 @@ export default async function HomePage() {
       <Hero />
 
       <div className="container-page">
-        {/* Lo último: resumen de la jornada + noticia de prensa. Ambos se
-            editan en data/weekly.json, sin tocar código. */}
+        {/* Lo último: boletos de la próxima jornada + resumen de la
+            anterior. Ambos se editan en data/weekly.json, sin tocar
+            código. */}
         <CardSection title="LO ÚLTIMO">
-          {/* Sin tarjeta de boletos: la venta de la Week 2 terminó. El
-              botón Tickets del menú sigue vivo hasta que haya enlace de
-              la siguiente jornada. */}
-          {weekly.resultados && <ResultsCard data={weekly.resultados} />}
+          {/* Boletos del próximo partido, lo primero: es lo único
+              accionable del bloque. El arte lleva dentro los cruces y los
+              horarios, así que se muestra entero en vez de recortado como
+              fondo de tarjeta. */}
+          <a
+            href={weekly.tickets.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mb-5 block overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition-colors hover:border-brand-gold-600/50 dark:border-white/10 dark:bg-black/40 dark:hover:border-brand-gold/40"
+          >
+            <img
+              src={weekly.tickets.image}
+              alt={weekly.tickets.label}
+              className="w-full"
+            />
 
-          {weekly.news && (
-            <div className="mt-5">
-              <NewsCard news={weekly.news} />
+            <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
+              <div className="min-w-0">
+                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
+                  🎟️ BOLETOS
+                </span>
+                <h3 className="mt-2 h-display text-2xl text-brand-navy dark:text-white">
+                  {weekly.tickets.label}
+                </h3>
+                <p className="mt-1 text-sm text-brand-navy/70 dark:text-white/70">
+                  {weekly.tickets.note}
+                </p>
+              </div>
+
+              <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-navy/[0.06] px-4 py-2 text-sm text-brand-navy transition-colors group-hover:bg-brand-gold-600/20 dark:bg-white/10 dark:text-white dark:group-hover:bg-brand-gold/20">
+                Comprar en Ticketplus
+                <span aria-hidden="true">→</span>
+              </span>
             </div>
-          )}
+          </a>
+
+          {/* La nota de prensa de TVN sale del inicio y se queda en
+              /media: es de agosto y anunciaba el arranque de temporada,
+              así que aquí ya no es "lo último". */}
+          {weekly.resultados && <ResultsCard data={weekly.resultados} />}
         </CardSection>
 
         {/* Play of the Week */}
