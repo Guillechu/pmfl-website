@@ -34,6 +34,17 @@ function leagueFrom(params: URLSearchParams): string {
   return asked && /^\d{4,16}$/.test(asked) ? asked : LEAGUE_ID;
 }
 
+/**
+ * Which season to read. The presentation never asks for anything but this
+ * one; a past season is readable so that a finished draft can be used to
+ * establish what ESPN does and does not hand to a reader with no session,
+ * which is not a question that can wait until draft night to be answered.
+ */
+function seasonFrom(params: URLSearchParams): number {
+  const asked = Number(params.get('season'));
+  return Number.isInteger(asked) && asked >= 2015 && asked <= SEASON ? asked : SEASON;
+}
+
 const READ_HOST = 'https://lm-api-reads.fantasy.espn.com';
 
 /**
@@ -66,7 +77,7 @@ export default async function handler(request: Request): Promise<Response> {
   }
 
   const target = new URL(
-    `${READ_HOST}/apis/v3/games/ffl/seasons/${SEASON}/segments/0/leagues/${leagueFrom(params)}`,
+    `${READ_HOST}/apis/v3/games/ffl/seasons/${seasonFrom(params)}/segments/0/leagues/${leagueFrom(params)}`,
   );
   for (const view of views) target.searchParams.append('view', view);
 
