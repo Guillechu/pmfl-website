@@ -106,11 +106,53 @@ export default async function handler(request: Request): Promise<Response> {
     if (!response.ok) {
       return json({ error: `ESPN answered ${response.status}`, status: response.status }, 502);
     }
-    return json(await response.json(), 200);
+    const payload = await response.json();
+    return json(params.get('summary') === '1' ? summarize(payload) : payload, 200);
   } catch (error) {
     const aborted = error instanceof Error && error.name === 'AbortError';
     return json({ error: aborted ? 'ESPN did not answer in time' : 'could not reach ESPN' }, 504);
   } finally {
     clearTimeout(timer);
   }
+}
+
+/**
+ * A few numbers instead of the whole league.
+ *
+ * The full answer is a megabyte of pick slots, which is the right thing to
+ * hand the presentation and the wrong thing to read by eye when the question
+ * is only "is ESPN giving us the picks yet". Nothing here is computed that
+ * the full answer does not already contain.
+ */
+function summarize(payload: unknown): unknown {
+  const league = payload as {
+    id?: number;
+    seasonId?: number;
+    draftDetail?: { inProgress?: boolean; drafted?: boolean; picks?: unknown[] };
+    teams?: { roster?: { entries?: unknown[] } }[];
+  };
+  const picks = Array.isArray(league?.draftDetail?.picks) ? league.draftDetail.picks : [];
+  const taken = picks.filter(
+    (pick) => typeof (pick as { playerId?: unknown }).playerId === 'number'
+      && ((pick as { playerId: number }).playerId) > 0,
+  ) as { overallPickNumber?: number; teamId?: number; playerId?: number }[];
+  const rosterEntries = (league?.teams ?? []).reduce(
+    (total, team) => total + (team?.roster?.entries?.length ?? 0),
+    0,
+  );
+
+  return {
+    league: league?.id ?? null,
+    season: league?.seasonId ?? null,
+    inProgress: league?.draftDetail?.inProgress ?? null,
+    drafted: league?.draftDetail?.drafted ?? null,
+    slots: picks.length,
+    picked: taken.length,
+    firstPicked: taken.slice(0, 5).map((pick) => ({
+      overall: pick.overallPickNumber ?? null,
+      team: pick.teamId ?? null,
+      player: pick.playerId ?? null,
+    })),
+    rosterEntries,
+  };
 }
