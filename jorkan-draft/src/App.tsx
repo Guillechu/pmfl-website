@@ -5,6 +5,7 @@ import { HeaderBar } from '@/components/broadcast/HeaderBar';
 import { Ticker } from '@/components/broadcast/Ticker';
 import { RoundBanner } from '@/components/broadcast/RoundBanner';
 import { RehearsalBadge } from '@/components/broadcast/RehearsalBadge';
+import { FeedStalled } from '@/components/broadcast/FeedStalled';
 import { PickReveal } from '@/components/overlays/PickReveal';
 import { LiveScreen } from '@/components/screens/LiveScreen';
 import { PreDraftScreen } from '@/components/screens/PreDraftScreen';
@@ -75,6 +76,7 @@ export default function App() {
         )}
 
         <RehearsalBadge />
+        <FeedStalled />
         <RoundBanner round={ui.roundBanner} />
         <PickReveal reveal={ui.reveal} />
 
