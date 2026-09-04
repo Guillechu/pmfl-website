@@ -36,8 +36,15 @@ function leagueFrom(params: URLSearchParams): string {
 
 const READ_HOST = 'https://lm-api-reads.fantasy.espn.com';
 
-/** The only views the presentation asks for. */
-const ALLOWED_VIEWS = new Set(['mDraftDetail', 'mTeam', 'kona_player_info']);
+/**
+ * The only views the presentation asks for.
+ *
+ * `mRoster` is here because `mDraftDetail` cannot be trusted to carry a draft
+ * as it happens: read without a session, a mock room in progress answered with
+ * all 192 slots still empty minutes in. A drafted player lands on his team's
+ * roster, so the rosters are the second place to look for the same fact.
+ */
+const ALLOWED_VIEWS = new Set(['mDraftDetail', 'mTeam', 'mRoster', 'kona_player_info']);
 
 const TIMEOUT_MS = 8000;
 
