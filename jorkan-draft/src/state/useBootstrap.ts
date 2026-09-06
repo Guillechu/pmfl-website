@@ -29,7 +29,18 @@ export function useBootstrap(): void {
      * reads ESPN instead. The build decides, and ?hosted=1 lets the hosted
      * path be tried from a development server.
      */
-    const hosted = import.meta.env.VITE_HOSTED === '1' || params.get('hosted') === '1';
+    /*
+     * ?extension=1 turns the hosted page back into a page the Chrome
+     * extension drives. It is the fallback for the one thing about draft
+     * night that is not proven: ESPN's public feed has never been seen
+     * carrying a draft as it happens, and the extension - reading the draft
+     * room from inside a signed-in browser - has. It also brings the pick
+     * clock, which the public feed does not have. Nothing changes for a
+     * television opening the plain URL.
+     */
+    const wantsExtension = params.get('extension') === '1';
+    const hosted =
+      !wantsExtension && (import.meta.env.VITE_HOSTED === '1' || params.get('hosted') === '1');
 
     void (async () => {
       if (wantsSimulator) {

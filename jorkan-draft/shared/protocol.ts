@@ -29,10 +29,25 @@ export const PAGE_CHANNEL = 'jorkan-draft-bridge';
  */
 export const PRESENTATION_PORT = '5173';
 
+/**
+ * The hosted presentation, opened with ?extension=1.
+ *
+ * The television normally reads ESPN through the site's own server and needs
+ * no extension at all. When that feed is not delivering, the same page can be
+ * driven by the extension instead - so these origins are presentation origins
+ * too. Unlike loopback, a match pattern names them exactly, so the host is
+ * the boundary here and there is no port to check.
+ */
+export const HOSTED_PRESENTATION_ORIGINS = [
+  'https://grietoides.guillermopearson.lat',
+  'https://jorkan-draft-night.vercel.app',
+];
+
 /** Origins the background will accept a presentation port from. */
 export const PRESENTATION_ORIGINS = [
   `http://localhost:${PRESENTATION_PORT}`,
   `http://127.0.0.1:${PRESENTATION_PORT}`,
+  ...HOSTED_PRESENTATION_ORIGINS,
 ];
 
 /** The ESPN origin the observer content script is allowed to report from. */

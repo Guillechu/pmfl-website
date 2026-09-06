@@ -1,5 +1,6 @@
 import type { BackgroundToPage, PageEnvelope, PageToBackground } from '@shared/protocol';
 import {
+  HOSTED_PRESENTATION_ORIGINS,
   PAGE_CHANNEL,
   PAGE_READY_ATTRIBUTE,
   PRESENTATION_PORT,
@@ -26,15 +27,21 @@ let attached = false;
 /**
  * Is this page really the presentation?
  *
- * The manifest matches http://localhost/* and http://127.0.0.1/*, and a match
- * pattern cannot name a port - so this script is injected into every page
- * served from loopback, including any other project's dev server. The marker
- * attribute is not evidence by itself: any page can set it on itself. The
- * port is the boundary that actually holds, so it is checked first and
- * re-checked before every message we relay.
+ * The manifest matches loopback and the hosted presentation. A match pattern
+ * cannot name a port, so on loopback this script lands in every page served
+ * from there, including any other project's dev server - the port is the
+ * boundary that actually holds. The hosted origins need no such test: the
+ * match pattern names the host itself. The marker attribute is never evidence
+ * on its own, since any page can set it on itself. Both are re-checked before
+ * every message we relay.
  */
 function isPresentationPage(): boolean {
-  if (window.location.port !== PRESENTATION_PORT) return false;
+  // The hosted presentation is named exactly by a match pattern, so its host
+  // is already the boundary and it has no port to check. Loopback is not:
+  // any project's dev server is served from there, and the port is the only
+  // thing that separates them.
+  const named = HOSTED_PRESENTATION_ORIGINS.includes(window.location.origin);
+  if (!named && window.location.port !== PRESENTATION_PORT) return false;
   return document.querySelector(`[${PAGE_READY_ATTRIBUTE}]`) !== null;
 }
 
