@@ -1,0 +1,259 @@
+import { LEAGUE } from '@/config/league';
+import type { DraftPhase, DraftPick, DraftSnapshot } from '@/types/draft';
+import type { ProviderEvent } from '@/types/events';
+import type { ParseMeta } from '@shared/protocol';
+
+/**
+ * The extension's mirror of the ESPN draft.
+ *
+ * Pure logic, deliberately free of any Chrome API, so it can be tested
+ * directly and so the service worker stays a thin adapter around it. This is
+ * where "a pick is emitted exactly once" is actually decided.
+ */
+
+export interface Mirror {
+  phase: DraftPhase;
+  leagueId: string | null;
+  overallPick: number | null;
+  round: number | null;
+  pickInRound: number | null;
+  onTheClockId: string | null;
+  clockMs: number | null;
+  clockRunning: boolean | null;
+  picks: DraftPick[];
+  seen: string[];
+  updatedAt: number;
+}
+
+export function emptyMirror(): Mirror {
+  return {
+    phase: 'idle',
+    leagueId: null,
+    overallPick: null,
+    round: null,
+    pickInRound: null,
+    onTheClockId: null,
+    clockMs: null,
+    clockRunning: null,
+    picks: [],
+    seen: [],
+    updatedAt: 0,
+  };
+}
+
+/**
+ * How long the draft we are mirroring must go quiet before another one can
+ * take its place.
+ */
+export const LEAGUE_HANDOVER_QUIET_MS = 10_000;
+
+/**
+ * Throw the mirror away when the draft room is a different draft.
+ *
+ * Every ESPN mock draft gets its own league id, so a night of rehearsals used
+ * to pile the picks of one room on top of another. The moment that reached
+ * 180 the presentation declared the draft complete and stopped listening to
+ * everything after it. A new league starts from nothing.
+ *
+ * The quiet period is what makes that safe. A forgotten mock draft left open
+ * in another tab keeps parsing and reporting every second and a half, so
+ * switching on sight would have the two rooms wipe each other's board several
+ * times a second - worse than the problem it fixes. Instead the draft that is
+ * actively reporting keeps the mirror, and only silence hands it over: close
+ * the old room or navigate away and the new one takes it a few seconds later.
+ *
+ * Returns true when it actually threw something away.
+ */
+export function startNewLeague(
+  mirror: Mirror,
+  seen: Set<string>,
+  leagueId: string | null,
+  now: number,
+  quietMs: number = LEAGUE_HANDOVER_QUIET_MS,
+): boolean {
+  if (!leagueId) return false;
+  if (mirror.leagueId === leagueId) return false;
+  const hadState = mirror.picks.length > 0 || mirror.phase !== 'idle';
+
+  /*
+   * The league's own draft outranks every rehearsal.
+   *
+   * The silence rule below is right for two mock rooms, which are equals -
+   * but the real draft is not anyone's equal. It takes the mirror the moment
+   * it reports, even with a mock draft still live in another tab, and once it
+   * has it nothing takes it away for the rest of the night. A forgotten
+   * rehearsal cannot end up on the television on draft night.
+   */
+  if (isTheLeaguesOwnDraft(leagueId)) {
+    Object.assign(mirror, emptyMirror(), { leagueId });
+    seen.clear();
+    return hadState;
+  }
+  if (isTheLeaguesOwnDraft(mirror.leagueId)) return false;
+
+  // Two rehearsals, then: the one still reporting keeps it, and only silence
+  // hands it over.
+  if (hadState && now - mirror.updatedAt < quietMs) return false;
+  Object.assign(mirror, emptyMirror(), { leagueId });
+  seen.clear();
+  return hadState;
+}
+
+/** True for the draft this presentation exists to televise, and nothing else. */
+export function isTheLeaguesOwnDraft(leagueId: string | null): boolean {
+  return leagueId !== null && leagueId === LEAGUE.espnLeagueId;
+}
+
+export interface ApplyResult {
+  events: ProviderEvent[];
+  /** False when the snapshot was ignored as too low quality to trust. */
+  accepted: boolean;
+  /**
+   * True when this read taught us a block of history rather than live play -
+   * joining a draft already at pick 104, say. The caller sends the whole
+   * mirror instead, so the board fills in silently rather than the television
+   * announcing a hundred picks that happened before anyone switched it on.
+   */
+  backfilled: boolean;
+}
+
+export interface ApplyOptions {
+  /** Picks included on the outgoing reconcile snapshot. */
+  snapshotTail: number;
+  /** Confidence of the best parse we have seen, for the quality gate. */
+  bestConfidence: number | null;
+  now: number;
+  /**
+   * More new picks than this in a single read is history, not live play.
+   * ESPN never completes four selections inside one poll - even a room full
+   * of autopicks takes seconds per pick - so this only ever fires when we
+   * have just learned about a draft that was already under way.
+   */
+  backfillThreshold?: number;
+}
+
+/**
+ * Fold one ESPN read into the mirror and report what changed.
+ *
+ * The caller owns the seen-set so it can be persisted; everything else about
+ * "what is new" is decided here.
+ */
+export function applySnapshot(
+  mirror: Mirror,
+  seen: Set<string>,
+  snapshot: DraftSnapshot,
+  meta: ParseMeta,
+  options: ApplyOptions,
+): ApplyResult {
+  // A frame that can barely read the page must not overwrite a good read.
+  if (meta.confidence < 0.2 && (options.bestConfidence ?? 0) >= 0.2) {
+    return { events: [], accepted: false, backfilled: false };
+  }
+
+  const at = options.now;
+  const events: ProviderEvent[] = [];
+
+  startNewLeague(mirror, seen, snapshot.leagueId, at);
+  /*
+   * A read from a draft that is not the one we are mirroring is not ours to
+   * fold in. Ignoring it outright is what keeps a forgotten mock draft in
+   * another tab from contaminating the board - and it must not count as
+   * activity either, or the room we are actually mirroring would never go
+   * quiet enough to hand over when it really does close.
+   */
+  if (snapshot.leagueId && mirror.leagueId && snapshot.leagueId !== mirror.leagueId) {
+    return { events: [], accepted: false, backfilled: false };
+  }
+
+  // Phase. 'idle' means "could not tell", which is never news.
+  if (snapshot.phase !== 'idle' && snapshot.phase !== mirror.phase) {
+    const from = mirror.phase;
+    // A finished draft does not un-finish because one read looked different.
+    if (!(from === 'complete' && snapshot.phase !== 'complete')) {
+      mirror.phase = snapshot.phase;
+      switch (snapshot.phase) {
+        case 'waiting':
+          events.push({ type: 'DRAFT_WAITING', at });
+          break;
+        case 'in_progress':
+          events.push(from === 'paused' ? { type: 'DRAFT_RESUMED', at } : { type: 'DRAFT_STARTED', at });
+          break;
+        case 'paused':
+          events.push({ type: 'DRAFT_PAUSED', at });
+          break;
+        case 'complete':
+          events.push({ type: 'DRAFT_COMPLETE', at });
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  // Picks, in draft order, each emitted exactly once.
+  const incoming = [...snapshot.picks].sort((a, b) => a.overallPick - b.overallPick);
+  const unseen = incoming.filter((pick) => !seen.has(pick.eventId));
+  const backfilled = unseen.length > (options.backfillThreshold ?? 3);
+  for (const pick of unseen) {
+    seen.add(pick.eventId);
+    const existingIndex = mirror.picks.findIndex((p) => p.overallPick === pick.overallPick);
+    if (existingIndex >= 0) {
+      // ESPN corrected a pick: replace it rather than record two.
+      mirror.picks[existingIndex] = pick;
+    } else {
+      mirror.picks.push(pick);
+    }
+    if (!backfilled) events.push({ type: 'PICK_MADE', at, pick });
+  }
+  mirror.picks.sort((a, b) => a.overallPick - b.overallPick);
+
+  // Who is on the clock.
+  const teamId = snapshot.onTheClock?.fantasyTeamId ?? null;
+  if (
+    snapshot.overallPick !== null &&
+    snapshot.round !== null &&
+    snapshot.pickInRound !== null &&
+    snapshot.onTheClock &&
+    (snapshot.overallPick !== mirror.overallPick || teamId !== mirror.onTheClockId)
+  ) {
+    mirror.overallPick = snapshot.overallPick;
+    mirror.round = snapshot.round;
+    mirror.pickInRound = snapshot.pickInRound;
+    mirror.onTheClockId = teamId;
+    events.push({
+      type: 'ON_THE_CLOCK',
+      at,
+      round: snapshot.round,
+      pickInRound: snapshot.pickInRound,
+      overallPick: snapshot.overallPick,
+      team: snapshot.onTheClock,
+      onDeck: snapshot.onDeck,
+    });
+  }
+
+  // Clock, only when it has actually moved a second or changed state.
+  if (snapshot.clockMs !== null) {
+    const movedASecond = mirror.clockMs === null || Math.abs(snapshot.clockMs - mirror.clockMs) >= 900;
+    const runningChanged = snapshot.clockRunning !== mirror.clockRunning;
+    if (movedASecond || runningChanged) {
+      mirror.clockMs = snapshot.clockMs;
+      mirror.clockRunning = snapshot.clockRunning;
+      events.push({
+        type: 'CLOCK',
+        at,
+        remainingMs: snapshot.clockMs,
+        running: snapshot.clockRunning ?? true,
+      });
+    }
+  }
+
+  // The reconcile snapshot the presentation checks itself against.
+  events.push({
+    type: 'SNAPSHOT',
+    at,
+    snapshot: { ...snapshot, picks: mirror.picks.slice(-options.snapshotTail) },
+  });
+
+  mirror.updatedAt = at;
+  return { events, accepted: true, backfilled };
+}

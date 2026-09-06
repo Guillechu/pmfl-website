@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Fantasy Football Draft - ESPN</title>
+<style>body { font: 14px system-ui; margin: 0; } div { min-height: 1px; }</style>
+</head>
+<body>
+<!--
+  ESPN's Pick History panel.
+
+  The TEXT is captured verbatim from a live Jorkan League practice draft -
+  the debug export recorded the panel reading
+
+    PicksJahmyr Gibbs / DET RBR1, P1 - El DandyJonathan Taylor / IND RBR1,
+    P2 - Hospital Nicolas Solano Bijan Robinson / ATL RBR1, P3 - Dubtown...
+
+  The MARKUP around it is reconstructed: the export captured the panel's text
+  but not its elements, because the hidden Players tab is still in the DOM and
+  consumed the sample budget ahead of it. Two lines per row, running together
+  into one string with no space between the position and the "R", is exactly
+  what that capture shows.
+
+  Also present, as it is in the real room: the Players tab, still rendered and
+  hidden behind display:none. Its rows are available players, not selections,
+  and reading them as picks would put the entire player pool on the board.
+-->
+<div class="tabs__wrapper">
+  <nav class="tabs__nav">
+    <ul class="tabs__list" role="tablist">
+      <li class="tabs__list__item" role="tab" aria-selected="false" title="Players"><button>Players</button></li>
+      <li class="tabs__list__item tabs__list__item--active" role="tab" aria-selected="true" title="Pick History"><button>Pick History</button></li>
+      <li class="tabs__list__item" role="tab" aria-selected="false" title="Board"><button>Board</button></li>
+    </ul>
+  </nav>
+
+  <div class="tabs__content" role="tabpanel">
+    <!-- The Players tab, rendered but hidden, exactly as ESPN leaves it. -->
+    <div class="tab__item dn" style="display: none;">
+      <div class="player-column">
+        <div class="jsx-3743397412 player-headshot"><img data-src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4429795.png&amp;w=96&amp;h=70" alt="" class="jsx-3743397412"></div>
+        <div class="player-details">
+          <span class="playerinfo__playername truncate"><a class="AnchorLink" title="Jahmyr Gibbs">Jahmyr Gibbs</a></span>
+          <span class="playerinfo__playerteam">DET</span><div class="playerinfo__playerpos"><span class="positionPill">RB</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Pick History tab. -->
+    <div class="tab__item">
+      <section class="jsx-1 pick-history">
+        <h3 class="jsx-1">Picks</h3>
+        <ul class="jsx-1">
+          <li class="jsx-1 pick-history--row">
+            <div class="jsx-1 headshot"><img src="https://a.espncdn.com/i/headshots/nfl/players/full/4429795.png" alt=""></div>
+            <div class="jsx-1 detail"><div class="jsx-1">Jahmyr Gibbs / DET RB</div><div class="jsx-1">R1, P1 - El Dandy</div></div>
+          </li>
+          <li class="jsx-1 pick-history--row">
+            <div class="jsx-1 detail"><div class="jsx-1">Jonathan Taylor / IND RB</div><div class="jsx-1">R1, P2 - Hospital Nicolas Solano </div></div>
+          </li>
+          <li class="jsx-1 pick-history--row">
+            <div class="jsx-1 detail"><div class="jsx-1">Bijan Robinson / ATL RB</div><div class="jsx-1">R1, P3 - Dubtown</div></div>
+          </li>
+          <li class="jsx-1 pick-history--row">
+            <div class="jsx-1 detail"><div class="jsx-1">Amon-Ra St. Brown / DET WR</div><div class="jsx-1">R1, P4 - los chucha de sus madres</div></div>
+          </li>
+          <li class="jsx-1 pick-history--row">
+            <div class="jsx-1 detail"><div class="jsx-1">San Francisco 49ers / SF D/ST</div><div class="jsx-1">R2, P1 - Ardillas de Betania</div></div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>
+</body>
+</html>
