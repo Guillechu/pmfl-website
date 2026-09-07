@@ -60,11 +60,24 @@ export default function ResultsCard({ data }: { data: ResultsPanel }) {
 
         <p className="mt-2 max-w-3xl text-sm text-brand-navy/70 dark:text-white/75">{data.summary}</p>
 
-        {/* Un partido por columna. La foto va entera, sin recortar: son
-            fotos verticales y llevan dentro el crédito del fotógrafo.
+        {/* Un partido por columna. La foto se sirve vertical y sin
+            recortar de más: alguna lleva dentro el crédito del fotógrafo.
             En móvil eso las haría larguísimas apiladas, así que ahí se
-            reduce a miniatura y el marcador se pone al lado. */}
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            reduce a miniatura y el marcador se pone al lado.
+
+            Las columnas siguen al número de partidos: con la rejilla fija
+            de tres, una jornada de dos dejaba un tercio vacío a la
+            derecha. Con dos se acota además el ancho, porque repartir
+            toda la fila entre dos fotos verticales las hacía enormes y
+            estiraba la tarjeta más de mil píxeles de alto. */}
+        <div
+          className={
+            "mt-5 grid gap-4 " +
+            (data.partidos.length <= 2
+              ? "sm:max-w-2xl sm:grid-cols-2"
+              : "sm:grid-cols-3")
+          }
+        >
           {data.partidos.map((p) => (
             <article key={`${p.casa}-${p.visita}`} className="flex gap-3 sm:block">
               {p.foto && (

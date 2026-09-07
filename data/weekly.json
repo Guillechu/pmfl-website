@@ -1,34 +1,26 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 2 · 23 de agosto · Estadio Emilio Royo",
-    "title": "Los Raptors siguen sin rival y los Tigers se llevan el duelo más apretado",
-    "summary": "La Jornada 2 estrenó a Tigers, Saints y Wolfpack, y dos de los tres debutaron ganando: los Tigers por cinco puntos ante los Wolfpack, en el partido más cerrado del día, y los Saints ante unas Águilas Doradas que siguen sin abrir su casillero. Arriba siguen los Raptors, únicos con dos triunfos y con solo 7 puntos recibidos en toda la temporada.",
+    "eyebrow": "Jornada 3 · 5 de septiembre · Estadio Emilio Royo",
+    "title": "Los Raptors firman su segunda blanqueada y los Wolfpack se estrenan a lo grande",
+    "summary": "Tercer partido y tercera victoria de los Raptors, que dejaron a los Tigers sin anotar: llevan 100 puntos a favor y solo 7 en contra en toda la temporada. En el nocturno, los Wolfpack estrenaron su casillero de triunfos con un 34-6 sobre unos Colón Eagles que ya han recibido 92 puntos en tres jornadas.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
         "casa": "Raptors",
-        "marcadorCasa": 45,
-        "visita": "Colón Eagles",
-        "marcadorVisita": 7,
-        "foto": "/media/jornada-2-raptors.jpg",
-        "fotoAlt": "El quarterback de los Raptors arma el brazo para lanzar mientras un defensivo de los Colón Eagles lo persigue"
+        "marcadorCasa": 21,
+        "visita": "Tigers",
+        "marcadorVisita": 0,
+        "foto": "/media/jornada-3-raptors.jpg",
+        "fotoAlt": "Un receptor de los Raptors atrapa el balón por encima de un defensivo de los Tigers dentro de la zona de anotación"
       },
       {
-        "casa": "Tigers",
-        "marcadorCasa": 26,
+        "casa": "Colón Eagles",
+        "marcadorCasa": 6,
         "visita": "Wolfpack",
-        "marcadorVisita": 21,
-        "foto": "/media/jornada-2-tigers.jpg",
-        "fotoAlt": "El quarterback número 16 de los Tigers suelta un pase en carrera ante los Wolfpack"
-      },
-      {
-        "casa": "Saints",
-        "marcadorCasa": 20,
-        "visita": "Águilas Doradas",
-        "marcadorVisita": 7,
-        "foto": "/media/jornada-2-saints.jpg",
-        "fotoAlt": "Un jugador de los Saints se ajusta el casco en el campo durante el partido ante las Águilas Doradas"
+        "marcadorVisita": 34,
+        "foto": "/media/jornada-3-wolfpack.jpg",
+        "fotoAlt": "El número 17 de los Wolfpack avanza con el balón en el partido nocturno ante los Colón Eagles"
       }
     ]
   },
