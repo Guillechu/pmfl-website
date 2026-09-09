@@ -1,16 +1,16 @@
 {
   "resultados": {
     "eyebrow": "Jornada 3 · 5 de septiembre · Sport Center de Costa del Este",
-    "title": "Los Raptors firman su segunda blanqueada y los Wolfpack se estrenan a lo grande",
-    "summary": "Tercer partido y tercera victoria de los Raptors, que dejaron a los Tigers sin anotar: llevan 100 puntos a favor y solo 7 en contra en toda la temporada. En el nocturno, los Wolfpack estrenaron su casillero de triunfos con un 34-6 sobre unos Colón Eagles que ya han recibido 92 puntos en tres jornadas.",
+    "title": "Los Raptors siguen perfectos y los Wolfpack se estrenan por todo lo alto",
+    "summary": "Tercera victoria en tres partidos para los Raptors, que mandan en solitario en la clasificación: 106 puntos a favor y 13 en contra en toda la temporada. En el nocturno, los Wolfpack consiguieron su primera victoria con un 34-6 y se colocan segundos, dentro de la zona de playoffs.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
         "casa": "Raptors",
-        "marcadorCasa": 21,
+        "marcadorCasa": 27,
         "visita": "Tigers",
-        "marcadorVisita": 0,
+        "marcadorVisita": 6,
         "foto": "/media/jornada-3-raptors.jpg",
         "fotoAlt": "Un receptor de los Raptors atrapa el balón por encima de un defensivo de los Tigers dentro de la zona de anotación"
       },
