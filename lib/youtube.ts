@@ -122,8 +122,8 @@ function collectCards(node: unknown, out: Array<Record<string, unknown>>): void 
 function readCard(card: Record<string, unknown>): { id: string; title: string } | null {
   // Formato nuevo (lockupViewModel)
   const contentId = card.contentId as string | undefined;
-  const metadata = (card.metadata as Record<string, unknown> | undefined)?.
-    lockupMetadataViewModel as Record<string, unknown> | undefined;
+  const metadata = (card.metadata as Record<string, unknown> | undefined)
+    ?.lockupMetadataViewModel as Record<string, unknown> | undefined;
   const newTitle = (metadata?.title as Record<string, unknown> | undefined)?.content as
     | string
     | undefined;

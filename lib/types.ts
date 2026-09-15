@@ -118,8 +118,6 @@ export interface MediaItem {
 
 export interface Media {
   playOfTheWeek: MediaItem;
-  /** Partidos y transmisiones de YouTube, en su propia sección. */
-  videos?: MediaItem[];
   highlights: MediaItem[];
 }
 
