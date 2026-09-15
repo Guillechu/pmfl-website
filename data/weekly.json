@@ -1,26 +1,34 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 3 · 5 de septiembre · Sport Center de Costa del Este",
-    "title": "Los Raptors siguen perfectos y los Wolfpack se estrenan por todo lo alto",
-    "summary": "Tercera victoria en tres partidos para los Raptors, que mandan en solitario en la clasificación: 106 puntos a favor y 13 en contra en toda la temporada. En el nocturno, los Wolfpack consiguieron su primera victoria con un 34-6 y se colocan segundos, dentro de la zona de playoffs.",
+    "eyebrow": "Jornada 4 · 12 y 13 de septiembre · Estadio Emilio Royo",
+    "title": "Tres partidos en la Jornada 4, con los Hunters jugando sábado y domingo",
+    "summary": "La Jornada 4 repartió tres partidos entre el sábado y el domingo. Los Wolfpack se llevaron el del sábado, y el domingo los Hunters de Medellín, que jugaron dos veces en el mismo fin de semana, consiguieron su primera victoria de la temporada. Cerraron los Colón Eagles, que vencieron a los Saints por ocho puntos.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
-        "casa": "Raptors",
-        "marcadorCasa": 27,
-        "visita": "Tigers",
-        "marcadorVisita": 6,
-        "foto": "/media/jornada-3-raptors.jpg",
-        "fotoAlt": "Un receptor de los Raptors atrapa el balón por encima de un defensivo de los Tigers dentro de la zona de anotación"
+        "casa": "Hunters",
+        "marcadorCasa": 6,
+        "visita": "Wolfpack",
+        "marcadorVisita": 36,
+        "foto": "/media/jornada-4-wolfpack.jpg",
+        "fotoAlt": "El quarterback de los Wolfpack entrega el balón a su corredor en el partido ante los Hunters de Medellín"
+      },
+      {
+        "casa": "Hunters",
+        "marcadorCasa": 40,
+        "visita": "Águilas Doradas",
+        "marcadorVisita": 0,
+        "foto": "/media/jornada-4-aguilas.jpg",
+        "fotoAlt": "Un receptor de las Águilas Doradas atrapa el balón por encima de un defensivo de los Hunters de Medellín"
       },
       {
         "casa": "Colón Eagles",
-        "marcadorCasa": 6,
-        "visita": "Wolfpack",
-        "marcadorVisita": 34,
-        "foto": "/media/jornada-3-wolfpack.jpg",
-        "fotoAlt": "El número 17 de los Wolfpack avanza con el balón en el partido nocturno ante los Colón Eagles"
+        "marcadorCasa": 22,
+        "visita": "Saints",
+        "marcadorVisita": 14,
+        "foto": "/media/jornada-4-eagles.jpg",
+        "fotoAlt": "Un jugador de los Colón Eagles da una indicación en el campo durante el partido ante los Saints"
       }
     ]
   },
