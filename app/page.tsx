@@ -59,7 +59,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
+      {/* El aviso EN VIVO del Hero se enciende con playOfTheWeek.enVivo
+          en data/media.json: true mientras dura la transmisión. */}
+      <Hero live={media.playOfTheWeek.enVivo ? media.playOfTheWeek : null} />
 
       <div className="container-page">
         {/* Lo último: resumen de la jornada, y los boletos de la

@@ -5,7 +5,8 @@
     "team": "PMFL",
     "youtubeId": "CYLZLo4VKr0",
     "thumbnail": "https://i.ytimg.com/vi/CYLZLo4VKr0/hqdefault.jpg",
-    "description": "La transmisión en vivo de la jornada, por el canal oficial de la PMFL."
+    "description": "La transmisión en vivo de la jornada, por el canal oficial de la PMFL.",
+    "enVivo": true
   },
   "videos": [
     {

@@ -2,8 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import PanamaFlag from "./PanamaFlag";
 import { InstagramIcon } from "./SocialIcons";
+import LiveBadge from "./LiveBadge";
+import type { MediaItem } from "@/lib/types";
 
-export default function Hero() {
+export default function Hero({ live }: { live?: MediaItem | null }) {
   return (
     <section className="relative overflow-hidden">
       {/* Stadium-style backdrop (sutil) */}
@@ -30,13 +32,20 @@ export default function Hero() {
         />
       </div>
 
-      {/* Instagram de la liga, arriba a la derecha */}
-      <div className="container-page flex justify-end pt-6">
+      {/* Arriba del todo: el aviso EN VIVO a la izquierda, cuando hay
+          transmisión, e Instagram a la derecha. Es lo primero que se
+          ve al entrar, también en móvil, donde el logo grande empuja
+          el resto del Hero por debajo de la pantalla. Si no caben
+          juntos, Instagram baja a la línea siguiente sin perder su
+          sitio a la derecha (ml-auto). */}
+      <div className="container-page flex flex-wrap items-center gap-3 pt-6">
+        {live && <LiveBadge live={live} />}
+
         <a
           href="https://www.instagram.com/pmfl507/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-brand-navy/15 dark:border-white/15 bg-brand-navy/[0.04] dark:bg-white/5 px-4 py-2 text-sm text-brand-navy/75 dark:text-white/80 transition-colors hover:border-brand-gold/50 hover:text-brand-navy hover:dark:text-white"
+          className="ml-auto inline-flex items-center gap-2 rounded-full border border-brand-navy/15 dark:border-white/15 bg-brand-navy/[0.04] dark:bg-white/5 px-4 py-2 text-sm text-brand-navy/75 dark:text-white/80 transition-colors hover:border-brand-gold/50 hover:text-brand-navy hover:dark:text-white"
           aria-label="PMFL en Instagram"
         >
           <InstagramIcon className="h-5 w-5" />

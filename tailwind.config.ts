@@ -71,6 +71,11 @@ const config: Config = {
         "fade-up": "fadeUp 0.6s ease-out both",
         "fade-in": "fadeIn 0.5s ease-out both",
         "slide-in": "slideIn 0.5s ease-out both",
+        // Indicador EN VIVO: dos ondas que se expanden desfasadas y un
+        // núcleo que late con su halo. Curvas suaves a propósito: un
+        // parpadeo seco de encendido/apagado se ve barato.
+        "live-ripple": "liveRipple 2s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "live-blink": "liveBlink 1.6s ease-in-out infinite",
       },
       keyframes: {
         fadeUp: {
@@ -84,6 +89,20 @@ const config: Config = {
         slideIn: {
           "0%": { opacity: "0", transform: "translateX(-12px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+        liveRipple: {
+          "0%": { transform: "scale(1)", opacity: "0.6" },
+          "80%, 100%": { transform: "scale(2.8)", opacity: "0" },
+        },
+        liveBlink: {
+          "0%, 100%": {
+            opacity: "1",
+            "box-shadow": "0 0 10px 2px rgba(239, 35, 60, 0.7)",
+          },
+          "50%": {
+            opacity: "0.45",
+            "box-shadow": "0 0 3px 0 rgba(239, 35, 60, 0.25)",
+          },
         },
       },
     },

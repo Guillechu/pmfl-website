@@ -108,6 +108,12 @@ export interface MediaItem {
   link?: string;
   /** Local video file path (e.g. /videos/foo.mp4) */
   video?: string;
+  /**
+   * Solo en playOfTheWeek: true mientras la transmisión está en vivo.
+   * Enciende el indicador EN VIVO arriba del todo en el inicio; con
+   * false (o sin el campo) el vídeo se sigue viendo, pero sin el aviso.
+   */
+  enVivo?: boolean;
 }
 
 export interface Media {
