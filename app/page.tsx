@@ -4,7 +4,6 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import MatchCard from "@/components/MatchCard";
-import VideoEmbed from "@/components/VideoEmbed";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import ResultsCard from "@/components/ResultsCard";
 import { CardSection } from "@/components/ui/Card";
@@ -107,39 +106,12 @@ export default async function HomePage() {
           {weekly.resultados && <ResultsCard data={weekly.resultados} />}
         </CardSection>
 
-        {/* Play of the Week */}
-        <CardSection
-          title="🏈 Lo mejor del momento"
-          action={
-            <Link href="/media" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
-              Todos los highlights →
-            </Link>
-          }
-        >
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <VideoEmbed youtubeId={media.playOfTheWeek.youtubeId} title={media.playOfTheWeek.title} />
-            </div>
-            {/* En móvil se apila justo debajo del vídeo y repite el
-                título que el propio reproductor ya muestra. En
-                escritorio va al lado y sí aporta, así que solo se
-                oculta en pantallas pequeñas. */}
-            <div className="hidden card flex-col justify-center p-6 lg:flex">
-              <span className="pill self-start bg-brand-red/10 dark:bg-brand-red/20 text-brand-red-700 dark:text-brand-red-100 ring-1 ring-brand-red/30 dark:ring-brand-red/40">
-                DESTACADO
-              </span>
-              <h3 className="mt-3 h-display text-2xl text-brand-navy dark:text-white">
-                {media.playOfTheWeek.title}
-              </h3>
-              <p className="mt-2 text-sm text-brand-navy/70 dark:text-white/70">
-                {media.playOfTheWeek.description}
-              </p>
-              <p className="mt-4 text-xs uppercase tracking-wider text-brand-gold-700 dark:text-brand-gold-300">
-                {media.playOfTheWeek.team}
-              </p>
-            </div>
-          </div>
-        </CardSection>
+        {/* Sin "Lo mejor del momento": el reproductor incrustado de
+            YouTube salía bloqueado ("Vídeo no disponible") porque el
+            audio del live tiene una reclamación de derechos que impide
+            verlo fuera de YouTube. El aviso EN VIVO del Hero no depende
+            de esto: enlaza al vídeo en YouTube, donde sí se ve. El
+            destacado sigue en /media. */}
 
         {/* Últimos resultados — EN VIVO desde Cloob (respaldo: schedule.json) */}
         {recent.length > 0 && (
