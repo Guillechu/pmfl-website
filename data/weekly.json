@@ -1,34 +1,26 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 4 · 12 y 13 de septiembre · Estadio Emilio Royo",
-    "title": "Victorias de Wolfpack, Hunters y Colón Eagles en la Jornada 4",
-    "summary": "La Jornada 4 dejó tres partidos entre el sábado y el domingo. Estos fueron los resultados.",
+    "eyebrow": "Jornada 5 · 19 de septiembre · Estadio Emilio Royo",
+    "title": "Victorias de Tigers y Wolfpack en la Jornada 5",
+    "summary": "La Jornada 5 se jugó el sábado, con dos partidos en el Estadio Emilio Royo. Estos fueron los resultados.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
-        "casa": "Hunters",
-        "marcadorCasa": 6,
-        "visita": "Wolfpack",
-        "marcadorVisita": 36,
-        "foto": "/media/jornada-4-wolfpack.jpg",
-        "fotoAlt": "El quarterback de los Wolfpack entrega el balón a su corredor en el partido ante los Hunters de Medellín"
-      },
-      {
-        "casa": "Hunters",
-        "marcadorCasa": 40,
-        "visita": "Águilas Doradas",
-        "marcadorVisita": 0,
-        "foto": "/media/jornada-4-aguilas.jpg",
-        "fotoAlt": "Un receptor de las Águilas Doradas atrapa el balón por encima de un defensivo de los Hunters de Medellín"
-      },
-      {
-        "casa": "Colón Eagles",
-        "marcadorCasa": 22,
+        "casa": "Tigers",
+        "marcadorCasa": 30,
         "visita": "Saints",
-        "marcadorVisita": 14,
-        "foto": "/media/jornada-4-eagles.jpg",
-        "fotoAlt": "Un jugador de los Colón Eagles da una indicación en el campo durante el partido ante los Saints"
+        "marcadorVisita": 0,
+        "foto": "/media/jornada-5-tigers.jpg",
+        "fotoAlt": "Un jugador de los Tigers celebra con los brazos en alto en la zona de anotación durante el partido ante los Saints"
+      },
+      {
+        "casa": "Wolfpack",
+        "marcadorCasa": 20,
+        "visita": "Raptors",
+        "marcadorVisita": 8,
+        "foto": "/media/jornada-5-wolfpack.jpg",
+        "fotoAlt": "El pateador de los Wolfpack celebra con sus compañeros tras una patada en el partido ante los Raptors"
       }
     ]
   },
@@ -42,9 +34,9 @@
     "image": "https://static.tvn-2.com/clip/c046e176-3a68-4674-a157-f24bba4e177a_16-9-aspect-ratio_default_0.jpg"
   },
   "tickets": {
-    "url": "https://ticketpluspty.com/eventos/pmfl-2026-week-5",
-    "label": "PMFL 2026 · Week 5",
-    "note": "Sábado 19 de septiembre · Estadio Emilio Royo · desde B/. 3.00, válido para los dos partidos",
-    "image": "/media/kickoff-2026-week5.jpg"
+    "url": "https://ticketpluspty.com/eventos/pmfl-2026-week-6",
+    "label": "PMFL 2026 · Week 6",
+    "note": "Sábado 26 de septiembre · Estadio Emilio Royo · desde B/. 3.00, válido para los dos partidos",
+    "image": "/media/kickoff-2026-week6.jpg"
   }
 }
