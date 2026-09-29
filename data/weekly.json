@@ -1,26 +1,26 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 5 · 19 de septiembre · Estadio Emilio Royo",
-    "title": "Victorias de Tigers y Wolfpack en la Jornada 5",
-    "summary": "La Jornada 5 se jugó el sábado, con dos partidos en el Estadio Emilio Royo. Estos fueron los resultados.",
+    "eyebrow": "Jornada 6 · 26 de septiembre · Estadio Emilio Royo",
+    "title": "Victorias de Wolfpack y Raptors en la Jornada 6",
+    "summary": "La Jornada 6 se jugó el sábado, con dos partidos en el Estadio Emilio Royo. Estos fueron los resultados.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
-        "casa": "Tigers",
-        "marcadorCasa": 30,
-        "visita": "Saints",
+        "casa": "Wolfpack",
+        "marcadorCasa": 33,
+        "visita": "Águilas Doradas",
         "marcadorVisita": 0,
-        "foto": "/media/jornada-5-tigers.jpg",
-        "fotoAlt": "Un jugador de los Tigers celebra con los brazos en alto en la zona de anotación durante el partido ante los Saints"
+        "foto": "/media/jornada-6-wolfpack.jpg",
+        "fotoAlt": "El 27 de los Wolfpack corre con el balón en el partido ante las Águilas Doradas"
       },
       {
-        "casa": "Wolfpack",
-        "marcadorCasa": 20,
-        "visita": "Raptors",
-        "marcadorVisita": 8,
-        "foto": "/media/jornada-5-wolfpack.jpg",
-        "fotoAlt": "El pateador de los Wolfpack celebra con sus compañeros tras una patada en el partido ante los Raptors"
+        "casa": "Raptors",
+        "marcadorCasa": 38,
+        "visita": "Saints",
+        "marcadorVisita": 0,
+        "foto": "/media/jornada-6-raptors.jpg",
+        "fotoAlt": "Un jugador de los Raptors corre con el balón en el partido ante los Saints"
       }
     ]
   },
@@ -34,9 +34,9 @@
     "image": "https://static.tvn-2.com/clip/c046e176-3a68-4674-a157-f24bba4e177a_16-9-aspect-ratio_default_0.jpg"
   },
   "tickets": {
-    "url": "https://ticketpluspty.com/eventos/pmfl-2026-week-6",
-    "label": "PMFL 2026 · Week 6",
-    "note": "Sábado 26 de septiembre · Estadio Emilio Royo · desde B/. 3.00, válido para los dos partidos",
-    "image": "/media/kickoff-2026-week6.jpg"
+    "url": "https://ventas.ticketpluspty.com/event/pmfl-2026-week-7-r2c7ty",
+    "label": "PMFL 2026 · Week 7",
+    "note": "Sábado 3 de octubre · Estadio Emilio Royo · desde B/. 3.00, válido para los dos partidos del sábado · El domingo 4, entrada libre",
+    "image": "/media/kickoff-2026-week7.jpg"
   }
 }
