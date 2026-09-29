@@ -18,20 +18,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // El HTML se sirve en oscuro, que es la apariencia de siempre. Si el
-    // visitante eligió la clara, el script de abajo se lo aplica antes de
-    // pintar.
-    <html lang="es" className="dark">
+    // El HTML se sirve en claro, la apariencia por defecto. Si el
+    // visitante eligió la oscura, el script de abajo se la aplica antes
+    // de pintar.
+    <html lang="es">
       <head>
         {/*
           Va aquí y no en un useEffect a propósito: en <head> se ejecuta
-          antes del primer pintado, así que no hay parpadeo oscuro para
-          quien tiene elegida la apariencia clara. Es un script mínimo y
+          antes del primer pintado, así que no hay parpadeo claro para
+          quien tiene elegida la apariencia oscura. Es un script mínimo y
           sin dependencias por eso mismo.
         */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem('pmfl-tema')==='claro'){document.documentElement.classList.remove('dark')}}catch(e){}`,
+            __html: `try{if(localStorage.getItem('pmfl-tema')==='oscuro'){document.documentElement.classList.add('dark')}}catch(e){}`,
           }}
         />
       </head>

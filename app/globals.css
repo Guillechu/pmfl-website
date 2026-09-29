@@ -6,9 +6,8 @@
 
 /* -----------------------------------------------------------
    Dos temas: claro por defecto en CSS, oscuro con la clase
-   .dark en <html>. El oscuro es el que se sirve de entrada
-   (ver app/layout.tsx), asi que quien no toque el selector ve
-   exactamente lo de siempre.
+   .dark en <html>. Se sirve en claro; el oscuro solo lo ve
+   quien lo elige en el selector (ver app/layout.tsx).
 
    En claro el fondo no es blanco puro sino un gris muy tenue:
    las tarjetas son blancas y necesitan contraste contra la

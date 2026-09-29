@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
  * El tema vive en la clase "dark" de <html>, que es lo que mira Tailwind.
  * La elección se guarda en localStorage y la aplica un script en <head>
  * ANTES de pintar (ver app/layout.tsx): si se hiciera aquí, quien tenga
- * elegido el claro vería un parpadeo oscuro en cada carga.
+ * elegido el oscuro vería un parpadeo claro en cada carga.
  *
- * Por defecto, oscuro: es lo que había hasta ahora y quien no toque nada
- * no debe notar ningún cambio.
+ * Por defecto, claro. Quien ya había elegido el oscuro lo tiene guardado
+ * y lo sigue viendo.
  */
 type Tema = "claro" | "oscuro";
 
@@ -22,14 +22,14 @@ function aplicar(tema: Tema) {
 }
 
 export default function ThemeToggle() {
-  const [tema, setTema] = useState<Tema>("oscuro");
+  const [tema, setTema] = useState<Tema>("claro");
   // Hasta que no monta en el cliente no se sabe qué eligió el visitante;
   // se pinta igual para no mover el layout, pero sin marcar opción.
   const [montado, setMontado] = useState(false);
 
   useEffect(() => {
     const guardado = localStorage.getItem(CLAVE);
-    setTema(guardado === "claro" ? "claro" : "oscuro");
+    setTema(guardado === "oscuro" ? "oscuro" : "claro");
     setMontado(true);
   }, []);
 
