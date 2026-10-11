@@ -1,0 +1,112 @@
+import type { DraftState } from '@/types/draft';
+import type { PresentationView } from '@/types/settings';
+import type { SyncStatus } from '@/types/sync';
+import { LEAGUE } from '@/config/league';
+import { LeagueMark } from './LeagueMark';
+import { ConnectionPill } from './ConnectionPill';
+import { cn } from '@/lib/cn';
+
+const VIEWS: { id: PresentationView; label: string; key: string }[] = [
+  { id: 'live', label: 'En vivo', key: '1' },
+  { id: 'board', label: 'Board', key: '2' },
+  { id: 'rosters', label: 'Rosters', key: '3' },
+];
+
+export function HeaderBar({
+  state,
+  status,
+  view,
+  onViewChange,
+  armed,
+  onArm,
+}: {
+  state: DraftState;
+  status: SyncStatus;
+  view: PresentationView;
+  onViewChange: (view: PresentationView) => void;
+  armed: boolean;
+  onArm: () => void;
+}) {
+  return (
+    <header className="flex h-[5.4rem] shrink-0 items-center justify-between border-b border-ink/12 bg-paper px-[1.6rem]">
+      <LeagueMark />
+
+      <div className="flex items-center gap-[2.4rem]">
+        <Stat label="Ronda" value={`${state.round}`} sub={`de ${LEAGUE.rounds}`} />
+        <Divider />
+        <Stat label="Pick" value={`${state.pickInRound}`} sub={`de ${LEAGUE.teamCount}`} />
+        <Divider />
+        <Stat label="General" value={`${state.overallPick}`} sub={`de ${LEAGUE.rounds * LEAGUE.teamCount}`} accent />
+      </div>
+
+      <div className="flex items-center gap-[1rem]">
+        {/*
+          Browsers will not make a sound until somebody clicks, and the only
+          place that click used to live was the pre-draft screen. Reload the
+          page once the draft is under way - which is exactly what happens on
+          draft night - and the broadcast was silent for the rest of it with
+          nothing on screen to say why or what to do.
+        */}
+        {!armed ? (
+          <button
+            type="button"
+            onClick={onArm}
+            className="animate-pulse-urgent rounded-[0.3rem] border border-gold-600 bg-gold-500 px-[1.1rem] py-[0.42rem] font-display text-tv-xs font-bold uppercase tracking-[0.2em] text-paper"
+          >
+            Activar sonido
+          </button>
+        ) : null}
+        <nav className="flex items-center gap-[0.3rem] rounded-full border border-ink/10 bg-ink/[0.04] p-[0.2rem]">
+          {VIEWS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => onViewChange(item.id)}
+              className={cn(
+                'rounded-full px-[0.85rem] py-[0.28rem] font-display text-tv-xs font-semibold uppercase tracking-[0.2em] transition-colors',
+                view === item.id
+                  ? 'bg-gold-500 text-paper'
+                  : 'text-ink/55 hover:text-ink',
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+        <ConnectionPill status={status} />
+      </div>
+    </header>
+  );
+}
+
+function Divider() {
+  return <span className="h-[2.2rem] w-px bg-ink/10" />;
+}
+
+function Stat({
+  label,
+  value,
+  sub,
+  accent = false,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  accent?: boolean;
+}) {
+  return (
+    <div className="flex flex-col items-center leading-none">
+      <span className="font-display text-tv-xs font-semibold uppercase tracking-[0.3em] text-ink/40">
+        {label}
+      </span>
+      <div className="mt-[0.22rem] flex items-baseline gap-[0.3rem]">
+        <span
+          className={cn('tabular headline text-tv-lg', accent ? 'text-gold-500' : 'text-ink')}
+        >
+          {value}
+        </span>
+        {sub ? <span className="text-tv-xs text-ink/35">{sub}</span> : null}
+      </div>
+    </div>
+  );
+}

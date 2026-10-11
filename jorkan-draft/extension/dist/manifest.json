@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "Jorkan League Draft Bridge",
+  "version": "1.0.0",
+  "description": "Read-only bridge that mirrors the live ESPN fantasy draft room into the Jorkan League TV presentation.",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://fantasy.espn.com/*"
+      ],
+      "js": [
+        "espn-observer.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://fantasy.espn.com/*"
+      ],
+      "js": [
+        "espn-probe.js"
+      ],
+      "run_at": "document_idle",
+      "world": "MAIN",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "http://localhost/*",
+        "http://127.0.0.1/*",
+        "https://grietoides.guillermopearson.lat/*",
+        "https://jorkan-draft-night.vercel.app/*"
+      ],
+      "js": [
+        "presentation-bridge.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Jorkan League Draft Bridge"
+  },
+  "icons": {
+    "128": "icon128.png"
+  }
+}

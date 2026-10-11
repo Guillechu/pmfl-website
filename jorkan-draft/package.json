@@ -1,0 +1,44 @@
+{
+  "name": "jorkan-draft-night",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Jorkan League Draft Night 2026 - live ESPN fantasy draft broadcast presentation",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p extension/tsconfig.json",
+    "build:extension": "node scripts/build-extension.mjs",
+    "watch:extension": "node scripts/build-extension.mjs --watch",
+    "test:sim": "tsx scripts/stress-sim.ts",
+    "check": "npm run typecheck && npm run test:sim && npm run test:extension && npm run test:voice && npm run test:espn-api && npm run test:espn-path && npm run test:espn-fixture",
+    "test:extension": "tsx scripts/test-extension.ts",
+    "test:espn-path": "tsx scripts/test-espn-path.ts",
+    "analyze:debug": "tsx scripts/analyze-debug-export.ts",
+    "test:espn-fixture": "tsx scripts/test-espn-fixture.ts",
+    "test:espn-api": "tsx scripts/test-espn-api.ts",
+    "test:voice": "tsx scripts/test-voice.ts",
+    "build:web": "vite build --mode hosted"
+  },
+  "dependencies": {
+    "framer-motion": "^11.11.17",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.287",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "esbuild": "^0.24.0",
+    "playwright-core": "^1.62.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}

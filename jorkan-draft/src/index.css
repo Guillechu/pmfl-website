@@ -1,0 +1,77 @@
+@import './fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /*
+     * One variable drives the whole layout. Everything on screen is sized in
+     * rem, so the presentation is pixel-identical in proportion at 1920x1080,
+     * 2560x1440 and 4K, and min() keeps it sane in a small dev window too.
+     *
+     * The divisors are the stage the design is laid out on - 111rem x 62.5rem
+     * - so they are also the "make everything bigger" knob: smaller divisors
+     * mean a larger rem and therefore a larger everything. Shrink them and the
+     * layout eventually grows past the screen, so they and the frame's own
+     * padding move together.
+     */
+    font-size: clamp(9px, min(100vw / 111, 100vh / 62.5), 44px);
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: theme('colors.paper');
+  }
+
+  body {
+    font-family: theme('fontFamily.sans');
+    color: theme('colors.ink');
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Numbers that never jitter: clock, pick numbers, board cells. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+}
+
+@layer components {
+  /* The base surface for every module on screen: white card, hairline edge. */
+  .panel {
+    @apply relative rounded-[0.5rem] border border-line bg-paper shadow-panel;
+  }
+
+  .panel-solid {
+    @apply relative rounded-[0.5rem] border border-line bg-surface-850 shadow-panel;
+  }
+
+  /* Section eyebrow: small, wide-tracked, uppercase - the broadcast label. */
+  .eyebrow {
+    @apply font-display text-tv-sm font-semibold uppercase tracking-[0.28em] text-muted;
+  }
+
+  .rule-gold {
+    @apply h-[0.125rem] w-full bg-gold-rule;
+  }
+
+  .headline {
+    @apply font-display font-bold uppercase tracking-[0.01em];
+  }
+}
+
+/* Motion-safety escape hatch used by the low-motion setting. */
+.low-motion *,
+.low-motion *::before,
+.low-motion *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
