@@ -1,26 +1,28 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 6 · 26 de septiembre · Estadio Emilio Royo",
-    "title": "Victorias de Wolfpack y Raptors en la Jornada 6",
-    "summary": "La Jornada 6 se jugó el sábado, con dos partidos en el Estadio Emilio Royo. Estos fueron los resultados.",
+    "eyebrow": "Jornada 7 · 3 y 4 de octubre · Estadio Emilio Royo",
+    "title": "Victorias de Tigers, Raptors y Hunters en la Jornada 7",
+    "summary": "La Jornada 7 dejó tres partidos entre el sábado y el domingo. Estos fueron los resultados.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
-        "casa": "Wolfpack",
-        "marcadorCasa": 33,
-        "visita": "Águilas Doradas",
-        "marcadorVisita": 0,
-        "foto": "/media/jornada-6-wolfpack.jpg",
-        "fotoAlt": "El 27 de los Wolfpack corre con el balón en el partido ante las Águilas Doradas"
+        "casa": "Tigers",
+        "marcadorCasa": 34,
+        "visita": "Hunters",
+        "marcadorVisita": 14
       },
       {
-        "casa": "Raptors",
-        "marcadorCasa": 38,
-        "visita": "Saints",
-        "marcadorVisita": 0,
-        "foto": "/media/jornada-6-raptors.jpg",
-        "fotoAlt": "Un jugador de los Raptors corre con el balón en el partido ante los Saints"
+        "casa": "Águilas Doradas",
+        "marcadorCasa": 0,
+        "visita": "Raptors",
+        "marcadorVisita": 38
+      },
+      {
+        "casa": "Hunters",
+        "marcadorCasa": 16,
+        "visita": "Colón Eagles",
+        "marcadorVisita": 12
       }
     ]
   },
