@@ -12,6 +12,7 @@ import PlayerAvatar from "@/components/PlayerAvatar";
 import TeamLogo from "@/components/TeamLogo";
 import { getPlayerProfile, type CloobPlayerStats } from "@/lib/cloob";
 import { players, teamByName } from "@/lib/data";
+import { getPlayerPhotoMap, photoFor } from "@/lib/player-photos";
 import { toMeters, toPounds } from "@/lib/measurements";
 import { slugify } from "@/lib/utils";
 
@@ -93,14 +94,22 @@ export default async function PlayerPage({
 }: {
   params: { id: string };
 }) {
-  const player = await getPlayerProfile(params.id).catch(() => null);
+  const [player, photos] = await Promise.all([
+    getPlayerProfile(params.id).catch(() => null),
+    getPlayerPhotoMap(),
+  ]);
 
   if (!player) notFound();
 
   const team = teamByName(player.teamName);
 
-  // Estatura, peso y foto no están en la ficha de Cloob; se completan
-  // desde /data emparejando por nombre, igual que hace el roster.
+  // La foto no viene en la ficha: sale de las mismas fuentes que el
+  // inicio y /stats (la oficial del roster de Cloob, por id; si no tiene,
+  // Cloudinary o /data). Sin ninguna, el escudo del equipo.
+  const photo = photoFor(photos, player.playerId, player.name);
+
+  // Estatura y peso tampoco están en la ficha; se completan desde /data
+  // emparejando por nombre, igual que hace el roster.
   const local = players.find((p) => slugify(p.name) === slugify(player.name));
   const height = toMeters(local?.height);
   const weight = toPounds(local?.weight);
@@ -124,7 +133,7 @@ export default async function PlayerPage({
       <header className="relative mt-4 overflow-hidden rounded-2xl border border-brand-navy/10 bg-gradient-to-br from-white via-white to-brand-navy/[0.06] p-6 shadow-card md:p-10 dark:border-white/10 dark:from-brand-navy-700 dark:via-brand-navy-800 dark:to-brand-navy-900 dark:shadow-cardDark">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
           <PlayerAvatar
-            src={local?.photo}
+            src={photo}
             alt={player.name}
             className="h-24 w-24 shrink-0 rounded-full border border-brand-navy/10 object-cover dark:border-white/10"
             fallback={
