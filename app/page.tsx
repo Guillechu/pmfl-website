@@ -10,12 +10,12 @@ import { CardSection } from "@/components/ui/Card";
 import { recentResults, nextGames, media, weekly, teamByName } from "@/lib/data";
 import {
   getStandings,
-  getTopScorers,
+  getPlayerProfile,
   getUpcomingMatches,
   getRecentResults,
 } from "@/lib/cloob";
 import { fromCloob, fromLocal } from "@/lib/match";
-import PlayerPodium from "@/components/PlayerPodium";
+import MvpRace, { type MvpCandidate } from "@/components/MvpRace";
 import TeamLogo from "@/components/TeamLogo";
 import { getPlayerPhotoMap, photoFor } from "@/lib/player-photos";
 import { getPublicSponsors } from "@/lib/sponsors";
@@ -24,10 +24,11 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   // Datos en vivo desde Cloob (con degradación elegante si no hay datos).
-  const [standings, scorers, cloobUpcoming, cloobResults, photos] =
+  const mvpPicks = weekly.mvp?.jugadores ?? [];
+  const [standings, mvpProfiles, cloobUpcoming, cloobResults, photos] =
     await Promise.all([
       getStandings(),
-      getTopScorers(5),
+      Promise.all(mvpPicks.map((j) => getPlayerProfile(j.id).catch(() => null))),
       getUpcomingMatches(3),
       getRecentResults(3),
       getPlayerPhotoMap(),
@@ -37,13 +38,23 @@ export default async function HomePage() {
   const sponsors = await getPublicSponsors(60);
   const topStandings = standings.slice(0, 4);
 
-  const podium = scorers.map((p) => ({
-    id: p.playerId,
-    name: p.playerName,
-    club: p.clubName,
-    points: p.totalPoints,
-    photo: photoFor(photos, p.playerId, p.playerName),
-  }));
+  // Si Cloob no devuelve la ficha de alguno, ese se queda fuera en vez
+  // de pintar un hueco; los demás conservan su puesto.
+  const mvpCandidates: MvpCandidate[] = mvpPicks.flatMap((j, i) => {
+    const profile = mvpProfiles[i];
+    return profile
+      ? [
+          {
+            puesto: i + 1,
+            profile,
+            photo: photoFor(photos, profile.playerId, profile.name),
+            foto: j.foto,
+            fotoAlt: j.fotoAlt,
+            stats: j.stats,
+          },
+        ]
+      : [];
+  });
 
   // Partidos: manda Cloob. Si el torneo aún no tiene partidos cargados,
   // caemos al calendario estático de data/schedule.json.
@@ -63,45 +74,49 @@ export default async function HomePage() {
       <Hero live={media.playOfTheWeek.enVivo ? media.playOfTheWeek : null} />
 
       <div className="container-page">
-        {/* Lo último: resumen de la jornada, y los boletos de la
-            siguiente cuando estén a la venta. Se editan en
-            data/weekly.json, sin tocar código. */}
+        {/* Lo último: la carrera por el MVP, el resumen de la jornada y
+            los boletos de la siguiente cuando estén a la venta. Se editan
+            en data/weekly.json, sin tocar código. */}
         <CardSection title="LO ÚLTIMO">
-          {/* Boletos del próximo partido, lo primero: es lo único
-              accionable del bloque. El arte lleva dentro los cruces y los
-              horarios, así que se muestra entero en vez de recortado como
-              fondo de tarjeta. */}
-          <a
-            href={weekly.tickets.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mb-5 block overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition-colors hover:border-brand-gold-600/50 dark:border-white/10 dark:bg-black/40 dark:hover:border-brand-gold/40"
-          >
-            <img
-              src={weekly.tickets.image}
-              alt={weekly.tickets.label}
-              className="w-full"
-            />
+          {weekly.mvp && <MvpRace data={weekly.mvp} candidates={mvpCandidates} />}
 
-            <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
-              <div className="min-w-0">
-                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
-                  🎟️ BOLETOS
+          {/* Boletos del próximo partido. El arte lleva dentro los cruces
+              y los horarios, así que se muestra entero en vez de recortado
+              como fondo de tarjeta. Con enInicio en false la tarjeta se
+              retira al acabar la venta; el botón Tickets del menú sigue. */}
+          {weekly.tickets.enInicio !== false && (
+            <a
+              href={weekly.tickets.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mb-5 block overflow-hidden rounded-2xl border border-brand-navy/10 bg-white transition-colors hover:border-brand-gold-600/50 dark:border-white/10 dark:bg-black/40 dark:hover:border-brand-gold/40"
+            >
+              <img
+                src={weekly.tickets.image}
+                alt={weekly.tickets.label}
+                className="w-full"
+              />
+
+              <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
+                <div className="min-w-0">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
+                    🎟️ BOLETOS
+                  </span>
+                  <h3 className="mt-2 h-display text-2xl text-brand-navy dark:text-white">
+                    {weekly.tickets.label}
+                  </h3>
+                  <p className="mt-1 text-sm text-brand-navy/70 dark:text-white/70">
+                    {weekly.tickets.note}
+                  </p>
+                </div>
+
+                <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-navy/[0.06] px-4 py-2 text-sm text-brand-navy transition-colors group-hover:bg-brand-gold-600/20 dark:bg-white/10 dark:text-white dark:group-hover:bg-brand-gold/20">
+                  Comprar en Ticketplus
+                  <span aria-hidden="true">→</span>
                 </span>
-                <h3 className="mt-2 h-display text-2xl text-brand-navy dark:text-white">
-                  {weekly.tickets.label}
-                </h3>
-                <p className="mt-1 text-sm text-brand-navy/70 dark:text-white/70">
-                  {weekly.tickets.note}
-                </p>
               </div>
-
-              <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-navy/[0.06] px-4 py-2 text-sm text-brand-navy transition-colors group-hover:bg-brand-gold-600/20 dark:bg-white/10 dark:text-white dark:group-hover:bg-brand-gold/20">
-                Comprar en Ticketplus
-                <span aria-hidden="true">→</span>
-              </span>
-            </div>
-          </a>
+            </a>
+          )}
 
           {weekly.resultados && <ResultsCard data={weekly.resultados} />}
         </CardSection>
@@ -148,29 +163,6 @@ export default async function HomePage() {
             </div>
           </CardSection>
         )}
-
-        {/* Top Players — EN VIVO desde Cloob */}
-        <CardSection
-          title="MEJORES JUGADORES"
-          action={
-            <Link href="/stats" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
-              Todas las estadísticas →
-            </Link>
-          }
-        >
-          {podium.length > 0 ? (
-            <div className="card px-4 py-8 md:px-8">
-              <PlayerPodium players={podium} />
-            </div>
-          ) : (
-            <div className="card p-10 text-center">
-              <h3 className="text-2xl font-black text-brand-navy dark:text-white">Estadísticas próximamente</h3>
-              <p className="mt-3 text-brand-navy/60 dark:text-white/60">
-                Los líderes estarán disponibles cuando inicie la temporada 2026.
-              </p>
-            </div>
-          )}
-        </CardSection>
 
         {/* Standings — EN VIVO desde Cloob */}
         {topStandings.length > 0 && (

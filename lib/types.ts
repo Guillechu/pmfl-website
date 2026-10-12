@@ -3,6 +3,8 @@
 // Edit /data/*.json to update content. Types here describe that shape.
 // ----------------------------------------------------------------------
 
+import type { CloobPlayerStats } from "./cloob";
+
 export interface TeamRecord {
   wins: number;
   losses: number;
@@ -159,6 +161,8 @@ export interface WeeklyPanel {
   label: string;
   note: string;
   image: string;
+  /** false retira la tarjeta de boletos del inicio al acabar la venta. */
+  enInicio?: boolean;
 }
 
 /**
@@ -203,9 +207,34 @@ export interface ResultsPanel {
   }>;
 }
 
+/**
+ * Carrera por el MVP en el inicio. Quiénes van y en qué orden es una
+ * decisión editorial, así que se escribe a mano; sus cifras y sus MVP de
+ * partido salen en vivo de la ficha de Cloob de cada uno.
+ */
+export interface MvpRacePanel {
+  eyebrow: string;
+  title: string;
+  summary: string;
+  url: string;
+  linkLabel: string;
+  /** En orden: los tres primeros van destacados, el resto en lista. */
+  jugadores: Array<{
+    /** Id del jugador en Cloob (el de /players/[id]). */
+    id: string;
+    /** Las cifras que se enseñan de él, por clave de la ficha de Cloob. */
+    stats: Array<keyof CloobPlayerStats>;
+    /** Foto de acción vertical (4:5) para los destacados. Sin ella, la
+     *  del roster de Cloob. */
+    foto?: string;
+    fotoAlt?: string;
+  }>;
+}
+
 export interface WeeklyLinks {
   resultados?: ResultsPanel;
+  mvp?: MvpRacePanel;
   news?: NewsPanel;
-  /** Alimenta el botón Tickets del menú. */
+  /** Alimenta el botón Tickets del menú y la tarjeta de boletos. */
   tickets: WeeklyPanel;
 }
