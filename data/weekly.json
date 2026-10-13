@@ -47,7 +47,9 @@
       },
       {
         "id": "493293ad-0e79-408f-ab83-87ff06891070",
-        "stats": ["total_points", "rec_tds", "interceptions"]
+        "stats": ["total_points", "rec_tds", "interceptions"],
+        "foto": "/media/mvp-murillo.jpg",
+        "fotoAlt": "José Murillo, el 87 de los Raptors, celebra con el balón en la zona de anotación"
       },
       {
         "id": "f36f68b5-3489-4678-989b-9499a37162eb",
