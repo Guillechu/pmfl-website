@@ -56,12 +56,12 @@
         "stats": ["rec_yds", "receptions", "rec_tds"]
       },
       {
-        "id": "877822c8-c272-4db4-932c-8a1a70b2f794",
-        "stats": ["rec_yds", "rec_tds", "total_points"]
-      },
-      {
         "id": "510d307a-7424-496a-b164-ce41f8a39fab",
         "stats": ["rush_yds", "rush_tds", "total_points"]
+      },
+      {
+        "id": "877822c8-c272-4db4-932c-8a1a70b2f794",
+        "stats": ["rec_yds", "rec_tds", "total_points"]
       },
       {
         "id": "f36f68b5-3489-4678-989b-9499a37162eb",
