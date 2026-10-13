@@ -52,12 +52,20 @@
         "fotoAlt": "José Murillo, el 87 de los Raptors, celebra con el balón en la zona de anotación"
       },
       {
-        "id": "f36f68b5-3489-4678-989b-9499a37162eb",
-        "stats": ["total_points", "rush_yds", "rush_tds"]
+        "id": "1752c92f-609b-4a71-a2b6-e99e6b2d0a03",
+        "stats": ["rec_yds", "receptions", "rec_tds"]
+      },
+      {
+        "id": "877822c8-c272-4db4-932c-8a1a70b2f794",
+        "stats": ["rec_yds", "rec_tds", "total_points"]
       },
       {
         "id": "510d307a-7424-496a-b164-ce41f8a39fab",
         "stats": ["rush_yds", "rush_tds", "total_points"]
+      },
+      {
+        "id": "f36f68b5-3489-4678-989b-9499a37162eb",
+        "stats": ["total_points", "rush_yds", "rush_tds"]
       },
       {
         "id": "70073c0e-fa63-4fa4-bfb0-e253ec8111f7",
@@ -68,15 +76,7 @@
         "stats": ["interceptions", "total_tds", "tackles"]
       },
       {
-        "id": "1752c92f-609b-4a71-a2b6-e99e6b2d0a03",
-        "stats": ["rec_yds", "receptions", "rec_tds"]
-      },
-      {
         "id": "1a68693e-a254-409c-abf0-ac9b324053ab",
-        "stats": ["rec_yds", "rec_tds", "total_points"]
-      },
-      {
-        "id": "877822c8-c272-4db4-932c-8a1a70b2f794",
         "stats": ["rec_yds", "rec_tds", "total_points"]
       }
     ]
