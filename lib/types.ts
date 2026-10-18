@@ -232,9 +232,27 @@ export interface MvpRacePanel {
 }
 
 /**
- * Portada del inicio: un arte grande con su titular, arriba del todo.
- * Es para momentos puntuales (playoffs, final); sin ella, el inicio
- * empieza directamente con la presentación de la liga.
+ * Cruce de playoff escrito a mano (data/playoffs.json). Cubre el hueco
+ * entre que la liga anuncia los cruces y los carga en Cloob, que mientras
+ * tanto los tiene sin rivales ni fecha.
+ */
+export interface PlayoffGame {
+  id: string;
+  /** "Semifinal", "Gran Final"… */
+  label: string;
+  /** ISO con la zona de Panamá; null si aún no hay fecha. */
+  date: string | null;
+  venue: string;
+  /** Nombre del equipo (como en /data) o texto del cruce por decidir. */
+  home: string;
+  away: string;
+}
+
+/**
+ * Portada del inicio: un arte grande con su titular, debajo de la
+ * presentación de la liga.
+ * Es para momentos puntuales (playoffs, final); sin ella, tras la
+ * presentación viene directamente "Lo último".
  */
 export interface PortadaPanel {
   /** Arte apaisado 16:9 (1920x1080). */

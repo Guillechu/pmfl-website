@@ -6,15 +6,17 @@ import Hero from "@/components/Hero";
 import MatchCard from "@/components/MatchCard";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import ResultsCard from "@/components/ResultsCard";
+import Portada from "@/components/Portada";
 import { CardSection } from "@/components/ui/Card";
 import { recentResults, nextGames, media, weekly, teamByName } from "@/lib/data";
 import {
   getStandings,
   getPlayerProfile,
+  getMatches,
   getUpcomingMatches,
   getRecentResults,
 } from "@/lib/cloob";
-import { fromCloob, fromLocal } from "@/lib/match";
+import { fromCloob, fromLocal, localPlayoffs } from "@/lib/match";
 import MvpRace, { type MvpCandidate } from "@/components/MvpRace";
 import TeamLogo from "@/components/TeamLogo";
 import { getPlayerPhotoMap, photoFor } from "@/lib/player-photos";
@@ -25,13 +27,14 @@ export const revalidate = 60;
 export default async function HomePage() {
   // Datos en vivo desde Cloob (con degradación elegante si no hay datos).
   const mvpPicks = weekly.mvp?.jugadores ?? [];
-  const [standings, mvpProfiles, cloobUpcoming, cloobResults, photos] =
+  const [standings, mvpProfiles, cloobUpcoming, cloobResults, photos, cloobAll] =
     await Promise.all([
       getStandings(),
       Promise.all(mvpPicks.map((j) => getPlayerProfile(j.id).catch(() => null))),
       getUpcomingMatches(3),
       getRecentResults(3),
       getPlayerPhotoMap(),
+      getMatches(),
     ]);
 
   // Patrocinadores en vivo (gestionados desde /admin).
@@ -58,10 +61,19 @@ export default async function HomePage() {
 
   // Partidos: manda Cloob. Si el torneo aún no tiene partidos cargados,
   // caemos al calendario estático de data/schedule.json.
+  // Sin partidos de Cloob por delante, los cruces de playoff anunciados
+  // que Cloob aún tiene sin rivales (data/playoffs.json), con fecha y por
+  // jugar; y si tampoco hay, el calendario estático.
+  const cutoff = Date.now() - 3 * 60 * 60 * 1000;
+  const playoffUpcoming = localPlayoffs(cloobAll)
+    .filter((g) => g.date !== null && g.date.getTime() >= cutoff)
+    .slice(0, 3);
   const upcoming =
     cloobUpcoming.length > 0
       ? cloobUpcoming.map(fromCloob)
-      : nextGames(3).map(fromLocal);
+      : playoffUpcoming.length > 0
+        ? playoffUpcoming
+        : nextGames(3).map(fromLocal);
   const recent =
     cloobResults.length > 0
       ? cloobResults.map(fromCloob)
@@ -70,14 +82,17 @@ export default async function HomePage() {
   return (
     <>
       {/* El aviso EN VIVO del Hero se enciende con playOfTheWeek.enVivo
-          en data/media.json: true mientras dura la transmisión. La
-          portada, con portada en data/weekly.json. */}
-      <Hero
-        live={media.playOfTheWeek.enVivo ? media.playOfTheWeek : null}
-        portada={weekly.portada ?? null}
-      />
+          en data/media.json: true mientras dura la transmisión. */}
+      <Hero live={media.playOfTheWeek.enVivo ? media.playOfTheWeek : null} />
 
       <div className="container-page">
+        {/* Portada del momento, debajo de la presentación de la liga. */}
+        {weekly.portada && (
+          <div className="pt-10">
+            <Portada data={weekly.portada} />
+          </div>
+        )}
+
         {/* Lo último: la carrera por el MVP, el resumen de la jornada y
             los boletos de la siguiente cuando estén a la venta. Se editan
             en data/weekly.json, sin tocar código. */}

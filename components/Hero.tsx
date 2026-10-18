@@ -3,15 +3,9 @@ import Image from "next/image";
 import PanamaFlag from "./PanamaFlag";
 import { InstagramIcon } from "./SocialIcons";
 import LiveBadge from "./LiveBadge";
-import type { MediaItem, PortadaPanel } from "@/lib/types";
+import type { MediaItem } from "@/lib/types";
 
-export default function Hero({
-  live,
-  portada,
-}: {
-  live?: MediaItem | null;
-  portada?: PortadaPanel | null;
-}) {
+export default function Hero({ live }: { live?: MediaItem | null }) {
   return (
     <section className="relative overflow-hidden">
       {/* Stadium-style backdrop (sutil) */}
@@ -58,44 +52,6 @@ export default function Hero({
           <span>@pmfl507</span>
         </a>
       </div>
-
-      {/* Portada: el arte del momento (playoffs, final) con su titular,
-          antes que la presentación de la liga. Se pone y se quita desde
-          portada en data/weekly.json. Es lo primero que se pinta, así
-          que la imagen va con priority. */}
-      {portada && (
-        <div className="container-page pt-6">
-          <Link
-            href={portada.url}
-            className="group block overflow-hidden rounded-2xl border border-brand-navy/10 bg-white shadow-card transition-colors hover:border-brand-gold-600/50 dark:border-white/10 dark:bg-black/40 dark:shadow-cardDark dark:hover:border-brand-gold/40"
-          >
-            <Image
-              src={portada.image}
-              alt={portada.alt}
-              width={1920}
-              height={1080}
-              priority
-              sizes="(min-width: 1280px) 1200px, 100vw"
-              className="h-auto w-full"
-            />
-            <div className="px-5 py-5 md:px-8 md:py-6">
-              <span className="inline-flex items-center rounded-full bg-brand-gold px-3 py-1 text-xs font-semibold text-brand-navy-900">
-                {portada.eyebrow}
-              </span>
-              <h2 className="mt-3 h-display text-2xl leading-tight text-brand-navy transition-colors group-hover:text-brand-gold-700 dark:text-white group-hover:dark:text-brand-gold-300 md:text-4xl">
-                {portada.title}
-              </h2>
-              <p className="mt-2 max-w-3xl text-sm text-brand-navy/70 dark:text-white/75 md:text-base">
-                {portada.summary}
-              </p>
-              <span className="mt-4 inline-flex items-center gap-2 text-sm text-brand-gold-700 dark:text-brand-gold-300">
-                {portada.linkLabel}
-                <span aria-hidden="true">→</span>
-              </span>
-            </div>
-          </Link>
-        </div>
-      )}
 
       <div className="container-page grid items-center gap-10 pb-16 pt-6 md:pb-24 lg:grid-cols-[1fr_auto]">
         {/* Texto */}
