@@ -1,26 +1,20 @@
 {
   "resultados": {
-    "eyebrow": "Jornada 7 · 3 y 4 de octubre · Estadio Emilio Royo",
-    "title": "Victorias de Tigers, Raptors y Hunters en la Jornada 7",
-    "summary": "La Jornada 7 dejó tres partidos entre el sábado y el domingo. Estos fueron los resultados.",
+    "eyebrow": "Sábado 17 de octubre · Estadio Emilio Royo",
+    "title": "Victorias de Wolfpack y Tigers",
+    "summary": "El sábado se jugaron dos partidos en el Estadio Emilio Royo. Estos fueron los resultados.",
     "url": "/stats",
     "linkLabel": "Ver la clasificación completa",
     "partidos": [
       {
-        "casa": "Tigers",
-        "marcadorCasa": 34,
-        "visita": "Hunters",
-        "marcadorVisita": 14
-      },
-      {
-        "casa": "Águilas Doradas",
+        "casa": "Saints",
         "marcadorCasa": 0,
-        "visita": "Raptors",
-        "marcadorVisita": 38
+        "visita": "Wolfpack",
+        "marcadorVisita": 51
       },
       {
-        "casa": "Hunters",
-        "marcadorCasa": 16,
+        "casa": "Tigers",
+        "marcadorCasa": 46,
         "visita": "Colón Eagles",
         "marcadorVisita": 12
       }
