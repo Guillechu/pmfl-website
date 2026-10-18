@@ -11,8 +11,8 @@
 // ----------------------------------------------------------------------
 
 import type { CloobMatch } from "./cloob";
-import type { Game, Team } from "./types";
-import { getTeam, teamByName } from "./data";
+import type { Game, PlayoffGame, Team } from "./types";
+import { getTeam, playoffs, teamByName } from "./data";
 
 export interface UiGameSide {
   /** Nombre a mostrar. */
@@ -80,6 +80,41 @@ export function fromLocal(g: Game): UiGame {
           : "scheduled",
     source: "local",
   };
+}
+
+/** Cruce de playoff de data/playoffs.json → UiGame. */
+export function fromPlayoff(p: PlayoffGame): UiGame {
+  return {
+    id: p.id,
+    week: null,
+    label: p.label,
+    date: p.date ? new Date(p.date) : null,
+    venue: p.venue,
+    home: { name: p.home, team: teamByName(p.home), score: null },
+    away: { name: p.away, team: teamByName(p.away), score: null },
+    state: "scheduled",
+    source: "local",
+  };
+}
+
+/**
+ * Los playoffs de data/playoffs.json, solo mientras hagan falta: si Cloob
+ * ya tiene algún cruce de playoff con rivales, la liga los cargó y manda
+ * Cloob. Devuelve [] en ese caso.
+ */
+export function localPlayoffs(cloob: CloobMatch[]): UiGame[] {
+  const cloobHasPlayoffs = cloob.some((m) => m.type === "ROUND" && m.hasTeams);
+  return cloobHasPlayoffs ? [] : playoffs.map(fromPlayoff);
+}
+
+/**
+ * Calendario completo: los partidos de Cloob, con sus playoffs sin rivales
+ * cambiados por los de data/playoffs.json cuando estos aplican.
+ */
+export function withPlayoffs(cloob: CloobMatch[]): UiGame[] {
+  const local = localPlayoffs(cloob);
+  const base = local.length > 0 ? cloob.filter((m) => m.type !== "ROUND") : cloob;
+  return [...base.map(fromCloob), ...local];
 }
 
 /** Etiqueta de la jornada: "Jornada 3", "Final", o "Partido". */

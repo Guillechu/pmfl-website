@@ -1,0 +1,26 @@
+[
+  {
+    "id": "semifinal-1",
+    "label": "Semifinal",
+    "date": "2026-10-24T17:00:00-05:00",
+    "venue": "Estadio Emilio Royo",
+    "home": "Raptors",
+    "away": "Hunters"
+  },
+  {
+    "id": "semifinal-2",
+    "label": "Semifinal",
+    "date": "2026-10-24T20:00:00-05:00",
+    "venue": "Estadio Emilio Royo",
+    "home": "Wolfpack",
+    "away": "Tigers"
+  },
+  {
+    "id": "final",
+    "label": "Gran Final",
+    "date": null,
+    "venue": "",
+    "home": "Ganador Raptors-Hunters",
+    "away": "Ganador Wolfpack-Tigers"
+  }
+]

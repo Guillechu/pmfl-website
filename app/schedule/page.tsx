@@ -5,7 +5,7 @@
 
 import { getMatches } from "@/lib/cloob";
 import { schedule } from "@/lib/data";
-import { fromCloob, fromLocal } from "@/lib/match";
+import { fromLocal, withPlayoffs } from "@/lib/match";
 import ScheduleView from "@/components/ScheduleView";
 
 export const revalidate = 60;
@@ -27,7 +27,9 @@ const PLAYOFFS_PREVISTOS = [
 export default async function SchedulePage() {
   const cloob = await getMatches();
   const live = cloob.length > 0;
-  const games = live ? cloob.map(fromCloob) : schedule.map(fromLocal);
+  // Los cruces de playoff que la liga ya anunció pero Cloob aún tiene sin
+  // rivales salen de data/playoffs.json (ver withPlayoffs).
+  const games = live ? withPlayoffs(cloob) : schedule.map(fromLocal);
 
   return (
     <div className="container-page py-12">
