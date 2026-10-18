@@ -26,61 +26,6 @@
       }
     ]
   },
-  "mvp": {
-    "eyebrow": "Temporada 2026 · Top 10",
-    "title": "Restrepo y Tejeira encabezan la carrera por el MVP",
-    "summary": "Los dos quarterbacks suman tres MVP de partido cada uno, más que nadie en la liga. Este es el top 10 de la temporada según las estadísticas oficiales.",
-    "url": "/stats",
-    "linkLabel": "Ver todas las estadísticas",
-    "jugadores": [
-      {
-        "id": "4762147b-1419-482b-a5e4-5d0e63eb2191",
-        "stats": ["pass_yds", "pass_tds", "completions"],
-        "foto": "/media/mvp-restrepo.jpg",
-        "fotoAlt": "Cristian Restrepo, el 16 de los Tigers, lanza un pase"
-      },
-      {
-        "id": "6100fa53-bfc9-4e84-b0c5-6b732414f0be",
-        "stats": ["pass_yds", "pass_tds", "total_tds"],
-        "foto": "/media/mvp-tejeira.jpg",
-        "fotoAlt": "Rodrigo Tejeira, el 9 de los Raptors, prepara un pase"
-      },
-      {
-        "id": "493293ad-0e79-408f-ab83-87ff06891070",
-        "stats": ["total_points", "rec_tds", "interceptions"],
-        "foto": "/media/mvp-murillo.jpg",
-        "fotoAlt": "José Murillo, el 87 de los Raptors, celebra con el balón en la zona de anotación"
-      },
-      {
-        "id": "1752c92f-609b-4a71-a2b6-e99e6b2d0a03",
-        "stats": ["rec_yds", "receptions", "rec_tds"]
-      },
-      {
-        "id": "510d307a-7424-496a-b164-ce41f8a39fab",
-        "stats": ["rush_yds", "rush_tds", "total_points"]
-      },
-      {
-        "id": "877822c8-c272-4db4-932c-8a1a70b2f794",
-        "stats": ["rec_yds", "rec_tds", "total_points"]
-      },
-      {
-        "id": "f36f68b5-3489-4678-989b-9499a37162eb",
-        "stats": ["total_points", "rush_yds", "rush_tds"]
-      },
-      {
-        "id": "70073c0e-fa63-4fa4-bfb0-e253ec8111f7",
-        "stats": ["sacks", "tackles"]
-      },
-      {
-        "id": "c78d9df4-ed99-400e-83aa-bbfc6b49bdee",
-        "stats": ["interceptions", "total_tds", "tackles"]
-      },
-      {
-        "id": "1a68693e-a254-409c-abf0-ac9b324053ab",
-        "stats": ["rec_yds", "rec_tds", "total_points"]
-      }
-    ]
-  },
   "news": {
     "url": "https://www.tvn-2.com/tvmax/mas-deportes/futbol-americano-estadio-emilio-royo-resultados-choque-internacional_1_2255613.html",
     "source": "TVN-2 · TVMax",
