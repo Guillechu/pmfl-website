@@ -231,7 +231,24 @@ export interface MvpRacePanel {
   }>;
 }
 
+/**
+ * Portada del inicio: un arte grande con su titular, arriba del todo.
+ * Es para momentos puntuales (playoffs, final); sin ella, el inicio
+ * empieza directamente con la presentación de la liga.
+ */
+export interface PortadaPanel {
+  /** Arte apaisado 16:9 (1920x1080). */
+  image: string;
+  alt: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  url: string;
+  linkLabel: string;
+}
+
 export interface WeeklyLinks {
+  portada?: PortadaPanel;
   resultados?: ResultsPanel;
   mvp?: MvpRacePanel;
   news?: NewsPanel;

@@ -70,8 +70,12 @@ export default async function HomePage() {
   return (
     <>
       {/* El aviso EN VIVO del Hero se enciende con playOfTheWeek.enVivo
-          en data/media.json: true mientras dura la transmisión. */}
-      <Hero live={media.playOfTheWeek.enVivo ? media.playOfTheWeek : null} />
+          en data/media.json: true mientras dura la transmisión. La
+          portada, con portada en data/weekly.json. */}
+      <Hero
+        live={media.playOfTheWeek.enVivo ? media.playOfTheWeek : null}
+        portada={weekly.portada ?? null}
+      />
 
       <div className="container-page">
         {/* Lo último: la carrera por el MVP, el resumen de la jornada y
