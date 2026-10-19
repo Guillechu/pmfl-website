@@ -251,10 +251,19 @@ export interface PlayoffGame {
   label: string;
   /** ISO con la zona de Panamá; null si aún no hay fecha. */
   date: string | null;
-  venue: string;
+  /** Si falta, la sede de los playoffs (PlayoffsData.sede). */
+  venue?: string;
   /** Nombre del equipo (como en /data) o texto del cruce por decidir. */
   home: string;
   away: string;
+}
+
+/** data/playoffs.json: la sede de lo que queda y los cruces. */
+export interface PlayoffsData {
+  /** Sede de todos los partidos de playoffs, también de los que Cloob
+   *  tiene sin sede. */
+  sede: string;
+  partidos: PlayoffGame[];
 }
 
 /**

@@ -12,7 +12,7 @@
 
 import type { CloobMatch } from "./cloob";
 import type { Game, PlayoffGame, Team } from "./types";
-import { forfeitIds, getTeam, playoffs, teamByName } from "./data";
+import { forfeitIds, getTeam, playoffs, playoffVenue, teamByName } from "./data";
 
 export interface UiGameSide {
   /** Nombre a mostrar. */
@@ -47,7 +47,9 @@ export function fromCloob(m: CloobMatch): UiGame {
     // En playoffs Cloob no numera la jornada y el título ya dice qué es.
     label: m.type === "ROUND" ? m.title : undefined,
     date: m.date,
-    venue: m.venue,
+    // Cloob carga los playoffs sin sede; la liga los juega todos en la
+    // de data/playoffs.json.
+    venue: m.venue || (m.type === "ROUND" ? playoffVenue : ""),
     home: {
       name: m.homeTeam,
       team: teamByName(m.homeTeam),
@@ -92,7 +94,7 @@ export function fromPlayoff(p: PlayoffGame): UiGame {
     week: null,
     label: p.label,
     date: p.date ? new Date(p.date) : null,
-    venue: p.venue,
+    venue: p.venue || playoffVenue,
     home: { name: p.home, team: teamByName(p.home), score: null },
     away: { name: p.away, team: teamByName(p.away), score: null },
     state: "scheduled",

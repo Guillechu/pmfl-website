@@ -24,6 +24,7 @@ import type {
   StatsLeaders,
   WeeklyLinks,
   PlayoffGame,
+  PlayoffsData,
   Forfeit,
 } from "./types";
 
@@ -35,7 +36,10 @@ export const gallery: GalleryImage[] = galleryJson as GalleryImage[];
 export const sponsors: Sponsor[] = sponsorsJson as Sponsor[];
 export const statsLeaders: StatsLeaders = statsJson as StatsLeaders;
 export const weekly: WeeklyLinks = weeklyJson as WeeklyLinks;
-export const playoffs: PlayoffGame[] = playoffsJson as PlayoffGame[];
+const playoffsData = playoffsJson as PlayoffsData;
+export const playoffs: PlayoffGame[] = playoffsData.partidos;
+/** Sede de los playoffs, para los partidos que no la traen. */
+export const playoffVenue: string = playoffsData.sede;
 /** Ids de Cloob de los partidos decididos por forfeit. */
 export const forfeitIds: Set<string> = new Set(
   (forfeitsJson as Forfeit[]).map((f) => f.id),
