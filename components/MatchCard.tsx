@@ -20,6 +20,9 @@ export default function MatchCard({ game }: { game: UiGame }) {
     isFinal &&
     game.home.score !== null &&
     game.home.score === game.away.score;
+  // Un forfeit no se jugó: se marca quién se lleva la victoria, pero sin
+  // marcador, aunque Cloob le ponga uno.
+  const showScore = (isFinal || isLive) && !game.forfeit;
 
   return (
     <article
@@ -45,9 +48,9 @@ export default function MatchCard({ game }: { game: UiGame }) {
         )}
       </div>
 
-      <Row side={game.away} label="VISITA" dimmed={isFinal && !awayWon && !tied} winner={awayWon} showScore={!!(isFinal || isLive)} />
+      <Row side={game.away} label="VISITA" dimmed={isFinal && !awayWon && !tied} winner={awayWon} showScore={showScore} />
       <div className="my-2 h-px bg-brand-navy/[0.07] dark:bg-white/10" />
-      <Row side={game.home} label="CASA" dimmed={isFinal && !homeWon && !tied} winner={homeWon} showScore={!!(isFinal || isLive)} />
+      <Row side={game.home} label="CASA" dimmed={isFinal && !homeWon && !tied} winner={homeWon} showScore={showScore} />
 
       <div className="mt-4 flex items-center justify-between gap-3 text-xs text-brand-navy/55 dark:text-white/50">
         <span className="truncate">{game.venue || "Sede por confirmar"}</span>

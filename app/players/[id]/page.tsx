@@ -265,12 +265,14 @@ export default async function PlayerPage({
             {player.matches.map((m) => {
               const gano = (m.own ?? 0) > (m.rival ?? 0);
               const empate = m.own === m.rival;
+              // Un forfeit no se jugó: sin marcador, solo el aviso.
+              const forfeit = forfeitIds.has(m.matchId);
               return (
                 <div key={m.matchId} className="card p-5">
                   <div className="flex items-center justify-between gap-3 text-xs text-brand-navy/60 dark:text-white/60">
                     <span>{m.date ? FECHA.format(m.date) : ""}</span>
                     <span className="flex items-center gap-2">
-                      {forfeitIds.has(m.matchId) && <ForfeitBadge />}
+                      {forfeit && <ForfeitBadge />}
                       {m.isMvp && (
                         <span className="rounded-full bg-brand-red px-2 py-0.5 font-semibold text-white">
                           MVP
@@ -293,7 +295,7 @@ export default async function PlayerPage({
                             : "text-brand-navy/55 dark:text-white/50")
                       }
                     >
-                      {m.own}–{m.rival}
+                      {forfeit ? (gano ? "Victoria" : "Derrota") : `${m.own}–${m.rival}`}
                     </span>
                   </div>
                 </div>
