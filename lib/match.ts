@@ -12,7 +12,7 @@
 
 import type { CloobMatch } from "./cloob";
 import type { Game, PlayoffGame, Team } from "./types";
-import { getTeam, playoffs, teamByName } from "./data";
+import { forfeitIds, getTeam, playoffs, teamByName } from "./data";
 
 export interface UiGameSide {
   /** Nombre a mostrar. */
@@ -35,6 +35,8 @@ export interface UiGame {
   away: UiGameSide;
   state: "scheduled" | "live" | "final";
   source: "cloob" | "local";
+  /** Decidido por forfeit (data/forfeits.json). */
+  forfeit?: boolean;
 }
 
 /** Partido de Cloob → UiGame. */
@@ -58,6 +60,7 @@ export function fromCloob(m: CloobMatch): UiGame {
     },
     state: m.state,
     source: "cloob",
+    forfeit: forfeitIds.has(m.id),
   };
 }
 

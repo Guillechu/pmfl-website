@@ -12,6 +12,7 @@ import galleryJson from "@/data/gallery.json";
 import sponsorsJson from "@/data/sponsors.json";
 import weeklyJson from "@/data/weekly.json";
 import playoffsJson from "@/data/playoffs.json";
+import forfeitsJson from "@/data/forfeits.json";
 
 import type {
   Team,
@@ -23,6 +24,7 @@ import type {
   StatsLeaders,
   WeeklyLinks,
   PlayoffGame,
+  Forfeit,
 } from "./types";
 
 export const teams: Team[] = teamsJson as Team[];
@@ -34,6 +36,10 @@ export const sponsors: Sponsor[] = sponsorsJson as Sponsor[];
 export const statsLeaders: StatsLeaders = statsJson as StatsLeaders;
 export const weekly: WeeklyLinks = weeklyJson as WeeklyLinks;
 export const playoffs: PlayoffGame[] = playoffsJson as PlayoffGame[];
+/** Ids de Cloob de los partidos decididos por forfeit. */
+export const forfeitIds: Set<string> = new Set(
+  (forfeitsJson as Forfeit[]).map((f) => f.id),
+);
 
 // -------- helpers ----------------------------------------------------
 

@@ -10,8 +10,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import PlayerAvatar from "@/components/PlayerAvatar";
 import TeamLogo from "@/components/TeamLogo";
+import ForfeitBadge from "@/components/ForfeitBadge";
 import { getPlayerProfile, type CloobPlayerStats } from "@/lib/cloob";
-import { players, teamByName } from "@/lib/data";
+import { forfeitIds, players, teamByName } from "@/lib/data";
 import { getPlayerPhotoMap, photoFor } from "@/lib/player-photos";
 import { toMeters, toPounds } from "@/lib/measurements";
 import { slugify } from "@/lib/utils";
@@ -268,11 +269,14 @@ export default async function PlayerPage({
                 <div key={m.matchId} className="card p-5">
                   <div className="flex items-center justify-between gap-3 text-xs text-brand-navy/60 dark:text-white/60">
                     <span>{m.date ? FECHA.format(m.date) : ""}</span>
-                    {m.isMvp && (
-                      <span className="rounded-full bg-brand-red px-2 py-0.5 font-semibold text-white">
-                        MVP
-                      </span>
-                    )}
+                    <span className="flex items-center gap-2">
+                      {forfeitIds.has(m.matchId) && <ForfeitBadge />}
+                      {m.isMvp && (
+                        <span className="rounded-full bg-brand-red px-2 py-0.5 font-semibold text-white">
+                          MVP
+                        </span>
+                      )}
+                    </span>
                   </div>
 
                   <div className="mt-2 flex items-center justify-between gap-3">

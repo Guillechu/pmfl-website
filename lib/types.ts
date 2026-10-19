@@ -232,6 +232,15 @@ export interface MvpRacePanel {
 }
 
 /**
+ * Partido decidido por forfeit. El id es el de Cloob; el resto es solo
+ * para saber de cuál se trata al leer el JSON.
+ */
+export interface Forfeit {
+  id: string;
+  partido: string;
+}
+
+/**
  * Cruce de playoff escrito a mano (data/playoffs.json). Cubre el hueco
  * entre que la liga anuncia los cruces y los carga en Cloob, que mientras
  * tanto los tiene sin rivales ni fecha.

@@ -9,6 +9,7 @@ import { weekLabel } from "@/lib/match";
 import { formatGameDate, cn } from "@/lib/utils";
 import TeamLogo from "./TeamLogo";
 import Badge from "./ui/Badge";
+import ForfeitBadge from "./ForfeitBadge";
 
 export default function MatchCard({ game }: { game: UiGame }) {
   const isFinal = game.state === "final";
@@ -48,8 +49,9 @@ export default function MatchCard({ game }: { game: UiGame }) {
       <div className="my-2 h-px bg-brand-navy/[0.07] dark:bg-white/10" />
       <Row side={game.home} label="CASA" dimmed={isFinal && !homeWon && !tied} winner={homeWon} showScore={!!(isFinal || isLive)} />
 
-      <div className="mt-4 text-xs text-brand-navy/55 dark:text-white/50">
+      <div className="mt-4 flex items-center justify-between gap-3 text-xs text-brand-navy/55 dark:text-white/50">
         <span className="truncate">{game.venue || "Sede por confirmar"}</span>
+        {game.forfeit && <ForfeitBadge />}
       </div>
     </article>
   );
