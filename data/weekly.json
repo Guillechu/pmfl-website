@@ -1,13 +1,4 @@
 {
-  "portada": {
-    "image": "/media/portada-playoffs-2026.jpg",
-    "alt": "Playoffs 2026 de la PMFL: semifinales Raptors vs Hunters a las 5:00 PM y Wolfpack vs Tigers a las 8:00 PM, el sábado 24 de octubre en el Estadio Emilio Royo",
-    "eyebrow": "Playoffs 2026 · Semifinales",
-    "title": "Raptors, Wolfpack, Tigers y Hunters van por un lugar en la final",
-    "summary": "Sábado 24 de octubre en el Estadio Emilio Royo: Raptors vs Hunters a las 5:00 PM y Wolfpack vs Tigers a las 8:00 PM.",
-    "url": "/schedule",
-    "linkLabel": "Ver el calendario"
-  },
   "news": {
     "url": "https://www.tvn-2.com/tvmax/mas-deportes/futbol-americano-estadio-emilio-royo-resultados-choque-internacional_1_2255613.html",
     "source": "TVN-2 · TVMax",
@@ -21,6 +12,6 @@
     "url": "https://ventas.ticketpluspty.com/event/pmfl-2026-playoffs-ovmpsv",
     "label": "PMFL 2026 · Playoffs",
     "note": "Sábado 24 de octubre · Estadio Emilio Royo · desde B/. 3.00, válido para los dos partidos",
-    "image": "/media/kickoff-2026-playoffs.jpg"
+    "image": "/media/boletos-playoffs-2026.jpg"
   }
 }
