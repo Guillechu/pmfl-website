@@ -8,31 +8,6 @@
     "url": "/schedule",
     "linkLabel": "Ver el calendario"
   },
-  "resultados": {
-    "eyebrow": "Sábado 17 de octubre · Estadio Emilio Royo",
-    "title": "Victorias de Wolfpack y Tigers",
-    "summary": "El sábado se jugaron dos partidos en el Estadio Emilio Royo. Estos fueron los resultados.",
-    "url": "/stats",
-    "linkLabel": "Ver la clasificación completa",
-    "partidos": [
-      {
-        "casa": "Saints",
-        "marcadorCasa": 0,
-        "visita": "Wolfpack",
-        "marcadorVisita": 51,
-        "foto": "/media/resultados-17-octubre-wolfpack.jpg",
-        "fotoAlt": "El 22 de los Wolfpack celebra con un compañero en la zona de anotación en el partido ante los Saints"
-      },
-      {
-        "casa": "Tigers",
-        "marcadorCasa": 46,
-        "visita": "Colón Eagles",
-        "marcadorVisita": 12,
-        "foto": "/media/resultados-17-octubre-tigers.jpg",
-        "fotoAlt": "El 89 y el 2 de los Tigers celebran en el aire en el partido ante los Colón Eagles"
-      }
-    ]
-  },
   "news": {
     "url": "https://www.tvn-2.com/tvmax/mas-deportes/futbol-americano-estadio-emilio-royo-resultados-choque-internacional_1_2255613.html",
     "source": "TVN-2 · TVMax",
