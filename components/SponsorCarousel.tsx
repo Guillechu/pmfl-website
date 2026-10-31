@@ -20,7 +20,7 @@ export default function SponsorCarousel({
 
       {/* Carrusel */}
       <div
-        className="flex gap-10 py-6 will-change-transform animate-[marquee_30s_linear_infinite] hover:[animation-play-state:paused]"
+        className="flex gap-10 py-6 will-change-transform animate-[marquee_90s_linear_infinite] hover:[animation-play-state:paused]"
         style={{ width: "max-content" }}
       >
         {loop.map((s, i) => (
