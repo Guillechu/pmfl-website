@@ -78,7 +78,9 @@ export default async function MediaPage() {
           <Badge variant="gold">Nuevo</Badge>
         </div>
 
-        {weekly.news && <NewsCard news={weekly.news} />}
+        <div className="space-y-5">
+          {weekly.news?.map((n) => <NewsCard key={n.url} news={n} />)}
+        </div>
       </section>
 
       <MediaSections />

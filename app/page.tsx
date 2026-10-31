@@ -7,6 +7,7 @@ import MatchCard from "@/components/MatchCard";
 import SponsorCarousel from "@/components/SponsorCarousel";
 import ResultsCard from "@/components/ResultsCard";
 import Portada from "@/components/Portada";
+import NewsCard from "@/components/NewsCard";
 import { CardSection } from "@/components/ui/Card";
 import { recentResults, nextGames, media, weekly, teamByName } from "@/lib/data";
 import {
@@ -139,6 +140,20 @@ export default async function HomePage() {
 
           {weekly.resultados && <ResultsCard data={weekly.resultados} />}
         </CardSection>
+
+        {/* La nota de prensa más reciente; el resto, en /media. */}
+        {weekly.news && weekly.news.length > 0 && (
+          <CardSection
+            title="NOTICIAS"
+            action={
+              <Link href="/media" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
+                Más en Media →
+              </Link>
+            }
+          >
+            <NewsCard news={weekly.news[0]} />
+          </CardSection>
+        )}
 
         {/* Sin "Lo mejor del momento": el reproductor incrustado de
             YouTube salía bloqueado ("Vídeo no disponible") porque el

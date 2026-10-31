@@ -287,7 +287,9 @@ export interface WeeklyLinks {
   portada?: PortadaPanel;
   resultados?: ResultsPanel;
   mvp?: MvpRacePanel;
-  news?: NewsPanel;
+  /** Notas de prensa, la más reciente primero. El inicio enseña la
+   *  primera; /media, todas. */
+  news?: NewsPanel[];
   /** Alimenta el botón Tickets del menú y la tarjeta de boletos. */
   tickets: WeeklyPanel;
 }
