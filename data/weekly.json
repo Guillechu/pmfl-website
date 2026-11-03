@@ -1,4 +1,13 @@
 {
+  "portada": {
+    "image": "/media/campeones-raptors-2026.jpg",
+    "alt": "Raptors, campeones de la temporada 2026 de la PMFL: ganaron la Gran Final 28-18 a Tigers en el Estadio Emilio Royo",
+    "eyebrow": "Gran Final 2026",
+    "title": "Raptors, campeones de la PMFL 2026",
+    "summary": "Raptors ganó la Gran Final 28-18 ante Tigers en el Estadio Emilio Royo y es el campeón de la temporada 2026.",
+    "url": "/teams/raptors",
+    "linkLabel": "Ver el equipo campeón"
+  },
   "news": [
     {
       "url": "https://www.tvn-2.com/tvmax/mas-deportes/tigers-vs-raptors-panama-mayor-football-league-deportes-final-semifinal-emilio-royo_1_2268581.html",
@@ -23,6 +32,7 @@
     "url": "https://ventas.ticketpluspty.com/event/pmfl-2026-gran-final-t4lp6m",
     "label": "PMFL 2026 · Gran Final",
     "note": "Sábado 31 de octubre · 7:00 PM · Estadio Emilio Royo · entrada general B/. 5.00",
-    "image": "/media/boletos-gran-final-2026.jpg"
+    "image": "/media/boletos-gran-final-2026.jpg",
+    "enInicio": false
   }
 }
