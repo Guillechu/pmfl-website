@@ -21,6 +21,7 @@ import { fromCloob, fromLocal, localPlayoffs } from "@/lib/match";
 import MvpRace, { type MvpCandidate } from "@/components/MvpRace";
 import TeamLogo from "@/components/TeamLogo";
 import { getPlayerPhotoMap, photoFor } from "@/lib/player-photos";
+import { isFinalStandings, withFinalOrder } from "@/lib/final-standings";
 import { getPublicSponsors } from "@/lib/sponsors";
 
 export const revalidate = 60;
@@ -40,7 +41,8 @@ export default async function HomePage() {
 
   // Patrocinadores en vivo (gestionados desde /admin).
   const sponsors = await getPublicSponsors(60);
-  const topStandings = standings.slice(0, 4);
+  // Con la temporada cerrada, la clasificación final (campeón primero).
+  const topStandings = withFinalOrder(standings).slice(0, 4);
 
   // Si Cloob no devuelve la ficha de alguno, ese se queda fuera en vez
   // de pintar un hueco; los demás conservan su puesto.
@@ -201,7 +203,7 @@ export default async function HomePage() {
         {/* Standings — EN VIVO desde Cloob */}
         {topStandings.length > 0 && (
           <CardSection
-            title="CLASIFICACIÓN"
+            title={isFinalStandings ? "CLASIFICACIÓN FINAL" : "CLASIFICACIÓN"}
             action={
               <Link href="/stats" className="text-sm text-brand-gold-700 dark:text-brand-gold-300 hover:text-brand-gold-700 hover:dark:text-brand-gold-500">
                 Clasificación completa →
@@ -221,6 +223,12 @@ export default async function HomePage() {
                       <div className="h-display truncate text-brand-navy dark:text-white">
                         {local?.name ?? t.name}
                       </div>
+                      {t.titulo && (
+                        <div className="text-xs font-semibold uppercase tracking-wider text-brand-gold-700 dark:text-brand-gold-300">
+                          {t.titulo === "Campeón" ? "🏆 " : ""}
+                          {t.titulo}
+                        </div>
+                      )}
                       <div className="text-xs text-brand-navy/60 dark:text-white/60">
                         {t.won}-{t.lost}
                         {t.drawn ? `-${t.drawn}` : ""} · PF {t.pf}

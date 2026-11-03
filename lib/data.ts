@@ -40,6 +40,8 @@ const playoffsData = playoffsJson as PlayoffsData;
 export const playoffs: PlayoffGame[] = playoffsData.partidos;
 /** Sede de los playoffs, para los partidos que no la traen. */
 export const playoffVenue: string = playoffsData.sede;
+/** Orden final de la temporada (campeón primero), si ya terminó. */
+export const finalStandingsOrder = playoffsData.clasificacionFinal ?? [];
 /** Ids de Cloob de los partidos decididos por forfeit. */
 export const forfeitIds: Set<string> = new Set(
   (forfeitsJson as Forfeit[]).map((f) => f.id),

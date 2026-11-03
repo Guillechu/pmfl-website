@@ -264,6 +264,12 @@ export interface PlayoffsData {
    *  tiene sin sede. */
   sede: string;
   partidos: PlayoffGame[];
+  /**
+   * Con la temporada cerrada: campeón, subcampeón y semifinalistas, en
+   * ese orden. La clasificación los pone arriba; vacío o sin el campo, la
+   * de la temporada regular tal cual.
+   */
+  clasificacionFinal?: Array<{ equipo: string; titulo: string }>;
 }
 
 /**

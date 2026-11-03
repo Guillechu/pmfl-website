@@ -8,10 +8,10 @@ import {
   getTopScorers,
   getRecentResults,
   getStatLeaders,
-  type CloobStanding,
 } from "@/lib/cloob";
 import { teamByName } from "@/lib/data";
 import { fromCloob } from "@/lib/match";
+import { isFinalStandings, withFinalOrder, type FinalStanding } from "@/lib/final-standings";
 import MatchCard from "@/components/MatchCard";
 import PlayerPodium from "@/components/PlayerPodium";
 import StatLeaderboards from "@/components/StatLeaderboards";
@@ -60,7 +60,7 @@ function LiveBadge() {
 
 // -------- secciones ---------------------------------------------------
 
-function StandingsTable({ rows }: { rows: CloobStanding[] }) {
+function StandingsTable({ rows }: { rows: FinalStanding[] }) {
   return (
     <div className="card overflow-hidden">
       <div className="overflow-x-auto">
@@ -100,7 +100,15 @@ function StandingsTable({ rows }: { rows: CloobStanding[] }) {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <TeamName name={t.name} />
+                    <div className="flex flex-wrap items-center gap-2">
+                      <TeamName name={t.name} />
+                      {t.titulo && (
+                        <span className="rounded-full bg-brand-gold-600/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand-gold-700 ring-1 ring-brand-gold-600/40 dark:bg-brand-gold/20 dark:text-brand-gold-300 dark:ring-brand-gold/40">
+                          {t.titulo === "Campeón" ? "🏆 " : ""}
+                          {t.titulo}
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-3 py-3 text-center tabular-nums text-brand-navy/75 dark:text-white/80">{t.played}</td>
                   <td className="px-3 py-3 text-center tabular-nums text-brand-navy/85 dark:text-white/90">{t.won}</td>
@@ -122,7 +130,9 @@ function StandingsTable({ rows }: { rows: CloobStanding[] }) {
       </div>
       <p className="border-t border-brand-navy/[0.07] dark:border-white/5 px-4 py-3 text-xs text-brand-navy/50 dark:text-white/45">
         <span className="mr-1 inline-block h-2 w-2 rounded-full bg-brand-gold-600/60 dark:bg-brand-gold/60 align-middle" />
-        Zona de playoffs (top 4)
+        {isFinalStandings
+          ? "Clasificación final: campeón, subcampeón y semifinalistas arriba; el resto, por la temporada regular."
+          : "Zona de playoffs (top 4)"}
       </p>
     </div>
   );
@@ -181,8 +191,10 @@ export default async function StatsPage() {
         <div className="space-y-12">
           {/* Clasificación */}
           <section>
-            <h2 className="mb-4 h-display text-2xl text-brand-navy dark:text-white">Clasificación</h2>
-            <StandingsTable rows={standings} />
+            <h2 className="mb-4 h-display text-2xl text-brand-navy dark:text-white">
+              {isFinalStandings ? "Clasificación final" : "Clasificación"}
+            </h2>
+            <StandingsTable rows={withFinalOrder(standings)} />
           </section>
 
           {/* Líderes de anotación — pódium */}
