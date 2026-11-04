@@ -145,11 +145,13 @@ export async function listFolders(revalidate = 0): Promise<string[]> {
  * Todas las fotos bajo ROOT_FOLDER, más recientes primero.
  *
  * `max_results` topa en 500 por página, así que paginamos con el cursor
- * hasta traerlas todas (o hasta `hardLimit`, por seguridad).
+ * hasta traerlas todas (o hasta `hardLimit`, por seguridad). El tope era
+ * 2000 y se quedaba corto: con las fotos más recientes primero, al pasar
+ * de 2000 desaparecían de la galería los álbumes más antiguos.
  */
 export async function listAssets(
   revalidate = 0,
-  hardLimit = 2000,
+  hardLimit = 10000,
 ): Promise<CloudinaryAsset[]> {
   const out: CloudinaryAsset[] = [];
   let cursor: string | undefined;

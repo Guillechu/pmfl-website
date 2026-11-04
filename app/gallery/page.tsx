@@ -9,7 +9,10 @@ import { PLAYERS_ALBUM } from "@/lib/player-photos";
 import { SPONSORS_ALBUM } from "@/lib/sponsors";
 import GalleryAccordion from "@/components/GalleryAccordion";
 
-export const revalidate = 60;
+// Cada regeneración pide todas las fotos a Cloudinary, 500 por llamada, y
+// su Admin API tiene un cupo por hora: 5 minutos basta. Lo que sube el
+// fotógrafo sale al momento igual, porque la subida revalida /gallery.
+export const revalidate = 300;
 
 export const metadata = {
   title: "Galería · PMFL",
@@ -32,7 +35,7 @@ export default async function GalleryPage() {
       .replace(/[^a-z0-9]+/g, "");
 
   const OCULTOS = new Set([PLAYERS_ALBUM, SPONSORS_ALBUM].map(normalizar));
-  const albums = (await getAlbums(60)).filter(
+  const albums = (await getAlbums(300)).filter(
     (a) => !OCULTOS.has(normalizar(a.slug)) && !OCULTOS.has(normalizar(a.title)),
   );
   const total = albums.reduce((n, a) => n + a.photos.length, 0);
