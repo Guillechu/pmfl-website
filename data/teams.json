@@ -163,12 +163,8 @@
     "description": "Equipo dinámico con enfoque ofensivo.",
     "coachingStaff": [
       {
-        "name": "Raúl Esquivel",
-        "role": "Head Coach"
-      },
-      {
         "name": "Danello Codrington",
-        "role": "Coach Defensivo"
+        "role": "Head Coach"
       },
       {
         "name": "Alex Tuñon",
@@ -187,7 +183,7 @@
         "role": "Coach Special Teams"
       }
     ],
-    "headCoach": "Raúl Esquivel"
+    "headCoach": "Danello Codrington"
   },
   {
     "id": "tigers",
