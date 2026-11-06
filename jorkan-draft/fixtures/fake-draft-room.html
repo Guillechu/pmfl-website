@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fake draft room (pipeline test fixture)</title>
+  </head>
+  <body>
+    <!--
+      THIS IS NOT ESPN'S MARKUP.
+
+      It is a deliberately generic stand-in used to exercise the extension
+      pipeline end to end: content script -> background -> bridge ->
+      presentation. It proves the plumbing, the deduplication and the
+      reconnect behaviour. It proves NOTHING about whether the selectors match
+      the real ESPN draft room - that can only be validated against a live
+      ESPN mock draft, which is a separate step.
+    -->
+    <header>
+      <h1>Jorkan League</h1>
+      <div id="coords">Round 1, Pick 1</div>
+      <div id="status">Draft has not started</div>
+    </header>
+
+    <section id="clock-area">
+      <span>Time left</span>
+      <span id="clock">5:00</span>
+    </section>
+
+    <section id="turn">
+      <div id="otc"><span>On the clock</span> <span id="otc-team">El Dandy</span></div>
+      <div id="deck"><span>On deck</span> <span id="deck-team">Hospital Nicolas Solano</span></div>
+    </section>
+
+    <section>
+      <h2>Draft history</h2>
+      <ul id="history"></ul>
+    </section>
+
+    <script>
+      const history = document.getElementById('history');
+
+      window.__fixture = {
+        setStatus(text) {
+          document.getElementById('status').textContent = text;
+        },
+        setCoords(round, pick) {
+          document.getElementById('coords').textContent = `Round ${round}, Pick ${pick}`;
+        },
+        setClock(text) {
+          document.getElementById('clock').textContent = text;
+        },
+        setTurn(onClock, onDeck) {
+          document.getElementById('otc-team').textContent = onClock;
+          document.getElementById('deck-team').textContent = onDeck;
+        },
+        addPick({ round, pick, playerId, name, position, proTeam, team }) {
+          const li = document.createElement('li');
+          li.innerHTML =
+            `<span>${round}.${String(pick).padStart(2, '0')}</span> ` +
+            `<a href="https://www.espn.com/nfl/player/_/id/${playerId}/${name
+              .toLowerCase()
+              .replace(/[^a-z]+/g, '-')}">${name}</a> ` +
+            `<span>${position}, ${proTeam}</span> ` +
+            `<span>selected by ${team}</span>`;
+          history.prepend(li);
+        },
+        reset() {
+          history.textContent = '';
+        },
+      };
+    </script>
+  </body>
+</html>

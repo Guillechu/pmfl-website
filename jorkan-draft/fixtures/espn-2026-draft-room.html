@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Fantasy Football Draft - ESPN</title>
+<style>
+  body { font: 14px system-ui; margin: 0; background: #111; color: #fff; }
+  .draft-header { display: flex; gap: 16px; align-items: center; padding: 8px; }
+  .picklist { display: flex; gap: 8px; list-style: none; padding: 0; }
+  li, div { min-height: 1px; }
+</style>
+</head>
+<body>
+<!--
+  Jorkan League - ESPN 2026 draft room fixture.
+
+  Everything below marked CAPTURED is verbatim outerHTML recorded from a real
+  ESPN 2026 draft room during a Jorkan League practice draft (debug export
+  2026-08-31, overall pick 104). It is not invented markup and it is not
+  cleaned up: the generated jsx-* class names, the inline styles and the
+  redactions are exactly as they came off the page.
+
+  The one part that is RECONSTRUCTED is the round/clock header. The capture
+  recorded its text run - "RND 9 of 16" immediately followed by "00:30" - but
+  not its markup, because the collector could not see the clock at all: that
+  was the bug. It is reproduced here in the shape that made the clock
+  invisible, text split across sibling elements with no element owning it, so
+  the fix is tested against the failure it exists for. Replace this block with
+  captured markup as soon as a capture contains it.
+-->
+
+<section class="drafting">
+  <!-- RECONSTRUCTED: see the note above. -->
+  <div class="jsx-1839302 draft-header">
+    <div class="jsx-1839302 rnd ttu">RND <span class="jsx-1839302">9</span> of <span class="jsx-1839302">16</span></div>
+    <div class="jsx-1839302 timer"><span class="jsx-1839302">00</span><span class="jsx-1839302">:</span><span class="jsx-1839302">30</span></div>
+  </div>
+
+  <!-- CAPTURED: ESPN's current-pick module. -->
+  <div data-testid="current-pick" title="LOS BUQES DE BUGABA" class="jsx-405218174 current-pick-module-container clr-white"><div class="contents"><div data-testid="croppable-image" class="jsx-1141285347 croppable-image team-logo fl team-logo-vector" style="height: 45px; overflow: hidden; width: 45px;"><img alt="" class="Image team-logo fl team-logo-vector" data-mptype="image" src="https://g.espncdn.com/lm-static/logo-packs/ffl/CreepShow-ToddDetwiler/CreepShow-06.svg"></div><div class="jsx-405218174 on-the-clock ttu">On the Clock: Pick 104</div><div class="jsx-405218174 team-name">LOS BUQES DE BUGABA</div></div></div>
+
+  <!-- CAPTURED: ESPN's upcoming-picks strip. -->
+  <ul class="picklist">
+        <li class="picklist--item picklist--pick"><div title="Los Badros " class="jsx-4106643373 pick-component tc flex flex-column items-center justify-between autopick"><div class="jsx-4106643373 pick-number ttu">PICK 105</div><div class="jsx-4106643373 auto-word">AUTO</div><div data-testid="croppable-image" class="jsx-1141285347 croppable-image team-logo" style="height: 24px; overflow: hidden; width: 24px;"><img alt="Team logo" class="Image team-logo" data-mptype="image" src="https://g.espncdn.com/lm-static/logo-packs/ffl/Xmas-AndrewJanik/XMas_15.svg"></div><div class="jsx-4106643373 team-name truncate">Los Badros </div></div></li>
+    <!--
+      RECONSTRUCTED: the round divider that sits between two rounds in the
+      strip. A screenshot of a live 2026 draft room shows it inline with the
+      pick cells - "PICK 10 | PICK 11 | PICK 12 | ROUND 2" - but the capture
+      did not record its markup. It is here because that adjacency is what
+      made the parser read a fantasy club crest as a drafted player: "ROUND 2"
+      beside "PICK 105" gives it a coordinate, and the crest's alt text gave
+      it a name.
+    -->
+    <li class="picklist--item picklist--round"><div class="jsx-4106643373 round-component tc"><div class="jsx-4106643373 round-word ttu">Round</div><div class="jsx-4106643373 round-number">2</div></div></li>
+  </ul>
+
+  <!-- CAPTURED: the pick area, on this frame showing the autopick prompt. -->
+  <div class="jsx-2898375982 pickArea bb brdr-clr-gray-06"><div class="jsx-1869443168 on-the-clock bg-clr-white flex items-center scenario"><div data-testid="pro-team-player-headshot" class="jsx-2649155106 pro-team-container dib"><figure class="Image aspect-ratio--parent pro-team-logo"><div class="RatioFrame aspect-ratio--1x1"></div><div class="Image__Wrapper aspect-ratio--child"><img alt="Ja'Marr Chase" class="" data-mptype="image" src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/nfl/500/cin.png&amp;h=150&amp;w=150"></div></figure><div class="jsx-3743397412 player-headshot player-headshot absolute top-0 right-0" style="height: 70px; width: 94px;"><img data-src="https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/4362628.png&amp;w=188&amp;h=140&amp;cb=1" height="70" width="94" alt="" class="jsx-3743397412"><img height="70" src="https://a.espncdn.com/combiner/i?img=/games/lm-static/ffl/images/nomug.png&amp;w=188&amp;h=140&amp;cb=1" width="94" alt="" class="jsx-3743397412 fallback"></div></div><div class="jsx-2488600176 headings dib truncate"><h3 class="jsx-2488600176">You are on the clock!</h3><p class="jsx-2488600176 mt2 n8 o-70">
+			Your autopick would be: Ja'Marr Chase / Cincinnati Bengals WR
+		</p></div><button class="Button Button--alt ttu Button--draft" tabindex="0" data-player-id="4362628" style="border-color: rgb(45, 204, 48); color: rgb(45, 204, 48);">Draft</button></div></div>
+
+  <!-- CAPTURED: the round filter that sits above ESPN's draft results view. -->
+  <div class="dropdown dropdown--md roundsDropdown"><svg aria-hidden="true" class="dropdown__arrow icon__svg" viewBox="0 0 24 24"><use xlink:href="#icon__caret__down"></use></svg><select class="dropdown__select" name="1788277418970::1590000::70dbde84:9efd:e497:6472:be55873c1d60" style="text-overflow: ellipsis; overflow: hidden; width: 100%;"><option data-url="#" value="-1" selected="">All Rounds</option><option data-url="#" value="1">Round 1</option><option data-url="#" value="2">Round 2</option></select></div>
+
+  <!-- CAPTURED: two cells of the available-players grid. -->
+    <div class="fixedDataTableCellLayout_main public_fixedDataTableCell_main" role="gridcell" style="height: 40px; width: 72px; left: 260px;"><div class="fixedDataTableCellLayout_wrap1 public_fixedDataTableCell_wrap1 cell sortable" style="height: 40px; width: 72px;"><div class="fixedDataTableCellLayout_wrap2 public_fixedDataTableCell_wrap2"><div class="fixedDataTableCellLayout_wrap3 public_fixedDataTableCell_wrap3"><div class="public_fixedDataTableCell_cellContent"><button class="Button Button--sm Button--alt ttu Button--queue action-btn" tabindex="0" data-player-id="4429795" style="border-color: rgb(108, 109, 111); color: rgb(108, 109, 111);">Queue</button></div></div></div></div></div>
+  <div class="fixedDataTableCellLayout_main public_fixedDataTableCell_main" role="gridcell" style="height: 40px; width: 72px; left: 260px;"><div class="fixedDataTableCellLayout_wrap1 public_fixedDataTableCell_wrap1 cell even sortable" style="height: 40px; width: 72px;"><div class="fixedDataTableCellLayout_wrap2 public_fixedDataTableCell_wrap2"><div class="fixedDataTableCellLayout_wrap3 public_fixedDataTableCell_wrap3"><div class="public_fixedDataTableCell_cellContent"><button class="Button Button--sm Button--alt ttu Button--queue action-btn" tabindex="0" data-player-id="4430807" style="border-color: rgb(108, 109, 111); color: rgb(108, 109, 111);">Queue</button></div></div></div></div></div>
+</section>
+</body>
+</html>

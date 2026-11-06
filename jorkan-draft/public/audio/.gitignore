@@ -1,0 +1,12 @@
+# Operator-supplied audio never enters the repository.
+#
+# These are somebody else's recordings as often as not, and a file dropped in
+# here to make one league's draft night sound right has no business being
+# redistributed with the project. The presentation ships a full set of
+# generated cues, so nothing here is required for it to work.
+intro.*
+draft-bed.*
+on-the-clock.*
+countdown.*
+transition.*
+draft-complete.*

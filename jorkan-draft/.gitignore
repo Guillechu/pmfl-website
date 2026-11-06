@@ -1,0 +1,11 @@
+node_modules/
+/dist/
+# extension/dist is build output, and normally would not be committed.
+# It is, because the extension is the fallback for draft night and the person
+# who needs it is standing in front of a television minutes before the draft,
+# not at a terminal with Node installed. Downloading the repository and
+# loading this folder has to be the whole job. Rebuild it with
+# `npm run build:extension` before committing a change to extension/.
+*.local
+.vite/
+debug-exports/
